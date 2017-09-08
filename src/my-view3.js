@@ -1,4 +1,4 @@
-import { Element } from '../../@polymer/polymer/polymer-element.js';
+import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
 class MyView3 extends Element {
   static get template() {
@@ -20,7 +20,9 @@ class MyView3 extends Element {
 `;
   }
 
-  static get is() { return 'my-view3'; }
+  static get is() {
+    return 'my-view3';
+  }
 }
 
 window.customElements.define(MyView3.is, MyView3);

@@ -60,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="msapplication-tap-highlight" content="no">
 
     <script>
-      /**
+    /**
       * [polymer-root-path]
       *
       * By default, we set `Polymer.rootPath` to the server root path (`/`).
@@ -72,17 +72,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       * to indicate the path from which you'll be serving, including leading
       * and trailing slashes (e.g., `/my-app/`).
       */
-      window.Polymer = {rootPath: '/'};
+window.Polymer = { rootPath: '/' };
 
-      // Load and register pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('service-worker.js', {
-            scope: Polymer.rootPath,
-          });
-        });
-      }
-    </script>
+// Load and register pre-caching Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js', {
+      scope: Polymer.rootPath
+    });
+  });
+}
+</script>
 
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>

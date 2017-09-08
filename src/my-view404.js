@@ -1,4 +1,4 @@
-import { Element } from '../../@polymer/polymer/polymer-element.js';
+import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
 class MyView404 extends Element {
   static get template() {
     return `
@@ -14,12 +14,14 @@ class MyView404 extends Element {
 `;
   }
 
-  static get is() { return 'my-view404'; }
+  static get is() {
+    return 'my-view404';
+  }
   static get properties() {
     return {
       // This shouldn't be neccessary, but the Analyzer isn't picking up
       // Polymer.Element#rootPath
-      rootPath: String,
+      rootPath: String
     };
   }
 }

@@ -1,21 +1,21 @@
-import { Element } from '../../@polymer/polymer/polymer-element.js';
-import '../../@polymer/app-layout/app-drawer/app-drawer.js';
-import '../../@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
-import '../../@polymer/app-layout/app-header/app-header.js';
-import '../../@polymer/app-layout/app-header-layout/app-header-layout.js';
-import '../../@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
-import '../../@polymer/app-layout/app-toolbar/app-toolbar.js';
-import '../../@polymer/app-route/app-location.js';
-import '../../@polymer/app-route/app-route.js';
-import '../../@polymer/iron-pages/iron-pages.js';
-import '../../@polymer/iron-selector/iron-selector.js';
-import '../../@polymer/paper-icon-button/paper-icon-button.js';
+import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import '../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
+import '../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
+import '../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
+import '../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../node_modules/@polymer/app-route/app-location.js';
+import '../node_modules/@polymer/app-route/app-route.js';
+import '../node_modules/@polymer/iron-pages/iron-pages.js';
+import '../node_modules/@polymer/iron-selector/iron-selector.js';
+import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
 import './my-view1.js';
 import './my-view2.js';
 import './my-view3.js';
 import './my-view404.js';
-import { importHref } from '../../@polymer/polymer/lib/utils/import-href.js';
+import { importHref } from '../node_modules/@polymer/polymer/lib/utils/import-href.js';
 class MyApp extends Element {
   static get template() {
     return `
@@ -93,27 +93,27 @@ class MyApp extends Element {
 `;
   }
 
-  static get is() { return 'my-app'; }
+  static get is() {
+    return 'my-app';
+  }
 
   static get properties() {
     return {
       page: {
         type: String,
         reflectToAttribute: true,
-        observer: '_pageChanged',
+        observer: '_pageChanged'
       },
       routeData: Object,
       subroute: String,
       // This shouldn't be neccessary, but the Analyzer isn't picking up
       // Polymer.Element#rootPath
-      rootPath: String,
+      rootPath: String
     };
   }
 
   static get observers() {
-    return [
-      '_routePageChanged(routeData.page)',
-    ];
+    return ['_routePageChanged(routeData.page)'];
   }
 
   _routePageChanged(page) {
@@ -130,11 +130,7 @@ class MyApp extends Element {
   _pageChanged(page) {
     // Load page import on demand. Show 404 page if fails
     var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-    importHref(
-        resolvedPageUrl,
-        null,
-        this._showPage404.bind(this),
-        true);
+    importHref(resolvedPageUrl, null, this._showPage404.bind(this), true);
   }
 
   _showPage404() {
