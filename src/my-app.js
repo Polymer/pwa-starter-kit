@@ -15,7 +15,10 @@ import './my-view1.js';
 import './my-view2.js';
 import './my-view3.js';
 import './my-view404.js';
-import { importHref } from '../node_modules/@polymer/polymer/lib/utils/import-href.js';
+
+import { importFrom } from '../dynamic-import-polyfill.js';
+const import$ = importFrom('/src/');
+
 class MyApp extends Element {
   static get template() {
     return `
@@ -129,8 +132,13 @@ class MyApp extends Element {
 
   _pageChanged(page) {
     // Load page import on demand. Show 404 page if fails
-    var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-    importHref(resolvedPageUrl, null, this._showPage404.bind(this), true);
+    console.log('loading', page);
+    import$('./my-' + page + '.js').then(
+      _ => {
+        console.log('ok');
+      },
+      _ => this._showPage404()
+    );
   }
 
   _showPage404() {
