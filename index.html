@@ -85,6 +85,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </script>
 
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script>if (!window.customElements) { document.write('<!--'); }</script>
+    <script type="text/javascript" src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <!--! do not remove -->
     <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
     <!-- Load your application shell -->
