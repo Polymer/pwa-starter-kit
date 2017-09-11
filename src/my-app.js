@@ -62,7 +62,7 @@ class MyApp extends Element {
     </style>
 
     <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
     <app-drawer-layout fullbleed="" narrow="{{narrow}}">
       <!-- Drawer content -->
