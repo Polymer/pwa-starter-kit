@@ -12,12 +12,18 @@ module.exports = {
   module: {
     loaders: [
       {
-          test: /src\/.+.js$/,
           loader: 'babel-loader',
           query: {
-              presets: ['babel-preset-es2015'].map(require.resolve)
+              presets: ['babel-preset-es2015', 'babel-preset-es2016', 'babel-preset-es2017'].map(require.resolve)
           }
       }
     ]
-    }
+  },
+  resolve: {
+    extensions: ['.js'],
+    modules: [
+      '../src',
+      '../node_modules'
+    ]
+  },
 };
