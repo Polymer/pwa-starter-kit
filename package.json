@@ -1,11 +1,17 @@
 {
   "name": "polymer-starter-kit",
-  "flat": true,
   "version": "",
+  "flat": "true",
   "contributors": [
     "The Polymer Authors"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
+  "scripts": {
+    "postinstall": "(cd tools && yarn install)",
+    "build": "rm -rf build && cd tools && yarn run build",
+    "start": "polymer serve --entrypoint index.html",
+    "debug": "polymer serve --entrypoint debug.html"
+  },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.1",
     "@polymer/app-route": "^3.0.0-pre.1",
@@ -17,6 +23,5 @@
     "@polymer/paper-icon-button": "^3.0.0-pre.1",
     "@polymer/polymer": "^3.0.0-pre.1",
     "@webcomponents/webcomponentsjs": "^1.0.0"
-  },
-  "devDependencies": {}
+  }
 }
