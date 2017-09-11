@@ -12,6 +12,14 @@ module.exports = {
   module: {
     loaders: [
       {
+        loader: 'string-replace-loader',
+        query: {
+          search: 'import\\$\\(',
+          replace: 'import(',
+          flags: 'g'
+        }
+      },
+      {
           loader: 'babel-loader',
           query: {
               presets: ['babel-preset-es2015', 'babel-preset-es2016', 'babel-preset-es2017'].map(require.resolve)
