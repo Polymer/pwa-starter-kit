@@ -133,7 +133,22 @@ class MyApp extends Element {
   _pageChanged(page) {
     // Load page import on demand. Show 404 page if fails
     console.log('loading', page);
-    import$('./my-' + page + '.js').then(
+    let loaded;
+    switch(page) {
+      case 'view1':
+        loaded = import$('./my-view1.js');
+        break;
+      case 'view2':
+        loaded = import$('./my-view2.js');
+        break;
+      case 'view3':
+        loaded = import$('./my-view3.js');
+        break;
+      default:
+        loaded = Promise.reject();
+    }
+
+    loaded.then(
       _ => {
         console.log('ok');
       },
