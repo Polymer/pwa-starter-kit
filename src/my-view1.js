@@ -14,8 +14,8 @@ class MyView1 extends Element {
     <div class="card">
       <div class="circle">1</div>
       <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+      <p>This is a text-only page.</p>
+      <p>It doesn't do anything other than display some static text.</p>
     </div>
 `;
   }
