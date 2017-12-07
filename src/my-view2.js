@@ -1,6 +1,6 @@
 import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
-import './redux-counter/counter-element.js';
+import './counter-element.js';
 
 class MyView2 extends Element {
   static get template() {
