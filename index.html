@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="generator" content="Polymer Starter Kit">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>My App</title>
+    <title>3.0 psk</title>
     <meta name="description" content="My App description">
 
     <!--
@@ -84,12 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </script>
 
-    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-    <script>if (!window.customElements) { document.write('<!--'); }</script>
-    <script type="text/javascript" src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-    <!--! do not remove -->
-    <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-
     <!-- Add any global styles for body, document, etc. -->
     <style>
       body {
@@ -106,7 +100,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
+    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <!-- Built with love using Polymer Starter Kit -->
-    <script src="build/bundle.js"></script>
+    <script type="module" src="/src/my-app.js"></script>
   </body>
 </html>

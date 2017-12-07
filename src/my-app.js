@@ -16,9 +16,6 @@ import './my-view2.js';
 import './my-view3.js';
 import './my-view404.js';
 
-import { importFrom } from '../dynamic-import-polyfill.js';
-const import$ = importFrom('/src/');
-
 class MyApp extends Element {
   static get template() {
     return `
@@ -62,7 +59,7 @@ class MyApp extends Element {
     </style>
 
     <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+    <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
     <app-drawer-layout fullbleed="" narrow="{{narrow}}">
       <!-- Drawer content -->
@@ -136,13 +133,13 @@ class MyApp extends Element {
     let loaded;
     switch(page) {
       case 'view1':
-        loaded = import$('./my-view1.js');
+        loaded = import('./my-view1.js');
         break;
       case 'view2':
-        loaded = import$('./my-view2.js');
+        loaded = import('./my-view2.js');
         break;
       case 'view3':
-        loaded = import$('./my-view3.js');
+        loaded = import('./my-view3.js');
         break;
       default:
         loaded = Promise.reject();

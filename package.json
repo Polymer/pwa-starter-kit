@@ -7,10 +7,7 @@
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
-    "postinstall": "(cd tools && yarn install)",
-    "build": "rm -rf build && cd tools && yarn run build",
-    "start": "polymer serve --entrypoint index.html",
-    "debug": "polymer serve --entrypoint debug.html"
+    "start": "polymer serve --entrypoint index.html"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.1",
