@@ -1,6 +1,6 @@
-import { INCREMENT, DECREMENT } from '../actions/clicks.js';
+import { INCREMENT, DECREMENT } from '../actions/counter.js';
 
-const clicks = (state = {clicks: 0, value: 0}, action) => {
+const counter = (state = {clicks: 0, value: 0}, action) => {
   switch (action.type) {
     case INCREMENT:
       return {
@@ -17,4 +17,4 @@ const clicks = (state = {clicks: 0, value: 0}, action) => {
   }
 }
 
-export default clicks;
+export default counter;

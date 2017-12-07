@@ -20,6 +20,7 @@
     "@polymer/iron-selector": "^3.0.0-pre.1",
     "@polymer/paper-icon-button": "^3.0.0-pre.1",
     "@polymer/polymer": "^3.0.0-pre.1",
-    "@webcomponents/webcomponentsjs": "^1.0.0"
+    "@webcomponents/webcomponentsjs": "^1.0.0",
+    "redux-thunk": "^2.2.0"
   }
 }

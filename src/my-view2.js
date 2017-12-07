@@ -4,7 +4,7 @@ import './counter-element.js';
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
-import { increment, decrement } from './store/actions/clicks.js';
+import { increment, decrement } from './store/actions/counter.js';
 
 class MyView2 extends Element {
   static get template() {
@@ -65,8 +65,8 @@ class MyView2 extends Element {
   update() {
     const state = store.getState();
     this.setProperties({
-      clicks: state.clicks,
-      value: state.value
+      clicks: state.counter.clicks,
+      value: state.counter.value
     });
   }
 }
