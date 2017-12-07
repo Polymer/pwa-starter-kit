@@ -22,7 +22,7 @@ class MyView2 extends Element {
       <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
       element is not build in a Redux-y way (you can think of it as being a
       third-party element you got from someone else), but this page is connected to the
-      Redux store. When the counter is updated, this page updates the values
+      Redux store. When the element updates its counter, this page updates the values
       in the Redux store, and you can see the total number of clicks reflected in
       the bubble above.</p>
       <hr>
