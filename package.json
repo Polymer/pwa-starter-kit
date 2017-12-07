@@ -10,6 +10,7 @@
     "start": "polymer serve --entrypoint index.html"
   },
   "dependencies": {
+    "@0xcda7a/redux-es6": "^3.7.2",
     "@polymer/app-layout": "^3.0.0-pre.1",
     "@polymer/app-route": "^3.0.0-pre.1",
     "@polymer/iron-flex-layout": "^3.0.0-pre.1",
