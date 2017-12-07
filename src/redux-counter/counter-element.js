@@ -8,7 +8,7 @@ class CounterElement extends Element {
     return `
     <div>
       <p>
-        Clicked: <span id="value">[[clicks]]</span> times
+        Clicked: <span id="value">[[clicks]]</span> times. Value is [[value]].
         <button on-click="onIncrement">+</button>
         <button on-click="onDecrement">-</button>
       </p>
@@ -21,7 +21,8 @@ class CounterElement extends Element {
   }
 
   static get properties() { return {
-    clicks: Number
+    clicks: Number,
+    value: Number
   }}
 
 
@@ -37,17 +38,18 @@ class CounterElement extends Element {
   update() {
     const state = store.getState();
     this.setProperties({
-      clicks: state
+      clicks: state.clicks,
+      value: state.value
     });
   }
 
   onIncrement() {
     store.dispatch(increment());
   }
+
   onDecrement() {
     store.dispatch(decrement());
   }
-
 }
 
 window.customElements.define(CounterElement.is, CounterElement);

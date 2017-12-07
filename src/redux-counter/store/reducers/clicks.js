@@ -1,11 +1,17 @@
 import { INCREMENT, DECREMENT } from '../actions/clicks.js';
 
-const clicks = (state = 0, action) => {
+const clicks = (state = {clicks: 0, value: 0}, action) => {
   switch (action.type) {
     case INCREMENT:
-      return state + 1;
+      return {
+        'clicks': state.clicks + 1,
+        'value': state.value + 1
+      }
     case DECREMENT:
-      return state - 1;
+      return {
+        'clicks': state.clicks + 1,
+        'value': state.value - 1
+      }
     default:
       return state;
   }
