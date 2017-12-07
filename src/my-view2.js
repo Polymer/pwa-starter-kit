@@ -16,7 +16,7 @@ class MyView2 extends Element {
       <div class="circle">2</div>
       <h1>View Two</h1>
       <p>This page contains <code>&lt;counter-element&gt;</code>, an implementation
-      of the simple Redux counter example.</p>
+      of a simple click counter that uses Redux.</p>
       <hr>
       <counter-element></counter-element>
     </div>
