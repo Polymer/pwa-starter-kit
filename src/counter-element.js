@@ -1,16 +1,16 @@
-import { Element } from '../../node_modules/@polymer/polymer/polymer-element.js';
-import { store } from './store/store.js';
+import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
 
-import { increment, decrement } from './store/actions/clicks.js';
-
+// This is a reusable element. It is not connected to the store. You can
+// imagine that it could just as well be a third-party element that you
+// got from someone else.
 class CounterElement extends Element {
   static get template() {
     return `
     <div>
       <p>
         Clicked: <span id="value">[[clicks]]</span> times. Value is [[value]].
-        <button on-click="onIncrement">+</button>
-        <button on-click="onDecrement">-</button>
+        <button on-click="_onIncrement">+</button>
+        <button on-click="_onDecrement">-</button>
       </p>
     </div>
 `;
@@ -21,34 +21,31 @@ class CounterElement extends Element {
   }
 
   static get properties() { return {
-    clicks: Number,
-    value: Number
-  }}
+    /* The total number of clicks you've done. */
+    clicks: {
+      type: Number,
+      value: 0
+    },
 
+    /* The current value of the counter. */
+    value: {
+      type: Number,
+      value: 0
+    }
+  }};
 
-  constructor() {
-    super();
-
-    // Connect the element to the store.
-    store.subscribe(() => this.update());
-    this.update();
+  _onIncrement() {
+    this.value++;
+    this.clicks++;
+    this.dispatchEvent(new CustomEvent('counter-incremented',
+        {bubbles: true, composed: true}));
   }
 
-  // This is called every time something is updated in the store.
-  update() {
-    const state = store.getState();
-    this.setProperties({
-      clicks: state.clicks,
-      value: state.value
-    });
-  }
-
-  onIncrement() {
-    store.dispatch(increment());
-  }
-
-  onDecrement() {
-    store.dispatch(decrement());
+  _onDecrement() {
+    this.value--;
+    this.clicks++;
+    this.dispatchEvent(new CustomEvent('counter-decremented',
+        {bubbles: true, composed: true}));
   }
 }
 

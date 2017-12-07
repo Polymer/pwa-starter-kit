@@ -13,7 +13,7 @@ class MyView1 extends Element {
 
     <div class="card">
       <div class="circle">1</div>
-      <h1>View One</h1>
+      <h1>Static Page</h1>
       <p>This is a text-only page.</p>
       <p>It doesn't do anything other than display some static text.</p>
     </div>
