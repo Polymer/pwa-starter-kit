@@ -108,7 +108,10 @@ class MyApp extends Element {
       subroute: String,
       // This shouldn't be neccessary, but the Analyzer isn't picking up
       // Polymer.Element#rootPath
-      rootPath: String
+      rootPath: {
+        type: String,
+        value: '/'
+      }
     };
   }
 
