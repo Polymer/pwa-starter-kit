@@ -11,10 +11,6 @@ import '../node_modules/@polymer/iron-pages/iron-pages.js';
 import '../node_modules/@polymer/iron-selector/iron-selector.js';
 import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
-import './my-view1.js';
-import './my-view2.js';
-import './my-view3.js';
-import './my-view404.js';
 
 class MyApp extends Element {
   static get template() {
@@ -132,7 +128,6 @@ class MyApp extends Element {
 
   _pageChanged(page) {
     // Load page import on demand. Show 404 page if fails
-    console.log('loading', page);
     let loaded;
     switch(page) {
       case 'view1':
@@ -149,9 +144,7 @@ class MyApp extends Element {
     }
 
     loaded.then(
-      _ => {
-        console.log('ok');
-      },
+      _ => {},
       _ => this._showPage404()
     );
   }
