@@ -22,15 +22,17 @@ class MyView3 extends Element {
       <p>[description here]</p>
       <hr>
       <h3>Products</h3>
+
       <dom-repeat items="[[products]]">
-      <template>
-        <div>
-            [[item.title]] - [[item.price]]
-            <span hidden$="[[_hideInventory(item)]]">* [[item.inventory]]</span>
-        </div>
-        <button disabled$="[[_hideInventory(item)]]">[[_computeButtonText(item)]]</button>
-      </template>
+        <template>
+          <div>
+              [[item.title]] - [[item.price]]
+              <span hidden$="[[_hideInventory(item)]]">* [[item.inventory]]</span>
+          </div>
+          <button disabled$="[[_hideInventory(item)]]">[[_computeButtonText(item)]]</button>
+        </template>
       </dom-repeat>
+      
       <h3>Your Cart</h3>
     </div>
 `;
