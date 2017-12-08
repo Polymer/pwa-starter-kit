@@ -5,15 +5,18 @@ import combineReducers from '../../../node_modules/@0xcda7a/redux-es6/es/combine
 import thunk from '../../../node_modules/redux-thunk/es/index.js';
 
 import counter from './reducers/counter.js';
+import cart from './reducers/cart.js';
 
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 
 export const store = createStore(
+
   // combineReducers allows you to slice your data up. In this case,
   // the counter and the shopping cart don't really share any data,
   // so it makes sense to have the state split up by areas of interest.
   combineReducers({
-    counter       // accessible in your app via state.counter.
+    counter,       // accessible in your app via state.counter
+    cart,          // accessible in your app via state.cart
   }),
-  compose(applyMiddleware())
+  compose(applyMiddleware(thunk))
 );

@@ -18,7 +18,7 @@ class MyView2 extends Element {
 
     <div class="card">
       <div class="circle">[[clicks]]</div>
-      <h1>Redux example</h1>
+      <h1>Redux example: simple counter</h1>
       <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
       element is not build in a Redux-y way (you can think of it as being a
       third-party element you got from someone else), but this page is connected to the
