@@ -44,6 +44,8 @@ class MyView3 extends Element {
           <div>[[item.title]] ([[item.amount]] * [[item.price]])</div>
         </template>
       </dom-repeat>
+
+      <p>Total: $<span>[[_calculateTotal(cart)]]</span></p>
     </div>
 `;
   }
@@ -106,7 +108,16 @@ class MyView3 extends Element {
   }
 
   _hasItemsInCart(cart) {
-    return cart.addedIds.length !== 0; 
+    return cart.addedIds.length !== 0;
+  }
+
+  _calculateTotal(cart) {
+    let total = 0;
+    for (let id of cart.addedIds) {
+      const item = this.products[id];
+      total += item.price * cart.quantityById[id];
+    }
+    return parseFloat(Math.round(total * 100) / 100).toFixed(2);;
   }
 }
 
