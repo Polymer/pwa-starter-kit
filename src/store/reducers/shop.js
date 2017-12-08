@@ -12,7 +12,7 @@ const INITIAL_PRODUCTS = [
   {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
   {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
   {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 5},
-  {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 0}
+  {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 1}
 ]
 
 const UPDATED_CART = {
@@ -31,7 +31,8 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
     case ADD_TO_CART:
       return {
         ...state,
-        cart: UPDATED_CART
+        products: products(state.products, action),
+        cart: cart(state.cart, action)
       }
       return state;
     default:
@@ -47,42 +48,70 @@ const reduceById = (products) => {
   }, {});
 }
 
+const products = (state, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+      const productId = action.productId;
+      return {
+        ...state,
+        [productId]: product(state[productId], action)
+      }
+      return state;
+    default:
+      return state;
+  }
+}
 
-// const cart = (state, action) = {
-//   switch (action.type) {
-//     case ADD_TO_CART:
-//       return {
-//         addedIds: 1, //addedIds(state.addedIds, action),
-//         quantityById: 1, //quantityById(state.quantityById, action)
-//       }
-//
-//     default:
-//       return state
-//   }
-// }
-//
-// const addedIds = (state = initialState.addedIds, action) => {
-//   switch (action.type) {
-//     case ADD_TO_CART:
-//       if (state.indexOf(action.productId) !== -1) {
-//         return state
-//       }
-//       return [ ...state, action.productId ]
-//     default:
-//       return state
-//   }
-// }
-//
-// const quantityById = (state = initialState.quantityById, action) => {
-//   switch (action.type) {
-//     case ADD_TO_CART:
-//       const { productId } = action
-//       return { ...state,
-//         [productId]: (state[productId] || 0) + 1
-//       }
-//     default:
-//       return state
-//   }
-// }
+const product = (state, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+      return {
+        ...state,
+        inventory: state.inventory - 1
+      }
+    default:
+      return state;
+  }
+}
+
+const cart = (state = INITIAL_CART, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+      return {
+        addedIds: addedIds(state.addedIds, action),
+        quantityById: quantityById(state.quantityById, action)
+      };
+    default:
+      return state;
+  }
+}
+
+const addedIds = (state = INITIAL_CART.addedIds, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+      if (state.indexOf(action.productId) !== -1) {
+        return state;
+      }
+      return [
+        ...state,
+        action.productId
+      ];
+    default:
+      return state;
+  }
+}
+
+const quantityById = (state = INITIAL_CART.quantityById, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+      const productId = action.productId;
+      return {
+        ...state,
+        [productId]: (state[productId] || 0) + 1
+      };
+    default:
+      return state;
+  }
+}
 
 export default shop;
