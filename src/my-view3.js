@@ -3,7 +3,7 @@ import './shared-styles.js';
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
-import { getAllProducts } from './store/actions/cart.js';
+import { getAllProducts, addToCart } from './store/actions/shop.js';
 
 class MyView3 extends Element {
   static get template() {
@@ -26,13 +26,17 @@ class MyView3 extends Element {
       <dom-repeat items="[[products]]">
         <template>
           <div>
-              [[item.title]] - [[item.price]]
-              <span hidden$="[[_hideInventory(item)]]">* [[item.inventory]]</span>
+            [[item.title]] - [[item.price]]
+            <span hidden$="[[_hideInventory(item)]]">
+              * [[item.inventory]]
+            </span>
           </div>
-          <button disabled$="[[_hideInventory(item)]]">[[_computeButtonText(item)]]</button>
+          <button disabled$="[[_hideInventory(item)]]" on-click="addToCart" data-index$="[[item.id]]">
+            [[_computeButtonText(item)]]
+          </button>
         </template>
       </dom-repeat>
-      
+
       <h3>Your Cart</h3>
     </div>
 `;
@@ -43,7 +47,11 @@ class MyView3 extends Element {
   }
 
   static get properties() { return {
-    products: Array
+    products: Array,
+    cart: {
+      type: Object,
+      observer: '_cartUpdated'
+    }
   }}
 
   constructor() {
@@ -63,13 +71,24 @@ class MyView3 extends Element {
   update() {
     const state = store.getState();
     this.setProperties({
-      products: state.cart.products
+      products: state.shop.products,
+      cart: state.shop.cart
     });
+    console.log(state);
+  }
+
+  addToCart(event) {
+    store.dispatch(addToCart(event.target.dataset['index']));
+  }
+
+  _cartUpdated(cart) {
+    debugger
   }
 
   _hideInventory(item) {
     return (item.inventory === 0);
   }
+
   _computeButtonText(item) {
     return item.inventory === 0 ? "Sold out" : "Add to cart";
   }
