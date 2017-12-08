@@ -23,7 +23,7 @@ class MyView3 extends Element {
       <hr>
       <h3>Products</h3>
 
-      <dom-repeat items="[[products]]">
+      <dom-repeat items="[[_displayProducts(products)]]">
         <template>
           <div>
             [[item.title]] - [[item.price]]
@@ -38,6 +38,12 @@ class MyView3 extends Element {
       </dom-repeat>
 
       <h3>Your Cart</h3>
+      <dom-repeat items="[[_displayCart(cart)]]">
+        <template>
+          <div>[[item.title]] ([[item.amount]] * [[item.price]])</div>
+        </template>
+      </dom-repeat>
+
     </div>
 `;
   }
@@ -47,11 +53,9 @@ class MyView3 extends Element {
   }
 
   static get properties() { return {
-    products: Array,
-    cart: {
-      type: Object,
-      observer: '_cartUpdated'
-    }
+    // This is the data from the store.
+    products: Object,
+    cart: Object
   }}
 
   constructor() {
@@ -74,15 +78,23 @@ class MyView3 extends Element {
       products: state.shop.products,
       cart: state.shop.cart
     });
-    console.log(state);
   }
 
   addToCart(event) {
     store.dispatch(addToCart(event.target.dataset['index']));
   }
 
-  _cartUpdated(cart) {
-    debugger
+  _displayProducts(products) {
+    return Object.values(products);
+  }
+
+  _displayCart(cart) {
+    const items = [];
+    for (let id of cart.addedIds) {
+      const item = this.products[id];
+      items.push({title: item.title, amount: cart.quantityById[id], price: item.price});
+    }
+    return items;
   }
 
   _hideInventory(item) {

@@ -20,10 +20,15 @@ const UPDATED_CART = {
   quantityById: {"1": 1}
 }
 
-const shop = (state = {products: INITIAL_PRODUCTS, cart: INITIAL_CART}, action) => {
+const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
   switch (action.type) {
+    case GET_PRODUCTS:
+      return {
+        ...state,
+        products: reduceById(INITIAL_PRODUCTS)
+      }
+      return state;
     case ADD_TO_CART:
-    debugger
       return {
         ...state,
         cart: UPDATED_CART
@@ -33,6 +38,15 @@ const shop = (state = {products: INITIAL_PRODUCTS, cart: INITIAL_CART}, action) 
       return state;
   }
 }
+
+// TODO: I don't think this is the Redux way
+const reduceById = (products) => {
+  return products.reduce((obj, product) => {
+    obj[product.id] = product
+    return obj
+  }, {});
+}
+
 
 // const cart = (state, action) = {
 //   switch (action.type) {
