@@ -1,5 +1,6 @@
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const ADD_TO_CART = 'ADD_TO_CART';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 
 // This is an async action creator.
 export const getAllProducts = () => {
@@ -15,6 +16,13 @@ export const addToCart = (productId) => (dispatch, getState) => {
   if (state.shop.products[productId].inventory > 0) {
     dispatch(addToCartUnsafe(productId))
   }
+};
+
+export const removeFromCart = (productId) => {
+  return {
+    type: REMOVE_FROM_CART,
+    productId
+  };
 };
 
 export const addToCartUnsafe = productId => {

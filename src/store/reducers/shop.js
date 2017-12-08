@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, ADD_TO_CART } from '../actions/shop.js';
+import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART } from '../actions/shop.js';
 
 const INITIAL_CART = {
   addedIds: [],
@@ -29,6 +29,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
       }
       return state;
     case ADD_TO_CART:
+    case REMOVE_FROM_CART:
       return {
         ...state,
         products: products(state.products, action),
@@ -51,6 +52,7 @@ const reduceById = (products) => {
 const products = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
+    case REMOVE_FROM_CART:
       const productId = action.productId;
       return {
         ...state,
@@ -69,6 +71,11 @@ const product = (state, action) => {
         ...state,
         inventory: state.inventory - 1
       }
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        inventory: state.inventory + 1
+      }
     default:
       return state;
   }
@@ -77,8 +84,9 @@ const product = (state, action) => {
 const cart = (state = INITIAL_CART, action) => {
   switch (action.type) {
     case ADD_TO_CART:
+    case REMOVE_FROM_CART:
       return {
-        addedIds: addedIds(state.addedIds, action),
+        addedIds: addedIds(state.addedIds, state.quantityById, action),
         quantityById: quantityById(state.quantityById, action)
       };
     default:
@@ -86,28 +94,42 @@ const cart = (state = INITIAL_CART, action) => {
   }
 }
 
-const addedIds = (state = INITIAL_CART.addedIds, action) => {
+const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
+  const productId = action.productId;
   switch (action.type) {
     case ADD_TO_CART:
-      if (state.indexOf(action.productId) !== -1) {
+      if (state.indexOf(productId) !== -1) {
         return state;
       }
       return [
         ...state,
         action.productId
       ];
+    case REMOVE_FROM_CART:
+      // This is called before the state is updated, so if you have 1 item in the
+      // cart during the remove action, you'll have 0.
+      if (quantityById[productId] <= 1) {
+        // This removes all items in this array equal to productId.
+        return state.filter(e => e !== productId);
+      }
+      return state;
     default:
       return state;
   }
 }
 
 const quantityById = (state = INITIAL_CART.quantityById, action) => {
+  const productId = action.productId;
   switch (action.type) {
     case ADD_TO_CART:
-      const productId = action.productId;
       return {
         ...state,
         [productId]: (state[productId] || 0) + 1
+      };
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        [productId]: (state[productId] || 0) - 1
       };
     default:
       return state;

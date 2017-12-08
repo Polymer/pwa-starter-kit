@@ -3,7 +3,7 @@ import './shared-styles.js';
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
-import { getAllProducts, addToCart } from './store/actions/shop.js';
+import { getAllProducts, addToCart, removeFromCart } from './store/actions/shop.js';
 
 class MyView3 extends Element {
   static get template() {
@@ -41,7 +41,12 @@ class MyView3 extends Element {
       <p hidden$="[[_hasItemsInCart(cart)]]">Please add some products to cart.</p>
       <dom-repeat items="[[_displayCart(cart)]]">
         <template>
-          <div>[[item.title]] ([[item.amount]] * [[item.price]])</div>
+          <div>[[item.title]] ([[item.amount]] * [[item.price]])
+          <button on-click="removeFromCart" data-index$="[[item.id]]">
+            Remove
+          </button>
+          </div>
+
         </template>
       </dom-repeat>
 
@@ -86,6 +91,10 @@ class MyView3 extends Element {
     store.dispatch(addToCart(event.target.dataset['index']));
   }
 
+  removeFromCart(event) {
+    store.dispatch(removeFromCart(event.target.dataset['index']));
+  }
+
   _displayProducts(products) {
     return Object.values(products);
   }
@@ -94,7 +103,7 @@ class MyView3 extends Element {
     const items = [];
     for (let id of cart.addedIds) {
       const item = this.products[id];
-      items.push({title: item.title, amount: cart.quantityById[id], price: item.price});
+      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
     }
     return items;
   }
