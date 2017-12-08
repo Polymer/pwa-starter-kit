@@ -3,7 +3,7 @@ import './shared-styles.js';
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
-import { getAllProducts, addToCart, removeFromCart } from './store/actions/shop.js';
+import { getAllProducts, addToCart, removeFromCart, checkout } from './store/actions/shop.js';
 
 class MyView3 extends Element {
   static get template() {
@@ -41,16 +41,19 @@ class MyView3 extends Element {
       <p hidden$="[[_hasItemsInCart(cart)]]">Please add some products to cart.</p>
       <dom-repeat items="[[_displayCart(cart)]]">
         <template>
-          <div>[[item.title]] ([[item.amount]] * [[item.price]])
-          <button on-click="removeFromCart" data-index$="[[item.id]]">
-            Remove
-          </button>
+          <div>
+            [[item.title]] ([[item.amount]] * [[item.price]])
+            <button on-click="removeFromCart" data-index$="[[item.id]]">
+              Remove
+            </button>
           </div>
-
         </template>
       </dom-repeat>
 
       <p>Total: $<span>[[_calculateTotal(cart)]]</span></p>
+      <button hidden$="[[!_hasItemsInCart(cart)]]" on-click="checkout">
+        Checkout
+      </button>
     </div>
 `;
   }
@@ -93,6 +96,10 @@ class MyView3 extends Element {
 
   removeFromCart(event) {
     store.dispatch(removeFromCart(event.target.dataset['index']));
+  }
+
+  checkout(event) {
+    store.dispatch(checkout());
   }
 
   _displayProducts(products) {

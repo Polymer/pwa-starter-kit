@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART } from '../actions/shop.js';
+import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS } from '../actions/shop.js';
 
 const INITIAL_CART = {
   addedIds: [],
@@ -30,6 +30,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
       return state;
     case ADD_TO_CART:
     case REMOVE_FROM_CART:
+    case CHECKOUT_SUCCESS:
       return {
         ...state,
         products: products(state.products, action),
@@ -89,6 +90,8 @@ const cart = (state = INITIAL_CART, action) => {
         addedIds: addedIds(state.addedIds, state.quantityById, action),
         quantityById: quantityById(state.quantityById, action)
       };
+    case CHECKOUT_SUCCESS:
+      return INITIAL_CART;
     default:
       return state;
   }

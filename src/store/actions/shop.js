@@ -1,12 +1,22 @@
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 
-// This is an async action creator.
 export const getAllProducts = () => {
   return {
     type: GET_PRODUCTS
   };
+};
+
+export const checkout = (productId) => (dispatch, getState) => {
+  // Here you could do things like credit card validation, etc
+
+  // If that fails, dispatch CHECKOUT_FAILURE.
+  // Otherwise:
+  dispatch({
+    type: CHECKOUT_SUCCESS
+  })
 };
 
 export const addToCart = (productId) => (dispatch, getState) => {
