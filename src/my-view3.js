@@ -38,12 +38,12 @@ class MyView3 extends Element {
       </dom-repeat>
 
       <h3>Your Cart</h3>
+      <p hidden$="[[_hasItemsInCart(cart)]]">Please add some products to cart.</p>
       <dom-repeat items="[[_displayCart(cart)]]">
         <template>
           <div>[[item.title]] ([[item.amount]] * [[item.price]])</div>
         </template>
       </dom-repeat>
-
     </div>
 `;
   }
@@ -103,6 +103,10 @@ class MyView3 extends Element {
 
   _computeButtonText(item) {
     return item.inventory === 0 ? "Sold out" : "Add to cart";
+  }
+
+  _hasItemsInCart(cart) {
+    return cart.addedIds.length !== 0; 
   }
 }
 
