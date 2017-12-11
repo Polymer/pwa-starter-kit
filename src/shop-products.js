@@ -10,14 +10,11 @@ class ShopProducts extends Element {
       <dom-repeat items="[[_displayProducts(products)]]">
         <template>
           <div>
-            [[item.title]] - [[item.price]]
-            <span hidden$="[[_hideInventory(item)]]">
-              * [[item.inventory]]
-            </span>
+            <shop-item name="[[item.title]]" amount="[[item.inventory]]" price="[[item.price]]"></shop-item>
+            <button disabled$="[[_hideInventory(item)]]" on-click="addToCart" data-index$="[[item.id]]">
+              [[_computeButtonText(item)]]
+            </button>
           </div>
-          <button disabled$="[[_hideInventory(item)]]" on-click="addToCart" data-index$="[[item.id]]">
-            [[_computeButtonText(item)]]
-          </button>
         </template>
       </dom-repeat>
 `;

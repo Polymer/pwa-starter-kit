@@ -1,4 +1,5 @@
 import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import './shop-item.js'
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
@@ -11,7 +12,7 @@ class ShopCart extends Element {
       <dom-repeat items="[[_displayCart(cart)]]">
         <template>
           <div>
-            [[item.title]] ([[item.amount]] * [[item.price]])
+            <shop-item name="[[item.title]]" amount="[[item.amount]]" price="[[item.price]]"></shop-item>
             <button on-click="removeFromCart" data-index$="[[item.id]]">
               Remove
             </button>
