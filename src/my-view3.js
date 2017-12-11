@@ -1,9 +1,11 @@
 import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
+import './shop-products.js'
+import './shop-cart.js'
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
-import { getAllProducts, addToCart, removeFromCart, checkout } from './store/actions/shop.js';
+import { checkout } from './store/actions/shop.js';
 
 class MyView3 extends Element {
   static get template() {
@@ -11,7 +13,6 @@ class MyView3 extends Element {
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
       }
     </style>
@@ -21,38 +22,17 @@ class MyView3 extends Element {
       <h1>Redux example: shopping cart</h1>
       <p>This is a slightly more advanced Redux example, that simulates a
         shopping cart: getting the products, adding/removing items to the
-        cart, and a checkout action, that can sometimes fail. </p>
+        cart, and a checkout action, that can sometimes randomly fail (to
+        simulate where you would add failure handling). </p>
+      <p>This view, as well as its 2 child elements, <code>&lt;shop-products&gt;</code> and
+      <code>&lt;shop-cart&gt;</code> are connected to the Redux store.</p>
       <hr>
       <h3>Products</h3>
-
-      <dom-repeat items="[[_displayProducts(products)]]">
-        <template>
-          <div>
-            [[item.title]] - [[item.price]]
-            <span hidden$="[[_hideInventory(item)]]">
-              * [[item.inventory]]
-            </span>
-          </div>
-          <button disabled$="[[_hideInventory(item)]]" on-click="addToCart" data-index$="[[item.id]]">
-            [[_computeButtonText(item)]]
-          </button>
-        </template>
-      </dom-repeat>
+      <shop-products></shop-products>
 
       <h3>Your Cart</h3>
-      <p hidden$="[[_hasItemsInCart(cart)]]">Please add some products to cart.</p>
-      <dom-repeat items="[[_displayCart(cart)]]">
-        <template>
-          <div>
-            [[item.title]] ([[item.amount]] * [[item.price]])
-            <button on-click="removeFromCart" data-index$="[[item.id]]">
-              Remove
-            </button>
-          </div>
-        </template>
-      </dom-repeat>
+      <shop-cart></shop-cart>
 
-      <p>Total: $<span>[[_calculateTotal(cart)]]</span></p>
       <div>[[error]]</div>
       <button hidden$="[[!_hasItemsInCart(cart)]]" on-click="checkout">
         Checkout
@@ -67,7 +47,6 @@ class MyView3 extends Element {
 
   static get properties() { return {
     // This is the data from the store.
-    products: Object,
     cart: Object,
     error: String
   }}
@@ -80,52 +59,17 @@ class MyView3 extends Element {
     this.update();
   }
 
-  ready() {
-    super.ready();
-    store.dispatch(getAllProducts());
-  }
-
   // This is called every time something is updated in the store.
   update() {
     const state = store.getState();
     this.setProperties({
-      products: state.shop.products,
       cart: state.shop.cart,
       error: state.shop.error
     });
   }
 
-  addToCart(event) {
-    store.dispatch(addToCart(event.target.dataset['index']));
-  }
-
-  removeFromCart(event) {
-    store.dispatch(removeFromCart(event.target.dataset['index']));
-  }
-
   checkout(event) {
     store.dispatch(checkout());
-  }
-
-  _displayProducts(products) {
-    return Object.values(products);
-  }
-
-  _displayCart(cart) {
-    const items = [];
-    for (let id of cart.addedIds) {
-      const item = this.products[id];
-      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
-    }
-    return items;
-  }
-
-  _hideInventory(item) {
-    return (item.inventory === 0);
-  }
-
-  _computeButtonText(item) {
-    return item.inventory === 0 ? "Sold out" : "Add to cart";
   }
 
   _hasItemsInCart(cart) {
@@ -138,15 +82,6 @@ class MyView3 extends Element {
       num += cart.quantityById[id];
     }
     return num;
-  }
-
-  _calculateTotal(cart) {
-    let total = 0;
-    for (let id of cart.addedIds) {
-      const item = this.products[id];
-      total += item.price * cart.quantityById[id];
-    }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
   }
 }
 
