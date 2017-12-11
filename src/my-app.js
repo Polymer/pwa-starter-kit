@@ -5,12 +5,13 @@ import '../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
-import '../node_modules/@polymer/app-route/app-location.js';
-import '../node_modules/@polymer/app-route/app-route.js';
 import '../node_modules/@polymer/iron-pages/iron-pages.js';
 import '../node_modules/@polymer/iron-selector/iron-selector.js';
 import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
+
+import { store } from './store/store.js';
+import { navigate } from './store/actions/app.js';
 
 class MyApp extends Element {
   static get template() {
@@ -53,9 +54,6 @@ class MyApp extends Element {
         font-weight: bold;
       }
     </style>
-
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
     <app-drawer-layout fullbleed="" narrow="{{narrow}}">
       <!-- Drawer content -->
@@ -115,10 +113,49 @@ class MyApp extends Element {
     return ['_routePageChanged(routeData.page)'];
   }
 
-  _routePageChanged(page) {
-    // If no page was found in the route data, page will be an empty string.
-    // Deault to 'view1' in that case.
-    this.page = page || 'view1';
+  constructor() {
+    super();
+    store.subscribe(() => this.update());
+    this.update();
+  }
+
+  update() {
+    const state = store.getState();
+    this.setProperties({
+      page: state.app.page,
+    });
+  }
+
+  ready() {
+    super.ready();
+    this.setupRouteListeners();
+  }
+
+  setupRouteListeners() {
+    document.body.addEventListener('click', e => {
+      if ((e.button !== 0) ||           // Left click only
+          (e.metaKey || e.ctrlKey)) {   // No modifiers
+        return;
+      }
+
+      let origin = window.location.origin ?
+          window.location.origin :
+          window.location.protocol + '//' + window.location.host
+
+      let anchor = e.composedPath().filter(n => n.localName == 'a')[0];
+      if (anchor && anchor.href.indexOf(origin) === 0) {
+        e.preventDefault();
+        window.history.pushState({}, '', anchor.href);
+        this._notifyPathChanged();
+      }
+    });
+
+    window.addEventListener('popstate', this._notifyPathChanged);
+    this._notifyPathChanged();
+  }
+
+  _notifyPathChanged() {
+    store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close a non-persistent drawer when the page & route are changed.
     if (!this.$.drawer.persistent) {
@@ -138,6 +175,9 @@ class MyApp extends Element {
         break;
       case 'view3':
         loaded = import('./my-view3.js');
+        break;
+      case 'view404':
+        loaded = import('./my-view404.js');
         break;
       default:
         loaded = Promise.reject();
