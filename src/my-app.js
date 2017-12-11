@@ -55,7 +55,7 @@ class MyApp extends Element {
       }
     </style>
 
-    <app-drawer-layout fullbleed="" narrow="{{narrow}}">
+    <app-drawer-layout fullbleed narrow="{{narrow}}">
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
         <app-toolbar>Menu</app-toolbar>
@@ -67,12 +67,12 @@ class MyApp extends Element {
       </app-drawer>
 
       <!-- Main content -->
-      <app-header-layout has-scrolling-region="">
+      <app-header-layout has-scrolling-region>
 
-        <app-header slot="header" condenses="" reveals="" effects="waterfall">
+        <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-            <div main-title="">My App</div>
+            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
+            <div main-title>My App</div>
           </app-toolbar>
         </app-header>
 
