@@ -17,7 +17,7 @@ class MyView3 extends Element {
     </style>
 
     <div class="card">
-      <div class="circle">3</div>
+      <div class="circle">[[_numItemsInCart(cart)]]</div>
       <h1>Redux example: shopping cart</h1>
       <p>[description here]</p>
       <hr>
@@ -127,13 +127,21 @@ class MyView3 extends Element {
     return cart.addedIds.length !== 0;
   }
 
+  _numItemsInCart(cart) {
+    let num = 0;
+    for (let id of cart.addedIds) {
+      num += cart.quantityById[id];
+    }
+    return num;
+  }
+
   _calculateTotal(cart) {
     let total = 0;
     for (let id of cart.addedIds) {
       const item = this.products[id];
       total += item.price * cart.quantityById[id];
     }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);;
+    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
   }
 }
 
