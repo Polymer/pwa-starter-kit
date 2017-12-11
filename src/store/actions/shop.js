@@ -29,7 +29,7 @@ export const getAllProducts = () => (dispatch, getState) => {
   });
 };
 
-export const checkout = (productId) => (dispatch, getState) => {
+export const checkout = (productId) => (dispatch) => {
   // Here you could do things like credit card validation, etc.
   // If that fails, dispatch CHECKOUT_FAILURE. We're simulating that
   // by flipping a coin :)
@@ -45,12 +45,12 @@ export const checkout = (productId) => (dispatch, getState) => {
   }
 };
 
-export const addToCart = (productId) => (dispatch, getState) => {
+export const addToCart = (productId) => (dispatch, getState) =>{
   const state = getState();
   // Just because the UI thinks you can add this to the cart
   // doesn't mean it's in the inventory (user could've fixed it);
   if (state.shop.products[productId].inventory > 0) {
-    dispatch(addToCartUnsafe(productId))
+    dispatch(addToCartUnsafe(productId));
   }
 };
 
@@ -61,7 +61,7 @@ export const removeFromCart = (productId) => {
   };
 };
 
-export const addToCartUnsafe = productId => {
+export const addToCartUnsafe = (productId) => {
   return {
     type: ADD_TO_CART,
     productId

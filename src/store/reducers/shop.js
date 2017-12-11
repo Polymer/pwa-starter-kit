@@ -6,8 +6,8 @@ const INITIAL_CART = {
 }
 
 const UPDATED_CART = {
-  addedIds: ["1"],
-  quantityById: {"1": 1}
+  addedIds: ['1'],
+  quantityById: {'1': 1}
 }
 
 const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
@@ -17,7 +17,6 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
         ...state,
         products: action.products
       }
-      return state;
     case ADD_TO_CART:
     case REMOVE_FROM_CART:
     case CHECKOUT_SUCCESS:
@@ -27,18 +26,17 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
         cart: cart(state.cart, action),
         error: ''
       }
-      return state;
     case CHECKOUT_FAILURE:
       return {
         ...state,
         error: 'Checkout failed. Please try again'
       }
-      return state;
     default:
       return state;
   }
 }
 
+// Slice reducer: it only reduces the bit of the state it's concerned about.
 const products = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
@@ -48,7 +46,6 @@ const products = (state, action) => {
         ...state,
         [productId]: product(state[productId], action)
       }
-      return state;
     default:
       return state;
   }
