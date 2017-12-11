@@ -1,19 +1,9 @@
-import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS } from '../actions/shop.js';
+import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../actions/shop.js';
 
 const INITIAL_CART = {
   addedIds: [],
   quantityById: {}
 }
-
-// In your app you could get this as a separate action in the store, but
-// for the purpose of this example, it isn't really the point.
-const INITIAL_PRODUCTS = [
-  {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
-  {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
-  {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
-  {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
-  {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
-]
 
 const UPDATED_CART = {
   addedIds: ["1"],
@@ -25,7 +15,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
     case GET_PRODUCTS:
       return {
         ...state,
-        products: reduceById(INITIAL_PRODUCTS)
+        products: action.products
       }
       return state;
     case ADD_TO_CART:
@@ -34,20 +24,19 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
       return {
         ...state,
         products: products(state.products, action),
-        cart: cart(state.cart, action)
+        cart: cart(state.cart, action),
+        error: ''
+      }
+      return state;
+    case CHECKOUT_FAILURE:
+      return {
+        ...state,
+        error: 'Checkout failed. Please try again'
       }
       return state;
     default:
       return state;
   }
-}
-
-// TODO: I don't think this is the Redux way
-const reduceById = (products) => {
-  return products.reduce((obj, product) => {
-    obj[product.id] = product
-    return obj
-  }, {});
 }
 
 const products = (state, action) => {

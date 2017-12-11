@@ -19,7 +19,9 @@ class MyView3 extends Element {
     <div class="card">
       <div class="circle">[[_numItemsInCart(cart)]]</div>
       <h1>Redux example: shopping cart</h1>
-      <p>[description here]</p>
+      <p>This is a slightly more advanced Redux example, that simulates a
+        shopping cart: getting the products, adding/removing items to the
+        cart, and a checkout action, that can sometimes fail. </p>
       <hr>
       <h3>Products</h3>
 
@@ -51,6 +53,7 @@ class MyView3 extends Element {
       </dom-repeat>
 
       <p>Total: $<span>[[_calculateTotal(cart)]]</span></p>
+      <div>[[error]]</div>
       <button hidden$="[[!_hasItemsInCart(cart)]]" on-click="checkout">
         Checkout
       </button>
@@ -65,7 +68,8 @@ class MyView3 extends Element {
   static get properties() { return {
     // This is the data from the store.
     products: Object,
-    cart: Object
+    cart: Object,
+    error: String
   }}
 
   constructor() {
@@ -86,7 +90,8 @@ class MyView3 extends Element {
     const state = store.getState();
     this.setProperties({
       products: state.shop.products,
-      cart: state.shop.cart
+      cart: state.shop.cart,
+      error: state.shop.error
     });
   }
 
