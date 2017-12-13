@@ -5,6 +5,11 @@ import './shop-cart.js'
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
+
+// We are lazy loading its reducer.
+import shop from './store/reducers/shop.js';
+
+// These are the actions needed by this element.
 import { checkout } from './store/actions/shop.js';
 
 class MyView3 extends Element {
@@ -53,6 +58,11 @@ class MyView3 extends Element {
 
   constructor() {
     super();
+
+    // Lazy load the reducer.
+    store.addReducers({
+      shop
+    });
 
     // Connect the element to the store.
     store.subscribe(() => this.update());

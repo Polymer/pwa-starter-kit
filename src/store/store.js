@@ -5,20 +5,34 @@ import combineReducers from '../../../node_modules/@0xcda7a/redux-es6/es/combine
 import thunk from '../../../node_modules/redux-thunk/es/index.js';
 
 import app from './reducers/app.js';
-import counter from './reducers/counter.js';
-import shop from './reducers/shop.js';
+// import counter from './reducers/counter.js';
+// import shop from './reducers/shop.js';
 
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 
 export const store = createStore(
-
-  // combineReducers allows you to slice your data up. In this case,
-  // the counter and the shopping cart don't really share any data,
-  // so it makes sense to have the state split up by areas of interest.
-  combineReducers({
-    app,
-    counter,       // accessible in your app via state.counter
-    shop,      // accessible in your app via state.shop
-  }),
-  compose(applyMiddleware(thunk))
+  (state, action) => state,
+  compose(lazyReducerEnhancer, applyMiddleware(thunk))
 );
+
+// Initiall loaded reducers.
+store.addReducers({
+  app
+});
+
+// This is used to lazy-load reducers
+function lazyReducerEnhancer(nextCreator) {
+  return (origReducer, preloadedState) => {
+    let lazyReducers = {};
+    const nextStore = nextCreator(origReducer, preloadedState);
+    return {
+      ...nextStore,
+      addReducers(newReducers) {
+        this.replaceReducer(combineReducers(lazyReducers = {
+          ...lazyReducers,
+          ...newReducers
+        }));
+      }
+    }
+  }
+}
