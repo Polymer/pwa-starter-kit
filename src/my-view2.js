@@ -7,6 +7,9 @@ import { store } from './store/store.js';
 
 // We are lazy loading its reducer.
 import counter from './store/reducers/counter.js';
+store.addReducers({
+  counter
+});
 
 // These are the actions needed by this element.
 import { increment, decrement } from './store/actions/counter.js';
@@ -47,11 +50,6 @@ class MyView2 extends Element {
 
   constructor() {
     super();
-
-    // Lazy load the reducer.
-    store.addReducers({
-      counter
-    });
 
     // Connect the element to the store.
     store.subscribe(() => this.update());
