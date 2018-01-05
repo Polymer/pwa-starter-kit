@@ -1,11 +1,12 @@
-import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../lib/connect-mixin.js';
 import './shop-item.js'
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
 import { removeFromCart } from './store/actions/shop.js';
 
-class ShopCart extends Element {
+class ShopCart extends connect(store)(PolymerElement) {
   static get template() {
     return `
       <p hidden$="[[_hasItemsInCart(cart)]]">Please add some products to cart.</p>
@@ -32,17 +33,8 @@ class ShopCart extends Element {
     products: Object
   }}
 
-  constructor() {
-    super();
-
-    // Connect the element to the store.
-    store.subscribe(() => this.update());
-    this.update();
-  }
-
   // This is called every time something is updated in the store.
-  update() {
-    const state = store.getState();
+  update(state) {
     this.setProperties({
       products: state.shop.products,
       cart: state.shop.cart

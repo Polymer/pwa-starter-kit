@@ -1,5 +1,6 @@
 import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
+
 class MyView1 extends Element {
   static get template() {
     return `

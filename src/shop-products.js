@@ -1,10 +1,11 @@
-import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../lib/connect-mixin.js';
 
 // This element is connected to the redux store.
 import { store } from './store/store.js';
 import { getAllProducts, addToCart } from './store/actions/shop.js';
 
-class ShopProducts extends Element {
+class ShopProducts extends connect(store)(PolymerElement) {
   static get template() {
     return `
       <dom-repeat items="[[_displayProducts(products)]]">
@@ -28,22 +29,13 @@ class ShopProducts extends Element {
     products: Object
   }}
 
-  constructor() {
-    super();
-
-    // Connect the element to the store.
-    store.subscribe(() => this.update());
-    this.update();
-  }
-
   ready() {
     super.ready();
     store.dispatch(getAllProducts());
   }
 
   // This is called every time something is updated in the store.
-  update() {
-    const state = store.getState();
+  update(state) {
     this.setProperties({
       products: state.shop.products
     });

@@ -1,4 +1,5 @@
-import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../lib/connect-mixin.js';
 import './shared-styles.js';
 import './shop-products.js'
 import './shop-cart.js'
@@ -15,7 +16,7 @@ store.addReducers({
 // These are the actions needed by this element.
 import { checkout } from './store/actions/shop.js';
 
-class MyView3 extends Element {
+class MyView3 extends connect(store)(PolymerElement) {
   static get template() {
     return `
     <style include="shared-styles">
@@ -59,17 +60,8 @@ class MyView3 extends Element {
     error: String
   }}
 
-  constructor() {
-    super();
-
-    // Connect the element to the store.
-    store.subscribe(() => this.update());
-    this.update();
-  }
-
   // This is called every time something is updated in the store.
-  update() {
-    const state = store.getState();
+  update(state) {
     this.setProperties({
       cart: state.shop.cart,
       error: state.shop.error

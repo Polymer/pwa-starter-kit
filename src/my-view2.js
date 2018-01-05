@@ -1,4 +1,5 @@
-import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../lib/connect-mixin.js';
 import './shared-styles.js';
 import './counter-element.js';
 
@@ -11,10 +12,11 @@ store.addReducers({
   counter
 });
 
+
 // These are the actions needed by this element.
 import { increment, decrement } from './store/actions/counter.js';
 
-class MyView2 extends Element {
+class MyView2 extends connect(store)(PolymerElement) {
   static get template() {
     return `
     <style include="shared-styles">
@@ -48,14 +50,6 @@ class MyView2 extends Element {
     value: Number
   }}
 
-  constructor() {
-    super();
-
-    // Connect the element to the store.
-    store.subscribe(() => this.update());
-    this.update();
-  }
-
   ready() {
     super.ready();
     // Every time the display of the counter updates, we should save
@@ -70,8 +64,7 @@ class MyView2 extends Element {
   }
 
   // This is called every time something is updated in the store.
-  update() {
-    const state = store.getState();
+  update(state) {
     this.setProperties({
       clicks: state.counter.clicks,
       value: state.counter.value
