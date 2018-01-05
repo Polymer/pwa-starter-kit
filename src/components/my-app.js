@@ -1,19 +1,19 @@
-import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
-import { connect } from '../lib/connect-mixin.js';
-import { installRouter } from '../lib/router.js';
-import '../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
-import '../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
-import '../node_modules/@polymer/app-layout/app-header/app-header.js';
-import '../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
-import '../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
-import '../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
-import '../node_modules/@polymer/iron-pages/iron-pages.js';
-import '../node_modules/@polymer/iron-selector/iron-selector.js';
-import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../../lib/connect-mixin.js';
+import { installRouter } from '../../lib/router.js';
+import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
+import '../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
+import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
+import '../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
+import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
+import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '../../node_modules/@polymer/iron-pages/iron-pages.js';
+import '../../node_modules/@polymer/iron-selector/iron-selector.js';
+import '../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
 
-import { store } from './store/store.js';
-import { navigate } from './store/actions/app.js';
+import { store } from '../store.js';
+import { navigate } from '../actions/app.js';
 
 class MyApp extends connect(store)(PolymerElement) {
   static get template() {

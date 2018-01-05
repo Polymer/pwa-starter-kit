@@ -1,20 +1,20 @@
-import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
-import { connect } from '../lib/connect-mixin.js';
+import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../../lib/connect-mixin.js';
 import './shared-styles.js';
 import './shop-products.js'
 import './shop-cart.js'
 
 // This element is connected to the redux store.
-import { store } from './store/store.js';
+import { store } from '../store.js';
 
 // We are lazy loading its reducer.
-import shop from './store/reducers/shop.js';
+import shop from '../reducers/shop.js';
 store.addReducers({
   shop
 });
 
 // These are the actions needed by this element.
-import { checkout } from './store/actions/shop.js';
+import { checkout } from '../actions/shop.js';
 
 class MyView3 extends connect(store)(PolymerElement) {
   static get template() {

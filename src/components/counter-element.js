@@ -1,4 +1,4 @@
-import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import { Element } from '../../node_modules/@polymer/polymer/polymer-element.js';
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you

@@ -1,10 +1,10 @@
-import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
-import { connect } from '../lib/connect-mixin.js';
+import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../../lib/connect-mixin.js';
 import './shop-item.js'
 
 // This element is connected to the redux store.
-import { store } from './store/store.js';
-import { removeFromCart } from './store/actions/shop.js';
+import { store } from '../store.js';
+import { removeFromCart } from '../actions/shop.js';
 
 class ShopCart extends connect(store)(PolymerElement) {
   static get template() {

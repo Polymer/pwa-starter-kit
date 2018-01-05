@@ -1,20 +1,20 @@
-import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
-import { connect } from '../lib/connect-mixin.js';
+import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../../lib/connect-mixin.js';
 import './shared-styles.js';
 import './counter-element.js';
 
 // This element is connected to the redux store.
-import { store } from './store/store.js';
+import { store } from '../store.js';
 
 // We are lazy loading its reducer.
-import counter from './store/reducers/counter.js';
+import counter from '../reducers/counter.js';
 store.addReducers({
   counter
 });
 
 
 // These are the actions needed by this element.
-import { increment, decrement } from './store/actions/counter.js';
+import { increment, decrement } from '../actions/counter.js';
 
 class MyView2 extends connect(store)(PolymerElement) {
   static get template() {
