@@ -1,6 +1,6 @@
 import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
 import { connect } from '../lib/connect-mixin.js';
-
+import { installRouter } from '../lib/router.js';
 import '../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../node_modules/@polymer/app-layout/app-header/app-header.js';
@@ -123,30 +123,7 @@ class MyApp extends connect(store)(PolymerElement) {
 
   ready() {
     super.ready();
-    this.setupRouteListeners();
-  }
-
-  setupRouteListeners() {
-    document.body.addEventListener('click', e => {
-      if ((e.button !== 0) ||           // Left click only
-          (e.metaKey || e.ctrlKey)) {   // No modifiers
-        return;
-      }
-
-      let origin = window.location.origin ?
-          window.location.origin :
-          window.location.protocol + '//' + window.location.host
-
-      let anchor = e.composedPath().filter(n => n.localName == 'a')[0];
-      if (anchor && anchor.href.indexOf(origin) === 0) {
-        e.preventDefault();
-        window.history.pushState({}, '', anchor.href);
-        this._notifyPathChanged();
-      }
-    });
-
-    window.addEventListener('popstate', this._notifyPathChanged);
-    this._notifyPathChanged();
+    installRouter(this._notifyPathChanged.bind(this));
   }
 
   _notifyPathChanged() {
