@@ -4,7 +4,7 @@ const app = (state = {}, action) => {
   switch (action.type) {
     case NAVIGATE:
       const path = action.path === '/' ? '/view1' : action.path;
-      const page = action.path.slice(1);
+      const page = path.slice(1);
       return {
         ...state,
         page: page
