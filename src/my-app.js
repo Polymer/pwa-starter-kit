@@ -1,4 +1,6 @@
-import { Element } from '../node_modules/@polymer/polymer/polymer-element.js';
+import { Element as PolymerElement} from '../node_modules/@polymer/polymer/polymer-element.js';
+import { connect } from '../lib/connect-mixin.js';
+
 import '../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../node_modules/@polymer/app-layout/app-header/app-header.js';
@@ -13,7 +15,7 @@ import './my-icons.js';
 import { store } from './store/store.js';
 import { navigate } from './store/actions/app.js';
 
-class MyApp extends Element {
+class MyApp extends connect(store)(PolymerElement) {
   static get template() {
     return `
     <style>
@@ -113,14 +115,7 @@ class MyApp extends Element {
     return ['_routePageChanged(routeData.page)'];
   }
 
-  constructor() {
-    super();
-    store.subscribe(() => this.update());
-    this.update();
-  }
-
-  update() {
-    const state = store.getState();
+  update(state) {
     this.setProperties({
       page: state.app.page,
     });
