@@ -11,17 +11,18 @@ class ShopCart extends connect(store)(PolymerLitElement) {
   render(props, html) {
     return html`
       <p hidden="${props.cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      <dom-repeat items="${this._displayCart(props.cart)}">
-        <template>
+      ${this._displayCart(props.cart).map((item) =>
+        html`
           <div>
-            <shop-item name="[[item.title]]" amount="[[item.amount]]" price="[[item.price]]"></shop-item>
-            <button data-index$="[[item.id]]">
+            <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
+            <button
+                on-click="${(e) => this._removeFromCart(e)}"
+                data-index$="${item.id}">
               Remove
             </button>
           </div>
-        </template>
-      </dom-repeat>
-      <p>Total: $<span>${this._calculateTotal(props.cart)}</span></p>
+        `
+      )}
     `;
   }
 
@@ -33,15 +34,6 @@ class ShopCart extends connect(store)(PolymerLitElement) {
     cart: Object,
     products: Object
   }}
-
-  ready() {
-    super.ready();
-    this.addEventListener('click', (e) => {
-      if (event.path[0].dataset['index']) {
-        store.dispatch(removeFromCart(event.path[0].dataset['index']));
-      }
-    });
-  }
 
   // This is called every time something is updated in the store.
   update(state) {
@@ -65,6 +57,10 @@ class ShopCart extends connect(store)(PolymerLitElement) {
       total += item.price * cart.quantityById[id];
     }
     return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+  }
+
+  _removeFromCart(event) {
+    store.dispatch(removeFromCart(event.target.dataset['index']));
   }
 }
 
