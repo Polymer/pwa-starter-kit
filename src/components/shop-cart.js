@@ -1,4 +1,5 @@
-import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
+import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+
 import { connect } from '../../lib/connect-mixin.js';
 import './shop-item.js'
 
@@ -6,22 +7,22 @@ import './shop-item.js'
 import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
 
-class ShopCart extends connect(store)(PolymerElement) {
-  static get template() {
-    return `
-      <p hidden$="[[_hasItemsInCart(cart)]]">Please add some products to cart.</p>
-      <dom-repeat items="[[_displayCart(cart)]]">
+class ShopCart extends connect(store)(PolymerLitElement) {
+  render(props, html) {
+    return html`
+      <p hidden="${props.cart.addedIds.length !== 0}">Please add some products to cart.</p>
+      <dom-repeat items="${this._displayCart(props.cart)}">
         <template>
           <div>
             <shop-item name="[[item.title]]" amount="[[item.amount]]" price="[[item.price]]"></shop-item>
-            <button on-click="removeFromCart" data-index$="[[item.id]]">
+            <button data-index$="[[item.id]]">
               Remove
             </button>
           </div>
         </template>
       </dom-repeat>
-      <p>Total: $<span>[[_calculateTotal(cart)]]</span></p>
-`;
+      <p>Total: $<span>${this._calculateTotal(props.cart)}</span></p>
+    `;
   }
 
   static get is() {
@@ -33,16 +34,19 @@ class ShopCart extends connect(store)(PolymerElement) {
     products: Object
   }}
 
-  // This is called every time something is updated in the store.
-  update(state) {
-    this.setProperties({
-      products: state.shop.products,
-      cart: state.shop.cart
+  ready() {
+    super.ready();
+    this.addEventListener('click', (e) => {
+      if (event.path[0].dataset['index']) {
+        store.dispatch(removeFromCart(event.path[0].dataset['index']));
+      }
     });
   }
 
-  removeFromCart(event) {
-    store.dispatch(removeFromCart(event.target.dataset['index']));
+  // This is called every time something is updated in the store.
+  update(state) {
+    this.products = state.shop.products;
+    this.cart = state.shop.cart;
   }
 
   _displayCart(cart) {
@@ -52,10 +56,6 @@ class ShopCart extends connect(store)(PolymerElement) {
       items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
     }
     return items;
-  }
-
-  _hasItemsInCart(cart) {
-    return cart.addedIds.length !== 0;
   }
 
   _calculateTotal(cart) {

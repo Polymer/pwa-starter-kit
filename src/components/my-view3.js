@@ -1,6 +1,6 @@
-import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
+import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { SharedStyles } from './shared-styles.js';
 import { connect } from '../../lib/connect-mixin.js';
-import './shared-styles.js';
 import './shop-products.js'
 import './shop-cart.js'
 
@@ -16,38 +16,33 @@ store.addReducers({
 // These are the actions needed by this element.
 import { checkout } from '../actions/shop.js';
 
-class MyView3 extends connect(store)(PolymerElement) {
-  static get template() {
-    return `
-    <style include="shared-styles">
-      :host {
-        display: block;
-        padding: 10px;
-      }
-    </style>
+class MyView3 extends connect(store)(PolymerLitElement) {
+  render(props, html) {
+    return html`
+      <style>${SharedStyles}</style>
 
-    <div class="card">
-      <div class="circle">[[_numItemsInCart(cart)]]</div>
-      <h1>Redux example: shopping cart</h1>
-      <p>This is a slightly more advanced Redux example, that simulates a
-        shopping cart: getting the products, adding/removing items to the
-        cart, and a checkout action, that can sometimes randomly fail (to
-        simulate where you would add failure handling). </p>
-      <p>This view, as well as its 2 child elements, <code>&lt;shop-products&gt;</code> and
-      <code>&lt;shop-cart&gt;</code> are connected to the Redux store.</p>
-      <hr>
-      <h3>Products</h3>
-      <shop-products></shop-products>
+      <div class="card">
+        <div class="circle">${this._numItemsInCart(props.cart)}</div>
+        <h1>Redux example: shopping cart</h1>
+        <p>This is a slightly more advanced Redux example, that simulates a
+          shopping cart: getting the products, adding/removing items to the
+          cart, and a checkout action, that can sometimes randomly fail (to
+          simulate where you would add failure handling). </p>
+        <p>This view, as well as its 2 child elements, <code>&lt;shop-products&gt;</code> and
+        <code>&lt;shop-cart&gt;</code> are connected to the Redux store.</p>
+        <hr>
+        <h3>Products</h3>
+        <shop-products></shop-products>
 
-      <h3>Your Cart</h3>
-      <shop-cart></shop-cart>
+        <h3>Your Cart</h3>
+        <shop-cart></shop-cart>
 
-      <div>[[error]]</div>
-      <button hidden$="[[!_hasItemsInCart(cart)]]" on-click="checkout">
-        Checkout
-      </button>
-    </div>
-`;
+        <div>${props.error}</div>
+        <button hidden="${props.cart.addedIds.length == 0}" on-click="${this.checkout}">
+          Checkout
+        </button>
+      </div>
+    `;
   }
 
   static get is() {
@@ -62,18 +57,12 @@ class MyView3 extends connect(store)(PolymerElement) {
 
   // This is called every time something is updated in the store.
   update(state) {
-    this.setProperties({
-      cart: state.shop.cart,
-      error: state.shop.error
-    });
+    this.cart = state.shop.cart;
+    this.error = state.shop.error;
   }
 
   checkout(event) {
     store.dispatch(checkout());
-  }
-
-  _hasItemsInCart(cart) {
-    return cart.addedIds.length !== 0;
   }
 
   _numItemsInCart(cart) {
