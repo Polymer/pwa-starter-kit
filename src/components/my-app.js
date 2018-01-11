@@ -13,7 +13,7 @@ import '../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
 
 import { store } from '../store.js';
-import { navigate } from '../actions/app.js';
+import { navigate, show404 } from '../actions/app.js';
 
 class MyApp extends connect(store)(PolymerElement) {
   static get template() {
@@ -151,12 +151,8 @@ class MyApp extends connect(store)(PolymerElement) {
 
     loaded.then(
       _ => {},
-      _ => this._showPage404()
+      _ => { store.dispatch(show404()) }
     );
-  }
-
-  _showPage404() {
-    this.page = 'view404';
   }
 }
 

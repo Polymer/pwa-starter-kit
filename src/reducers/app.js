@@ -1,4 +1,4 @@
-import { NAVIGATE } from '../actions/app.js';
+import { NAVIGATE, SHOW_404 } from '../actions/app.js';
 
 const app = (state = {}, action) => {
   switch (action.type) {
@@ -8,6 +8,11 @@ const app = (state = {}, action) => {
       return {
         ...state,
         page: page
+      };
+    case SHOW_404:
+      return {
+        ...state,
+        page: 'view404'
       };
     default:
       return state;
