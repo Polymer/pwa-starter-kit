@@ -1,7 +1,7 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
-class MyView404 extends PolymerLitElement {
-  render(props, html) {
+class MyView404 extends LitElement {
+  render(props) {
     return html`
       <style>
         :host {

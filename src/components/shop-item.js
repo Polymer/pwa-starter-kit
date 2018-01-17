@@ -1,7 +1,7 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
 // This element is *not* connected to the redux store.
-class ShopItem extends PolymerLitElement {
+class ShopItem extends LitElement {
   static get is() {
     return 'shop-item';
   }
@@ -14,7 +14,7 @@ class ShopItem extends PolymerLitElement {
     }
   }
 
-  render(props, html) {
+  render(props) {
     return html`
       ${props.name}:
       <span hidden="${props.amount === 0}">${props.amount}: * </span>

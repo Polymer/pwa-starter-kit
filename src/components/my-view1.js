@@ -1,12 +1,12 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
 
-class MyView1 extends PolymerLitElement {
+class MyView1 extends LitElement {
   static get is() {
     return 'my-view1';
   }
 
-  render(props, html) {
+  render(props) {
     return html`
       <style>${SharedStyles}</style>
 

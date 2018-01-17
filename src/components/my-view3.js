@@ -1,4 +1,4 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
 import { connect } from '../../lib/connect-mixin.js';
 import './shop-products.js'
@@ -16,8 +16,8 @@ store.addReducers({
 // These are the actions needed by this element.
 import { checkout } from '../actions/shop.js';
 
-class MyView3 extends connect(store)(PolymerLitElement) {
-  render(props, html) {
+class MyView3 extends connect(store)(LitElement) {
+  render(props) {
     return html`
       <style>${SharedStyles}</style>
 

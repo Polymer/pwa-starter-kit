@@ -1,9 +1,9 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
-class CounterElement extends PolymerLitElement {
+class CounterElement extends LitElement {
   static get is() {
     return 'counter-element';
   }
@@ -21,7 +21,7 @@ class CounterElement extends PolymerLitElement {
     this.value = 0;
   }
 
-  render(props, html) {
+  render(props) {
     return html`
       <div>
         <p>

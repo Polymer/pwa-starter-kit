@@ -1,11 +1,11 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { connect } from '../../lib/connect-mixin.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
 import { getAllProducts, addToCart } from '../actions/shop.js';
 
-class ShopProducts extends connect(store)(PolymerLitElement) {
+class ShopProducts extends connect(store)(LitElement) {
   static get is() {
     return 'shop-products';
   }
@@ -14,7 +14,7 @@ class ShopProducts extends connect(store)(PolymerLitElement) {
     products: Object
   }}
 
-  render(props,html) {
+  render(props) {
     return html`
       ${Object.values(props.products).map((item) =>
         html`

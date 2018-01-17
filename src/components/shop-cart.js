@@ -1,4 +1,4 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
 import { connect } from '../../lib/connect-mixin.js';
 import './shop-item.js'
@@ -7,8 +7,8 @@ import './shop-item.js'
 import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
 
-class ShopCart extends connect(store)(PolymerLitElement) {
-  render(props, html) {
+class ShopCart extends connect(store)(LitElement) {
+  render(props) {
     return html`
       <p hidden="${props.cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(props.cart).map((item) =>

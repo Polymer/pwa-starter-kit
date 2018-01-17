@@ -1,4 +1,4 @@
-import { PolymerLitElement } from '../../node_modules/@polymer/polymer-lit/polymer-lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { connect } from '../../lib/connect-mixin.js';
 import { installRouter } from '../../lib/router.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
@@ -15,8 +15,8 @@ import './my-icons.js';
 import { store } from '../store.js';
 import { navigate, show404 } from '../actions/app.js';
 
-class MyApp extends connect(store)(PolymerLitElement) {
-  render(props, html) {
+class MyApp extends connect(store)(LitElement) {
+  render(props) {
     return html`
     <style>
       :host {
