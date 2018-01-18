@@ -98,6 +98,7 @@ class MyApp extends connect(store)(LitElement) {
       page: String,
       routeData: Object,
       subroute: String,
+      
       // This shouldn't be neccessary, but the Analyzer isn't picking up
       // Polymer.Element#rootPath
       rootPath: String
