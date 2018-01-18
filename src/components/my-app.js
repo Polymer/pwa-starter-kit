@@ -111,7 +111,13 @@ class MyApp extends connect(store)(LitElement) {
 
   update(state) {
     this.page = state.app.page;
-    this._pageChanged();
+  }
+
+  _propertiesChanged(props, changed, oldProps) {
+    if (changed && 'page' in changed) {
+      this._pageChanged();
+    }
+    super._propertiesChanged(props, changed, oldProps);
   }
 
   ready() {
@@ -154,7 +160,7 @@ class MyApp extends connect(store)(LitElement) {
 
     loaded.then(
       _ => {},
-      _ => {store.dispatch(show404())}
+      _ => { store.dispatch(show404()) }
     );
   }
 }

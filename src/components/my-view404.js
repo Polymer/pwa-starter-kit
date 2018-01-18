@@ -9,7 +9,7 @@ class MyView404 extends LitElement {
           padding: 10px 20px;
         }
       </style>
-      Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
+      Oops you hit a 404. <a href="${props.rootPath}">Head back to home.</a>
     `
   }
 
