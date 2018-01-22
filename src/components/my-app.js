@@ -62,9 +62,9 @@ class MyApp extends connect(store)(LitElement) {
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="${props.page}" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="${props.rootPath}view1">View One</a>
-          <a name="view2" href="${props.rootPath}view2">View Two</a>
-          <a name="view3" href="${props.rootPath}view3">View Three</a>
+          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
         </iron-selector>
       </app-drawer>
 
@@ -97,17 +97,12 @@ class MyApp extends connect(store)(LitElement) {
     return {
       page: String,
       routeData: Object,
-      subroute: String,
-      
-      // This shouldn't be neccessary, but the Analyzer isn't picking up
-      // Polymer.Element#rootPath
-      rootPath: String
-    };
+      subroute: String
+    }
   }
 
   constructor() {
     super();
-    this.rootPath = '/';
   }
 
   update(state) {
