@@ -14,29 +14,6 @@ var fs = require('fs');
 
 const appUrl = 'http://127.0.0.1:4444';
 
-// it('the app looks right with the eyeballs', function() {
-//   (async () => {
-//     const browser = await puppeteer.launch();
-//     const page = await browser.newPage();
-//
-//     const dir = `${process.cwd()}/test/screenshots`;
-//     if (!fs.existsSync(dir)){
-//         fs.mkdirSync(dir);
-//     }
-//
-//     // See that each route loads correctly.
-//     await page.goto(`${appUrl}`);
-//     await page.screenshot({path: `${dir}/index.png`});
-//
-//     for (let i = 1; i <= 3; i++) {
-//       await page.goto(`${appUrl}/view${i}`);
-//       await page.screenshot({path: `${dir}/view${i}.png`});
-//     }
-//
-//     await browser.close();
-//   })();
-// });
-
 // Shadow DOM helpers.
 const getShadowRootChildProp = (el, childSelector, prop) => {
   return el.shadowRoot.querySelector(childSelector)[prop];
@@ -44,6 +21,29 @@ const getShadowRootChildProp = (el, childSelector, prop) => {
 const doShadowRootClick = (el, childSelector) => {
   return el.shadowRoot.querySelector(childSelector).click();
 };
+
+it('the app looks right with the eyeballs', function() {
+  (async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    const dir = `${process.cwd()}/test/screenshots`;
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+
+    // See that each route loads correctly.
+    await page.goto(`${appUrl}`);
+    await page.screenshot({path: `${dir}/index.png`});
+
+    for (let i = 1; i <= 3; i++) {
+      await page.goto(`${appUrl}/view${i}`);
+      await page.screenshot({path: `${dir}/view${i}.png`});
+    }
+
+    await browser.close();
+  })();
+});
 
 async function testNavigation(page, href, linkText) {
   const selector = `a[name="${href}"]`;
