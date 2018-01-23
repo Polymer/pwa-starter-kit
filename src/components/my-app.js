@@ -1,6 +1,6 @@
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
-import { connect } from '../../lib/connect-mixin.js';
-import { installRouter } from '../../lib/router.js';
+import { connect } from '../../../node_modules/redux-helpers/connect-mixin.js';
+import { installRouter } from '../../../node_modules/redux-helpers/router.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';

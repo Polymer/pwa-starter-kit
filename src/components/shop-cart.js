@@ -1,6 +1,6 @@
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
-import { connect } from '../../lib/connect-mixin.js';
+import { connect } from '../../../node_modules/redux-helpers/connect-mixin.js';
 import './shop-item.js'
 
 // This element is connected to the redux store.
