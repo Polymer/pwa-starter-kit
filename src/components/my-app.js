@@ -1,6 +1,16 @@
-import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
-import { connect } from '../../lib/connect-mixin.js';
-import { installRouter } from '../../lib/router.js';
+/**
+@license
+Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { connect } from '../../../node_modules/redux-helpers/connect-mixin.js';
+import { installRouter } from '../../../node_modules/redux-helpers/router.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
@@ -15,9 +25,9 @@ import './my-icons.js';
 import { store } from '../store.js';
 import { navigate, show404 } from '../actions/app.js';
 
-class MyApp extends connect(store)(PolymerElement) {
-  static get template() {
-    return `
+class MyApp extends connect(store)(LitElement) {
+  render(props) {
+    return html`
     <style>
       :host {
         --app-primary-color: #4285f4;
@@ -61,10 +71,10 @@ class MyApp extends connect(store)(PolymerElement) {
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="[[rootPath]]view1">View One</a>
-          <a name="view2" href="[[rootPath]]view2">View Two</a>
-          <a name="view3" href="[[rootPath]]view3">View Three</a>
+        <iron-selector selected="${props.page}" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
         </iron-selector>
       </app-drawer>
 
@@ -78,7 +88,7 @@ class MyApp extends connect(store)(PolymerElement) {
           </app-toolbar>
         </app-header>
 
-        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="view404" role="main">
+        <iron-pages selected="${props.page}" attr-for-selected="name" fallback-selection="view404" role="main">
           <my-view1 name="view1"></my-view1>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
@@ -95,28 +105,30 @@ class MyApp extends connect(store)(PolymerElement) {
 
   static get properties() {
     return {
-      page: {
-        type: String,
-        reflectToAttribute: true,
-        observer: '_pageChanged'
-      },
-      // This shouldn't be neccessary, but the Analyzer isn't picking up
-      // Polymer.Element#rootPath
-      rootPath: {
-        type: String,
-        value: '/'
-      }
-    };
+      page: String,
+      routeData: Object,
+      subroute: String
+    }
+  }
+
+  constructor() {
+    super();
   }
 
   update(state) {
-    this.setProperties({
-      page: state.app.page,
-    });
+    this.page = state.app.page;
+  }
+
+  _propertiesChanged(props, changed, oldProps) {
+    if (changed && 'page' in changed) {
+      this._pageChanged();
+    }
+    super._propertiesChanged(props, changed, oldProps);
   }
 
   ready() {
     super.ready();
+    this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
   }
 
@@ -124,15 +136,18 @@ class MyApp extends connect(store)(PolymerElement) {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
+    if (!this._drawer.persistent) {
+      this._drawer.close();
     }
   }
 
-  _pageChanged(page) {
+  _pageChanged() {
     // Load page import on demand. Show 404 page if fails
     let loaded;
-    switch(page) {
+    if (!this.page) {
+      return;
+    }
+    switch(this.page) {
       case 'view1':
         loaded = import('./my-view1.js');
         break;
