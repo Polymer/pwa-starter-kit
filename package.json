@@ -7,7 +7,8 @@
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
-    "start": "polymer serve --entrypoint index.html"
+    "start": "polymer serve --entrypoint index.html",
+    "test": "npx mocha test/basic.js"
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
