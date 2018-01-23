@@ -20,10 +20,12 @@
     "@polymer/lit-element": "^0.1.0",
     "@polymer/paper-icon-button": "3.0.0-pre.1",
     "@webcomponents/webcomponentsjs": "^1.0.0",
-    "chai": "^4.1.2",
-    "mocha": "^5.0.0",
-    "puppeteer": "^1.0.0",
     "redux-helpers": "webcomponents/redux-helpers",
     "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.0",
+    "puppeteer": "^1.0.0"
   }
 }
