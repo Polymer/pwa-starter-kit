@@ -47,7 +47,7 @@ it('the app looks right with the eyeballs', function() {
 
 it('the page selector switches pages', function(done) {
   (async () => {
-    const browser = await puppeteer.launch({headless:false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(`${appUrl}`);
     await page.waitForSelector('my-app', {visible: true});
