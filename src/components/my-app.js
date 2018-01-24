@@ -25,18 +25,29 @@ import { navigate, show404 } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
-const responsiveWidth = '640px';
+const responsiveWidth = '460px';
 
 class MyApp extends connect(store)(LitElement) {
   render({page}) {
     return html`
     <style>
       :host {
+        --app-text-color: black;
+
+        --app-header-background-color: white;
+        --app-header-text-color: black;
+        --app-header-selected-color: #FF0083;
+
+        --app-drawer-background-color: #313131;
+        --app-drawer-text-color: white;
+        --app-drawer-selected-color: #B7B7B7;
+
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
         --app-drawer-width: 256px;
 
         display: block;
+        -webkit-font-smoothing: antialiased;
       }
 
       app-header {
@@ -45,43 +56,80 @@ class MyApp extends connect(store)(LitElement) {
         left: 0;
         width: 100%;
         color: #fff;
-        background-color: var(--app-primary-color);
+        background-color: var(--app-header-background-color);
+        text-align: center;
+        color: var(--app-header-text-color);
       }
+
+      [main-title] {
+        font-family: 'Pacifico';
+        text-transform: lowercase;
+        font-size: 30px;
+      }
+
+      .toolbar-list {
+        display: none;
+        text-align: center;
+      }
+
+      .toolbar-list a {
+        display: inline-block;
+        color: var(--app-header-text-color);
+        text-decoration: none;
+        line-height: 30px;
+        padding: 14px 24px;
+      }
+
+      .toolbar-list a.iron-selected {
+        color: var(--app-header-selected-color);
+      }
+
+      .menu-btn {
+        box-sizing: border-box;
+        background: none;
+        border: none;
+        fill: var(--app-header-text-color);
+        cursor: pointer;
+        height: 44px;
+        width: 44px;
+      }
+
       .drawer-list {
-        margin: 0 20px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 24px;
+        background: var(--app-drawer-background-color);
       }
 
       .drawer-list a {
         display: block;
-        padding: 0 16px;
         text-decoration: none;
-        color: var(--app-secondary-color);
+        color: var(--app-drawer-text-color);
         line-height: 40px;
+        padding: 0 24px;
       }
 
       .drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
+        color: var(--app-drawer-selected-color);
       }
 
       .main-content {
         padding-top: 64px;
       }
 
-      .menu-btn {
-        background: none;
-        border: none;
-        fill: white;
-        cursor: pointer;
-      }
+      /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
-        app-header,
-        .main-content {
-          margin-left: var(--app-drawer-width);
+        .toolbar-list {
+          display: block;
+          width: 100%;
         }
-
         .menu-btn {
           display: none;
+        }
+
+        .main-content {
+          padding-top: 122px;
         }
       }
     </style>
@@ -92,16 +140,25 @@ class MyApp extends connect(store)(LitElement) {
         <button class="menu-btn" on-click="${() => this._drawer.open()}" icon="my-icons:menu">${menuIcon}</button>
         <div main-title>My App</div>
       </app-toolbar>
+      <!-- This gets hidden on a small screen-->
+      <div class="toolbar-list">
+        <iron-selector selected="${page}" attr-for-selected="name" role="navigation">
+          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
+        </iron-selector>
+      </div>
     </app-header>
 
     <!-- Drawer content -->
     <app-drawer id="drawer">
-      <app-toolbar>Menu</app-toolbar>
-      <iron-selector selected="${page}" attr-for-selected="name" class="drawer-list" role="navigation">
-        <a name="view1" href="${Polymer.rootPath}view1">View One</a>
-        <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
-        <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
-      </iron-selector>
+      <div class="drawer-list">
+        <iron-selector selected="${page}" attr-for-selected="name" role="navigation">
+          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
+        </iron-selector>
+      </div>
     </app-drawer>
 
     <!-- Main content -->
@@ -140,14 +197,14 @@ class MyApp extends connect(store)(LitElement) {
     this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
 
-    let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
-    mql.addListener((e) => this._layoutChange(e.matches));
-    this._layoutChange(mql.matches);
+    // let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
+    // mql.addListener((e) => this._layoutChange(e.matches));
+    // this._layoutChange(mql.matches);
   }
 
-  _layoutChange(isWideLayout) {
-    this._drawer.persistent = this._drawer.opened = isWideLayout;
-  }
+  // _layoutChange(isWideLayout) {
+  //   this._drawer.persistent = this._drawer.opened = isWideLayout;
+  // }
 
   _notifyPathChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
