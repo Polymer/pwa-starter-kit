@@ -88,6 +88,7 @@ class MyApp extends connect(store)(LitElement) {
         height: 100%;
         padding: 24px;
         background: var(--app-drawer-background-color);
+        position: relative;
       }
 
       .drawer-list a {
@@ -127,6 +128,11 @@ class MyApp extends connect(store)(LitElement) {
         border-radius: 3px;
         text-transform: uppercase;
         cursor: pointer;
+      }
+      .theme-btn.bottom {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
       }
 
       /* Wide layout */
@@ -175,7 +181,8 @@ class MyApp extends connect(store)(LitElement) {
           <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
           <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
         </iron-selector>
-        <button class="theme-btn" on-click="${() => {this._changeTheme(); this._drawer.close()}}">change theme</button>
+
+        <button class="theme-btn bottom" on-click="${() => {this._changeTheme(); this._drawer.close()}}">change theme</button>
       </div>
     </app-drawer>
 
