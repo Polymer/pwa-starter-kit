@@ -41,7 +41,8 @@ class MyView3 extends connect(store)(LitElement) {
           simulate where you would add failure handling). </p>
         <p>This view, as well as its 2 child elements, <code>&lt;shop-products&gt;</code> and
         <code>&lt;shop-cart&gt;</code> are connected to the Redux store.</p>
-        <hr>
+      </section>
+      <section>
         <h3>Products</h3>
         <shop-products></shop-products>
 

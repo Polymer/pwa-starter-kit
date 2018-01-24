@@ -41,6 +41,8 @@ class MyView2 extends connect(store)(LitElement) {
         in the Redux store, and you can see the total number of clicks reflected in
         the bubble above.</p>
         <br><br>
+      </section>
+      <section>
         <p>
           <counter-element value="${props.value}" clicks="${props.clicks}"></counter-element>
         </p>
