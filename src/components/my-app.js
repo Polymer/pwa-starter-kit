@@ -48,6 +48,10 @@ class MyApp extends connect(store)(LitElement) {
         border-bottom: 1px solid #eee;
       }
 
+      .toolbar-top {
+        background-color: var(--app-header-background-color);
+      }
+      
       [main-title] {
         font-family: 'Pacifico';
         text-transform: lowercase;
@@ -157,7 +161,7 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
-      <app-toolbar>
+      <app-toolbar class="toolbar-top">
         <button class="menu-btn" on-click="${() => this._drawer.open()}" icon="my-icons:menu">${menuIcon}</button>
         <div main-title>My App</div>
         <button class="theme-btn" on-click="${() => this._changeTheme()}">change theme</button>
