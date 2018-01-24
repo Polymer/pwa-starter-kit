@@ -33,17 +33,16 @@ class MyApp extends connect(store)(LitElement) {
     <style>
       :host {
         --app-text-color: black;
+        --app-primary-color: #E91E63;
+        --app-secondary-color: #263238;
 
         --app-header-background-color: white;
         --app-header-text-color: black;
-        --app-header-selected-color: #FF0083;
+        --app-header-selected-color: var(--app-primary-color);
 
-        --app-drawer-background-color: #313131;
+        --app-drawer-background-color: var(--app-secondary-color);
         --app-drawer-text-color: white;
-        --app-drawer-selected-color: #B7B7B7;
-
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+        --app-drawer-selected-color: #78909C;
         --app-drawer-width: 256px;
 
         display: block;
@@ -77,11 +76,12 @@ class MyApp extends connect(store)(LitElement) {
         color: var(--app-header-text-color);
         text-decoration: none;
         line-height: 30px;
-        padding: 14px 24px;
+        padding: 4px 24px;
       }
 
       .toolbar-list a.iron-selected {
         color: var(--app-header-selected-color);
+        border-bottom: 4px solid var(--app-header-selected-color);
       }
 
       .menu-btn {

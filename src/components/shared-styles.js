@@ -42,9 +42,9 @@ export const SharedStyles = `
       height: 64px;
       margin: 0 auto;
       text-align: center;
-      color: #555;
       border-radius: 50%;
-      background: #ddd;
+      background: var(--app-primary-color);
+      color: white;
       font-size: 30px;
       line-height: 64px;
     }
