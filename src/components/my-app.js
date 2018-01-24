@@ -47,7 +47,6 @@ class MyApp extends connect(store)(LitElement) {
         --app-drawer-width: 256px;
 
         display: block;
-        -webkit-font-smoothing: antialiased;
       }
 
       app-header {
@@ -59,6 +58,7 @@ class MyApp extends connect(store)(LitElement) {
         background-color: var(--app-header-background-color);
         text-align: center;
         color: var(--app-header-text-color);
+        border-bottom: 1px solid #eee;
       }
 
       [main-title] {
@@ -118,6 +118,13 @@ class MyApp extends connect(store)(LitElement) {
         padding-top: 64px;
       }
 
+      footer {
+        box-sizing: border-box;
+        padding: 24px;
+        background: var(--app-drawer-background-color);
+        color: var(--app-drawer-text-color);
+        text-align: center;
+      }
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
         .toolbar-list {
@@ -168,6 +175,10 @@ class MyApp extends connect(store)(LitElement) {
       <my-view3 name="view3"></my-view3>
       <my-view404 name="view404"></my-view404>
     </iron-pages>
+
+    <footer>
+      <p>Made with <3 by the Polymer team</p>
+    </footer>
 `;
   }
 

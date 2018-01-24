@@ -31,9 +31,10 @@ class MyView3 extends connect(store)(LitElement) {
     return html`
       <style>${SharedStyles}</style>
 
-      <div class="card">
+      <section>
+        <h2>Redux example: shopping cart</h2>
         <div class="circle">${this._numItemsInCart(props.cart)}</div>
-        <h1>Redux example: shopping cart</h1>
+
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
@@ -51,7 +52,7 @@ class MyView3 extends connect(store)(LitElement) {
         <button hidden="${props.cart.addedIds.length == 0}" on-click="${this.checkout}">
           Checkout
         </button>
-      </div>
+      </section>
     `;
   }
 
