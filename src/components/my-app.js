@@ -156,6 +156,7 @@ class MyApp extends connect(store)(LitElement) {
         <div main-title>My App</div>
         <button class="theme-btn" on-click="${() => this._changeTheme()}">change theme</button>
       </app-toolbar>
+
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list">
         <iron-selector selected="${page}" attr-for-selected="name" role="navigation">
@@ -174,6 +175,7 @@ class MyApp extends connect(store)(LitElement) {
           <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
           <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
         </iron-selector>
+        <button class="theme-btn" on-click="${() => {this._changeTheme(); this._drawer.close()}}">change theme</button>
       </div>
     </app-drawer>
 
