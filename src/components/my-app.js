@@ -17,8 +17,8 @@ import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-eff
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '../../node_modules/@polymer/iron-pages/iron-pages.js';
 import '../../node_modules/@polymer/iron-selector/iron-selector.js';
-import '../../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
-import './my-icons.js';
+import { menuIcon } from './my-icons.js';
+
 
 import { store } from '../store.js';
 import { navigate, show404 } from '../actions/app.js';
@@ -47,11 +47,6 @@ class MyApp extends connect(store)(LitElement) {
         color: #fff;
         background-color: var(--app-primary-color);
       }
-
-      app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
-      }
-
       .drawer-list {
         margin: 0 20px;
       }
@@ -73,6 +68,12 @@ class MyApp extends connect(store)(LitElement) {
         padding-top: 64px;
       }
 
+      .menu-btn {
+        background: none;
+        border: none;
+        fill: white;
+        cursor: pointer;
+      }
       @media (min-width: ${responsiveWidth}) {
         app-header,
         .main-content {
@@ -88,7 +89,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar>
-        <paper-icon-button icon="my-icons:menu" class="menu-btn" on-click="${() => this._drawer.open()}"></paper-icon-button>
+        <button class="menu-btn" on-click="${() => this._drawer.open()}" icon="my-icons:menu">${menuIcon}</button>
         <div main-title>My App</div>
       </app-toolbar>
     </app-header>
