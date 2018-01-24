@@ -32,19 +32,7 @@ class MyApp extends connect(store)(LitElement) {
     return html`
     <style>
       :host {
-        --app-text-color: black;
-        --app-primary-color: #E91E63;
-        --app-secondary-color: #263238;
-
-        --app-header-background-color: white;
-        --app-header-text-color: black;
-        --app-header-selected-color: var(--app-primary-color);
-
-        --app-drawer-background-color: var(--app-secondary-color);
-        --app-drawer-text-color: white;
-        --app-drawer-selected-color: #78909C;
         --app-drawer-width: 256px;
-
         display: block;
       }
 
@@ -126,6 +114,21 @@ class MyApp extends connect(store)(LitElement) {
         color: var(--app-drawer-text-color);
         text-align: center;
       }
+
+      .theme-btn {
+        padding: 14px;
+        background: var(--app-primary-color);
+        color: var(--app-light-text-color);
+        font-family: inherit;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+        font-weight: bold;
+        border: none;
+        border-radius: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
         .toolbar-list {
@@ -135,9 +138,13 @@ class MyApp extends connect(store)(LitElement) {
         .menu-btn {
           display: none;
         }
-
         .main-content {
           padding-top: 122px;
+        }
+        .theme-btn {
+          position: absolute;
+          top: 14px;
+          right: 14px;
         }
       }
     </style>
@@ -147,6 +154,7 @@ class MyApp extends connect(store)(LitElement) {
       <app-toolbar>
         <button class="menu-btn" on-click="${() => this._drawer.open()}" icon="my-icons:menu">${menuIcon}</button>
         <div main-title>My App</div>
+        <button class="theme-btn" on-click="${() => this._changeTheme()}">change theme</button>
       </app-toolbar>
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list">
@@ -170,15 +178,18 @@ class MyApp extends connect(store)(LitElement) {
     </app-drawer>
 
     <!-- Main content -->
-    <iron-pages class="main-content" selected="${page}" attr-for-selected="name" fallback-selection="view404" role="main">
-      <my-view1 name="view1"></my-view1>
-      <my-view2 name="view2"></my-view2>
-      <my-view3 name="view3"></my-view3>
-      <my-view404 name="view404"></my-view404>
-    </iron-pages>
+    <div class="main-content">
+
+      <iron-pages selected="${page}" attr-for-selected="name" fallback-selection="view404" role="main">
+        <my-view1 name="view1"></my-view1>
+        <my-view2 name="view2"></my-view2>
+        <my-view3 name="view3"></my-view3>
+        <my-view404 name="view404"></my-view404>
+      </iron-pages>
+    </div>
 
     <footer>
-      <p>Made with <3 by the Polymer team</p>
+      <p>Made with &lt;3 by the Polymer team</p>
     </footer>
 `;
   }
@@ -206,6 +217,8 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
+    this._theme = 0;
+    this._changeTheme();
     this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
 
@@ -217,6 +230,52 @@ class MyApp extends connect(store)(LitElement) {
   // _layoutChange(isWideLayout) {
   //   this._drawer.persistent = this._drawer.opened = isWideLayout;
   // }
+
+  _changeTheme() {
+    if (this._theme === 0) {
+      this._theme = 1;
+      const pink = '#E91E63';
+      const gray = '#293237';
+      this.style.setProperty('--app-primary-color', pink);
+      this.style.setProperty('--app-secondary-color', gray);
+      this.style.setProperty('--app-dark-text-color', 'var(--app-secondary-color)');
+      this.style.setProperty('--app-light-text-color', 'white');
+      this.style.setProperty('--app-section-even-color', '#f7f7f7');
+      this.style.setProperty('--app-section-odd-color', 'white');
+
+      this.style.setProperty('--app-header-background-color', 'white');
+      this.style.setProperty('--app-header-text-color', 'var(--app-dark-text-color)');
+      this.style.setProperty('--app-header-selected-color', 'var(--app-primary-color)');
+
+      this.style.setProperty('--app-drawer-background-color', 'var(--app-secondary-color)');
+      this.style.setProperty('--app-drawer-text-color', 'var(--app-light-text-color)');
+      this.style.setProperty('--app-drawer-selected-color', '#78909C');
+
+    } else {
+      this._theme = 0;
+      const yellow = '#F2E579';
+      const blue = '#78BDF0';
+      const pink = '#DF5D94'
+      const purple = '#564B7A';
+      const gray = '#293237';
+
+      this.style.setProperty('--app-primary-color', blue);
+      this.style.setProperty('--app-secondary-color', purple);
+      this.style.setProperty('--app-dark-text-color', gray);
+      this.style.setProperty('--app-light-text-color', 'white');
+      this.style.setProperty('--app-section-even-color', '#FFFDE7');
+      this.style.setProperty('--app-section-odd-color', 'white');
+
+
+      this.style.setProperty('--app-header-background-color', pink);
+      this.style.setProperty('--app-header-text-color', 'white');
+      this.style.setProperty('--app-header-selected-color', yellow);
+
+      this.style.setProperty('--app-drawer-background-color', 'var(--app-secondary-color)');
+      this.style.setProperty('--app-drawer-text-color', 'white');
+      this.style.setProperty('--app-drawer-selected-color', yellow);
+    }
+  }
 
   _notifyPathChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));

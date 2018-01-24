@@ -18,16 +18,17 @@ export const SharedStyles = `
     section {
       padding: 24px;
       display:block;
-      background: white;
+      background: var(--app-section-odd-color);
     }
 
     section:nth-of-type(even) {
-      background: #f7f7f7;
+      background: var(--app-section-even-color);
     }
 
     h2 {
       font-size: 24px;
       text-align: center;
+      color: var(--app-dark-text-color);
     }
 
     @media (min-width: ${responsiveWidth}) {
@@ -44,7 +45,7 @@ export const SharedStyles = `
       text-align: center;
       border-radius: 50%;
       background: var(--app-primary-color);
-      color: white;
+      color: var(--app-light-text-color);
       font-size: 30px;
       line-height: 64px;
     }
