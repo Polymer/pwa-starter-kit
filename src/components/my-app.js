@@ -107,7 +107,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 4px 24px;
       }
 
-      .toolbar-list a.iron-selected {
+      .toolbar-list a[name=${page}] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -203,11 +203,9 @@ class MyApp extends connect(store)(LitElement) {
 
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list">
-        <iron-selector selected="${page}" attr-for-selected="name" role="navigation">
-          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
-          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
-          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
-        </iron-selector>
+        <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+        <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+        <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
       </div>
     </app-header>
 
