@@ -15,7 +15,6 @@ import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
-import '../../node_modules/@polymer/iron-pages/iron-pages.js';
 import { menuIcon } from './my-icons.js';
 
 import { store } from '../store.js';
@@ -147,6 +146,14 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
+      .main-content .page[name=${page}] {
+        display: block;
+      }
+
+      .main-content .page:not([name=${page}]) {
+        display: none;
+      }
+
       footer {
         box-sizing: border-box;
         padding: 24px;
@@ -220,14 +227,11 @@ class MyApp extends connect(store)(LitElement) {
     </app-drawer>
 
     <!-- Main content -->
-    <div class="main-content">
-
-      <iron-pages selected="${page}" attr-for-selected="name" fallback-selection="view404" role="main">
-        <my-view1 name="view1"></my-view1>
-        <my-view2 name="view2"></my-view2>
-        <my-view3 name="view3"></my-view3>
-        <my-view404 name="view404"></my-view404>
-      </iron-pages>
+    <div class="main-content" role="main">
+      <my-view1 class="page" name="view1"></my-view1>
+      <my-view2 class="page" name="view2"></my-view2>
+      <my-view3 class="page" name="view3"></my-view3>
+      <my-view404 class="page" name="view404"></my-view404>
     </div>
 
     <footer>
