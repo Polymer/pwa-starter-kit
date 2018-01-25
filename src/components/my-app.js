@@ -19,13 +19,12 @@ import '../../node_modules/@polymer/iron-pages/iron-pages.js';
 import '../../node_modules/@polymer/iron-selector/iron-selector.js';
 import { menuIcon } from './my-icons.js';
 
-
 import { store } from '../store.js';
 import { navigate, show404 } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
-const responsiveWidth = '460px';
+import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
   render({page}) {
@@ -34,6 +33,45 @@ class MyApp extends connect(store)(LitElement) {
       :host {
         --app-drawer-width: 256px;
         display: block;
+
+        /* Default theme */
+        --pink: #E91E63;
+        --gray: #293237;
+        --app-primary-color: var(--pink);
+        --app-secondary-color: var(--gray);
+        --app-dark-text-color: var(--app-secondary-color);
+        --app-light-text-color: white;
+        --app-section-even-color: #f7f7f7;
+        --app-section-odd-color: white;
+
+        --app-header-background-color: white;
+        --app-header-text-color: var(--app-dark-text-color);
+        --app-header-selected-color: var(--app-primary-color);
+
+        --app-drawer-background-color: var(--app-secondary-color);
+        --app-drawer-text-color: var(--app-light-text-color);
+        --app-drawer-selected-color: #78909C;
+      }
+
+      :host(.bright-theme) {
+        --yellow: #F2E579;
+        --pink: #DF5D94;
+
+        --app-primary-color: #78BDF0;  /* light blue */
+        --app-secondary-color: #564B7A;  /* dark purple */
+        --app-dark-text-color: #293237  /* grey */
+        --app-light-text-color: white;
+        --app-section-even-color: #FFFDE7;
+        --app-section-odd-color: white;
+
+
+        --app-header-background-color: var(--pink);
+        --app-header-text-color: white;
+        --app-header-selected-color: var(--yellow);
+
+        --app-drawer-background-color: var(--app-secondary-color);
+        --app-drawer-text-color: white;
+        --app-drawer-selected-color: var(--yellow);
       }
 
       app-header {
@@ -41,9 +79,8 @@ class MyApp extends connect(store)(LitElement) {
         top: 0;
         left: 0;
         width: 100%;
-        color: #fff;
-        background-color: var(--app-header-background-color);
         text-align: center;
+        background-color: var(--app-header-background-color);
         color: var(--app-header-text-color);
         border-bottom: 1px solid #eee;
       }
@@ -51,7 +88,7 @@ class MyApp extends connect(store)(LitElement) {
       .toolbar-top {
         background-color: var(--app-header-background-color);
       }
-      
+
       [main-title] {
         font-family: 'Pacifico';
         text-transform: lowercase;
@@ -60,7 +97,6 @@ class MyApp extends connect(store)(LitElement) {
 
       .toolbar-list {
         display: none;
-        text-align: center;
       }
 
       .toolbar-list a {
@@ -124,7 +160,6 @@ class MyApp extends connect(store)(LitElement) {
         padding: 14px;
         background: var(--app-primary-color);
         color: var(--app-light-text-color);
-        font-family: inherit;
         font-size: 13px;
         letter-spacing: 0.3px;
         font-weight: bold;
@@ -143,13 +178,12 @@ class MyApp extends connect(store)(LitElement) {
       @media (min-width: ${responsiveWidth}) {
         .toolbar-list {
           display: block;
-          width: 100%;
         }
         .menu-btn {
           display: none;
         }
         .main-content {
-          padding-top: 122px;
+          padding-top: 107px;
         }
         .theme-btn {
           position: absolute;
@@ -162,7 +196,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${() => this._drawer.open()}" icon="my-icons:menu">${menuIcon}</button>
+        <button class="menu-btn" on-click="${() => this._drawer.open()}">${menuIcon}</button>
         <div main-title>My App</div>
         <button class="theme-btn" on-click="${() => this._changeTheme()}">change theme</button>
       </app-toolbar>
@@ -230,8 +264,6 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    this._theme = 0;
-    this._changeTheme();
     this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
 
@@ -245,48 +277,10 @@ class MyApp extends connect(store)(LitElement) {
   // }
 
   _changeTheme() {
-    if (this._theme === 0) {
-      this._theme = 1;
-      const pink = '#E91E63';
-      const gray = '#293237';
-      this.style.setProperty('--app-primary-color', pink);
-      this.style.setProperty('--app-secondary-color', gray);
-      this.style.setProperty('--app-dark-text-color', 'var(--app-secondary-color)');
-      this.style.setProperty('--app-light-text-color', 'white');
-      this.style.setProperty('--app-section-even-color', '#f7f7f7');
-      this.style.setProperty('--app-section-odd-color', 'white');
-
-      this.style.setProperty('--app-header-background-color', 'white');
-      this.style.setProperty('--app-header-text-color', 'var(--app-dark-text-color)');
-      this.style.setProperty('--app-header-selected-color', 'var(--app-primary-color)');
-
-      this.style.setProperty('--app-drawer-background-color', 'var(--app-secondary-color)');
-      this.style.setProperty('--app-drawer-text-color', 'var(--app-light-text-color)');
-      this.style.setProperty('--app-drawer-selected-color', '#78909C');
-
+    if (this.classList.contains('bright-theme')) {
+      this.classList.remove('bright-theme');
     } else {
-      this._theme = 0;
-      const yellow = '#F2E579';
-      const blue = '#78BDF0';
-      const pink = '#DF5D94'
-      const purple = '#564B7A';
-      const gray = '#293237';
-
-      this.style.setProperty('--app-primary-color', blue);
-      this.style.setProperty('--app-secondary-color', purple);
-      this.style.setProperty('--app-dark-text-color', gray);
-      this.style.setProperty('--app-light-text-color', 'white');
-      this.style.setProperty('--app-section-even-color', '#FFFDE7');
-      this.style.setProperty('--app-section-odd-color', 'white');
-
-
-      this.style.setProperty('--app-header-background-color', pink);
-      this.style.setProperty('--app-header-text-color', 'white');
-      this.style.setProperty('--app-header-selected-color', yellow);
-
-      this.style.setProperty('--app-drawer-background-color', 'var(--app-secondary-color)');
-      this.style.setProperty('--app-drawer-text-color', 'white');
-      this.style.setProperty('--app-drawer-selected-color', yellow);
+      this.classList.add('bright-theme');
     }
   }
 
