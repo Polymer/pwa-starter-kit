@@ -12,9 +12,7 @@ import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-el
 import { connect } from '../../../node_modules/redux-helpers/connect-mixin.js';
 import { installRouter } from '../../../node_modules/redux-helpers/router.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
-import '../../node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
-import '../../node_modules/@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '../../node_modules/@polymer/iron-pages/iron-pages.js';
@@ -25,22 +23,27 @@ import './my-icons.js';
 import { store } from '../store.js';
 import { navigate, show404 } from '../actions/app.js';
 
+// When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
+// In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
+const responsiveWidth = '640px';
+
 class MyApp extends connect(store)(LitElement) {
-  render(props) {
+  render({page}) {
     return html`
     <style>
       :host {
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
+        --app-drawer-width: 256px;
 
         display: block;
       }
 
-      app-drawer-layout:not([narrow]) [drawer-toggle] {
-        display: none;
-      }
-
       app-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         color: #fff;
         background-color: var(--app-primary-color);
       }
@@ -65,37 +68,48 @@ class MyApp extends connect(store)(LitElement) {
         color: black;
         font-weight: bold;
       }
+
+      .main-content {
+        padding-top: 64px;
+      }
+
+      @media (min-width: ${responsiveWidth}) {
+        app-header,
+        .main-content {
+          margin-left: var(--app-drawer-width);
+        }
+
+        .menu-btn {
+          display: none;
+        }
+      }
     </style>
 
-    <app-drawer-layout fullbleed>
-      <!-- Drawer content -->
-      <app-drawer id="drawer" slot="drawer">
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="${props.page}" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
-          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
-          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
-        </iron-selector>
-      </app-drawer>
+    <!-- Header -->
+    <app-header condenses reveals effects="waterfall">
+      <app-toolbar>
+        <paper-icon-button icon="my-icons:menu" class="menu-btn" on-click="${() => this._drawer.open()}"></paper-icon-button>
+        <div main-title>My App</div>
+      </app-toolbar>
+    </app-header>
 
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region>
+    <!-- Drawer content -->
+    <app-drawer id="drawer">
+      <app-toolbar>Menu</app-toolbar>
+      <iron-selector selected="${page}" attr-for-selected="name" class="drawer-list" role="navigation">
+        <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+        <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+        <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
+      </iron-selector>
+    </app-drawer>
 
-        <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App</div>
-          </app-toolbar>
-        </app-header>
-
-        <iron-pages selected="${props.page}" attr-for-selected="name" fallback-selection="view404" role="main">
-          <my-view1 name="view1"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
-        </iron-pages>
-      </app-header-layout>
-    </app-drawer-layout>
+    <!-- Main content -->
+    <iron-pages class="main-content" selected="${page}" attr-for-selected="name" fallback-selection="view404" role="main">
+      <my-view1 name="view1"></my-view1>
+      <my-view2 name="view2"></my-view2>
+      <my-view3 name="view3"></my-view3>
+      <my-view404 name="view404"></my-view404>
+    </iron-pages>
 `;
   }
 
@@ -105,14 +119,8 @@ class MyApp extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      page: String,
-      routeData: Object,
-      subroute: String
+      page: String
     }
-  }
-
-  constructor() {
-    super();
   }
 
   update(state) {
@@ -130,6 +138,14 @@ class MyApp extends connect(store)(LitElement) {
     super.ready();
     this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
+
+    let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
+    mql.addListener((e) => this._layoutChange(e.matches));
+    this._layoutChange(mql.matches);
+  }
+
+  _layoutChange(isWideLayout) {
+    this._drawer.persistent = this._drawer.opened = isWideLayout;
   }
 
   _notifyPathChanged() {
