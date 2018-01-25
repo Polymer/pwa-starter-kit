@@ -16,7 +16,6 @@ import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '../../node_modules/@polymer/iron-pages/iron-pages.js';
-import '../../node_modules/@polymer/iron-selector/iron-selector.js';
 import { menuIcon } from './my-icons.js';
 
 import { store } from '../store.js';
@@ -139,7 +138,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 0 24px;
       }
 
-      .drawer-list a.iron-selected {
+      .drawer-list a[name=${page}] {
         color: var(--app-drawer-selected-color);
       }
 
@@ -202,7 +201,7 @@ class MyApp extends connect(store)(LitElement) {
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
-      <div class="toolbar-list">
+      <div class="toolbar-list" role="navigation">
         <a name="view1" href="${Polymer.rootPath}view1">View One</a>
         <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
         <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
@@ -211,12 +210,10 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Drawer content -->
     <app-drawer id="drawer">
-      <div class="drawer-list">
-        <iron-selector selected="${page}" attr-for-selected="name" role="navigation">
-          <a name="view1" href="${Polymer.rootPath}view1">View One</a>
-          <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
-          <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
-        </iron-selector>
+      <div class="drawer-list" role="navigation">
+        <a name="view1" href="${Polymer.rootPath}view1">View One</a>
+        <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
+        <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
 
         <button class="theme-btn bottom" on-click="${() => {this._changeTheme(); this._drawer.close()}}">change theme</button>
       </div>
