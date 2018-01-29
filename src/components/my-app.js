@@ -105,7 +105,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 4px 24px;
       }
 
-      .toolbar-list a[name=${page}] {
+      .toolbar-list a[selected="true"] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -137,7 +137,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 0 24px;
       }
 
-      .drawer-list a[name=${page}] {
+      .drawer-list a[selected="true"] {
         color: var(--app-drawer-selected-color);
       }
 
@@ -146,11 +146,11 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
-      .main-content .page[name=${page}] {
+      .main-content .page[selected="true"] {
         display: block;
       }
 
-      .main-content .page:not([name=${page}]) {
+      .main-content .page[selected="false"] {
         display: none;
       }
 
@@ -209,18 +209,18 @@ class MyApp extends connect(store)(LitElement) {
 
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list" role="navigation">
-        <a name="view1" href="${Polymer.rootPath}view1">View One</a>
-        <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
-        <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
+        <a name="view1" selected$="${page === 'view1'}" href="${Polymer.rootPath}view1">View One</a>
+        <a name="view2" selected$="${page === 'view2'}" href="${Polymer.rootPath}view2">View Two</a>
+        <a name="view3" selected$="${page === 'view3'}" href="${Polymer.rootPath}view3">View Three</a>
       </div>
     </app-header>
 
     <!-- Drawer content -->
     <app-drawer id="drawer">
       <div class="drawer-list" role="navigation">
-        <a name="view1" href="${Polymer.rootPath}view1">View One</a>
-        <a name="view2" href="${Polymer.rootPath}view2">View Two</a>
-        <a name="view3" href="${Polymer.rootPath}view3">View Three</a>
+        <a name="view1" selected$="${page === 'view1'}" href="${Polymer.rootPath}view1">View One</a>
+        <a name="view2" selected$="${page === 'view2'}" href="${Polymer.rootPath}view2">View Two</a>
+        <a name="view3" selected$="${page === 'view3'}" href="${Polymer.rootPath}view3">View Three</a>
 
         <button class="theme-btn bottom" on-click="${() => {this._changeTheme(); this._drawer.close()}}">change theme</button>
       </div>
@@ -228,10 +228,10 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <div class="main-content" role="main">
-      <my-view1 class="page" name="view1"></my-view1>
-      <my-view2 class="page" name="view2"></my-view2>
-      <my-view3 class="page" name="view3"></my-view3>
-      <my-view404 class="page" name="view404"></my-view404>
+      <my-view1 class="page" name="view1" selected$="${page === 'view1'}"></my-view1>
+      <my-view2 class="page" name="view2" selected$="${page === 'view2'}"></my-view2>
+      <my-view3 class="page" name="view3" selected$="${page === 'view3'}"></my-view3>
+      <my-view404 class="page" name="view404" selected$="${page === 'view404'}"></my-view404>
     </div>
 
     <footer>
