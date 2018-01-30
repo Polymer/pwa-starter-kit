@@ -332,7 +332,7 @@ class MyApp extends connect(store)(LitElement) {
     // You could replace this with a description, if you had one.
     this._setMeta('property', 'og:description', document.title);
     this._setMeta('property', 'og:url', document.location.href);
-    // If you have an image:
+    // If you have an image that's specific to each page:
     //this._setMeta('property', 'og:image', ...);
 
     // Set twitter card metadata
@@ -340,7 +340,7 @@ class MyApp extends connect(store)(LitElement) {
       // You could replace this with a description, if you had one.
     this._setMeta('property', 'twitter:description', document.title);
     this._setMeta('property', 'twitter:url', document.location.href);
-    // If you have an image:
+    // If you have an image that's specific to each page:
     //this._setMeta('property', 'twitter:image:src', ...);
   }
 
