@@ -8,7 +8,7 @@
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
     "start": "polymer serve --entrypoint index.html",
-    "test": " polymer serve --port 4444 && npx mocha test/basic.js"
+    "test": " polymer serve --port 4444 & (sleep 4 && npx mocha test/basic.js)"
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
