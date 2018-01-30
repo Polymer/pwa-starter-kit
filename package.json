@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@polymer/app-layout": "3.0.0-pre.1",
-    "@polymer/iron-pages": "3.0.0-pre.1",
-    "@polymer/iron-selector": "3.0.0-pre.1",
     "redux-helpers": "webcomponents/redux-helpers",
     "@0xcda7a/redux-es6": "^3.7.2",
     "@polymer/lit-element": "^0.1.0",
