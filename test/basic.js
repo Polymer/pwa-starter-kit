@@ -12,7 +12,7 @@ const puppeteer = require('puppeteer');
 const expect = require('chai').expect;
 const {startServer} = require('polyserve');
 const path = require('path');
-var fs = require('fs');
+const fs = require('fs');
 
 const appUrl = 'http://127.0.0.1:4444';
 
@@ -20,21 +20,19 @@ describe('basic tests', async function() {
   let polyserve;
   before(async function() {
     polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
-    console.log('awaited');
   });
 
   after(function(done) {
     polyserve.close(done);
   });
 
-  it('the app looks right with the eyeballs', function() {
-    (async () => {
+  it('the app looks right with the eyeballs', async function() {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
 
       const dir = `${process.cwd()}/test/screenshots`;
       if (!fs.existsSync(dir)){
-          fs.mkdirSync(dir);
+        fs.mkdirSync(dir);
       }
 
       // See that each route loads correctly.
@@ -47,55 +45,48 @@ describe('basic tests', async function() {
       }
 
       await browser.close();
-    })();
   });
 
-  it('the page selector switches pages', function(done) {
-    (async () => {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.goto(`${appUrl}`);
-      await page.waitForSelector('my-app', {visible: true});
+  it('the page selector switches pages', async function() {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(`${appUrl}`);
+    await page.waitForSelector('my-app', {visible: true});
 
-      await testNavigation(page, 'view2', 'View Two');
-      await testNavigation(page, 'view3', 'View Three');
-      await testNavigation(page, 'view1', 'View One');
+    await testNavigation(page, 'view2', 'View Two');
+    await testNavigation(page, 'view3', 'View Three');
+    await testNavigation(page, 'view1', 'View One');
 
-      done();
-      await browser.close();
-    })();
+    await browser.close();
   });
 
-  it('the page selector switches pages in a different way', function(done) {
-    (async () => {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.goto(`${appUrl}`);
-      await page.waitForSelector('my-app', {visible: true});
+  it('the page selector switches pages in a different way', async function() {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(`${appUrl}`);
+    await page.waitForSelector('my-app', {visible: true});
 
-      // Setup
-      await page.evaluate(() => {
-        window.deepQuerySelector = function(query) {
-          const parts = query.split('::shadow');
-          let el = document;
-          for (let i = 0; i < parts.length; i++) {
-            el = el.querySelector(parts[i]);
-            if (i % 2 === 0) {
-              el = el.shadowRoot;
-            }
+    // Setup
+    await page.evaluate(() => {
+      window.deepQuerySelector = function(query) {
+        const parts = query.split('::shadow');
+        let el = document;
+        for (let i = 0; i < parts.length; i++) {
+          el = el.querySelector(parts[i]);
+          if (i % 2 === 0) {
+            el = el.shadowRoot;
           }
-          return el === document ? null : el;
         }
-        console.log(window.deepQuerySelector);
-      });
+        return el === document ? null : el;
+      }
+      console.log(window.deepQuerySelector);
+    });
 
-      await testNavigationInADifferentWay(page, 'view2', 'View Two');
-      await testNavigationInADifferentWay(page, 'view3', 'View Three');
-      await testNavigationInADifferentWay(page, 'view1', 'View One');
+    await testNavigationInADifferentWay(page, 'view2', 'View Two');
+    await testNavigationInADifferentWay(page, 'view3', 'View Three');
+    await testNavigationInADifferentWay(page, 'view1', 'View One');
 
-      done();
-      await browser.close();
-    })();
+    await browser.close();
   });
 });
 
