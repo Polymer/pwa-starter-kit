@@ -14,30 +14,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>my-view1</title>
+    <title>router test</title>
 
-    <script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../node-modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../node-modules/web-component-tester/browser.js"></script>
 
     <!-- Import the element to test -->
-    <script type="module" src="../src/my-view1.js"></script>
+    <script type="module" src="../src/components/my-app.js"></script>
   </head>
   <body>
-    <test-fixture id="BasicView">
+    <test-fixture id="app">
       <template>
-        <my-view1></my-view1>
+        <my-app></my-app>
       </template>
     </test-fixture>
 
     <script type="module">
-import '../src/my-view1.js';
-suite('my-view1 tests', function() {
-  test('Number in circle should be 1', function() {
-    var myView = fixture('BasicView');
-    var circle = myView.shadowRoot.querySelector('.circle');
-    assert.equal(circle.textContent, '1');
-  });
-});
-</script>
+      suite('my-view1 tests', function() {
+        test('Number in circle should be 1', function() {
+          var myView = fixture('BasicView');
+          var circle = myView.shadowRoot.querySelector('.circle');
+          assert.equal(circle.textContent, '1');
+        });
+      });
+    </script>
   </body>
 </html>
