@@ -2,5 +2,4 @@ build/
 node_modules/
 test/screenshots
 yarn.lock
-package-lock.json
 .DS_Store

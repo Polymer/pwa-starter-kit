@@ -12,13 +12,10 @@
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
-    "@polymer/app-layout": "3.0.0-pre.1",
+    "@polymer/app-layout": "^3.0.0-pre.7",
     "redux-helpers": "webcomponents/redux-helpers",
-    "@0xcda7a/redux-es6": "^3.7.2",
     "@polymer/lit-element": "^0.1.0",
-    "@polymer/paper-icon-button": "3.0.0-pre.1",
     "@webcomponents/webcomponentsjs": "^1.0.0",
-    "redux-helpers": "webcomponents/redux-helpers",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
