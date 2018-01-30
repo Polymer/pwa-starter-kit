@@ -25,7 +25,7 @@ import { navigate, show404 } from '../actions/app.js';
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle}) {
+  render({page, appTitle, drawerOpened}) {
     return html`
     <style>
       :host {
@@ -202,9 +202,9 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${() => this._drawer.open()}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => this.drawerOpened = true}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
-        <button class="theme-btn" on-click="${() => this._changeTheme()}">change theme</button>
+        <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
@@ -216,13 +216,13 @@ class MyApp extends connect(store)(LitElement) {
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer id="drawer">
+    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this.drawerOpened = e.target.opened}">
       <div class="drawer-list" role="navigation">
         <a selected$="${page === 'view1'}" href="${Polymer.rootPath}view1">View One</a>
         <a selected$="${page === 'view2'}" href="${Polymer.rootPath}view2">View Two</a>
         <a selected$="${page === 'view3'}" href="${Polymer.rootPath}view3">View Three</a>
 
-        <button class="theme-btn bottom" on-click="${() => {this._changeTheme(); this._drawer.close()}}">change theme</button>
+        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme(); this.drawerOpened = true}}">change theme</button>
       </div>
     </app-drawer>
 
@@ -248,6 +248,7 @@ class MyApp extends connect(store)(LitElement) {
     return {
       page: String,
       appTitle: String,
+      drawerOpened: Boolean
     }
   }
 
@@ -265,7 +266,6 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
 
     // let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
@@ -289,9 +289,7 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close a non-persistent drawer when the page & route are changed.
-    if (!this._drawer.persistent) {
-      this._drawer.close();
-    }
+    this.drawerOpened = false;
   }
 
   _pageChanged() {
