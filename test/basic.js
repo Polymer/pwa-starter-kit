@@ -17,7 +17,8 @@ const fs = require('fs');
 const appUrl = 'http://127.0.0.1:4444';
 
 describe('basic tests', async function() {
-  let polyserve;
+  let polyserve, browser, page;
+
   before(async function() {
     polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
   });
@@ -26,43 +27,41 @@ describe('basic tests', async function() {
     polyserve.close(done);
   });
 
+  beforeEach(async function() {
+    browser = await puppeteer.launch();
+    page = await browser.newPage();
+  });
+
+  afterEach(async function() {
+    await browser.close();
+  });
+
   it('the app looks right with the eyeballs', async function() {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
+    const dir = `${process.cwd()}/test/screenshots`;
+    if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+    }
 
-      const dir = `${process.cwd()}/test/screenshots`;
-      if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
-      }
+    // See that each route loads correctly.
+    await page.goto(`${appUrl}`);
+    await page.screenshot({path: `${dir}/index.png`});
 
-      // See that each route loads correctly.
-      await page.goto(`${appUrl}`);
-      await page.screenshot({path: `${dir}/index.png`});
-
-      for (let i = 1; i <= 3; i++) {
-        await page.goto(`${appUrl}/view${i}`);
-        await page.screenshot({path: `${dir}/view${i}.png`});
-      }
-
-      await browser.close();
+    for (let i = 1; i <= 3; i++) {
+      await page.goto(`${appUrl}/view${i}`);
+      await page.screenshot({path: `${dir}/view${i}.png`});
+    }
   });
 
   it('the page selector switches pages', async function() {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
     await page.goto(`${appUrl}`);
     await page.waitForSelector('my-app', {visible: true});
 
     await testNavigation(page, 'view2', 'View Two');
     await testNavigation(page, 'view3', 'View Three');
     await testNavigation(page, 'view1', 'View One');
-
-    await browser.close();
   });
 
   it('the page selector switches pages in a different way', async function() {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
     await page.goto(`${appUrl}`);
     await page.waitForSelector('my-app', {visible: true});
 
@@ -85,8 +84,6 @@ describe('basic tests', async function() {
     await testNavigationInADifferentWay(page, 'view2', 'View Two');
     await testNavigationInADifferentWay(page, 'view3', 'View Three');
     await testNavigationInADifferentWay(page, 'view1', 'View One');
-
-    await browser.close();
   });
 });
 
