@@ -25,7 +25,7 @@ import { navigate, show404 } from '../actions/app.js';
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page}) {
+  render({page, appTitle}) {
     return html`
     <style>
       :host {
@@ -203,7 +203,7 @@ class MyApp extends connect(store)(LitElement) {
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
         <button class="menu-btn" on-click="${() => this._drawer.open()}">${menuIcon}</button>
-        <div main-title>My App</div>
+        <div main-title>${appTitle}</div>
         <button class="theme-btn" on-click="${() => this._changeTheme()}">change theme</button>
       </app-toolbar>
 
@@ -246,7 +246,8 @@ class MyApp extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      page: String
+      page: String,
+      appTitle: String,
     }
   }
 
@@ -257,12 +258,14 @@ class MyApp extends connect(store)(LitElement) {
   _propertiesChanged(props, changed, oldProps) {
     if (changed && 'page' in changed) {
       this._pageChanged();
+      this._updateMetadata();
     }
     super._propertiesChanged(props, changed, oldProps);
   }
 
   ready() {
     super.ready();
+    this.appTitle = 'My App';
     this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
 
@@ -319,6 +322,36 @@ class MyApp extends connect(store)(LitElement) {
       _ => {},
       _ => { store.dispatch(show404()) }
     );
+  }
+
+  _updateMetadata() {
+    document.title = this.appTitle + ' - ' + this.page;
+
+    // Set open graph metadata
+    this._setMeta('property', 'og:title', document.title);
+    // You could replace this with a description, if you had one.
+    this._setMeta('property', 'og:description', document.title);
+    this._setMeta('property', 'og:url', document.location.href);
+    // If you have an image:
+    //this._setMeta('property', 'og:image', ...);
+
+    // Set twitter card metadata
+    this._setMeta('property', 'twitter:title', document.title);
+      // You could replace this with a description, if you had one.
+    this._setMeta('property', 'twitter:description', document.title);
+    this._setMeta('property', 'twitter:url', document.location.href);
+    // If you have an image:
+    //this._setMeta('property', 'twitter:image:src', ...);
+  }
+
+  _setMeta(attrName, attrValue, content) {
+    let element = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
+    if (!element) {
+      element = document.createElement('meta');
+      element.setAttribute(attrName, attrValue);
+      document.head.appendChild(element);
+    }
+    element.setAttribute('content', content || '');
   }
 }
 
