@@ -265,7 +265,6 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    this.appTitle = 'My App';
     this._drawer = this.shadowRoot.getElementById('drawer');
     installRouter(this._notifyPathChanged.bind(this));
 
