@@ -12,10 +12,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Polymer Starter Kit">
+    <meta name="generator" content="PWA Starter Kit">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>PWA starter kit</title>
+    <title>My app</title>
     <meta name="description" content="My App description">
 
     <!--
@@ -59,6 +59,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="msapplication-TileColor" content="#3f51b5">
     <meta name="msapplication-tap-highlight" content="no">
 
+    <!-- Default twitter cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@username">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="my-app">
+    <meta property="og:image" content="images/manifest/icon-144x144.png" />
+
     <script>
       /**
       * [polymer-root-path]
@@ -86,23 +93,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Add any global styles for body, document, etc. -->
     <style>
+      @font-face {
+        font-family: 'Pacifico';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v12/Q_Z9mv4hySLTMoMjnk_rCXYhjbSpvc47ee6xR_80Hnw.woff2) format('woff2');
+        /* To keep the download small, this unicode range is literally
+        the letters in "my app" */
+        /*unicode-range: U+109,U+121,U+97,U+112;*/
+      }
       body {
         margin: 0;
         font-family: 'Roboto', 'Noto', sans-serif;
         line-height: 1.5;
         min-height: 100vh;
-        background-color: #eeeeee;
+        -webkit-font-smoothing: antialiased;
       }
+
     </style>
   </head>
   <body>
-    <my-app></my-app>
+    <my-app appTitle="My App"></my-app>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-    <!-- Built with love using Polymer Starter Kit -->
+    <!-- Built with love using PWA Starter Kit -->
     <script type="module" src="./src/components/my-app.js"></script>
   </body>
 </html>

@@ -31,19 +31,22 @@ class MyView2 extends connect(store)(LitElement) {
   render(props) {
     return html`
       <style>${SharedStyles}</style>
-
-      <div class="card">
+      <section>
+        <h2>Redux example: simple counter</h2>
         <div class="circle">${props.clicks}</div>
-        <h1>Redux example: simple counter</h1>
         <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
         element is not build in a Redux-y way (you can think of it as being a
         third-party element you got from someone else), but this page is connected to the
         Redux store. When the element updates its counter, this page updates the values
         in the Redux store, and you can see the total number of clicks reflected in
         the bubble above.</p>
-        <hr>
-        <counter-element value="${props.value}" clicks="${props.clicks}"></counter-element>
-      </div>
+        <br><br>
+      </section>
+      <section>
+        <p>
+          <counter-element value="${props.value}" clicks="${props.clicks}"></counter-element>
+        </p>
+      </section>
     `;
   }
 
