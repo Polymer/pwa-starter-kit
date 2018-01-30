@@ -14,7 +14,7 @@ const {startServer} = require('polyserve');
 const path = require('path');
 const appUrl = 'http://127.0.0.1:4444';
 
-describe('basic tests', async function() {
+describe('routing tests', async function() {
   let polyserve, browser, page;
 
   before(async function() {
