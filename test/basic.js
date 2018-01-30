@@ -62,8 +62,8 @@ it('the page selector switches pages', function(done) {
 });
 
 async function testNavigation(page, href, linkText) {
-  const selector = `a[name="${href}"]`;
-  const shadowSelector = `a[name="${href}"]`;
+  const selector = `a[href="/${href}"]`;
+  const shadowSelector = `a[href="/${href}"]`;
 
   // Does the link say the right thing?
   const myApp = await page.$('my-app');
@@ -77,7 +77,7 @@ async function testNavigation(page, href, linkText) {
 }
 
 async function testNavigationInADifferentWay(page, href, linkText) {
-  const query = `my-app::shadow a[name="${href}"]`;
+  const query = `my-app::shadow a[href="/${href}"]`;
 
   const linkHandle = await page.evaluateHandle((query) => window.deepQuerySelector(query), query);
   const text = await page.evaluate((el) => el.textContent, linkHandle);
