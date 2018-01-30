@@ -9,17 +9,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { SharedStyles } from './shared-styles.js';
 
 class MyView404 extends LitElement {
   render(props) {
     return html`
-      <style>
-        :host {
-          display: block;
-          padding: 10px 20px;
-        }
-      </style>
-      Oops you hit a 404. <a href="${Polymer.rootPath}">Head back to home.</a>
+      <style>${SharedStyles}</style>
+      <section>
+        <h2>Oops! You hit a 404</h2>
+        <p>The page you're looking for doesn't seem to exist. Head back
+           <a href="/">home</a> and try again?
+        </p>
+      </section>
     `
   }
 
