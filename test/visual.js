@@ -17,6 +17,7 @@ const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
 
 const currentDir = `${process.cwd()}/test/screenshots-current`;
+
 const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
 
 describe('👀 page screenshots are correct', async function() {
@@ -28,6 +29,13 @@ describe('👀 page screenshots are correct', async function() {
     // Create the test directory if needed.
     if (!fs.existsSync(currentDir)){
       fs.mkdirSync(currentDir);
+    }
+    // And it's subdirectories.
+    if (!fs.existsSync(`${currentDir}/wide`)){
+      fs.mkdirSync(`${currentDir}/wide`);
+    }
+    if (!fs.existsSync(`${currentDir}/narrow`)){
+      fs.mkdirSync(`${currentDir}/narrow`);
     }
   });
 
@@ -44,28 +52,63 @@ describe('👀 page screenshots are correct', async function() {
     await browser.close();
   });
 
-  it('/index.html', async function() {
-    await takeAndCompareScreenshot(page, '', 'index');
+  // Note: uncomment this function if you need to regenerate *all*
+  // your baseline tests.
+  // describe('regenerate screenshots', async function() {
+  //   it('regenerates screenshots', async function() {
+  //     await generateBaselineScreenshots(page);
+  //   });
+  // });
+
+  describe('wide screen', async function() {
+    beforeEach(async function() {
+      page.setViewport({width: 800, height: 600});
+    });
+
+    it('/index.html', async function() {
+      await takeAndCompareScreenshot(page, '', 'wide');
+    });
+    it('/view1', async function() {
+      await takeAndCompareScreenshot(page, 'view1', 'wide');
+    });
+    it('/view2', async function() {
+      await takeAndCompareScreenshot(page, 'view2', 'wide');
+    });
+    it('/view3', async function() {
+      await takeAndCompareScreenshot(page, 'view3', 'wide');
+    });
+    it('/404', async function() {
+      await takeAndCompareScreenshot(page, 'batmanNotAView', 'wide');
+    });
   });
-  it('/view1', async function() {
-    await takeAndCompareScreenshot(page, 'view1');
-  });
-  it('/view2', async function() {
-    await takeAndCompareScreenshot(page, 'view2');
-  });
-  it('/view3', async function() {
-    await takeAndCompareScreenshot(page, 'view3');
-  });
-  it('/404', async function() {
-    await takeAndCompareScreenshot(page, 'batmanNotAView');
+
+  describe('narrow screen', async function() {
+    beforeEach(async function() {
+      page.setViewport({width: 375, height: 667});
+    });
+
+    it('/index.html', async function() {
+      await takeAndCompareScreenshot(page, '', 'narrow');
+    });
+    it('/view1', async function() {
+      await takeAndCompareScreenshot(page, 'view1', 'narrow');
+    });
+    it('/view2', async function() {
+      await takeAndCompareScreenshot(page, 'view2', 'narrow');
+    });
+    it('/view3', async function() {
+      await takeAndCompareScreenshot(page, 'view3', 'narrow');
+    });
+    it('/404', async function() {
+      await takeAndCompareScreenshot(page, 'batmanNotAView', 'narrow');
+    });
   });
 });
 
-async function takeAndCompareScreenshot(page, route, fileName) {
+async function takeAndCompareScreenshot(page, route, filePrefix) {
   // If you didn't specify a file, use the name of the route.
-  if (!fileName) {
-    fileName = route;
-  }
+  let fileName = filePrefix + '/' + (route ? route : 'index');
+
   await page.goto(`http://127.0.0.1:4444/${route}`);
   await page.screenshot({path: `${currentDir}/${fileName}.png`});
   await compareScreenshots(fileName);
@@ -94,4 +137,28 @@ function compareScreenshots(view) {
       resolve();
     }
   });
+}
+
+async function generateBaselineScreenshots(page) {
+  // Wide screen.
+  page.setViewport({width: 800, height: 600});
+  await page.goto('http://127.0.0.1:4444/');
+  await page.screenshot({path: `${baselineDir}/wide/index.png`});
+  for (var i = 1; i <= 3; i++) {
+    await page.goto(`http://127.0.0.1:4444/view${i}`);
+    await page.screenshot({path: `${baselineDir}/wide/view${i}.png`});
+  }
+  await page.goto('http://127.0.0.1:4444/batmanNotAView');
+  await page.screenshot({path: `${baselineDir}/wide/batmanNotAView.png`});
+
+  // Narrow screen.
+  page.setViewport({width: 375, height: 667});
+  await page.goto('http://127.0.0.1:4444/');
+  await page.screenshot({path: `${baselineDir}/narrow/index.png`});
+  for (var i = 1; i <= 3; i++) {
+    await page.goto(`http://127.0.0.1:4444/view${i}`);
+    await page.screenshot({path: `${baselineDir}/narrow/view${i}.png`});
+  }
+  await page.goto('http://127.0.0.1:4444/batmanNotAView');
+  await page.screenshot({path: `${baselineDir}/narrow/batmanNotAView.png`});
 }
