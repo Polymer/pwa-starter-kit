@@ -48,50 +48,50 @@ describe('👀 page screenshots are correct', function() {
   });
 
   afterEach(async function() {
-    await browser.close();
+    return browser.close();
   });
 
   describe('wide screen', function() {
     beforeEach(async function() {
-      await page.setViewport({width: 800, height: 600});
+      return page.setViewport({width: 800, height: 600});
     });
 
     it('/index.html', async function() {
-      await takeAndCompareScreenshot(page, '', 'wide');
+      return takeAndCompareScreenshot(page, '', 'wide');
     });
     it('/view1', async function() {
-      await takeAndCompareScreenshot(page, 'view1', 'wide');
+      return takeAndCompareScreenshot(page, 'view1', 'wide');
     });
     it('/view2', async function() {
-      await takeAndCompareScreenshot(page, 'view2', 'wide');
+      return takeAndCompareScreenshot(page, 'view2', 'wide');
     });
     it('/view3', async function() {
-      await takeAndCompareScreenshot(page, 'view3', 'wide');
+      return takeAndCompareScreenshot(page, 'view3', 'wide');
     });
     it('/404', async function() {
-      await takeAndCompareScreenshot(page, 'batmanNotAView', 'wide');
+      return takeAndCompareScreenshot(page, 'batmanNotAView', 'wide');
     });
   });
 
   describe('narrow screen', function() {
     beforeEach(async function() {
-      await page.setViewport({width: 375, height: 667});
+      return page.setViewport({width: 375, height: 667});
     });
 
     it('/index.html', async function() {
-      await takeAndCompareScreenshot(page, '', 'narrow');
+      return takeAndCompareScreenshot(page, '', 'narrow');
     });
     it('/view1', async function() {
-      await takeAndCompareScreenshot(page, 'view1', 'narrow');
+      return takeAndCompareScreenshot(page, 'view1', 'narrow');
     });
     it('/view2', async function() {
-      await takeAndCompareScreenshot(page, 'view2', 'narrow');
+      return takeAndCompareScreenshot(page, 'view2', 'narrow');
     });
     it('/view3', async function() {
-      await takeAndCompareScreenshot(page, 'view3', 'narrow');
+      return takeAndCompareScreenshot(page, 'view3', 'narrow');
     });
     it('/404', async function() {
-      await takeAndCompareScreenshot(page, 'batmanNotAView', 'narrow');
+      return takeAndCompareScreenshot(page, 'batmanNotAView', 'narrow');
     });
   });
 });
@@ -107,10 +107,10 @@ async function takeAndCompareScreenshot(page, route, filePrefix) {
 
 function compareScreenshots(view) {
   return new Promise((resolve, reject) => {
-    var img1 = fs.createReadStream(`${currentDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
-    var img2 = fs.createReadStream(`${baselineDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
+    const img1 = fs.createReadStream(`${currentDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
+    const img2 = fs.createReadStream(`${baselineDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
 
-    var filesRead = 0;
+    let filesRead = 0;
     function doneReading() {
       // Wait until both files are read.
       if (++filesRead < 2) return;
@@ -120,8 +120,8 @@ function compareScreenshots(view) {
       expect(img1.height, 'image heights are the same').equal(img2.height);
 
       // Do the visual diff.
-      var diff = new PNG({width: img1.width, height: img2.height});
-      var numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {threshold: 0.1});
+      const diff = new PNG({width: img1.width, height: img2.height});
+      const numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {threshold: 0.1});
 
       expect(numDiffPixels, 'number of different pixels').equal(0);
 

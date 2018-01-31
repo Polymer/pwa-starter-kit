@@ -14,7 +14,7 @@ const {startServer} = require('polyserve');
 const path = require('path');
 const appUrl = 'http://127.0.0.1:4444';
 
-describe('routing tests', async function() {
+describe('routing tests', function() {
   let polyserve, browser, page;
 
   before(async function() {
@@ -31,7 +31,7 @@ describe('routing tests', async function() {
   });
 
   afterEach(async function() {
-    await browser.close();
+    return browser.close();
   });
 
   it('the page selector switches pages', async function() {

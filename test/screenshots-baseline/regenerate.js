@@ -14,7 +14,7 @@ const path = require('path');
 const fs = require('fs');
 const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
 
-describe('🎁 regenerate screenshots', async function() {
+describe('🎁 regenerate screenshots', function() {
   let polyserve, browser, page;
 
   before(async function() {
@@ -43,11 +43,11 @@ describe('🎁 regenerate screenshots', async function() {
   });
 
   afterEach(async function() {
-    await browser.close();
+    return browser.close();
   });
 
   it('did it', async function() {
-    await generateBaselineScreenshots(page);
+    return generateBaselineScreenshots(page);
   });
 });
 
