@@ -8,7 +8,8 @@
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
     "start": "polymer serve --entrypoint index.html",
-    "test": "mocha test/basic.js --timeout=10000"
+    "test": "mocha test/ --timeout=10000",
+    "regen-test-baseline": "mocha test/screenshots-baseline/regenerate.js --timeout=10000"
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
@@ -22,7 +23,7 @@
     "chai": "^4.1.2",
     "mocha": "^5.0.0",
     "puppeteer": "^1.0.0",
-    "web-component-tester": "^6.5.0",
+    "pixelmatch": "^4.0.2",
     "polyserve": "^0.23.0"
   }
 }

@@ -12,46 +12,24 @@ const puppeteer = require('puppeteer');
 const expect = require('chai').expect;
 const {startServer} = require('polyserve');
 const path = require('path');
-const fs = require('fs');
-
 const appUrl = 'http://127.0.0.1:4444';
 
-describe('basic tests', async function() {
+describe('routing tests', function() {
   let polyserve, browser, page;
 
   before(async function() {
     polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
   });
 
-  after(function(done) {
-    polyserve.close(done);
-  });
+  after((done) => polyserve.close(done));
 
   beforeEach(async function() {
     browser = await puppeteer.launch();
     page = await browser.newPage();
   });
 
-  afterEach(async function() {
-    await browser.close();
-  });
-
-  it('the app looks right with the eyeballs', async function() {
-    const dir = `${process.cwd()}/test/screenshots`;
-    if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
-    }
-
-    // See that each route loads correctly.
-    await page.goto(`${appUrl}`);
-    await page.screenshot({path: `${dir}/index.png`});
-
-    for (let i = 1; i <= 3; i++) {
-      await page.goto(`${appUrl}/view${i}`);
-      await page.screenshot({path: `${dir}/view${i}.png`});
-    }
-  });
-
+  afterEach(() => browser.close());
+  
   it('the page selector switches pages', async function() {
     await page.goto(`${appUrl}`);
     await page.waitForSelector('my-app', {visible: true});
