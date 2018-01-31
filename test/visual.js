@@ -17,7 +17,6 @@ const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
 
 const currentDir = `${process.cwd()}/test/screenshots-current`;
-
 const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
 
 describe('👀 page screenshots are correct', async function() {
@@ -51,14 +50,6 @@ describe('👀 page screenshots are correct', async function() {
   afterEach(async function() {
     await browser.close();
   });
-
-  // Note: uncomment this function if you need to regenerate *all*
-  // your baseline tests.
-  // describe('regenerate screenshots', async function() {
-  //   it('regenerates screenshots', async function() {
-  //     await generateBaselineScreenshots(page);
-  //   });
-  // });
 
   describe('wide screen', async function() {
     beforeEach(async function() {
@@ -137,28 +128,4 @@ function compareScreenshots(view) {
       resolve();
     }
   });
-}
-
-async function generateBaselineScreenshots(page) {
-  // Wide screen.
-  page.setViewport({width: 800, height: 600});
-  await page.goto('http://127.0.0.1:4444/');
-  await page.screenshot({path: `${baselineDir}/wide/index.png`});
-  for (var i = 1; i <= 3; i++) {
-    await page.goto(`http://127.0.0.1:4444/view${i}`);
-    await page.screenshot({path: `${baselineDir}/wide/view${i}.png`});
-  }
-  await page.goto('http://127.0.0.1:4444/batmanNotAView');
-  await page.screenshot({path: `${baselineDir}/wide/batmanNotAView.png`});
-
-  // Narrow screen.
-  page.setViewport({width: 375, height: 667});
-  await page.goto('http://127.0.0.1:4444/');
-  await page.screenshot({path: `${baselineDir}/narrow/index.png`});
-  for (var i = 1; i <= 3; i++) {
-    await page.goto(`http://127.0.0.1:4444/view${i}`);
-    await page.screenshot({path: `${baselineDir}/narrow/view${i}.png`});
-  }
-  await page.goto('http://127.0.0.1:4444/batmanNotAView');
-  await page.screenshot({path: `${baselineDir}/narrow/batmanNotAView.png`});
 }
