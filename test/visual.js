@@ -15,13 +15,20 @@ const path = require('path');
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
-const appUrl = 'http://127.0.0.1:4444';
+
+const currentDir = `${process.cwd()}/test/screenshots-current`;
+const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
 
 describe('screenshot diffing', async function() {
   let polyserve, browser, page;
 
   before(async function() {
     polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
+
+    // Create the test directory if needed.
+    if (!fs.existsSync(currentDir)){
+      fs.mkdirSync(currentDir);
+    }
   });
 
   after(function(done) {
@@ -37,40 +44,54 @@ describe('screenshot diffing', async function() {
     await browser.close();
   });
 
-  it('all views look the same', async function() {
-    const dir = `${process.cwd()}/test/screenshots-current`;
-    const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
-    if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
-    }
-
-    // See that each route loads correctly.
-    await page.goto(`${appUrl}`);
-    await page.screenshot({path: `${dir}/index.png`});
-
-    for (let i = 1; i <= 3; i++) {
-      await page.goto(`${appUrl}/view${i}`);
-      await page.screenshot({path: `${dir}/view${i}.png`});
-
-      // Compare this screenshot with its baseline.
-      var filesRead = 0;
-      var thisImg = fs.createReadStream(`${dir}/view${i}.png`).pipe(new PNG()).on('parsed', doneReading);
-      var baselineImg = fs.createReadStream(`${baselineDir}/view${i}.png`).pipe(new PNG()).on('parsed', doneReading);
-
-      function doneReading() {
-        // Wait until both files are read;
-        if (++filesRead < 2) return;
-
-        // The files should be the same size.
-        expect(thisImg.width, 'image widths are the same').equal(baselineImg.width);
-        expect(thisImg.height, 'image heights are the same').equal(baselineImg.height);
-
-        // Visual diff
-        var diff = new PNG({width: thisImg.width, height: thisImg.height});
-        var numDiffPixels = pixelmatch(thisImg.data, baselineImg.data, diff.data, thisImg.width, thisImg.height, {threshold: 0.1});
-
-        expect(numDiffPixels, `view${i}.png looks correct`).equal(0);
-      }
-    }
+  it('/index.html looks correct', async function() {
+    await takeAndCompareScreenshot(page, '', 'index');
+  });
+  it('/view1 looks correct', async function() {
+    await takeAndCompareScreenshot(page, 'view1');
+  });
+  it('/view2 looks correct', async function() {
+    await takeAndCompareScreenshot(page, 'view2');
+  });
+  it('/view3 looks correct', async function() {
+    await takeAndCompareScreenshot(page, 'view3');
+  });
+  it('/404 looks correct', async function() {
+    await takeAndCompareScreenshot(page, 'batmanNotAView');
   });
 });
+
+async function takeAndCompareScreenshot(page, route, fileName) {
+  // If you didn't specify a file, use the name of the route.
+  if (!fileName) {
+    fileName = route;
+  }
+  await page.goto(`http://127.0.0.1:4444/${route}`);
+  await page.screenshot({path: `${currentDir}/${fileName}.png`});
+  await compareScreenshots(fileName);
+}
+
+function compareScreenshots(view) {
+  return new Promise((resolve, reject) => {
+    var img1 = fs.createReadStream(`${currentDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
+    var img2 = fs.createReadStream(`${baselineDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
+
+    var filesRead = 0;
+    function doneReading() {
+      // Wait until both files are read.
+      if (++filesRead < 2) return;
+
+      // The files should be the same size.
+      expect(img1.width, 'image widths are the same').equal(img2.width);
+      expect(img1.height, 'image heights are the same').equal(img2.height);
+
+      // Do the visual diff.
+      var diff = new PNG({width: img1.width, height: img2.height});
+      var numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {threshold: 0.1});
+
+      expect(numDiffPixels, 'it looks correct').equal(0);
+
+      resolve();
+    }
+  });
+}
