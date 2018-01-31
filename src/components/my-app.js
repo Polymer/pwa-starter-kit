@@ -9,8 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
-import { connect } from '../../../node_modules/redux-helpers/connect-mixin.js';
-import { installRouter } from '../../../node_modules/redux-helpers/router.js';
+import { connect } from '../../node_modules/redux-helpers/connect-mixin.js';
+import { installRouter } from '../../node_modules/redux-helpers/router.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
