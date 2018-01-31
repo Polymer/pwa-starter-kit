@@ -19,7 +19,7 @@ const pixelmatch = require('pixelmatch');
 const currentDir = `${process.cwd()}/test/screenshots-current`;
 const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
 
-describe('screenshot diffing', async function() {
+describe('👀 page screenshots are correct', async function() {
   let polyserve, browser, page;
 
   before(async function() {
@@ -44,19 +44,19 @@ describe('screenshot diffing', async function() {
     await browser.close();
   });
 
-  it('/index.html looks correct', async function() {
+  it('/index.html', async function() {
     await takeAndCompareScreenshot(page, '', 'index');
   });
-  it('/view1 looks correct', async function() {
+  it('/view1', async function() {
     await takeAndCompareScreenshot(page, 'view1');
   });
-  it('/view2 looks correct', async function() {
+  it('/view2', async function() {
     await takeAndCompareScreenshot(page, 'view2');
   });
-  it('/view3 looks correct', async function() {
+  it('/view3', async function() {
     await takeAndCompareScreenshot(page, 'view3');
   });
-  it('/404 looks correct', async function() {
+  it('/404', async function() {
     await takeAndCompareScreenshot(page, 'batmanNotAView');
   });
 });
@@ -89,7 +89,7 @@ function compareScreenshots(view) {
       var diff = new PNG({width: img1.width, height: img2.height});
       var numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {threshold: 0.1});
 
-      expect(numDiffPixels, 'it looks correct').equal(0);
+      expect(numDiffPixels, 'number of different pixels').equal(0);
 
       resolve();
     }
