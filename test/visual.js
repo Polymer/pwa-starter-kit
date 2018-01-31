@@ -19,7 +19,7 @@ const pixelmatch = require('pixelmatch');
 const currentDir = `${process.cwd()}/test/screenshots-current`;
 const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
 
-describe('👀 page screenshots are correct', async function() {
+describe('👀 page screenshots are correct', function() {
   let polyserve, browser, page;
 
   before(async function() {
@@ -51,9 +51,9 @@ describe('👀 page screenshots are correct', async function() {
     await browser.close();
   });
 
-  describe('wide screen', async function() {
+  describe('wide screen', function() {
     beforeEach(async function() {
-      page.setViewport({width: 800, height: 600});
+      await page.setViewport({width: 800, height: 600});
     });
 
     it('/index.html', async function() {
@@ -73,9 +73,9 @@ describe('👀 page screenshots are correct', async function() {
     });
   });
 
-  describe('narrow screen', async function() {
+  describe('narrow screen', function() {
     beforeEach(async function() {
-      page.setViewport({width: 375, height: 667});
+      await page.setViewport({width: 375, height: 667});
     });
 
     it('/index.html', async function() {
