@@ -21,19 +21,15 @@ describe('routing tests', function() {
     polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
   });
 
-  after(function(done) {
-    polyserve.close(done);
-  });
+  after((done) => polyserve.close(done));
 
   beforeEach(async function() {
     browser = await puppeteer.launch();
     page = await browser.newPage();
   });
 
-  afterEach(async function() {
-    return browser.close();
-  });
-
+  afterEach(() => browser.close());
+  
   it('the page selector switches pages', async function() {
     await page.goto(`${appUrl}`);
     await page.waitForSelector('my-app', {visible: true});

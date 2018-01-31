@@ -33,18 +33,14 @@ describe('🎁 regenerate screenshots', function() {
     }
   });
 
-  after(function(done) {
-    polyserve.close(done);
-  });
+  after((done) => polyserve.close(done));
 
   beforeEach(async function() {
     browser = await puppeteer.launch();
     page = await browser.newPage();
   });
 
-  afterEach(async function() {
-    return browser.close();
-  });
+  afterEach(() => browser.close());
 
   it('did it', async function() {
     return generateBaselineScreenshots(page);

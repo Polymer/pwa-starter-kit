@@ -38,18 +38,14 @@ describe('👀 page screenshots are correct', function() {
     }
   });
 
-  after(function(done) {
-    polyserve.close(done);
-  });
+  after((done) => polyserve.close(done));
 
   beforeEach(async function() {
     browser = await puppeteer.launch();
     page = await browser.newPage();
   });
 
-  afterEach(async function() {
-    return browser.close();
-  });
+  afterEach(() => browser.close());
 
   describe('wide screen', function() {
     beforeEach(async function() {
@@ -102,7 +98,7 @@ async function takeAndCompareScreenshot(page, route, filePrefix) {
 
   await page.goto(`http://127.0.0.1:4444/${route}`);
   await page.screenshot({path: `${currentDir}/${fileName}.png`});
-  await compareScreenshots(fileName);
+  return compareScreenshots(fileName);
 }
 
 function compareScreenshots(view) {
