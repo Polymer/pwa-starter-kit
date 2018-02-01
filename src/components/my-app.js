@@ -274,7 +274,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   // _layoutChange(isWideLayout) {
-  //   this._drawer.persistent = this._drawer.opened = isWideLayout;
+  //   // Your code here
   // }
 
   _changeTheme() {
