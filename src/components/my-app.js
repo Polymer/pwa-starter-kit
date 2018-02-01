@@ -8,13 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { connect } from '../../node_modules/redux-helpers/connect-mixin.js';
 import { installRouter } from '../../node_modules/redux-helpers/router.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
-import '../../node_modules/@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
+import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
+import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
 import { menuIcon } from './my-icons.js';
 
 import { store } from '../store.js';
@@ -174,6 +175,7 @@ class MyApp extends connect(store)(LitElement) {
         text-transform: uppercase;
         cursor: pointer;
       }
+
       .theme-btn.bottom {
         position: absolute;
         bottom: 14px;
@@ -185,12 +187,15 @@ class MyApp extends connect(store)(LitElement) {
         .toolbar-list {
           display: block;
         }
+
         .menu-btn {
           display: none;
         }
+
         .main-content {
           padding-top: 107px;
         }
+
         .theme-btn {
           position: absolute;
           top: 14px;
@@ -264,6 +269,13 @@ class MyApp extends connect(store)(LitElement) {
     super._propertiesChanged(props, changed, oldProps);
   }
 
+  constructor() {
+    super();
+    // To force all event listeners for gestures to be passive.
+    // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
+    setPassiveTouchGestures(true);
+  }
+
   ready() {
     super.ready();
     installRouter(this._notifyPathChanged.bind(this));
@@ -288,7 +300,7 @@ class MyApp extends connect(store)(LitElement) {
   _notifyPathChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
-    // Close a non-persistent drawer when the page & route are changed.
+    // Close the drawer - in case the *path* change came from a link in the drawer.
     this.drawerOpened = false;
   }
 
