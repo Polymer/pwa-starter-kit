@@ -214,18 +214,18 @@ class MyApp extends connect(store)(LitElement) {
 
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list" role="navigation">
-        <a selected$="${page === 'view1'}" href="${Polymer.rootPath}view1">View One</a>
-        <a selected$="${page === 'view2'}" href="${Polymer.rootPath}view2">View Two</a>
-        <a selected$="${page === 'view3'}" href="${Polymer.rootPath}view3">View Three</a>
+        <a selected$="${page === 'view1'}" href="/view1">View One</a>
+        <a selected$="${page === 'view2'}" href="/view2">View Two</a>
+        <a selected$="${page === 'view3'}" href="/view3">View Three</a>
       </div>
     </app-header>
 
     <!-- Drawer content -->
     <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this.drawerOpened = e.target.opened}">
       <div class="drawer-list" role="navigation">
-        <a selected$="${page === 'view1'}" href="${Polymer.rootPath}view1">View One</a>
-        <a selected$="${page === 'view2'}" href="${Polymer.rootPath}view2">View Two</a>
-        <a selected$="${page === 'view3'}" href="${Polymer.rootPath}view3">View Three</a>
+        <a selected$="${page === 'view1'}" href="/view1">View One</a>
+        <a selected$="${page === 'view2'}" href="/view2">View Two</a>
+        <a selected$="${page === 'view3'}" href="/view3">View Three</a>
 
         <button class="theme-btn bottom" on-click="${_ => {this._changeTheme(); this.drawerOpened = true}}">change theme</button>
       </div>
