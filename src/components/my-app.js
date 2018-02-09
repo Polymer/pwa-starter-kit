@@ -241,6 +241,9 @@ class MyApp extends connect(store)(LitElement) {
       <my-view404 class="page" selected$="${page === 'view404'}"></my-view404>
     </div>
 
+    <footer>
+      <p>Made with &lt;3 by the Polymer team.</p>
+    </footer>
     <snack-bar active$="${snackbarOpened}">
         You are now ${this.offline ? 'offline' : 'online'}.</snack-bar>
     `;
