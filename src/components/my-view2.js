@@ -73,7 +73,7 @@ class MyView2 extends connect(store)(LitElement) {
   }
 
   // This is called every time something is updated in the store.
-  update(state) {
+  stateChanged(state) {
     this.clicks = state.counter.clicks;
     this.value = state.counter.value;
   }
