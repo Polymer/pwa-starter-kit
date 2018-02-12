@@ -11,6 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 export const NAVIGATE = 'NAVIGATE';
 export const SHOW_404 = 'SHOW_404';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
+export const OPEN_DRAWER = 'OPEN_DRAWER';
+export const CLOSE_DRAWER = 'CLOSE_DRAWER';
+export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
 export const navigate = (path) => {
   return {
@@ -24,6 +28,26 @@ export const show404 = (path) => {
     type: SHOW_404,
     path
   };
+};
+
+export const openDrawer = () => {
+  return {
+    type: OPEN_DRAWER
+  };
+};
+
+export const closeDrawer = () => {
+  return {
+    type: CLOSE_DRAWER
+  };
+};
+
+export const showSnackbar = () => (dispatch) => {
+  dispatch({
+    type: OPEN_SNACKBAR
+  });
+  setTimeout(() =>
+    dispatch({ type: CLOSE_SNACKBAR }), 3000);
 };
 
 export const updateOffline = (offline) => {

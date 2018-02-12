@@ -21,7 +21,7 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
 
 import { store } from '../store.js';
-import { navigate, show404, updateOffline } from '../actions/app.js';
+import { navigate, show404, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
@@ -209,7 +209,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this.drawerOpened = true}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => store.dispatch(openDrawer())}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
         <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
@@ -223,13 +223,13 @@ class MyApp extends connect(store)(LitElement) {
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this.drawerOpened = e.target.opened}">
+    <app-drawer id="drawer" opened="${drawerOpened}">
       <div class="drawer-list" role="navigation">
         <a selected$="${page === 'view1'}" href="/view1">View One</a>
         <a selected$="${page === 'view2'}" href="/view2">View Two</a>
         <a selected$="${page === 'view3'}" href="/view3">View Three</a>
 
-        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme(); this.drawerOpened = true}}">change theme</button>
+        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
       </div>
     </app-drawer>
 
@@ -266,6 +266,8 @@ class MyApp extends connect(store)(LitElement) {
   stateChanged(state) {
     this.page = state.app.page;
     this.offline = state.app.offline;
+    this.snackbarOpened = state.app.snackbarOpened;
+    this.drawerOpened = state.app.drawerOpened;
   }
 
   _propertiesChanged(props, changed, oldProps) {
@@ -278,7 +280,6 @@ class MyApp extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this.snackbarOpened = false;
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
@@ -307,10 +308,7 @@ class MyApp extends connect(store)(LitElement) {
       return;
     }
 
-    this.snackbarOpened = true;
-    setTimeout(() => {
-      this.snackbarOpened = false;
-    }, 3000);
+    store.dispatch(showSnackbar());
   };
 
   _changeTheme() {
@@ -325,7 +323,9 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
-    this.drawerOpened = false;
+    if (this.drawerOpened) {
+      store.dispatch(closeDrawer());
+    }
   }
 
   _pageChanged() {
