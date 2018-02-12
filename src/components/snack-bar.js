@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { responsiveWidth } from './shared-styles.js';
 
 class SnackBar extends LitElement {
   static get is() {
@@ -25,39 +26,29 @@ class SnackBar extends LitElement {
       :host {
         display: block;
         position: fixed;
+        bottom: 0;
         left: 0;
         right: 0;
-        bottom: 0;
-        background-color: var(--app-secondary-color);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        color: white;
         padding: 12px;
-        visibility: hidden;
+        background-color: var(--app-secondary-color);
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         text-align: center;
         will-change: transform;
-        -webkit-transform: translate3d(0, 100%, 0);
         transform: translate3d(0, 100%, 0);
-        transition-property: visibility, -webkit-transform, opacity;
         transition-property: visibility, transform, opacity;
         transition-duration: 0.2s;
+        visibility: hidden;
       }
-      /* Listen, I know this style is getting invalidated a lot but
-      look how small it is. Look at it. Ok now look away. */
       :host([active="true"]) {
         visibility: visible;
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
       }
-      @media (max-width: 767px) {
+      @media (min-width: ${responsiveWidth}) {
         :host {
-          top: auto;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: auto;
-          -webkit-transform: translate3d(0, 100%, 0);
-          transform: translate3d(0, 100%, 0);
-          z-index: 1;
+          width: 320px;
+          margin: auto;
         }
       }
     </style>

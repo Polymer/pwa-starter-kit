@@ -310,7 +310,7 @@ class MyApp extends connect(store)(LitElement) {
     this.snackbarOpened = true;
     setTimeout(() => {
       this.snackbarOpened = false;
-    }, 1000);
+    }, 3000);
   };
 
   _changeTheme() {
