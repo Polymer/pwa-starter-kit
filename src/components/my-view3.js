@@ -68,7 +68,7 @@ class MyView3 extends connect(store)(LitElement) {
   }}
 
   // This is called every time something is updated in the store.
-  update(state) {
+  stateChanged(state) {
     this.cart = state.shop.cart;
     this.error = state.shop.error;
   }

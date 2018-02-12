@@ -11,22 +11,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { connect } from '../../node_modules/redux-helpers/connect-mixin.js';
 import { installRouter } from '../../node_modules/redux-helpers/router.js';
+import { installOfflineWatcher } from '../../node_modules/redux-helpers/network.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
 import { menuIcon } from './my-icons.js';
+import './snack-bar.js'
 
 import { store } from '../store.js';
-import { navigate, show404 } from '../actions/app.js';
+import { navigate, show404, updateOffline } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle, drawerOpened}) {
+  render({page, appTitle, drawerOpened, snackbarOpened}) {
     return html`
     <style>
       :host {
@@ -240,9 +242,11 @@ class MyApp extends connect(store)(LitElement) {
     </div>
 
     <footer>
-      <p>Made with &lt;3 by the Polymer team</p>
+      <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
-`;
+    <snack-bar active$="${snackbarOpened}">
+        You are now ${this.offline ? 'offline' : 'online'}.</snack-bar>
+    `;
   }
 
   static get is() {
@@ -253,12 +257,15 @@ class MyApp extends connect(store)(LitElement) {
     return {
       page: String,
       appTitle: String,
-      drawerOpened: Boolean
+      drawerOpened: Boolean,
+      snackbarOpened: Boolean,
+      offline: Boolean
     }
   }
 
-  update(state) {
+  stateChanged(state) {
     this.page = state.app.page;
+    this.offline = state.app.offline;
   }
 
   _propertiesChanged(props, changed, oldProps) {
@@ -271,6 +278,7 @@ class MyApp extends connect(store)(LitElement) {
 
   constructor() {
     super();
+    this.snackbarOpened = false;
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
@@ -279,6 +287,7 @@ class MyApp extends connect(store)(LitElement) {
   ready() {
     super.ready();
     installRouter(this._notifyPathChanged.bind(this));
+    installOfflineWatcher(this._offlineUpdatedCallback.bind(this));
 
     // let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
     // mql.addListener((e) => this._layoutChange(e.matches));
@@ -288,6 +297,21 @@ class MyApp extends connect(store)(LitElement) {
   // _layoutChange(isWideLayout) {
   //   // Your code here
   // }
+
+  _offlineUpdatedCallback(offline) {
+    const previousOffline = this.offline;
+    store.dispatch(updateOffline(offline));
+
+    // Don't show the snackbar on the first load of the page.
+    if (previousOffline === undefined) {
+      return;
+    }
+
+    this.snackbarOpened = true;
+    setTimeout(() => {
+      this.snackbarOpened = false;
+    }, 3000);
+  };
 
   _changeTheme() {
     if (this.classList.contains('bright-theme')) {

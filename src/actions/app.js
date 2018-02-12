@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 export const NAVIGATE = 'NAVIGATE';
 export const SHOW_404 = 'SHOW_404';
+export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 
 export const navigate = (path) => {
   return {
@@ -22,5 +23,12 @@ export const show404 = (path) => {
   return {
     type: SHOW_404,
     path
+  };
+};
+
+export const updateOffline = (offline) => {
+  return {
+    type: UPDATE_OFFLINE,
+    offline
   };
 };
