@@ -36,13 +36,12 @@ class SnackBar extends LitElement {
         text-align: center;
         will-change: transform;
         transform: translate3d(0, 100%, 0);
-        transition-property: visibility, transform, opacity;
+        transition-property: visibility, transform;
         transition-duration: 0.2s;
         visibility: hidden;
       }
       :host([active="true"]) {
         visibility: visible;
-        -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
       }
       @media (min-width: ${responsiveWidth}) {
