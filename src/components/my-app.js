@@ -29,6 +29,11 @@ import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
   render({page, appTitle, drawerOpened, snackbarOpened}) {
+    // Anything that's related to rendering should be done in here.
+    if (page && appTitle) {
+      this._updateMetadata(page, appTitle);
+    }
+
     return html`
     <style>
       :host {
@@ -263,21 +268,6 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  stateChanged(state) {
-    this.page = state.app.page;
-    this.offline = state.app.offline;
-    this.snackbarOpened = state.app.snackbarOpened;
-    this.drawerOpened = state.app.drawerOpened;
-  }
-
-  _propertiesChanged(props, changed, oldProps) {
-    if (changed && 'page' in changed) {
-      this._pageChanged();
-      this._updateMetadata();
-    }
-    super._propertiesChanged(props, changed, oldProps);
-  }
-
   constructor() {
     super();
     // To force all event listeners for gestures to be passive.
@@ -290,12 +280,20 @@ class MyApp extends connect(store)(LitElement) {
     installRouter(this._notifyPathChanged.bind(this));
     installOfflineWatcher(this._offlineUpdatedCallback.bind(this));
 
+    // Get notified when the layout changes (from narrow to wide).
     let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
-    mql.addListener((e) => this._layoutChange(e.matches));
-    this._layoutChange(mql.matches);
+    mql.addListener((e) => this._layoutChanged(e.matches));
+    this._layoutChanged(mql.matches);
   }
 
-  _layoutChange(isWideLayout) {
+  stateChanged(state) {
+    this.page = state.app.page;
+    this.offline = state.app.offline;
+    this.snackbarOpened = state.app.snackbarOpened;
+    this.drawerOpened = state.app.drawerOpened;
+  }
+
+  _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
     if (this.drawerOpened) {
       store.dispatch(closeDrawer());
@@ -331,37 +329,8 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  _pageChanged() {
-    // Load page import on demand. Show 404 page if fails
-    let loaded;
-    if (!this.page) {
-      return;
-    }
-    switch(this.page) {
-      case 'view1':
-        loaded = import('./my-view1.js');
-        break;
-      case 'view2':
-        loaded = import('./my-view2.js');
-        break;
-      case 'view3':
-        loaded = import('./my-view3.js');
-        break;
-      case 'view404':
-        loaded = import('./my-view404.js');
-        break;
-      default:
-        loaded = Promise.reject();
-    }
-
-    loaded.then(
-      _ => {},
-      _ => { store.dispatch(show404()) }
-    );
-  }
-
-  _updateMetadata() {
-    document.title = this.appTitle + ' - ' + this.page;
+  _updateMetadata(page, appTitle) {
+    document.title = appTitle + ' - ' + page;
 
     // Set open graph metadata
     this._setMeta('property', 'og:title', document.title);
