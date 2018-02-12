@@ -290,14 +290,17 @@ class MyApp extends connect(store)(LitElement) {
     installRouter(this._notifyPathChanged.bind(this));
     installOfflineWatcher(this._offlineUpdatedCallback.bind(this));
 
-    // let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
-    // mql.addListener((e) => this._layoutChange(e.matches));
-    // this._layoutChange(mql.matches);
+    let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
+    mql.addListener((e) => this._layoutChange(e.matches));
+    this._layoutChange(mql.matches);
   }
 
-  // _layoutChange(isWideLayout) {
-  //   // Your code here
-  // }
+  _layoutChange(isWideLayout) {
+    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
+    if (this.drawerOpened) {
+      store.dispatch(closeDrawer());
+    }
+  }
 
   _offlineUpdatedCallback(offline) {
     const previousOffline = this.offline;
