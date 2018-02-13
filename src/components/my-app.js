@@ -33,8 +33,9 @@ import { responsiveWidth } from './shared-styles.js';
 class MyApp extends connect(store)(LitElement) {
   render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
-    const pageTitle = appTitle + ' - ' + page;
+
     if (page && appTitle) {
+      const pageTitle = appTitle + ' - ' + page;
       updateSEOMetadata({
           title: pageTitle,
           description: pageTitle,
@@ -122,7 +123,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 4px 24px;
       }
 
-      .toolbar-list a[selected="true"] {
+      .toolbar-list a[selected] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -154,7 +155,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 0 24px;
       }
 
-      .drawer-list a[selected="true"] {
+      .drawer-list a[selected] {
         color: var(--app-drawer-selected-color);
       }
 
@@ -163,12 +164,12 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
-      .main-content .page[selected="true"] {
-        display: block;
+      .main-content .page {
+        display: none;
       }
 
-      .main-content .page[selected="false"] {
-        display: none;
+      .main-content .page[selected] {
+        display: block;
       }
 
       footer {
@@ -230,18 +231,18 @@ class MyApp extends connect(store)(LitElement) {
 
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list" role="navigation">
-        <a selected$="${page === 'view1'}" href="/view1">View One</a>
-        <a selected$="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected$="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
       </div>
     </app-header>
 
     <!-- Drawer content -->
     <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
       <div class="drawer-list" role="navigation">
-        <a selected$="${page === 'view1'}" href="/view1">View One</a>
-        <a selected$="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected$="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
 
         <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
       </div>
@@ -249,10 +250,10 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <div class="main-content" role="main">
-      <my-view1 class="page" selected$="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" selected$="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" selected$="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" selected$="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" selected?="${page === 'view1'}"></my-view1>
+      <my-view2 class="page" selected?="${page === 'view2'}"></my-view2>
+      <my-view3 class="page" selected?="${page === 'view3'}"></my-view3>
+      <my-view404 class="page" selected?="${page === 'view404'}"></my-view404>
     </div>
 
     <footer>
