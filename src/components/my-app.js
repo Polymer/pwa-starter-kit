@@ -224,7 +224,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => store.dispatch(openDrawer())}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => this._changeDrawerOpened(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
         <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
@@ -238,7 +238,7 @@ class MyApp extends connect(store)(LitElement) {
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
+    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this._changeDrawerOpened(e.target.opened)}">
       <div class="drawer-list" role="navigation">
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
@@ -302,9 +302,7 @@ class MyApp extends connect(store)(LitElement) {
 
   _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    if (this.drawerOpened) {
-      store.dispatch(closeDrawer());
-    }
+    this._changeDrawerOpened(false);
   }
 
   _offlineChanged(offline) {
@@ -331,20 +329,13 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
-    if (this.drawerOpened) {
-      store.dispatch(closeDrawer());
-    }
+    this._changeDrawerOpened(false);
   }
 
-  _drawerOpenedChanged(opened) {
-    // We initiated this change, and/or the state is already correct in the store.
-    if (opened === this.drawerOpened || !this.drawerOpened) {
-      return;
+  _changeDrawerOpened(opened) {
+    if (opened !== this.drawerOpened) {
+      store.dispatch(opened ? openDrawer() : closeDrawer());
     }
-    // The drawer updated itself but we didn't initiate it, so our state is
-    // incorrect. This is most likely because it was open and was closed by
-    // clicking outside of its area, on the document.
-    store.dispatch(opened ? openDrawer() : closeDrawer());
   }
 }
 

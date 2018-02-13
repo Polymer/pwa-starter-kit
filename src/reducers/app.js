@@ -12,7 +12,7 @@ import { UPDATE_PAGE, UPDATE_OFFLINE,
          OPEN_DRAWER, CLOSE_DRAWER,
          OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/app.js';
 
-const app = (state = {}, action) => {
+const app = (state = {drawerOpened: false}, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {
