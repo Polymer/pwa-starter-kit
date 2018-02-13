@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
-export const SHOW_404 = 'SHOW_404';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const OPEN_DRAWER = 'OPEN_DRAWER';
 export const CLOSE_DRAWER = 'CLOSE_DRAWER';
@@ -52,13 +51,6 @@ const updatePage = (page) => {
     page
   };
 }
-
-export const show404 = (path) => {
-  return {
-    type: SHOW_404,
-    path
-  };
-};
 
 export const openDrawer = () => {
   return {

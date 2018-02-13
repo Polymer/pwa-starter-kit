@@ -16,7 +16,7 @@
     "@polymer/app-layout": "^3.0.0-pre.7",
     "@polymer/lit-element": "^0.1.0",
     "@webcomponents/webcomponentsjs": "^1.0.0",
-    "redux-helpers": "webcomponents/redux-helpers",
+    "pwa-helpers": "polymerlabs/pwa-helpers",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {

@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { UPDATE_PAGE, SHOW_404, UPDATE_OFFLINE,
+import { UPDATE_PAGE, UPDATE_OFFLINE,
          OPEN_DRAWER, CLOSE_DRAWER,
          OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/app.js';
 
@@ -18,11 +18,6 @@ const app = (state = {}, action) => {
       return {
         ...state,
         page: action.page
-      };
-    case SHOW_404:
-      return {
-        ...state,
-        page: 'view404'
       };
     case UPDATE_OFFLINE:
       return {

@@ -9,9 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
-import { connect } from '../../node_modules/redux-helpers/connect-mixin.js';
-import { installRouter } from '../../node_modules/redux-helpers/router.js';
-import { installOfflineWatcher } from '../../node_modules/redux-helpers/network.js';
+import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
+import { installRouter } from '../../node_modules/pwa-helpers/router.js';
+import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
+import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
@@ -21,7 +22,7 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
 
 import { store } from '../store.js';
-import { navigate, show404, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
+import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
@@ -277,13 +278,10 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    installRouter(this._notifyPathChanged.bind(this));
-    installOfflineWatcher(this._offlineUpdatedCallback.bind(this));
-
-    // Get notified when the layout changes (from narrow to wide).
-    let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
-    mql.addListener((e) => this._layoutChanged(e.matches));
-    this._layoutChanged(mql.matches);
+    installRouter(() => this._locationChanged());
+    installOfflineWatcher(() => this._offlineChanged());
+    installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
+        (matches) => this._layoutChanged(matches));
   }
 
   stateChanged(state) {
@@ -300,7 +298,7 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  _offlineUpdatedCallback(offline) {
+  _offlineChanged(offline) {
     const previousOffline = this.offline;
     store.dispatch(updateOffline(offline));
 
@@ -320,7 +318,7 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  _notifyPathChanged() {
+  _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
