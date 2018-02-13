@@ -13,6 +13,8 @@ import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import { installRouter } from '../../node_modules/pwa-helpers/router.js';
 import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
 import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
+import { updateSEOMetadata } from '../../node_modules/pwa-helpers/seo-metadata.js';
+
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
@@ -29,10 +31,16 @@ import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle, drawerOpened, snackbarOpened}) {
+  render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
+    const pageTitle = appTitle + ' - ' + page;
     if (page && appTitle) {
-      this._updateMetadata(page, appTitle);
+      updateSEOMetadata({
+          title: pageTitle,
+          description: pageTitle,
+          url: document.location.href,
+          // This object also takes an image property, that points to an img src.
+        })
     }
 
     return html`
@@ -251,7 +259,7 @@ class MyApp extends connect(store)(LitElement) {
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
     <snack-bar active$="${snackbarOpened}">
-        You are now ${this.offline ? 'offline' : 'online'}.</snack-bar>
+        You are now ${offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
@@ -279,7 +287,7 @@ class MyApp extends connect(store)(LitElement) {
   ready() {
     super.ready();
     installRouter(() => this._locationChanged());
-    installOfflineWatcher(() => this._offlineChanged());
+    installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
   }
@@ -325,36 +333,6 @@ class MyApp extends connect(store)(LitElement) {
     if (this.drawerOpened) {
       store.dispatch(closeDrawer());
     }
-  }
-
-  _updateMetadata(page, appTitle) {
-    document.title = appTitle + ' - ' + page;
-
-    // Set open graph metadata
-    this._setMeta('property', 'og:title', document.title);
-    // You could replace this with a description, if you had one.
-    this._setMeta('property', 'og:description', document.title);
-    this._setMeta('property', 'og:url', document.location.href);
-    // If you have an image that's specific to each page:
-    //this._setMeta('property', 'og:image', ...);
-
-    // Set twitter card metadata
-    this._setMeta('property', 'twitter:title', document.title);
-      // You could replace this with a description, if you had one.
-    this._setMeta('property', 'twitter:description', document.title);
-    this._setMeta('property', 'twitter:url', document.location.href);
-    // If you have an image that's specific to each page:
-    //this._setMeta('property', 'twitter:image:src', ...);
-  }
-
-  _setMeta(attrName, attrValue, content) {
-    let element = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
-    if (!element) {
-      element = document.createElement('meta');
-      element.setAttribute(attrName, attrValue);
-      document.head.appendChild(element);
-    }
-    element.setAttribute('content', content || '');
   }
 }
 
