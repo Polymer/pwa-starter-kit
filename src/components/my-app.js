@@ -9,9 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
-import { connect } from '../../node_modules/redux-helpers/connect-mixin.js';
-import { installRouter } from '../../node_modules/redux-helpers/router.js';
-import { installOfflineWatcher } from '../../node_modules/redux-helpers/network.js';
+import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
+import { installRouter } from '../../node_modules/pwa-helpers/router.js';
+import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
+import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
+import { updateSEOMetadata } from '../../node_modules/pwa-helpers/seo-metadata.js';
+
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
@@ -21,14 +24,26 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
 
 import { store } from '../store.js';
-import { navigate, show404, updateOffline } from '../actions/app.js';
+import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle, drawerOpened, snackbarOpened}) {
+  render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
+    // Anything that's related to rendering should be done in here.
+
+    if (page && appTitle) {
+      const pageTitle = appTitle + ' - ' + page;
+      updateSEOMetadata({
+          title: pageTitle,
+          description: pageTitle,
+          url: document.location.href,
+          // This object also takes an image property, that points to an img src.
+        })
+    }
+
     return html`
     <style>
       :host {
@@ -108,7 +123,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 4px 24px;
       }
 
-      .toolbar-list a[selected="true"] {
+      .toolbar-list a[selected] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -140,7 +155,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 0 24px;
       }
 
-      .drawer-list a[selected="true"] {
+      .drawer-list a[selected] {
         color: var(--app-drawer-selected-color);
       }
 
@@ -149,12 +164,12 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
-      .main-content .page[selected="true"] {
-        display: block;
+      .main-content .page {
+        display: none;
       }
 
-      .main-content .page[selected="false"] {
-        display: none;
+      .main-content .page[selected] {
+        display: block;
       }
 
       footer {
@@ -209,43 +224,43 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this.drawerOpened = true}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => store.dispatch(openDrawer())}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
         <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
       <div class="toolbar-list" role="navigation">
-        <a selected$="${page === 'view1'}" href="/view1">View One</a>
-        <a selected$="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected$="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
       </div>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this.drawerOpened = e.target.opened}">
+    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
       <div class="drawer-list" role="navigation">
-        <a selected$="${page === 'view1'}" href="/view1">View One</a>
-        <a selected$="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected$="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
 
-        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme(); this.drawerOpened = true}}">change theme</button>
+        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
       </div>
     </app-drawer>
 
     <!-- Main content -->
     <div class="main-content" role="main">
-      <my-view1 class="page" selected$="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" selected$="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" selected$="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" selected$="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" selected?="${page === 'view1'}"></my-view1>
+      <my-view2 class="page" selected?="${page === 'view2'}"></my-view2>
+      <my-view3 class="page" selected?="${page === 'view3'}"></my-view3>
+      <my-view404 class="page" selected?="${page === 'view404'}"></my-view404>
     </div>
 
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
     <snack-bar active$="${snackbarOpened}">
-        You are now ${this.offline ? 'offline' : 'online'}.</snack-bar>
+        You are now ${offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
@@ -263,22 +278,8 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  stateChanged(state) {
-    this.page = state.app.page;
-    this.offline = state.app.offline;
-  }
-
-  _propertiesChanged(props, changed, oldProps) {
-    if (changed && 'page' in changed) {
-      this._pageChanged();
-      this._updateMetadata();
-    }
-    super._propertiesChanged(props, changed, oldProps);
-  }
-
   constructor() {
     super();
-    this.snackbarOpened = false;
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
@@ -286,19 +287,27 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    installRouter(this._notifyPathChanged.bind(this));
-    installOfflineWatcher(this._offlineUpdatedCallback.bind(this));
-
-    // let mql = window.matchMedia(`(min-width: ${responsiveWidth})`);
-    // mql.addListener((e) => this._layoutChange(e.matches));
-    // this._layoutChange(mql.matches);
+    installRouter(() => this._locationChanged());
+    installOfflineWatcher((offline) => this._offlineChanged(offline));
+    installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
+        (matches) => this._layoutChanged(matches));
   }
 
-  // _layoutChange(isWideLayout) {
-  //   // Your code here
-  // }
+  stateChanged(state) {
+    this.page = state.app.page;
+    this.offline = state.app.offline;
+    this.snackbarOpened = state.app.snackbarOpened;
+    this.drawerOpened = state.app.drawerOpened;
+  }
 
-  _offlineUpdatedCallback(offline) {
+  _layoutChanged(isWideLayout) {
+    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
+    if (this.drawerOpened) {
+      store.dispatch(closeDrawer());
+    }
+  }
+
+  _offlineChanged(offline) {
     const previousOffline = this.offline;
     store.dispatch(updateOffline(offline));
 
@@ -307,10 +316,7 @@ class MyApp extends connect(store)(LitElement) {
       return;
     }
 
-    this.snackbarOpened = true;
-    setTimeout(() => {
-      this.snackbarOpened = false;
-    }, 3000);
+    store.dispatch(showSnackbar());
   };
 
   _changeTheme() {
@@ -321,70 +327,24 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  _notifyPathChanged() {
+  _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
-    this.drawerOpened = false;
+    if (this.drawerOpened) {
+      store.dispatch(closeDrawer());
+    }
   }
 
-  _pageChanged() {
-    // Load page import on demand. Show 404 page if fails
-    let loaded;
-    if (!this.page) {
+  _drawerOpenedChanged(opened) {
+    // We initiated this change, and/or the state is already correct in the store.
+    if (opened === this.drawerOpened || !this.drawerOpened) {
       return;
     }
-    switch(this.page) {
-      case 'view1':
-        loaded = import('./my-view1.js');
-        break;
-      case 'view2':
-        loaded = import('./my-view2.js');
-        break;
-      case 'view3':
-        loaded = import('./my-view3.js');
-        break;
-      case 'view404':
-        loaded = import('./my-view404.js');
-        break;
-      default:
-        loaded = Promise.reject();
-    }
-
-    loaded.then(
-      _ => {},
-      _ => { store.dispatch(show404()) }
-    );
-  }
-
-  _updateMetadata() {
-    document.title = this.appTitle + ' - ' + this.page;
-
-    // Set open graph metadata
-    this._setMeta('property', 'og:title', document.title);
-    // You could replace this with a description, if you had one.
-    this._setMeta('property', 'og:description', document.title);
-    this._setMeta('property', 'og:url', document.location.href);
-    // If you have an image that's specific to each page:
-    //this._setMeta('property', 'og:image', ...);
-
-    // Set twitter card metadata
-    this._setMeta('property', 'twitter:title', document.title);
-      // You could replace this with a description, if you had one.
-    this._setMeta('property', 'twitter:description', document.title);
-    this._setMeta('property', 'twitter:url', document.location.href);
-    // If you have an image that's specific to each page:
-    //this._setMeta('property', 'twitter:image:src', ...);
-  }
-
-  _setMeta(attrName, attrValue, content) {
-    let element = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
-    if (!element) {
-      element = document.createElement('meta');
-      element.setAttribute(attrName, attrValue);
-      document.head.appendChild(element);
-    }
-    element.setAttribute('content', content || '');
+    // The drawer updated itself but we didn't initiate it, so our state is
+    // incorrect. This is most likely because it was open and was closed by
+    // clicking outside of its area, on the document.
+    store.dispatch(opened ? openDrawer() : closeDrawer());
   }
 }
 

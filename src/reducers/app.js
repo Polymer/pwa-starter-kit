@@ -8,27 +8,42 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { NAVIGATE, SHOW_404, UPDATE_OFFLINE } from '../actions/app.js';
+import { UPDATE_PAGE, UPDATE_OFFLINE,
+         OPEN_DRAWER, CLOSE_DRAWER,
+         OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/app.js';
 
 const app = (state = {}, action) => {
   switch (action.type) {
-    case NAVIGATE:
-      const path = action.path === '/' ? '/view1' : action.path;
-      const page = path.slice(1);
+    case UPDATE_PAGE:
       return {
         ...state,
-        page: page
-      };
-    case SHOW_404:
-      return {
-        ...state,
-        page: 'view404'
+        page: action.page
       };
     case UPDATE_OFFLINE:
       return {
         ...state,
         offline: action.offline
       };
+    case OPEN_DRAWER:
+      return {
+        ...state,
+        drawerOpened: true
+      }
+    case CLOSE_DRAWER:
+      return {
+        ...state,
+        drawerOpened: false
+      }
+    case OPEN_SNACKBAR:
+      return {
+        ...state,
+        snackbarOpened: true
+      }
+    case CLOSE_SNACKBAR:
+      return {
+        ...state,
+        snackbarOpened: false
+      }
     default:
       return state;
   }

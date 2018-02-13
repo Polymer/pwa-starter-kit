@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
-import { connect } from '../../node_modules/redux-helpers/connect-mixin.js';
+import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './shared-styles.js';
 import './counter-element.js';
 
