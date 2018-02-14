@@ -10,9 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 export const responsiveWidth = '600px';
 
 export const SharedStyles = `
-    :host {
-      display: block;
-      box-sizing: border-box;
-    }
-    /* Add other styles shared across multiple components here */
+  :host {
+    display: block;
+    box-sizing: border-box;
+  }
+  /* Add other styles shared across multiple components here */
 `;

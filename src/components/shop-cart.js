@@ -18,10 +18,11 @@ import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  render(props) {
+  render({cart, products}) {
     return html`
-      <p hidden="${props.cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      ${this._displayCart(props.cart).map((item) =>
+      <style>:host {display: block;} </style>
+      <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
+      ${this._displayCart(cart).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>

@@ -24,9 +24,10 @@ class ShopProducts extends connect(store)(LitElement) {
     products: Object
   }}
 
-  render(props) {
+  render({products}) {
     return html`
-      ${Object.values(props.products).map((item) =>
+      <style>:host {display: block;} </style>
+      ${Object.values(products).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
