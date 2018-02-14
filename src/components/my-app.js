@@ -15,10 +15,6 @@ import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js
 import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
 import { updateSEOMetadata } from '../../node_modules/pwa-helpers/seo-metadata.js';
 
-import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
-import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
-import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
-import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
@@ -47,76 +43,12 @@ class MyApp extends connect(store)(LitElement) {
     return html`
     <style>
       :host {
-        --app-drawer-width: 256px;
         display: block;
-
-        /* Default theme */
-        --pink: #E91E63;
-        --gray: #293237;
-        --app-primary-color: var(--pink);
-        --app-secondary-color: var(--gray);
-        --app-dark-text-color: var(--app-secondary-color);
-        --app-light-text-color: white;
-        --app-section-even-color: #f7f7f7;
-        --app-section-odd-color: white;
-
-        --app-header-background-color: white;
-        --app-header-text-color: var(--app-dark-text-color);
-        --app-header-selected-color: var(--app-primary-color);
-
-        --app-drawer-background-color: var(--app-secondary-color);
-        --app-drawer-text-color: var(--app-light-text-color);
-        --app-drawer-selected-color: #78909C;
-      }
-
-      :host(.bright-theme) {
-        --yellow: #F2E579;
-        --pink: #DF5D94;
-
-        --app-primary-color: #78BDF0;  /* light blue */
-        --app-secondary-color: #564B7A;  /* dark purple */
-        --app-dark-text-color: #293237;  /* grey */
-        --app-light-text-color: white;
-        --app-section-even-color: #FFFDE7;
-        --app-section-odd-color: white;
-
-        --app-header-background-color: var(--pink);
-        --app-header-text-color: white;
-        --app-header-selected-color: var(--yellow);
-
-        --app-drawer-background-color: var(--app-secondary-color);
-        --app-drawer-text-color: white;
-        --app-drawer-selected-color: var(--yellow);
-      }
-
-      app-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        background-color: var(--app-header-background-color);
-        color: var(--app-header-text-color);
-        border-bottom: 1px solid #eee;
-      }
-
-      .toolbar-top {
-        background-color: var(--app-header-background-color);
-      }
-
-      [main-title] {
-        font-family: 'Pacifico';
-        text-transform: lowercase;
-        font-size: 30px;
-      }
-
-      .toolbar-list {
-        display: none;
       }
 
       .toolbar-list a {
         display: inline-block;
-        color: var(--app-header-text-color);
+        color: black;
         text-decoration: none;
         line-height: 30px;
         padding: 4px 24px;
@@ -125,41 +57,6 @@ class MyApp extends connect(store)(LitElement) {
       .toolbar-list a[selected] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
-      }
-
-      .menu-btn {
-        background: none;
-        border: none;
-        fill: var(--app-header-text-color);
-        cursor: pointer;
-        height: 44px;
-        width: 44px;
-      }
-
-      .drawer-list {
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        padding: 24px;
-        background: var(--app-drawer-background-color);
-        position: relative;
-      }
-
-      .drawer-list a {
-        display: block;
-        text-decoration: none;
-        color: var(--app-drawer-text-color);
-        line-height: 40px;
-        padding: 0 24px;
-      }
-
-      .drawer-list a[selected] {
-        color: var(--app-drawer-selected-color);
-      }
-
-      .main-content {
-        padding-top: 64px;
-        min-height: 100vh;
       }
 
       .main-content .page {
@@ -172,8 +69,7 @@ class MyApp extends connect(store)(LitElement) {
 
       footer {
         padding: 24px;
-        background: var(--app-drawer-background-color);
-        color: var(--app-drawer-text-color);
+        border-top: 1px solid #ccc;
         text-align: center;
       }
 
@@ -218,32 +114,12 @@ class MyApp extends connect(store)(LitElement) {
       }
     </style>
 
-    <!-- Header -->
-    <app-header condenses reveals effects="waterfall">
-      <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
-        <div main-title>${appTitle}</div>
-        <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
-      </app-toolbar>
-
-      <!-- This gets hidden on a small screen-->
-      <nav class="toolbar-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-      </nav>
-    </app-header>
-
-    <!-- Drawer content -->
-    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
-      <nav class="drawer-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-
-        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
-      </nav>
-    </app-drawer>
+    <h1>${appTitle}</h1>
+    <nav class="toolbar-list">
+      <a selected?="${page === 'view1'}" href="/view1">View One</a>
+      <a selected?="${page === 'view2'}" href="/view2">View Two</a>
+      <a selected?="${page === 'view3'}" href="/view3">View Three</a>
+    </nav>
 
     <!-- Main content -->
     <main class="main-content">
@@ -312,14 +188,6 @@ class MyApp extends connect(store)(LitElement) {
     }
 
     store.dispatch(showSnackbar());
-  }
-
-  _changeTheme() {
-    if (this.classList.contains('bright-theme')) {
-      this.classList.remove('bright-theme');
-    } else {
-      this.classList.add('bright-theme');
-    }
   }
 
   _locationChanged() {
