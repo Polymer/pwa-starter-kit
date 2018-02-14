@@ -301,9 +301,10 @@ class MyApp extends LitElement {
     if (previousOffline === undefined) {
       return;
     }
-    
+
+    clearTimeout(this.__snackbarTimer);
     this.snackbarOpened = true;
-    setTimeout(() => { this.snackbarOpened = false }, 3000);
+    this.__snackbarTimer = setTimeout(() => { this.snackbarOpened = false }, 3000);
   }
 
   _changeTheme() {
