@@ -10,36 +10,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './shared-styles.js';
 import './counter-element.js';
 
-// This element is connected to the redux store.
-import { store } from '../store.js';
-
-// We are lazy loading its reducer.
-import counter from '../reducers/counter.js';
-store.addReducers({
-  counter
-});
-
-
-// These are the actions needed by this element.
-import { increment, decrement } from '../actions/counter.js';
-
-class MyView2 extends connect(store)(LitElement) {
+class MyView2 extends LitElement {
   render(props) {
     return html`
       <style>${SharedStyles}</style>
       <section>
         <h2>Redux example: simple counter</h2>
         <div class="circle">${props.clicks}</div>
-        <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
-        element is not build in a Redux-y way (you can think of it as being a
-        third-party element you got from someone else), but this page is connected to the
-        Redux store. When the element updates its counter, this page updates the values
-        in the Redux store, and you can see the total number of clicks reflected in
-        the bubble above.</p>
+        <p>This page contains a reusable <code>&lt;counter-element&gt;</code>, which
+        you can think of it as being a third-party element you got from someone else).
+        The source of truth for the data is this view, and it passes the value and
+        clicks to the element; when the element updates its counter, it fires
+        and event, and this page updates its internal state. You can also see the 
+        total number of clicks reflected in the bubble above.</p>
         <br><br>
       </section>
       <section>
@@ -59,23 +45,25 @@ class MyView2 extends connect(store)(LitElement) {
     value: Number
   }}
 
+  constructor() {
+    super();
+    this.clicks = 0;
+    this.value = 0;
+  }
+
   ready() {
     super.ready();
     // Every time the display of the counter updates, we should save
     // these values in the store
     this.addEventListener('counter-incremented', function() {
-      store.dispatch(increment());
+      this.clicks++;
+      this.value++;
     });
 
     this.addEventListener('counter-decremented', function() {
-      store.dispatch(decrement());
+      this.clicks++;
+      this.value--;
     });
-  }
-
-  // This is called every time something is updated in the store.
-  stateChanged(state) {
-    this.clicks = state.counter.clicks;
-    this.value = state.counter.value;
   }
 }
 

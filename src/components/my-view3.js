@@ -10,47 +10,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './shop-products.js'
 import './shop-cart.js'
 
-// This element is connected to the redux store.
-import { store } from '../store.js';
-
-// We are lazy loading its reducer.
-import shop from '../reducers/shop.js';
-store.addReducers({
-  shop
-});
-
-// These are the actions needed by this element.
-import { checkout } from '../actions/shop.js';
-
-class MyView3 extends connect(store)(LitElement) {
-  render(props) {
+class MyView3 extends LitElement {
+  render({cart, products, error}) {
     return html`
       <style>${SharedStyles}</style>
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(props.cart)}</div>
+        <div class="circle">${this._numItemsInCart(cart)}</div>
 
-        <p>This is a slightly more advanced Redux example, that simulates a
+        <p>This is a slightly more advanced example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
           simulate where you would add failure handling). </p>
-        <p>This view, as well as its 2 child elements, <code>&lt;shop-products&gt;</code> and
-        <code>&lt;shop-cart&gt;</code> are connected to the Redux store.</p>
+        <p>This view, passes properties down to its two children, <code>&lt;shop-products&gt;</code> and
+        <code>&lt;shop-cart&gt;</code>, which fire events back up whenever
+        they need to communicate changes.</p>
       </section>
       <section>
         <h3>Products</h3>
-        <shop-products></shop-products>
+        <shop-products products="${products}"></shop-products>
 
         <h3>Your Cart</h3>
-        <shop-cart></shop-cart>
+        <shop-cart products="${products}" cart="${cart}"></shop-cart>
 
-        <div>${props.error}</div>
-        <button hidden="${props.cart.addedIds.length == 0}" on-click="${this.checkout}">
+        <div>${error}</div>
+        <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
           Checkout
         </button>
       </section>
@@ -64,17 +52,70 @@ class MyView3 extends connect(store)(LitElement) {
   static get properties() { return {
     // This is the data from the store.
     cart: Object,
+    products: Object,
     error: String
   }}
 
-  // This is called every time something is updated in the store.
-  stateChanged(state) {
-    this.cart = state.shop.cart;
-    this.error = state.shop.error;
+  constructor() {
+    super();
+    this.cart = {addedIds: [], quantityById: {}};
+    this.error = '';
   }
 
-  checkout(event) {
-    store.dispatch(checkout());
+  ready() {
+    this.products = this._getAllProducts();
+    super.ready();
+
+    this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
+    this.addEventListener('removeFromCart', (e) => this._removeFromCart(e.detail.item));
+  }
+
+  checkout() {
+    // Here you could do things like credit card validation, etc.
+    // We're simulating that by flipping a coin :)
+    const flip = Math.floor(Math.random() * 2);
+    if (flip === 0) {
+      this.error = 'Checkout failed. Please try again';
+    } else {
+      this.error = '';
+      this.cart = {addedIds: [], quantityById: {}};
+    }
+  }
+
+  _addToCart(productId) {
+    this.error = '';
+    if (this.products[productId].inventory > 0) {
+      this.products[productId].inventory--;
+
+      if (this.cart.addedIds.indexOf(productId) !== -1) {
+        this.cart.quantityById[productId]++;
+      } else {
+        this.cart.addedIds.push(productId);
+        this.cart.quantityById[productId] = 1;
+      }
+    }
+
+    // TODO: this should be this.invalidate
+    this.products = JSON.parse(JSON.stringify(this.products));
+    this.cart = JSON.parse(JSON.stringify(this.cart));
+  }
+
+  _removeFromCart(productId) {
+    this.error = '';
+    this.products[productId].inventory++;
+
+    const quantity = this.cart.quantityById[productId];
+    if (quantity === 1) {
+      this.cart.quantityById[productId] = 0;
+      // This removes all items in this array equal to productId.
+      this.cart.addedIds = this.cart.addedIds.filter(e => e !== productId);
+    } else{
+      this.cart.quantityById[productId]--;
+    }
+
+    // TODO: this should be this.invalidate
+    this.products = JSON.parse(JSON.stringify(this.products));
+    this.cart = JSON.parse(JSON.stringify(this.cart));
   }
 
   _numItemsInCart(cart) {
@@ -84,6 +125,24 @@ class MyView3 extends connect(store)(LitElement) {
     }
     return num;
   }
+
+  _getAllProducts() {
+    // Here you would normally get the data from the server.
+    const PRODUCT_LIST = [
+      {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
+      {"id": 2, "title": "Cowgirl Creamery Mt. Tam Cheese", "price": 29.99, "inventory": 10},
+      {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
+      {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
+      {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
+    ];
+
+    // You could reformat the data in the right format as well:
+    const products = PRODUCT_LIST.reduce((obj, product) => {
+      obj[product.id] = product
+      return obj
+    }, {});
+    return products;
+  };
 }
 
 window.customElements.define(MyView3.is, MyView3);

@@ -9,13 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 
-// This element is connected to the redux store.
-import { store } from '../store.js';
-import { getAllProducts, addToCart } from '../actions/shop.js';
-
-class ShopProducts extends connect(store)(LitElement) {
+class ShopProducts extends LitElement {
   static get is() {
     return 'shop-products';
   }
@@ -24,9 +19,9 @@ class ShopProducts extends connect(store)(LitElement) {
     products: Object
   }}
 
-  render(props) {
+  render({products}) {
     return html`
-      ${Object.values(props.products).map((item) =>
+      ${Object.values(products).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
@@ -42,18 +37,9 @@ class ShopProducts extends connect(store)(LitElement) {
     `;
   }
 
-  ready() {
-    super.ready();
-    store.dispatch(getAllProducts());
-  }
-
-  // This is called every time something is updated in the store.
-  stateChanged(state) {
-    this.products = state.shop.products;
-  }
-
   addToCart(event) {
-    store.dispatch(addToCart(event.target.dataset['index']));
+    this.dispatchEvent(new CustomEvent("addToCart",
+        {bubbles: true, composed: true, detail:{item:event.target.dataset['index']}}));
   }
 }
 

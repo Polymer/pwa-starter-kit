@@ -9,19 +9,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
-
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './shop-item.js'
 
-// This element is connected to the redux store.
-import { store } from '../store.js';
-import { removeFromCart } from '../actions/shop.js';
-
-class ShopCart extends connect(store)(LitElement) {
-  render(props) {
+class ShopCart extends LitElement {
+  render({cart, products}) {
     return html`
-      <p hidden="${props.cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      ${this._displayCart(props.cart).map((item) =>
+      <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
+      ${this._displayCart(cart).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
@@ -45,10 +39,8 @@ class ShopCart extends connect(store)(LitElement) {
     products: Object
   }}
 
-  // This is called every time something is updated in the store.
-  stateChanged(state) {
-    this.products = state.shop.products;
-    this.cart = state.shop.cart;
+  ready() {
+    super.ready();
   }
 
   _displayCart(cart) {
@@ -70,7 +62,8 @@ class ShopCart extends connect(store)(LitElement) {
   }
 
   _removeFromCart(event) {
-    store.dispatch(removeFromCart(event.target.dataset['index']));
+    this.dispatchEvent(new CustomEvent("removeFromCart",
+        {bubbles: true, composed: true, detail:{item:event.target.dataset['index']}}));
   }
 }
 

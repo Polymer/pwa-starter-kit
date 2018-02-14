@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import { installRouter } from '../../node_modules/pwa-helpers/router.js';
 import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
 import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
@@ -20,17 +19,15 @@ import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
 import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
+
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
-
-import { store } from '../store.js';
-import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
 import { responsiveWidth } from './shared-styles.js';
 
-class MyApp extends connect(store)(LitElement) {
+class MyApp extends LitElement {
   render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
 
@@ -293,13 +290,6 @@ class MyApp extends connect(store)(LitElement) {
         (matches) => this._layoutChanged(matches));
   }
 
-  stateChanged(state) {
-    this.page = state.app.page;
-    this.offline = state.app.offline;
-    this.snackbarOpened = state.app.snackbarOpened;
-    this.drawerOpened = state.app.drawerOpened;
-  }
-
   _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
     this._drawerOpenedChanged(false);
@@ -307,14 +297,14 @@ class MyApp extends connect(store)(LitElement) {
 
   _offlineChanged(offline) {
     const previousOffline = this.offline;
-    store.dispatch(updateOffline(offline));
+    this.offline = offline;
 
     // Don't show the snackbar on the first load of the page.
     if (previousOffline === undefined) {
       return;
     }
-
-    store.dispatch(showSnackbar());
+    this.snackbarOpened = true;
+    setTimeout(() => { this.snackbarOpened = false }, 3000);
   };
 
   _changeTheme() {
@@ -326,7 +316,11 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _locationChanged() {
-    store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
+    const path = window.decodeURIComponent(window.location.pathname);
+    const page = path === '/' ? 'view1' : path.slice(1);
+    this._loadPage(page);
+    // Any other info you might want to extract from the path (like page type),
+    // you can do here.
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
     this._drawerOpenedChanged(false);
@@ -334,8 +328,28 @@ class MyApp extends connect(store)(LitElement) {
 
   _drawerOpenedChanged(opened) {
     if (opened !== this.drawerOpened) {
-      store.dispatch(opened ? openDrawer() : closeDrawer());
+      this.drawerOpened = opened;
     }
+  }
+
+  async _loadPage(page) {
+    switch(page) {
+      case 'view1':
+        await import('../components/my-view1.js');
+        // Put code here that you want it to run every time when
+        // navigate to view1 page and my-view1.js is loaded
+        break;
+      case 'view2':
+        await import('../components/my-view2.js');
+        break;
+      case 'view3':
+        await import('../components/my-view3.js');
+        break;
+      default:
+        page = 'view404';
+        await import('../components/my-view404.js');
+    }
+    this.page = page;
   }
 }
 
