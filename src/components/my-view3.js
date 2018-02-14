@@ -27,13 +27,13 @@ store.addReducers({
 import { checkout } from '../actions/shop.js';
 
 class MyView3 extends connect(store)(LitElement) {
-  render(props) {
+  render({cart, error}) {
     return html`
       <style>${SharedStyles}</style>
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(props.cart)}</div>
+        <div class="circle">${this._numItemsInCart(cart)}</div>
 
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -49,8 +49,8 @@ class MyView3 extends connect(store)(LitElement) {
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
 
-        <div>${props.error}</div>
-        <button hidden="${props.cart.addedIds.length == 0}" on-click="${this.checkout}">
+        <div>${error}</div>
+        <button hidden="${cart.addedIds.length == 0}" on-click="${this.checkout}">
           Checkout
         </button>
       </section>
