@@ -64,11 +64,14 @@ export const closeDrawer = () => {
   };
 };
 
+let snackbarTimer;
+
 export const showSnackbar = () => (dispatch) => {
   dispatch({
     type: OPEN_SNACKBAR
   });
-  setTimeout(() =>
+  clearTimeout(snackbarTimer);
+  snackbarTimer = setTimeout(() =>
     dispatch({ type: CLOSE_SNACKBAR }), 3000);
 };
 

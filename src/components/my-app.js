@@ -80,7 +80,6 @@ class MyApp extends connect(store)(LitElement) {
         --app-section-even-color: #FFFDE7;
         --app-section-odd-color: white;
 
-
         --app-header-background-color: var(--pink);
         --app-header-text-color: white;
         --app-header-selected-color: var(--yellow);
@@ -129,7 +128,6 @@ class MyApp extends connect(store)(LitElement) {
       }
 
       .menu-btn {
-        box-sizing: border-box;
         background: none;
         border: none;
         fill: var(--app-header-text-color);
@@ -173,7 +171,6 @@ class MyApp extends connect(store)(LitElement) {
       }
 
       footer {
-        box-sizing: border-box;
         padding: 24px;
         background: var(--app-drawer-background-color);
         color: var(--app-drawer-text-color);
@@ -230,31 +227,31 @@ class MyApp extends connect(store)(LitElement) {
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
-      <div class="toolbar-list" role="navigation">
+      <nav class="toolbar-list">
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-      </div>
+      </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer id="drawer" opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
-      <div class="drawer-list" role="navigation">
+    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
+      <nav class="drawer-list">
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${page === 'view3'}" href="/view3">View Three</a>
 
         <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
-      </div>
+      </nav>
     </app-drawer>
 
     <!-- Main content -->
-    <div class="main-content" role="main">
+    <main class="main-content">
       <my-view1 class="page" selected?="${page === 'view1'}"></my-view1>
       <my-view2 class="page" selected?="${page === 'view2'}"></my-view2>
       <my-view3 class="page" selected?="${page === 'view3'}"></my-view3>
       <my-view404 class="page" selected?="${page === 'view404'}"></my-view404>
-    </div>
+    </main>
 
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
@@ -315,7 +312,7 @@ class MyApp extends connect(store)(LitElement) {
     }
 
     store.dispatch(showSnackbar());
-  };
+  }
 
   _changeTheme() {
     if (this.classList.contains('bright-theme')) {
