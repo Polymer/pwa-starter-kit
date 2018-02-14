@@ -33,7 +33,7 @@ class MyView3 extends connect(store)(LitElement) {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(props.cart)}</div>
+        <p>Number of items in the cart: <b>${this._numItemsInCart(props.cart)}</b></p>
 
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -49,6 +49,7 @@ class MyView3 extends connect(store)(LitElement) {
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
 
+        <br>
         <div>${props.error}</div>
         <button hidden="${props.cart.addedIds.length == 0}" on-click="${this.checkout}">
           Checkout

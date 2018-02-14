@@ -20,14 +20,14 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
 
 import { store } from '../store.js';
-import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
+import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
-// In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
+// In narrow layout, the nav links will be stacked on top of the main content instead of side-by-side.
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
+  render({page, appTitle, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
 
     if (page && appTitle) {
@@ -44,19 +44,25 @@ class MyApp extends connect(store)(LitElement) {
     <style>
       :host {
         display: block;
+        padding: 24px;
+        max-width: 600px;
+      }
+
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
       .toolbar-list a {
         display: inline-block;
         color: black;
         text-decoration: none;
-        line-height: 30px;
-        padding: 4px 24px;
+        padding: 0 24px;
       }
 
       .toolbar-list a[selected] {
-        color: var(--app-header-selected-color);
-        border-bottom: 4px solid var(--app-header-selected-color);
+        font-weight: bold;
       }
 
       .main-content .page {
@@ -68,58 +74,26 @@ class MyApp extends connect(store)(LitElement) {
       }
 
       footer {
-        padding: 24px;
         border-top: 1px solid #ccc;
         text-align: center;
       }
 
-      .theme-btn {
-        padding: 14px;
-        background: var(--app-primary-color);
-        color: var(--app-light-text-color);
-        font-size: 13px;
-        letter-spacing: 0.3px;
-        font-weight: bold;
-        border: none;
-        border-radius: 3px;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-
-      .theme-btn.bottom {
-        position: absolute;
-        bottom: 14px;
-        left: 14px;
-      }
-
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
-        .toolbar-list {
-          display: block;
-        }
-
-        .menu-btn {
-          display: none;
-        }
-
-        .main-content {
-          padding-top: 107px;
-        }
-
-        .theme-btn {
-          position: absolute;
-          top: 14px;
-          right: 14px;
+        header {
+          flex-direction: row;
         }
       }
     </style>
 
-    <h1>${appTitle}</h1>
-    <nav class="toolbar-list">
-      <a selected?="${page === 'view1'}" href="/view1">View One</a>
-      <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-      <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-    </nav>
+    <header>
+      <h1>${appTitle}</h1>
+      <nav class="toolbar-list">
+        <a selected?="${page === 'view1'}" href="/view1">View One</a>|
+        <a selected?="${page === 'view2'}" href="/view2">View Two</a>|
+        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
+      </nav>
+    </header>
 
     <!-- Main content -->
     <main class="main-content">
@@ -145,7 +119,6 @@ class MyApp extends connect(store)(LitElement) {
     return {
       page: String,
       appTitle: String,
-      drawerOpened: Boolean,
       snackbarOpened: Boolean,
       offline: Boolean
     }
@@ -170,12 +143,10 @@ class MyApp extends connect(store)(LitElement) {
     this.page = state.app.page;
     this.offline = state.app.offline;
     this.snackbarOpened = state.app.snackbarOpened;
-    this.drawerOpened = state.app.drawerOpened;
   }
 
   _layoutChanged(isWideLayout) {
-    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._drawerOpenedChanged(false);
+    console.log(`The window changed to a ${isWideLayout ? 'wide' : 'narrow'} layout`);
   }
 
   _offlineChanged(offline) {
@@ -192,15 +163,6 @@ class MyApp extends connect(store)(LitElement) {
 
   _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
-
-    // Close the drawer - in case the *path* change came from a link in the drawer.
-    this._drawerOpenedChanged(false);
-  }
-
-  _drawerOpenedChanged(opened) {
-    if (opened !== this.drawerOpened) {
-      store.dispatch(opened ? openDrawer() : closeDrawer());
-    }
   }
 }
 

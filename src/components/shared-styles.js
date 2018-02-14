@@ -7,25 +7,12 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-export const responsiveWidth = '460px';
+export const responsiveWidth = '600px';
 
 export const SharedStyles = `
     :host {
       display: block;
       box-sizing: border-box;
     }
-    section {
-      padding: 24px;
-    }
-    h2 {
-      font-size: 24px;
-      text-align: center;
-      color: var(--app-dark-text-color);
-    }
-
-    @media (min-width: ${responsiveWidth}) {
-      h2 {
-        font-size: 36px;
-      }
-    }
+    /* Add other styles shared across multiple components here */
 `;
