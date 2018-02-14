@@ -39,10 +39,6 @@ class ShopCart extends LitElement {
     products: Object
   }}
 
-  ready() {
-    super.ready();
-  }
-
   _displayCart(cart) {
     const items = [];
     for (let id of cart.addedIds) {
