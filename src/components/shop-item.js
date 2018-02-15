@@ -27,8 +27,8 @@ class ShopItem extends LitElement {
   render(props) {
     return html`
       ${props.name}:
-      <span hidden="${props.amount === 0}">${props.amount}: * </span>
-      $${props.price}:
+      <span hidden="${props.amount === 0}">${props.amount} * </span>
+      $${props.price}
       </span>
     `;
   }

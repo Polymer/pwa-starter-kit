@@ -37,7 +37,7 @@ class ShopProducts extends connect(store)(LitElement) {
                 disabled="${item.inventory === 0}"
                 on-click="${(e) => this.addToCart(e)}"
                 data-index$="${item.id}"
-                title="${item.inventory === 0 ? 'Sold out': 'Add to cart' }">
+                title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
             </button>
           </div>
