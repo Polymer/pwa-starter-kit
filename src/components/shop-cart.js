@@ -16,11 +16,13 @@ import './shop-item.js'
 // This element is connected to the redux store.
 import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
+import { removeFromCartIcon } from './my-icons.js';
+import { ShopSharedStyles } from './shop-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
   render({cart, products}) {
     return html`
-      <style>:host {display: block;} </style>
+      <style>${ShopSharedStyles}</style>
       <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(cart).map((item) =>
         html`
@@ -28,8 +30,9 @@ class ShopCart extends connect(store)(LitElement) {
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
             <button
                 on-click="${(e) => this._removeFromCart(e)}"
-                data-index$="${item.id}">
-              Remove
+                data-index$="${item.id}"
+                title="Remove from cart">
+              ${removeFromCartIcon}
             </button>
           </div>
         `
@@ -71,7 +74,7 @@ class ShopCart extends connect(store)(LitElement) {
   }
 
   _removeFromCart(event) {
-    store.dispatch(removeFromCart(event.target.dataset['index']));
+    store.dispatch(removeFromCart(event.currentTarget.dataset['index']));
   }
 }
 

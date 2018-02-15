@@ -6,7 +6,9 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+*/
+
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
 // This element is *not* connected to the redux store.
 class ShopItem extends LitElement {
@@ -25,8 +27,8 @@ class ShopItem extends LitElement {
   render(props) {
     return html`
       ${props.name}:
-      <span hidden="${props.amount === 0}">${props.amount}: * </span>
-      $${props.price}:
+      <span hidden="${props.amount === 0}">${props.amount} * </span>
+      $${props.price}
       </span>
     `;
   }
