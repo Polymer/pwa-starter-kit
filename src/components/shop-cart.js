@@ -9,11 +9,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { removeFromCart } from '../actions/shop.js';
+import { removeFromCartIcon } from './my-icons.js';
+import { ShopSharedStyles } from './shop-shared-styles.js';
 import './shop-item.js'
 
 class ShopCart extends LitElement {
   render({cart, products}) {
     return html`
+      <style>${ShopSharedStyles}</style>
       <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(cart).map((item) =>
         html`
@@ -21,8 +25,9 @@ class ShopCart extends LitElement {
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
             <button
                 on-click="${(e) => this._removeFromCart(e)}"
-                data-index$="${item.id}">
-              Remove
+                data-index$="${item.id}"
+                title="Remove from cart">
+              ${removeFromCartIcon}
             </button>
           </div>
         `

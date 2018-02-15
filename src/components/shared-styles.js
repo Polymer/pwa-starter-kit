@@ -20,6 +20,11 @@ export const SharedStyles = `
       background: var(--app-section-odd-color);
     }
 
+    section > * {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
     section:nth-of-type(even) {
       background: var(--app-section-even-color);
     }

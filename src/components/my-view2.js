@@ -10,7 +10,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
-import './shared-styles.js';
 import './counter-element.js';
 
 class MyView2 extends LitElement {
@@ -24,7 +23,7 @@ class MyView2 extends LitElement {
         you can think of it as being a third-party element you got from someone else).
         The source of truth for the data is this view, and it passes the value and
         clicks to the element; when the element updates its counter, it fires
-        and event, and this page updates its internal state. You can also see the 
+        and event, and this page updates its internal state. You can also see the
         total number of clicks reflected in the bubble above.</p>
         <br><br>
       </section>

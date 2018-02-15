@@ -8,29 +8,19 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
-
-class ShopItem extends LitElement {
-  static get is() {
-    return 'shop-item';
-  }
-
-  static get properties() {
-    return {
-      name: String,
-      amount: String,
-      price: String
+export const ShopSharedStyles = `
+    :host {
+      display: block;
+      box-sizing: border-box;
     }
-  }
-
-  render(props) {
-    return html`
-      ${props.name}:
-      <span hidden="${props.amount === 0}">${props.amount} * </span>
-      $${props.price}
-      </span>
-    `;
-  }
-}
-
-window.customElements.define(ShopItem.is, ShopItem);
+    button {
+      font-size: inherit;
+      vertical-align: middle;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover svg {
+      fill: var(--app-primary-color);
+    }
+`;

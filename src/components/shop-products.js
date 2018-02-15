@@ -9,6 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { getAllProducts, addToCart } from '../actions/shop.js';
+import { addToCartIcon } from './my-icons.js';
+import { ShopSharedStyles } from './shop-shared-styles.js';
 
 class ShopProducts extends LitElement {
   static get is() {
@@ -21,6 +24,7 @@ class ShopProducts extends LitElement {
 
   render({products}) {
     return html`
+      <style>${ShopSharedStyles}</style>
       ${Object.values(products).map((item) =>
         html`
           <div>
@@ -28,8 +32,9 @@ class ShopProducts extends LitElement {
             <button
                 disabled="${item.inventory === 0}"
                 on-click="${(e) => this.addToCart(e)}"
-                data-index$="${item.id}">
-              ${item.inventory === 0 ? 'Sold out' : 'Add to cart'}
+                data-index$="${item.id}"
+                title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
+              ${item.inventory === 0 ? 'Sold out': addToCartIcon }
             </button>
           </div>
         `
