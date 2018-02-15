@@ -30,6 +30,20 @@ class MyView3 extends connect(store)(LitElement) {
   render({cart, error}) {
     return html`
       <style>${SharedStyles}</style>
+      <style>
+        :host {
+          display: block;
+        }
+        button {
+          font-size: inherit;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          border: 2px solid var(--app-dark-text-color);
+          border-radius: 3px;
+          padding: 8px 16px;
+        }
+      </style>
 
       <section>
         <h2>Redux example: shopping cart</h2>
@@ -46,13 +60,17 @@ class MyView3 extends connect(store)(LitElement) {
         <h3>Products</h3>
         <shop-products></shop-products>
 
+        <br>
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
 
         <div>${error}</div>
-        <button hidden="${cart.addedIds.length == 0}" on-click="${this.checkout}">
-          Checkout
-        </button>
+        <br>
+        <p>
+          <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
+            Checkout
+          </button>
+        </p>
       </section>
     `;
   }
