@@ -14,6 +14,8 @@ import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 // This element is connected to the redux store.
 import { store } from '../store.js';
 import { getAllProducts, addToCart } from '../actions/shop.js';
+import { addToCartIcon } from './my-icons.js';
+import { ShopSharedStyles } from './shop-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
   static get is() {
@@ -26,7 +28,7 @@ class ShopProducts extends connect(store)(LitElement) {
 
   render({products}) {
     return html`
-      <style>:host {display: block;} </style>
+      <style>${ShopSharedStyles}</style>
       ${Object.values(products).map((item) =>
         html`
           <div>
@@ -34,8 +36,9 @@ class ShopProducts extends connect(store)(LitElement) {
             <button
                 disabled="${item.inventory === 0}"
                 on-click="${(e) => this.addToCart(e)}"
-                data-index$="${item.id}">
-              ${item.inventory === 0 ? 'Sold out' : 'Add to cart'}
+                data-index$="${item.id}"
+                title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
+              ${item.inventory === 0 ? 'Sold out': addToCartIcon }
             </button>
           </div>
         `
@@ -54,7 +57,7 @@ class ShopProducts extends connect(store)(LitElement) {
   }
 
   addToCart(event) {
-    store.dispatch(addToCart(event.target.dataset['index']));
+    store.dispatch(addToCart(event.currentTarget.dataset['index']));
   }
 }
 

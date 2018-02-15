@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 import { SharedStyles } from './shared-styles.js';
+import { ShopSharedStyles } from './shop-shared-styles.js';
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './shop-products.js'
 import './shop-cart.js'
@@ -30,6 +31,18 @@ class MyView3 extends connect(store)(LitElement) {
   render({cart, error}) {
     return html`
       <style>${SharedStyles}</style>
+      <style>${ShopSharedStyles}</style>
+      <style>
+        button {
+          border: 2px solid var(--app-dark-text-color);
+          border-radius: 3px;
+          padding: 8px 16px;
+        }
+        button:hover {
+          border-color: var(--app-primary-color);
+          color: var(--app-primary-color);
+        }
+      </style>
 
       <section>
         <h2>Redux example: shopping cart</h2>
@@ -46,13 +59,17 @@ class MyView3 extends connect(store)(LitElement) {
         <h3>Products</h3>
         <shop-products></shop-products>
 
+        <br>
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
 
         <div>${error}</div>
-        <button hidden="${cart.addedIds.length == 0}" on-click="${this.checkout}">
-          Checkout
-        </button>
+        <br>
+        <p>
+          <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
+            Checkout
+          </button>
+        </p>
       </section>
     `;
   }
