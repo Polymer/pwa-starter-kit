@@ -20,7 +20,4 @@ export const ShopSharedStyles = `
       border: none;
       cursor: pointer;
     }
-    button:hover svg {
-      fill: var(--app-primary-color);
-    }
 `;

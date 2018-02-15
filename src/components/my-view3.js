@@ -34,13 +34,9 @@ class MyView3 extends connect(store)(LitElement) {
       <style>${ShopSharedStyles}</style>
       <style>
         button {
-          border: 2px solid var(--app-dark-text-color);
+          border: 2px solid black;
           border-radius: 3px;
           padding: 8px 16px;
-        }
-        button:hover {
-          border-color: var(--app-primary-color);
-          color: var(--app-primary-color);
         }
       </style>
 
@@ -59,13 +55,10 @@ class MyView3 extends connect(store)(LitElement) {
         <h3>Products</h3>
         <shop-products></shop-products>
 
-        <br>
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
-
-        <br>
+      
         <div>${error}</div>
-        <br>
         <p>
           <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
             Checkout
