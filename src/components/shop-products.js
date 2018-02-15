@@ -15,6 +15,7 @@ import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 import { getAllProducts, addToCart } from '../actions/shop.js';
 import { addToCartIcon } from './my-icons.js';
+import { ShopSharedStyles } from './shop-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
   static get is() {
@@ -27,16 +28,7 @@ class ShopProducts extends connect(store)(LitElement) {
 
   render({products}) {
     return html`
-      <style>
-        :host {display: block;}
-        button {
-          font-size: inherit;
-          vertical-align: middle;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-        }
-      </style>
+      <style>${ShopSharedStyles}</style>
       ${Object.values(products).map((item) =>
         html`
           <div>
