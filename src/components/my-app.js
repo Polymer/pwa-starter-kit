@@ -24,14 +24,14 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js'
 
 import { store } from '../store.js';
-import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
+import { navigate, updateOffline, updateWideLayout, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
 import { responsiveWidth } from './shared-styles.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
+  render({page, appTitle, drawerOpened, snackbarOpened, offline, wideLayout}) {
     // Anything that's related to rendering should be done in here.
 
     if (page && appTitle) {
@@ -93,7 +93,7 @@ class MyApp extends connect(store)(LitElement) {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
+        right: 0;
         text-align: center;
         background-color: var(--app-header-background-color);
         color: var(--app-header-text-color);
@@ -108,23 +108,7 @@ class MyApp extends connect(store)(LitElement) {
         font-family: 'Pacifico';
         text-transform: lowercase;
         font-size: 30px;
-      }
-
-      .toolbar-list {
-        display: none;
-      }
-
-      .toolbar-list a {
-        display: inline-block;
-        color: var(--app-header-text-color);
-        text-decoration: none;
-        line-height: 30px;
-        padding: 4px 24px;
-      }
-
-      .toolbar-list a[selected] {
-        color: var(--app-header-selected-color);
-        border-bottom: 4px solid var(--app-header-selected-color);
+        margin-right: 44px;
       }
 
       .menu-btn {
@@ -178,6 +162,9 @@ class MyApp extends connect(store)(LitElement) {
       }
 
       .theme-btn {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
         padding: 14px;
         background: var(--app-primary-color);
         color: var(--app-light-text-color);
@@ -190,30 +177,20 @@ class MyApp extends connect(store)(LitElement) {
         cursor: pointer;
       }
 
-      .theme-btn.bottom {
-        position: absolute;
-        bottom: 14px;
-        left: 14px;
-      }
-
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
-        .toolbar-list {
-          display: block;
+        app-header,
+        .main-content,
+        footer {
+          margin-left: var(--app-drawer-width);
+        }
+
+        [main-title] {
+          margin-right: 0;
         }
 
         .menu-btn {
           display: none;
-        }
-
-        .main-content {
-          padding-top: 107px;
-        }
-
-        .theme-btn {
-          position: absolute;
-          top: 14px;
-          right: 14px;
         }
       }
     </style>
@@ -223,25 +200,17 @@ class MyApp extends connect(store)(LitElement) {
       <app-toolbar class="toolbar-top">
         <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
-        <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
-
-      <!-- This gets hidden on a small screen-->
-      <nav class="toolbar-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-      </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
+    <app-drawer opened="${drawerOpened}" persistent="${wideLayout}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
       <nav class="drawer-list">
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${page === 'view3'}" href="/view3">View Three</a>
 
-        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
+        <button class="theme-btn" on-click="${_ => {this._changeTheme()}}">change theme</button>
       </nav>
     </app-drawer>
 
@@ -271,7 +240,8 @@ class MyApp extends connect(store)(LitElement) {
       appTitle: String,
       drawerOpened: Boolean,
       snackbarOpened: Boolean,
-      offline: Boolean
+      offline: Boolean,
+      wideLayout: Boolean
     }
   }
 
@@ -293,13 +263,16 @@ class MyApp extends connect(store)(LitElement) {
   stateChanged(state) {
     this.page = state.app.page;
     this.offline = state.app.offline;
+    this.wideLayout = state.app.wideLayout;
     this.snackbarOpened = state.app.snackbarOpened;
     this.drawerOpened = state.app.drawerOpened;
   }
 
-  _layoutChanged(isWideLayout) {
-    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._drawerOpenedChanged(false);
+  _layoutChanged(wideLayout) {
+    store.dispatch(updateWideLayout(wideLayout));
+    // Open the drawer when we are switching to wide layout and close it when we are
+    // switching to narrow.
+    this._drawerOpenedChanged(wideLayout);
   }
 
   _offlineChanged(offline) {
@@ -330,7 +303,8 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _drawerOpenedChanged(opened) {
-    if (opened !== this.drawerOpened) {
+    // Don't allow closing the drawer when it's in wideLayout.
+    if (opened !== this.drawerOpened && (!this.wideLayout || opened)) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
     }
   }

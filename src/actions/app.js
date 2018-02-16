@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
+export const UPDATE_WIDE_LAYOUT = 'UPDATE_WIDE_LAYOUT';
 export const OPEN_DRAWER = 'OPEN_DRAWER';
 export const CLOSE_DRAWER = 'CLOSE_DRAWER';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
@@ -79,5 +80,12 @@ export const updateOffline = (offline) => {
   return {
     type: UPDATE_OFFLINE,
     offline
+  };
+};
+
+export const updateWideLayout = (wideLayout) => {
+  return {
+    type: UPDATE_WIDE_LAYOUT,
+    wideLayout
   };
 };

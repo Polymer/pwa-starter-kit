@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { UPDATE_PAGE, UPDATE_OFFLINE,
+import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
          OPEN_DRAWER, CLOSE_DRAWER,
          OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/app.js';
 
@@ -23,6 +23,11 @@ const app = (state = {drawerOpened: false}, action) => {
       return {
         ...state,
         offline: action.offline
+      };
+    case UPDATE_WIDE_LAYOUT:
+      return {
+        ...state,
+        wideLayout: action.wideLayout
       };
     case OPEN_DRAWER:
       return {
