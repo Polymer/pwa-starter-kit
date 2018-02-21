@@ -287,7 +287,7 @@ class MyApp extends connect(store)(LitElement) {
     installRouter(() => this._locationChanged());
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
-        (matches) => this._layoutChanged(matches));
+        (matches) => this._drawerOpenedChanged(false));
   }
 
   stateChanged(state) {
@@ -295,11 +295,6 @@ class MyApp extends connect(store)(LitElement) {
     this.offline = state.app.offline;
     this.snackbarOpened = state.app.snackbarOpened;
     this.drawerOpened = state.app.drawerOpened;
-  }
-
-  _layoutChanged(isWideLayout) {
-    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._drawerOpenedChanged(false);
   }
 
   _offlineChanged(offline) {

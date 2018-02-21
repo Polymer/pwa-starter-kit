@@ -13,12 +13,12 @@ import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT
 const INITIAL_CART = {
   addedIds: [],
   quantityById: {}
-}
+};
 
 const UPDATED_CART = {
   addedIds: ['1'],
   quantityById: {'1': 1}
-}
+};
 
 const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
   switch (action.type) {
@@ -26,7 +26,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
       return {
         ...state,
         products: action.products
-      }
+      };
     case ADD_TO_CART:
     case REMOVE_FROM_CART:
     case CHECKOUT_SUCCESS:
@@ -35,12 +35,12 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
         products: products(state.products, action),
         cart: cart(state.cart, action),
         error: ''
-      }
+      };
     case CHECKOUT_FAILURE:
       return {
         ...state,
         error: 'Checkout failed. Please try again'
-      }
+      };
     default:
       return state;
   }
@@ -55,7 +55,7 @@ const products = (state, action) => {
       return {
         ...state,
         [productId]: product(state[productId], action)
-      }
+      };
     default:
       return state;
   }
@@ -67,12 +67,12 @@ const product = (state, action) => {
       return {
         ...state,
         inventory: state.inventory - 1
-      }
+      };
     case REMOVE_FROM_CART:
       return {
         ...state,
         inventory: state.inventory + 1
-      }
+      };
     default:
       return state;
   }
