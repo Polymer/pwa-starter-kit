@@ -314,14 +314,6 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(showSnackbar());
   }
 
-  _changeTheme() {
-    if (this.classList.contains('bright-theme')) {
-      this.classList.remove('bright-theme');
-    } else {
-      this.classList.add('bright-theme');
-    }
-  }
-
   _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
@@ -332,6 +324,14 @@ class MyApp extends connect(store)(LitElement) {
   _drawerOpenedChanged(opened) {
     if (opened !== this.drawerOpened) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
+    }
+  }
+
+  _changeTheme() {
+    if (this.classList.contains('bright-theme')) {
+      this.classList.remove('bright-theme');
+    } else {
+      this.classList.add('bright-theme');
     }
   }
 }
