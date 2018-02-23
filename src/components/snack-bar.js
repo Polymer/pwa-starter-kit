@@ -40,7 +40,7 @@ class SnackBar extends LitElement {
         transition-duration: 0.2s;
         visibility: hidden;
       }
-      :host([active="true"]) {
+      :host([active]) {
         visibility: visible;
         transform: translate3d(0, 0, 0);
       }
