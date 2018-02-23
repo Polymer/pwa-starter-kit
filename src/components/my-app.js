@@ -287,7 +287,7 @@ class MyApp extends connect(store)(LitElement) {
     installRouter(() => this._locationChanged());
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
-        (matches) => this._drawerOpenedChanged(false));
+        (matches) => this._layoutChanged(matches));
   }
 
   stateChanged(state) {
@@ -295,6 +295,11 @@ class MyApp extends connect(store)(LitElement) {
     this.offline = state.app.offline;
     this.snackbarOpened = state.app.snackbarOpened;
     this.drawerOpened = state.app.drawerOpened;
+  }
+
+  _layoutChanged(isWideLayout) {
+    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
+    this._drawerOpenedChanged(false);
   }
 
   _offlineChanged(offline) {
@@ -309,14 +314,6 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(showSnackbar());
   }
 
-  _changeTheme() {
-    if (this.classList.contains('bright-theme')) {
-      this.classList.remove('bright-theme');
-    } else {
-      this.classList.add('bright-theme');
-    }
-  }
-
   _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
 
@@ -327,6 +324,14 @@ class MyApp extends connect(store)(LitElement) {
   _drawerOpenedChanged(opened) {
     if (opened !== this.drawerOpened) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
+    }
+  }
+
+  _changeTheme() {
+    if (this.classList.contains('bright-theme')) {
+      this.classList.remove('bright-theme');
+    } else {
+      this.classList.add('bright-theme');
     }
   }
 }
