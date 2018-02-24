@@ -22,7 +22,8 @@ export const SharedStyles = `
 
     section > * {
       max-width: 600px;
-      margin: 0 auto;
+      margin-right: auto;
+      margin-left: auto;
     }
 
     section:nth-of-type(even) {
