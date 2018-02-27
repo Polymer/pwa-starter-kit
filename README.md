@@ -1,3 +1,6 @@
+# ⚠️🚨Disclaimer: 🚨⚠️
+This template is still being developed  and is not yet production ready. There are things that haven't been finalized yet (such as the docs and the bundling solution), so this repo might change a signficant amount before it's ready for release.
+
 # PWA Starter Kit
 
 This sample app is a starting point for building PWAs. Out of the box, the template
