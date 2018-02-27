@@ -40,10 +40,6 @@ class ShopCart extends connect(store)(LitElement) {
     `;
   }
 
-  static get is() {
-    return 'shop-cart';
-  }
-
   static get properties() { return {
     cart: Object,
     products: Object
@@ -78,4 +74,4 @@ class ShopCart extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define(ShopCart.is, ShopCart);
+window.customElements.define('shop-cart', ShopCart);

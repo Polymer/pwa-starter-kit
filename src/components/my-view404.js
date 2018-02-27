@@ -23,10 +23,6 @@ class MyView404 extends LitElement {
       </section>
     `
   }
-
-  static get is() {
-    return 'my-view404';
-  }
 }
 
-window.customElements.define(MyView404.is, MyView404);
+window.customElements.define('my-view404', MyView404);
