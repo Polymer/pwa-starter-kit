@@ -21,6 +21,9 @@ for more details!
 [ ] `polymer build` is not ready yet
 [ ] service worker isn't ready yet
 [ ] figure out the different bundles needed for different browsers
+[ ] related: figure out polyfills, and making it work on all supported browsers
 [ ] figure out the deployment story
+[ ] figure out testing framework to use
+[ ] update to use blessed UI elements/components (icon, app layout, shared styles)
 [ ] docs cleanup
 [ ] final code cleanup
