@@ -256,7 +256,7 @@ class MyApp extends connect(store)(LitElement) {
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
-    <snack-bar active$="${snackbarOpened}">
+    <snack-bar active?="${snackbarOpened}">
         You are now ${offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
