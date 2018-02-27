@@ -74,10 +74,6 @@ class MyView3 extends connect(store)(LitElement) {
     `;
   }
 
-  static get is() {
-    return 'my-view3';
-  }
-
   static get properties() { return {
     // This is the data from the store.
     cart: Object,
@@ -103,4 +99,4 @@ class MyView3 extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define(MyView3.is, MyView3);
+window.customElements.define('my-view3', MyView3);
