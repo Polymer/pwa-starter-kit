@@ -16,3 +16,11 @@ Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki)
 for more details!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/35752411-b66260de-0810-11e8-8e13-4d593ab2d7d4.png)
+
+# TODOs
+[ ] `polymer build` is not ready yet
+[ ] service worker isn't ready yet
+[ ] figure out the different bundles needed for different browsers
+[ ] figure out the deployment story
+[ ] docs cleanup
+[ ] final code cleanup
