@@ -14,10 +14,6 @@ import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-el
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class CounterElement extends LitElement {
-  static get is() {
-    return 'counter-element';
-  }
-
   static get properties() { return {
     /* The total number of clicks you've done. */
     clicks: Number,
@@ -58,4 +54,4 @@ class CounterElement extends LitElement {
   }
 }
 
-window.customElements.define(CounterElement.is, CounterElement);
+window.customElements.define('counter-element', CounterElement);

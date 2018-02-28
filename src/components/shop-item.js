@@ -11,10 +11,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
 
 class ShopItem extends LitElement {
-  static get is() {
-    return 'shop-item';
-  }
-
   static get properties() {
     return {
       name: String,
@@ -33,4 +29,4 @@ class ShopItem extends LitElement {
   }
 }
 
-window.customElements.define(ShopItem.is, ShopItem);
+window.customElements.define('shop-item', ShopItem);

@@ -12,10 +12,6 @@ import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-el
 import { SharedStyles } from './shared-styles.js';
 
 class MyView1 extends LitElement {
-  static get is() {
-    return 'my-view1';
-  }
-
   render(props) {
     return html`
       <style>${SharedStyles}</style>
@@ -38,4 +34,4 @@ class MyView1 extends LitElement {
   }
 }
 
-window.customElements.define(MyView1.is, MyView1);
+window.customElements.define('my-view1', MyView1);

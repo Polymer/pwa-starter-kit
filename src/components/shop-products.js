@@ -13,10 +13,6 @@ import { addToCartIcon } from './my-icons.js';
 import { ShopSharedStyles } from './shop-shared-styles.js';
 
 class ShopProducts extends LitElement {
-  static get is() {
-    return 'shop-products';
-  }
-
   static get properties() { return {
     products: Object
   }}
@@ -47,4 +43,4 @@ class ShopProducts extends LitElement {
   }
 }
 
-window.customElements.define(ShopProducts.is, ShopProducts);
+window.customElements.define('shop-products', ShopProducts);

@@ -35,10 +35,6 @@ class MyView2 extends LitElement {
     `;
   }
 
-  static get is() {
-    return 'my-view2';
-  }
-
   static get properties() { return {
     clicks: Number,
     value: Number
@@ -66,4 +62,4 @@ class MyView2 extends LitElement {
   }
 }
 
-window.customElements.define(MyView2.is, MyView2);
+window.customElements.define('my-view2', MyView2);
