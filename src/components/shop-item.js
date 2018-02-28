@@ -12,10 +12,6 @@ import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-el
 
 // This element is *not* connected to the redux store.
 class ShopItem extends LitElement {
-  static get is() {
-    return 'shop-item';
-  }
-
   static get properties() {
     return {
       name: String,
@@ -34,4 +30,4 @@ class ShopItem extends LitElement {
   }
 }
 
-window.customElements.define(ShopItem.is, ShopItem);
+window.customElements.define('shop-item', ShopItem);

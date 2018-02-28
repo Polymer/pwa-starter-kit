@@ -103,13 +103,9 @@ class MyApp extends connect(store)(LitElement) {
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
-    <snack-bar active$="${snackbarOpened}">
+    <snack-bar active?="${snackbarOpened}">
         You are now ${offline ? 'offline' : 'online'}.</snack-bar>
     `;
-  }
-
-  static get is() {
-    return 'my-app';
   }
 
   static get properties() {
@@ -154,6 +150,14 @@ class MyApp extends connect(store)(LitElement) {
   _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
   }
+
+  _changeTheme() {
+    if (this.classList.contains('bright-theme')) {
+      this.classList.remove('bright-theme');
+    } else {
+      this.classList.add('bright-theme');
+    }
+  }
 }
 
-window.customElements.define(MyApp.is, MyApp);
+window.customElements.define('my-app', MyApp);

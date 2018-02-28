@@ -27,12 +27,12 @@ const app = (state = {}, action) => {
       return {
         ...state,
         snackbarOpened: true
-      }
+      };
     case CLOSE_SNACKBAR:
       return {
         ...state,
         snackbarOpened: false
-      }
+      };
     default:
       return state;
   }
