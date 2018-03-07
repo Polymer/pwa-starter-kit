@@ -28,7 +28,9 @@ store.addReducers({
 import { checkout } from '../actions/shop.js';
 
 class MyView3 extends connect(store)(LitElement) {
-  render({cart, error}) {
+  render({active, cart, error}) {
+    if (!active) return;
+
     return html`
       <style>${SharedStyles}</style>
       <style>${ButtonSharedStyles}</style>
@@ -77,7 +79,8 @@ class MyView3 extends connect(store)(LitElement) {
   static get properties() { return {
     // This is the data from the store.
     cart: Object,
-    error: String
+    error: String,
+    active: Boolean
   }}
 
   // This is called every time something is updated in the store.

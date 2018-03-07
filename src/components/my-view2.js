@@ -28,6 +28,8 @@ import { increment, decrement } from '../actions/counter.js';
 
 class MyView2 extends connect(store)(LitElement) {
   render(props) {
+    if (!props.active) return;
+
     return html`
       <style>${SharedStyles}</style>
       <section>
@@ -51,7 +53,8 @@ class MyView2 extends connect(store)(LitElement) {
 
   static get properties() { return {
     clicks: Number,
-    value: Number
+    value: Number,
+    active: Boolean
   }}
 
   ready() {

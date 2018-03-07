@@ -145,7 +145,7 @@ class MyApp extends connect(store)(LitElement) {
         display: none;
       }
 
-      .main-content .page[selected] {
+      .main-content .page[active] {
         display: block;
       }
 
@@ -198,10 +198,10 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content">
-      <my-view1 class="page" selected?="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" selected?="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" selected?="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" selected?="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
+      <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
+      <my-view3 class="page" active?="${page === 'view3'}"></my-view3>
+      <my-view404 class="page" active?="${page === 'view404'}"></my-view404>
     </main>
 
     <footer>
