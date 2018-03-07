@@ -284,6 +284,7 @@ class MyApp extends connect(store)(LitElement) {
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
+    this._readied = true;
   }
 
   stateChanged(state) {
@@ -299,14 +300,12 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _offlineChanged(offline) {
-    const previousOffline = this.offline;
     store.dispatch(updateOffline(offline));
 
     // Don't show the snackbar on the first load of the page.
-    if (previousOffline === undefined) {
+    if (!this._readied) {
       return;
     }
-
     store.dispatch(showSnackbar());
   }
 

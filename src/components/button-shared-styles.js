@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-export const ShopSharedStyles = `
+export const ButtonSharedStyles = `
     :host {
       display: block;
       box-sizing: border-box;
