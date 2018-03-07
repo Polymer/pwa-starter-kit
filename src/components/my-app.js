@@ -50,7 +50,6 @@ class MyApp extends connect(store)(LitElement) {
         --app-drawer-width: 256px;
         display: block;
 
-        /* Default theme */
         --pink: #E91E63;
         --gray: #293237;
         --app-primary-color: var(--pink);
@@ -67,26 +66,6 @@ class MyApp extends connect(store)(LitElement) {
         --app-drawer-background-color: var(--app-secondary-color);
         --app-drawer-text-color: var(--app-light-text-color);
         --app-drawer-selected-color: #78909C;
-      }
-
-      :host(.bright-theme) {
-        --yellow: #F2E579;
-        --pink: #DF5D94;
-
-        --app-primary-color: #78BDF0;  /* light blue */
-        --app-secondary-color: #564B7A;  /* dark purple */
-        --app-dark-text-color: #293237;  /* grey */
-        --app-light-text-color: white;
-        --app-section-even-color: #FFFDE7;
-        --app-section-odd-color: white;
-
-        --app-header-background-color: var(--pink);
-        --app-header-text-color: white;
-        --app-header-selected-color: var(--yellow);
-
-        --app-drawer-background-color: var(--app-secondary-color);
-        --app-drawer-text-color: white;
-        --app-drawer-selected-color: var(--yellow);
       }
 
       app-header {
@@ -177,25 +156,6 @@ class MyApp extends connect(store)(LitElement) {
         text-align: center;
       }
 
-      .theme-btn {
-        padding: 14px;
-        background: var(--app-primary-color);
-        color: var(--app-light-text-color);
-        font-size: 13px;
-        letter-spacing: 0.3px;
-        font-weight: bold;
-        border: none;
-        border-radius: 3px;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-
-      .theme-btn.bottom {
-        position: absolute;
-        bottom: 14px;
-        left: 14px;
-      }
-
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
         .toolbar-list {
@@ -209,12 +169,6 @@ class MyApp extends connect(store)(LitElement) {
         .main-content {
           padding-top: 107px;
         }
-
-        .theme-btn {
-          position: absolute;
-          top: 14px;
-          right: 14px;
-        }
       }
     </style>
 
@@ -223,7 +177,6 @@ class MyApp extends connect(store)(LitElement) {
       <app-toolbar class="toolbar-top">
         <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
-        <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
@@ -240,8 +193,6 @@ class MyApp extends connect(store)(LitElement) {
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-
-        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
       </nav>
     </app-drawer>
 
@@ -319,14 +270,6 @@ class MyApp extends connect(store)(LitElement) {
   _drawerOpenedChanged(opened) {
     if (opened !== this.drawerOpened) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
-    }
-  }
-
-  _changeTheme() {
-    if (this.classList.contains('bright-theme')) {
-      this.classList.remove('bright-theme');
-    } else {
-      this.classList.add('bright-theme');
     }
   }
 }

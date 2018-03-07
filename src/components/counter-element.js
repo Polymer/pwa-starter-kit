@@ -33,7 +33,7 @@ class CounterElement extends LitElement {
     return html`
       <style>${ButtonSharedStyles}</style>
       <style>
-        span { width: 20px; display: inline-block; text-align: center;}
+        span { width: 20px; display: inline-block; text-align: center; font-weight: bold;}
       </style>
       <div>
         <p>
