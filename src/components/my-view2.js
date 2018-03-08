@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
-import { PageViewElement } from './page-view.js';
+import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './counter-element.js';
