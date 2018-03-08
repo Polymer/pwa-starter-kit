@@ -29,8 +29,6 @@ import { checkout } from '../actions/shop.js';
 
 class MyView3 extends connect(store)(LitElement) {
   render({active, cart, error}) {
-    if (!active) return;
-
     return html`
       <style>${SharedStyles}</style>
       <style>${ButtonSharedStyles}</style>
@@ -83,6 +81,10 @@ class MyView3 extends connect(store)(LitElement) {
     // This is set from the outside of the element.
     active: Boolean
   }}
+
+  _shouldPropertiesChange(props, changedProps, old) {
+    return props.active;
+  }
 
   // This is called every time something is updated in the store.
   stateChanged(state) {

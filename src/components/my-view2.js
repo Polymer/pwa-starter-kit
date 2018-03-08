@@ -28,8 +28,6 @@ import { increment, decrement } from '../actions/counter.js';
 
 class MyView2 extends connect(store)(LitElement) {
   render(props) {
-    if (!props.active) return;
-
     return html`
       <style>${SharedStyles}</style>
       <section>
@@ -70,6 +68,10 @@ class MyView2 extends connect(store)(LitElement) {
     this.addEventListener('counter-decremented', function() {
       store.dispatch(decrement());
     });
+  }
+
+  _shouldPropertiesChange(props, changedProps, old) {
+    return props.active;
   }
 
   // This is called every time something is updated in the store.
