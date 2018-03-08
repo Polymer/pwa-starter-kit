@@ -80,6 +80,7 @@ class MyView3 extends connect(store)(LitElement) {
     // This is the data from the store.
     cart: Object,
     error: String,
+    // This is set from the outside of the element.
     active: Boolean
   }}
 

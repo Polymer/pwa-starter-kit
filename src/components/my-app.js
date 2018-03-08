@@ -13,7 +13,7 @@ import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import { installRouter } from '../../node_modules/pwa-helpers/router.js';
 import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
 import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
-import { updateSEOMetadata } from '../../node_modules/pwa-helpers/seo-metadata.js';
+import { updateMetadata } from '../../node_modules/pwa-helpers/metadata.js';
 
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
@@ -36,10 +36,9 @@ class MyApp extends connect(store)(LitElement) {
 
     if (page && appTitle) {
       const pageTitle = appTitle + ' - ' + page;
-      updateSEOMetadata({
+      updateMetadata({
           title: pageTitle,
-          description: pageTitle,
-          url: document.location.href,
+          description: pageTitle
           // This object also takes an image property, that points to an img src.
         })
     }

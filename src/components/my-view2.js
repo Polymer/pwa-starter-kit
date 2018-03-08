@@ -52,8 +52,10 @@ class MyView2 extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
+    // This is the data from the store.
     clicks: Number,
     value: Number,
+    // This is set from the outside of the element.
     active: Boolean
   }}
 

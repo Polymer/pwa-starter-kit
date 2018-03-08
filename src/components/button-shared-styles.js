@@ -9,10 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 export const ButtonSharedStyles = `
-    :host {
-      display: block;
-      box-sizing: border-box;
-    }
     button {
       font-size: inherit;
       vertical-align: middle;
