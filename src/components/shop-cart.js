@@ -17,12 +17,12 @@ import './shop-item.js'
 import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
 import { removeFromCartIcon } from './my-icons.js';
-import { ShopSharedStyles } from './shop-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
   render({cart, products}) {
     return html`
-      <style>${ShopSharedStyles}</style>
+      <style>${ButtonSharedStyles}</style>
       <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(cart).map((item) =>
         html`
