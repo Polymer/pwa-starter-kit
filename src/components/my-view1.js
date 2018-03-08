@@ -8,10 +8,11 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { SharedStyles } from './shared-styles.js';
+import { PageViewElement } from './page-view.js';
 
-class MyView1 extends LitElement {
+class MyView1 extends PageViewElement {
   render(props) {
     return html`
       <style>${SharedStyles}</style>
@@ -31,16 +32,6 @@ class MyView1 extends LitElement {
         <p>Capicola ham short ribs, strip steak turkey ham hock picanha. Biltong fatback boudin pork chop buffalo venison. Ground round buffalo picanha leberkas doner ribeye tongue kielbasa meatball andouille bacon. Chicken spare ribs corned beef ball tip tri-tip frankfurter chuck.</p>
       </section>
     `;
-  }
-
-  _shouldPropertiesChange(props, changedProps, old) {
-    return props.active;
-  }
-
-  static get properties() {
-    return {
-      active: Boolean
-    }
   }
 }
 
