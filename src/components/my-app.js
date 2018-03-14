@@ -21,7 +21,7 @@ import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterf
 import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
 import { menuIcon } from './my-icons.js';
-import './snack-bar.js'
+import './snack-bar.js';
 
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
@@ -206,6 +206,7 @@ class MyApp extends connect(store)(LitElement) {
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
+
     <snack-bar active?="${snackbarOpened}">
         You are now ${offline ? 'offline' : 'online'}.</snack-bar>
     `;
@@ -230,7 +231,7 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    installRouter(() => this._locationChanged());
+    installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
@@ -259,8 +260,8 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(showSnackbar());
   }
 
-  _locationChanged() {
-    store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
+  _locationChanged(location) {
+    store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
     this._drawerOpenedChanged(false);

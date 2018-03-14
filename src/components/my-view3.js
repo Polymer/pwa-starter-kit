@@ -13,8 +13,8 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
-import './shop-products.js'
-import './shop-cart.js'
+import './shop-products.js';
+import './shop-cart.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
