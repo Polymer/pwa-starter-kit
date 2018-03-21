@@ -8,14 +8,10 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { responsiveWidth } from './shared-styles.js';
 
 class SnackBar extends LitElement {
-  static get is() {
-    return 'snack-bar';
-  }
-
   static get properties() { return {
     active: Boolean,
   }};
@@ -40,7 +36,7 @@ class SnackBar extends LitElement {
         transition-duration: 0.2s;
         visibility: hidden;
       }
-      :host([active="true"]) {
+      :host([active]) {
         visibility: visible;
         transform: translate3d(0, 0, 0);
       }
@@ -56,4 +52,4 @@ class SnackBar extends LitElement {
   }
 }
 
-window.customElements.define(SnackBar.is, SnackBar);
+window.customElements.define('snack-bar', SnackBar);

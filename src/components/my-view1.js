@@ -8,14 +8,11 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { SharedStyles } from './shared-styles.js';
+import { PageViewElement } from './page-view-element.js';
 
-class MyView1 extends LitElement {
-  static get is() {
-    return 'my-view1';
-  }
-
+class MyView1 extends PageViewElement {
   render(props) {
     return html`
       <style>${SharedStyles}</style>
@@ -38,4 +35,4 @@ class MyView1 extends LitElement {
   }
 }
 
-window.customElements.define(MyView1.is, MyView1);
+window.customElements.define('my-view1', MyView1);

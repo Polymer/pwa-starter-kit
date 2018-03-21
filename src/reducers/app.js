@@ -33,22 +33,22 @@ const app = (state = {drawerOpened: false}, action) => {
       return {
         ...state,
         drawerOpened: true
-      }
+      };
     case CLOSE_DRAWER:
       return {
         ...state,
         drawerOpened: false
-      }
+      };
     case OPEN_SNACKBAR:
       return {
         ...state,
         snackbarOpened: true
-      }
+      };
     case CLOSE_SNACKBAR:
       return {
         ...state,
         snackbarOpened: false
-      }
+      };
     default:
       return state;
   }

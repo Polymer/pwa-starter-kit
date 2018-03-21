@@ -8,21 +8,21 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
-import './shop-item.js'
+import './shop-item.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
 import { removeFromCartIcon } from './my-icons.js';
-import { ShopSharedStyles } from './shop-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
   render({cart, products}) {
     return html`
-      <style>${ShopSharedStyles}</style>
+      <style>${ButtonSharedStyles}</style>
       <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(cart).map((item) =>
         html`
@@ -38,10 +38,6 @@ class ShopCart extends connect(store)(LitElement) {
         `
       )}
     `;
-  }
-
-  static get is() {
-    return 'shop-cart';
   }
 
   static get properties() { return {
@@ -78,4 +74,4 @@ class ShopCart extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define(ShopCart.is, ShopCart);
+window.customElements.define('shop-cart', ShopCart);
