@@ -8,16 +8,17 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-export const ShopSharedStyles = `
-    :host {
-      display: block;
-      box-sizing: border-box;
+import { LitElement } from '../../node_modules/@polymer/lit-element/lit-element.js';
+
+export class PageViewElement extends LitElement {
+  // Only render this page if it's actually visible.
+  _shouldPropertiesChange(props, changedProps, old) {
+    return props.active;
+  }
+
+  static get properties() {
+    return {
+      active: Boolean
     }
-    button {
-      font-size: inherit;
-      vertical-align: middle;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-`;
+  }
+}

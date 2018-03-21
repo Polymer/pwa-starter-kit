@@ -8,14 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
 import { getAllProducts, addToCart } from '../actions/shop.js';
 import { addToCartIcon } from './my-icons.js';
-import { ShopSharedStyles } from './shop-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
   static get properties() { return {
@@ -24,7 +24,7 @@ class ShopProducts extends connect(store)(LitElement) {
 
   render({products}) {
     return html`
-      <style>${ShopSharedStyles}</style>
+      <style>${ButtonSharedStyles}</style>
       ${Object.values(products).map((item) =>
         html`
           <div>

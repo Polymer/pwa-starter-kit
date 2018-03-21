@@ -13,7 +13,7 @@ import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import { installRouter } from '../../node_modules/pwa-helpers/router.js';
 import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
 import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
-import { updateSEOMetadata } from '../../node_modules/pwa-helpers/seo-metadata.js';
+import { updateMetadata } from '../../node_modules/pwa-helpers/metadata.js';
 import './snack-bar.js'
 
 import { store } from '../store.js';
@@ -29,10 +29,9 @@ class MyApp extends connect(store)(LitElement) {
 
     if (page && appTitle) {
       const pageTitle = appTitle + ' - ' + page;
-      updateSEOMetadata({
+      updateMetadata({
           title: pageTitle,
-          description: pageTitle,
-          url: document.location.href,
+          description: pageTitle
           // This object also takes an image property, that points to an img src.
         })
     }
@@ -66,7 +65,7 @@ class MyApp extends connect(store)(LitElement) {
         display: none;
       }
 
-      .main-content .page[selected] {
+      .main-content .page[active] {
         display: block;
       }
 
@@ -94,15 +93,16 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content">
-      <my-view1 class="page" selected?="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" selected?="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" selected?="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" selected?="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
+      <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
+      <my-view3 class="page" active?="${page === 'view3'}"></my-view3>
+      <my-view404 class="page" active?="${page === 'view404'}"></my-view404>
     </main>
 
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
+
     <snack-bar active?="${snackbarOpened}">
         You are now ${offline ? 'offline' : 'online'}.</snack-bar>
     `;
@@ -119,10 +119,11 @@ class MyApp extends connect(store)(LitElement) {
 
   ready() {
     super.ready();
-    installRouter(() => this._locationChanged());
+    installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
+    this._readied = true;
   }
 
   stateChanged(state) {
@@ -136,27 +137,17 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _offlineChanged(offline) {
-    const previousOffline = this.offline;
     store.dispatch(updateOffline(offline));
 
     // Don't show the snackbar on the first load of the page.
-    if (previousOffline === undefined) {
+    if (!this._readied) {
       return;
     }
-
     store.dispatch(showSnackbar());
   }
 
   _locationChanged() {
     store.dispatch(navigate(window.decodeURIComponent(window.location.pathname)));
-  }
-
-  _changeTheme() {
-    if (this.classList.contains('bright-theme')) {
-      this.classList.remove('bright-theme');
-    } else {
-      this.classList.add('bright-theme');
-    }
   }
 }
 

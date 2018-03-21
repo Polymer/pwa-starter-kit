@@ -8,7 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
 import './counter-element.js';
@@ -26,7 +27,7 @@ store.addReducers({
 // These are the actions needed by this element.
 import { increment, decrement } from '../actions/counter.js';
 
-class MyView2 extends connect(store)(LitElement) {
+class MyView2 extends connect(store)(PageViewElement) {
   render(props) {
     return html`
       <style>${SharedStyles}</style>
@@ -50,6 +51,7 @@ class MyView2 extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
+    // This is the data from the store.
     clicks: Number,
     value: Number
   }}

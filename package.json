@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
-    "@polymer/lit-element": "^0.1.0",
+    "@polymer/lit-element": "^0.2.2",
     "@webcomponents/webcomponentsjs": "^1.0.0",
     "pwa-helpers": "polymerlabs/pwa-helpers",
     "redux-thunk": "^2.2.0"

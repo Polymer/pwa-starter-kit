@@ -8,12 +8,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
-import { ShopSharedStyles } from './shop-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
-import './shop-products.js'
-import './shop-cart.js'
+import './shop-products.js';
+import './shop-cart.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
@@ -27,11 +28,11 @@ store.addReducers({
 // These are the actions needed by this element.
 import { checkout } from '../actions/shop.js';
 
-class MyView3 extends connect(store)(LitElement) {
-  render({cart, error}) {
+class MyView3 extends connect(store)(PageViewElement) {
+  render({active, cart, error}) {
     return html`
       <style>${SharedStyles}</style>
-      <style>${ShopSharedStyles}</style>
+      <style>${ButtonSharedStyles}</style>
       <style>
         button {
           border: 2px solid black;
