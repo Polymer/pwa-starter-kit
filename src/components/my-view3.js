@@ -29,7 +29,7 @@ store.addReducers({
 import { checkout } from '../actions/shop.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
-  render({active, cart, error}) {
+  render({cart, error}) {
     return html`
       <style>${SharedStyles}</style>
       <style>${ButtonSharedStyles}</style>

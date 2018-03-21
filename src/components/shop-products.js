@@ -25,6 +25,9 @@ class ShopProducts extends connect(store)(LitElement) {
   render({products}) {
     return html`
       <style>${ButtonSharedStyles}</style>
+      <style>
+        :host { display: block; }
+      </style>
       ${Object.values(products).map((item) =>
         html`
           <div>
