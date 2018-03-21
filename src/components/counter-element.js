@@ -50,14 +50,14 @@ class CounterElement extends LitElement {
     this.value++;
     this.clicks++;
     this.dispatchEvent(new CustomEvent('counter-incremented',
-        {bubbles: true, composed: true}));
+        {bubbles: false, composed: true}));
   }
 
   _onDecrement() {
     this.value--;
     this.clicks++;
     this.dispatchEvent(new CustomEvent('counter-decremented',
-        {bubbles: true, composed: true}));
+        {bubbles: false, composed: true}));
   }
 }
 
