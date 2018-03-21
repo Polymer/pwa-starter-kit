@@ -12,7 +12,7 @@ import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-el
 import { installRouter } from '../../node_modules/pwa-helpers/router.js';
 import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
 import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
-import { updateSEOMetadata } from '../../node_modules/pwa-helpers/seo-metadata.js';
+import { updateMetadata } from '../../node_modules/pwa-helpers/metadata.js';
 
 import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
 import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
@@ -21,7 +21,7 @@ import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
 
 import { menuIcon } from './my-icons.js';
-import './snack-bar.js'
+import './snack-bar.js';
 
 // When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
 // In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
@@ -33,10 +33,9 @@ class MyApp extends LitElement {
 
     if (page && appTitle) {
       const pageTitle = appTitle + ' - ' + page;
-      updateSEOMetadata({
+      updateMetadata({
           title: pageTitle,
-          description: pageTitle,
-          url: document.location.href,
+          description: pageTitle
           // This object also takes an image property, that points to an img src.
         })
     }
@@ -47,7 +46,6 @@ class MyApp extends LitElement {
         --app-drawer-width: 256px;
         display: block;
 
-        /* Default theme */
         --pink: #E91E63;
         --gray: #293237;
         --app-primary-color: var(--pink);
@@ -64,26 +62,6 @@ class MyApp extends LitElement {
         --app-drawer-background-color: var(--app-secondary-color);
         --app-drawer-text-color: var(--app-light-text-color);
         --app-drawer-selected-color: #78909C;
-      }
-
-      :host(.bright-theme) {
-        --yellow: #F2E579;
-        --pink: #DF5D94;
-
-        --app-primary-color: #78BDF0;  /* light blue */
-        --app-secondary-color: #564B7A;  /* dark purple */
-        --app-dark-text-color: #293237;  /* grey */
-        --app-light-text-color: white;
-        --app-section-even-color: #FFFDE7;
-        --app-section-odd-color: white;
-
-        --app-header-background-color: var(--pink);
-        --app-header-text-color: white;
-        --app-header-selected-color: var(--yellow);
-
-        --app-drawer-background-color: var(--app-secondary-color);
-        --app-drawer-text-color: white;
-        --app-drawer-selected-color: var(--yellow);
       }
 
       app-header {
@@ -163,7 +141,7 @@ class MyApp extends LitElement {
         display: none;
       }
 
-      .main-content .page[selected] {
+      .main-content .page[active] {
         display: block;
       }
 
@@ -172,25 +150,6 @@ class MyApp extends LitElement {
         background: var(--app-drawer-background-color);
         color: var(--app-drawer-text-color);
         text-align: center;
-      }
-
-      .theme-btn {
-        padding: 14px;
-        background: var(--app-primary-color);
-        color: var(--app-light-text-color);
-        font-size: 13px;
-        letter-spacing: 0.3px;
-        font-weight: bold;
-        border: none;
-        border-radius: 3px;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-
-      .theme-btn.bottom {
-        position: absolute;
-        bottom: 14px;
-        left: 14px;
       }
 
       /* Wide layout */
@@ -206,12 +165,6 @@ class MyApp extends LitElement {
         .main-content {
           padding-top: 107px;
         }
-
-        .theme-btn {
-          position: absolute;
-          top: 14px;
-          right: 14px;
-        }
       }
     </style>
 
@@ -220,7 +173,6 @@ class MyApp extends LitElement {
       <app-toolbar class="toolbar-top">
         <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
-        <button class="theme-btn" on-click="${_ => this._changeTheme()}">change theme</button>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
@@ -237,17 +189,15 @@ class MyApp extends LitElement {
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
         <a selected?="${page === 'view3'}" href="/view3">View Three</a>
-
-        <button class="theme-btn bottom" on-click="${_ => {this._changeTheme()}}">change theme</button>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
     <main class="main-content">
-      <my-view1 class="page" selected?="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" selected?="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" selected?="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" selected?="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
+      <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
+      <my-view3 class="page" active?="${page === 'view3'}"></my-view3>
+      <my-view404 class="page" active?="${page === 'view404'}"></my-view404>
     </main>
 
     <footer>
@@ -278,10 +228,11 @@ class MyApp extends LitElement {
 
   ready() {
     super.ready();
-    installRouter(() => this._locationChanged());
+    installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
+    this._readied = true;
   }
 
   _layoutChanged(isWideLayout) {
@@ -290,25 +241,16 @@ class MyApp extends LitElement {
   }
 
   _offlineChanged(offline) {
-    const previousOffline = this.offline;
     this.offline = offline;
 
     // Don't show the snackbar on the first load of the page.
-    if (previousOffline === undefined) {
+    if (!this._readied) {
       return;
     }
 
     clearTimeout(this.__snackbarTimer);
     this.snackbarOpened = true;
     this.__snackbarTimer = setTimeout(() => { this.snackbarOpened = false }, 3000);
-  }
-
-  _changeTheme() {
-    if (this.classList.contains('bright-theme')) {
-      this.classList.remove('bright-theme');
-    } else {
-      this.classList.add('bright-theme');
-    }
   }
 
   _locationChanged() {

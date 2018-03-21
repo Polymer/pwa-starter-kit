@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
 import { addToCartIcon } from './my-icons.js';
-import { ShopSharedStyles } from './shop-shared-styles.js';
+import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends LitElement {
   static get properties() { return {
@@ -19,7 +19,10 @@ class ShopProducts extends LitElement {
 
   render({products}) {
     return html`
-      <style>${ShopSharedStyles}</style>
+      <style>${ButtonSharedStyles}</style>
+      <style>
+        :host { display: block; }
+      </style>
       ${Object.values(products).map((item) =>
         html`
           <div>

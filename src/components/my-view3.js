@@ -8,17 +8,18 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js'
+import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
-import { ShopSharedStyles } from './shop-shared-styles.js';
-import './shop-products.js'
-import './shop-cart.js'
+import { ButtonSharedStyles } from './button-shared-styles.js';
+import './shop-products.js';
+import './shop-cart.js';
 
-class MyView3 extends LitElement {
+class MyView3 extends PageViewElement {
   render({cart, products, error}) {
     return html`
       <style>${SharedStyles}</style>
-      <style>${ShopSharedStyles}</style>
+      <style>${ButtonSharedStyles}</style>
       <style>
         button {
           border: 2px solid var(--app-dark-text-color);
