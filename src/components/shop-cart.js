@@ -23,6 +23,9 @@ class ShopCart extends connect(store)(LitElement) {
   render({cart, products}) {
     return html`
       <style>${ButtonSharedStyles}</style>
+      <style>
+        :host { display: block; }
+      </style>
       <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(cart).map((item) =>
         html`
