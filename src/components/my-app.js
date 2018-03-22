@@ -178,7 +178,7 @@ class MyApp extends connect(store)(LitElement) {
         /* The drawer button isn't shown in the wide layout, so we don't
         need to offset the title */
         [main-title] {
-          margin-right: 0px;
+          padding-right: 0px;
         }
       }
     </style>
