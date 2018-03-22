@@ -30,7 +30,10 @@ class MyView2 extends PageViewElement {
       </section>
       <section>
         <p>
-          <counter-element value="${props.value}" clicks="${props.clicks}"></counter-element>
+          <counter-element value="${props.value}" clicks="${props.clicks}"
+              on-counter-incremented="${() => this._increment()}"
+              on-counter-decremented="${() => this._decrement()}">
+          </counter-element>
         </p>
       </section>
     `;
@@ -48,19 +51,14 @@ class MyView2 extends PageViewElement {
     this.value = 0;
   }
 
-  ready() {
-    super.ready();
-    // Every time the display of the counter updates, we should save
-    // these values in the store
-    this.addEventListener('counter-incremented', function() {
-      this.clicks++;
-      this.value++;
-    });
+  _increment() {
+    this.clicks++;
+    this.value++;
+  }
 
-    this.addEventListener('counter-decremented', function() {
-      this.clicks++;
-      this.value--;
-    });
+  _decrement() {
+    this.clicks++;
+    this.value--;
   }
 }
 

@@ -152,6 +152,12 @@ class MyApp extends LitElement {
         text-align: center;
       }
 
+      /* In the narrow layout, the toolbar is offset by the width of the
+       drawer button, and the text looks not centered. Add a padding to
+       match that button */
+      [main-title] {
+        padding-right: 44px;
+      }
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
         .toolbar-list {
@@ -164,6 +170,12 @@ class MyApp extends LitElement {
 
         .main-content {
           padding-top: 107px;
+        }
+
+        /* The drawer button isn't shown in the wide layout, so we don't
+        need to offset the title */
+        [main-title] {
+          padding-right: 0px;
         }
       }
     </style>
