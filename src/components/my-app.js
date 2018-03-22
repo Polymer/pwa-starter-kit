@@ -158,7 +158,7 @@ class MyApp extends connect(store)(LitElement) {
       /* In the narrow layout, the toolbar is offset by the width of the
        drawer button, and the text looks not centered. Add a padding to
        match that button */
-      app-toolbar {
+      [main-title] {
         padding-right: 44px;
       }
       /* Wide layout */
@@ -177,8 +177,8 @@ class MyApp extends connect(store)(LitElement) {
 
         /* The drawer button isn't shown in the wide layout, so we don't
         need to offset the title */
-        app-toolbar {
-          padding-right: 0px;
+        [main-title] {
+          margin-right: 0px;
         }
       }
     </style>
