@@ -86,6 +86,10 @@ class MyApp extends connect(store)(LitElement) {
         font-family: 'Pacifico';
         text-transform: lowercase;
         font-size: 30px;
+        /* In the narrow layout, the toolbar is offset by the width of the
+        drawer button, and the text looks not centered. Add a padding to
+        match that button */
+        padding-right: 44px;
       }
 
       .toolbar-list {
@@ -155,12 +159,6 @@ class MyApp extends connect(store)(LitElement) {
         text-align: center;
       }
 
-      /* In the narrow layout, the toolbar is offset by the width of the
-       drawer button, and the text looks not centered. Add a padding to
-       match that button */
-      [main-title] {
-        padding-right: 44px;
-      }
       /* Wide layout */
       @media (min-width: ${responsiveWidth}) {
         .toolbar-list {
