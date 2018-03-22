@@ -44,7 +44,11 @@ class MyView2 extends connect(store)(PageViewElement) {
       </section>
       <section>
         <p>
-          <counter-element value="${props.value}" clicks="${props.clicks}"></counter-element>
+          <counter-element value="${props.value}" clicks="${props.clicks}"
+              on-counter-incremented="${() => store.dispatch(increment())}"
+              on-counter-decremented="${() => store.dispatch(decrement())}">
+
+          </counter-element>
         </p>
       </section>
     `;
@@ -55,20 +59,7 @@ class MyView2 extends connect(store)(PageViewElement) {
     clicks: Number,
     value: Number
   }}
-
-  ready() {
-    super.ready();
-    // Every time the display of the counter updates, we should save
-    // these values in the store
-    this.addEventListener('counter-incremented', function() {
-      store.dispatch(increment());
-    });
-
-    this.addEventListener('counter-decremented', function() {
-      store.dispatch(decrement());
-    });
-  }
-
+  
   // This is called every time something is updated in the store.
   stateChanged(state) {
     this.clicks = state.counter.clicks;
