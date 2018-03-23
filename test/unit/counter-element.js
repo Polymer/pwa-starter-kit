@@ -43,7 +43,7 @@ describe('counter-element works', function() {
     expect(el.value).equal(1);
   });
 
-  it('clicking on minus increments', function() {
+  it('clicking on minus decrements', function() {
     expect(el.clicks).equal(0);
     expect(el.value).equal(0);
 
