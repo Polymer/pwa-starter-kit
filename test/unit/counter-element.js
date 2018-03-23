@@ -14,11 +14,11 @@ describe('counter-element works', function() {
   let el;
 
   beforeEach(function() {
-    var template = document.createElement('template');
+    const template = document.createElement('template');
     template.innerHTML = `
       <counter-element id="fixture"></counter-element>
     `;
-    var content = template.content.cloneNode(true);
+    const content = template.content.cloneNode(true);
     document.body.appendChild(content);
     el = document.getElementById('fixture');
   });
@@ -27,7 +27,7 @@ describe('counter-element works', function() {
     document.body.removeChild(el);
   });
 
-	it('starts empty', function() {
+  it('starts empty', function() {
     expect(el.clicks).equal(0);
     expect(el.value).equal(0);
   });
