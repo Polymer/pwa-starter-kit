@@ -15,13 +15,14 @@ import '../../src/components/my-view404.js';
 
 import '../../node_modules/axe-core/axe.min.js';
 
-async function axeReport(dom) {
-  console.log(dom)
-  const {violations} = await axe.run(dom, {
+async function axeReport(dom, config = {}) {
+  const {cleanup, axeConfig} = config;
+  const {violations} = await axe.run(dom, axeConfig || {
     runOnly: ['wcag2a', 'wcag2aa', 'section508'],
     // we don't care about passing tests
     resultTypes: ['violations']
   });
+  await cleanup();
   if (!violations.length) {
     return;
   }
@@ -60,14 +61,17 @@ describe('views are accessible', function() {
   //   return report;
   // });
 
-  it('my-view2', function() {
-    const el = document.createElement('my-view2');
+  it('my-view3', function() {
+    const el = document.createElement('my-view3');
     document.body.appendChild(el);
     el.active = true;
 
-    const report = axeReport(el);
-    document.body.removeChild(el);
-    return report;
+    return axeReport(el, {
+      cleanup(){
+        el.remove();
+      }
+    });
+
   });
 
   // it('my-view404', function() {
