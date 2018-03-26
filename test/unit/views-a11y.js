@@ -11,6 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import {axeReport} from '../axe-report.js';
 import '../../src/components/my-view1.js';
 import '../../src/components/my-view2.js';
+import '../../src/components/my-view3.js';
+import '../../src/components/my-view404.js';
 
 describe('views: a11y', function() {
   it('my-view1', function() {
@@ -21,6 +23,7 @@ describe('views: a11y', function() {
     document.body.appendChild(el);
     return axeReport(el, { cleanup() { el.remove(); } });
   });
+  
   it('my-view2', function() {
     const el = document.createElement('my-view2');
     // Need to be active before it gets appended to the DOM, so that
@@ -29,6 +32,7 @@ describe('views: a11y', function() {
     document.body.appendChild(el);
     return axeReport(el, { cleanup() { el.remove(); } });
   });
+
   it('my-view3', function() {
     const el = document.createElement('my-view3');
     // Need to be active before it gets appended to the DOM, so that
@@ -37,6 +41,7 @@ describe('views: a11y', function() {
     document.body.appendChild(el);
     return axeReport(el, { cleanup() { el.remove(); } });
   });
+
   it('my-view404', function() {
     const el = document.createElement('my-view404');
     // Need to be active before it gets appended to the DOM, so that
