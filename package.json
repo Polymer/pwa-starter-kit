@@ -28,6 +28,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
     "karma-safari-launcher": "^1.0.0",
     "mocha": "^5.0.0",
     "pixelmatch": "^4.0.2",
