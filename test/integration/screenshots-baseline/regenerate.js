@@ -12,7 +12,7 @@ const puppeteer = require('puppeteer');
 const {startServer} = require('polyserve');
 const path = require('path');
 const fs = require('fs');
-const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
+const baselineDir = `${process.cwd()}/test/integration/screenshots-baseline`;
 
 describe('🎁 regenerate screenshots', function() {
   let polyserve, browser, page;
