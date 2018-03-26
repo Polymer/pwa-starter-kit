@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import '../../src/components/counter-element.js';
 import {axeReport} from '../axe-report.js';
 
-describe('counter-element: features', function() {
+describe('counter-element', function() {
   let el;
 
   beforeEach(function() {
@@ -55,7 +55,7 @@ describe('counter-element: features', function() {
     expect(el.value).equal(-1);
   });
 
-  it('is accessible', function() {
+  it('a11y', function() {
     return axeReport(el);
   });
 });
