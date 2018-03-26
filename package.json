@@ -7,7 +7,7 @@
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
-    "start": "polymer serve --entrypoint index.html",
+    "start": "polyserve --module-resolution=node",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
     "test:unit": "karma start karma.conf.js",
@@ -32,7 +32,7 @@
     "karma-safari-launcher": "^1.0.0",
     "mocha": "^5.0.0",
     "pixelmatch": "^4.0.2",
-    "polyserve": "^0.23.0",
+    "polyserve": "^0.25.2",
     "puppeteer": "^1.0.0"
   }
 }
