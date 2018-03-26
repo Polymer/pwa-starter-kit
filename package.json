@@ -8,9 +8,10 @@
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
     "start": "polymer serve --entrypoint index.html",
-    "test": "mocha test/ --timeout=10000",
-    "unit": "karma start karma.conf.js",
-    "regen-test-baseline": "mocha test/screenshots-baseline/regenerate.js --timeout=10000"
+    "test": "npm run test:unit && npm run test:integration",
+    "test:integration": "mocha test/integration --timeout=10000",
+    "test:unit": "karma start karma.conf.js",
+    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000"
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
