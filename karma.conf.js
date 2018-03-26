@@ -73,7 +73,7 @@ module.exports = function(config) {
     // instances of Safari, see https://github.com/karma-runner/karma-safari-launcher/issues/6
     // and run:
     // defaults write com.apple.Safari ApplePersistenceIgnoreState YES
-    browsers: ['Chrome', 'Safari'],
+    browsers: ['Chrome'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -84,6 +84,6 @@ module.exports = function(config) {
     concurrency: 1,
 
     customContextFile: 'test/karma-context.html',
-    customDebugFile: 'test/karma-context.html'
+    customDebugFile: 'test/karma-debug-context.html'
   })
 }

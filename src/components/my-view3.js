@@ -19,14 +19,14 @@ import './shop-cart.js';
 // This element is connected to the redux store.
 import { store } from '../store.js';
 
+// These are the actions needed by this element.
+import { checkout } from '../actions/shop.js';
+
 // We are lazy loading its reducer.
 import shop from '../reducers/shop.js';
 store.addReducers({
   shop
 });
-
-// These are the actions needed by this element.
-import { checkout } from '../actions/shop.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
   render({cart, error}) {

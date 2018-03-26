@@ -17,15 +17,14 @@ import './counter-element.js';
 // This element is connected to the redux store.
 import { store } from '../store.js';
 
+// These are the actions needed by this element.
+import { increment, decrement } from '../actions/counter.js';
+
 // We are lazy loading its reducer.
 import counter from '../reducers/counter.js';
 store.addReducers({
   counter
 });
-
-
-// These are the actions needed by this element.
-import { increment, decrement } from '../actions/counter.js';
 
 class MyView2 extends connect(store)(PageViewElement) {
   render(props) {
@@ -59,7 +58,7 @@ class MyView2 extends connect(store)(PageViewElement) {
     clicks: Number,
     value: Number
   }}
-  
+
   // This is called every time something is updated in the store.
   stateChanged(state) {
     this.clicks = state.counter.clicks;
