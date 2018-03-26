@@ -25,7 +25,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'test/unit/*.js', type: 'module'},
+      {pattern: 'test/a11y/*.js', type: 'module'},
       {pattern: 'src/**/*.js', type: 'module', included: false},
       {pattern: 'node_modules/**/*.js', included: false},
     ],
@@ -77,7 +77,7 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    customContextFile: 'test/unit/context.html',
-    customDebugFile: 'test/unit/context.html'
+    customContextFile: 'test/karma-context.html',
+    customDebugFile: 'test/karma-context.html'
   })
 }
