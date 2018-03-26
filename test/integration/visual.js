@@ -16,14 +16,14 @@ const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const pixelmatch = require('pixelmatch');
 
-const currentDir = `${process.cwd()}/test/screenshots-current`;
-const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
+const currentDir = `${process.cwd()}/test/integration/screenshots-current`;
+const baselineDir = `${process.cwd()}/test/integration/screenshots-baseline`;
 
 describe('👀 page screenshots are correct', function() {
   let polyserve, browser, page;
 
   before(async function() {
-    polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
+    polyserve = await startServer({port:4444, root:path.join(__dirname, '../..'), moduleResolution:'node'});
 
     // Create the test directory if needed.
     if (!fs.existsSync(currentDir)){
