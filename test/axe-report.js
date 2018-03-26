@@ -17,7 +17,9 @@ export async function axeReport(dom, config = {}) {
     // we don't care about passing tests
     resultTypes: ['violations']
   });
-  await cleanup();
+  if (cleanup) {
+    await cleanup();
+  }
   if (!violations.length) {
     return;
   }
