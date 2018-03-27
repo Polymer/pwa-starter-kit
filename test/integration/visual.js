@@ -103,6 +103,14 @@ async function takeAndCompareScreenshot(page, route, filePrefix) {
 
 function compareScreenshots(view) {
   return new Promise((resolve, reject) => {
+    // Note: for debugging, you can dump the screenshotted img as base64.
+    // fs.createReadStream(`${currentDir}/${view}.png`, { encoding: 'base64' })
+    //   .on('data', function (data) {
+    //     console.log('got data', data)
+    //   })
+    //   .on('end', function () {
+    //     console.log('\n\n')
+    //   });
     const img1 = fs.createReadStream(`${currentDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
     const img2 = fs.createReadStream(`${baselineDir}/${view}.png`).pipe(new PNG()).on('parsed', doneReading);
 
@@ -121,9 +129,14 @@ function compareScreenshots(view) {
       // Skip the bottom/rightmost row of pixels, since it seems to be
       // noise on some machines :/
       const numDiffPixels = pixelmatch(img1.data, img2.data, diff.data,
-          img1.width-1, img1.height-1, {threshold: 0.2});
-      //diff.pack().pipe(fs.createWriteStream(`${currentDir}/${view}-diff.png`));
+          img1.width-1, img1.height-1, {threshold: 0.2, includeAA: true});
+      const percentDiff = numDiffPixels/(img2.height*img1.height)*100;
 
+      const stats = fs.statSync(`${currentDir}/${view}.png`);
+      const fileSizeInBytes = stats.size;
+      console.log(`📸 ${view}.png => ${fileSizeInBytes} bytes, ${percentDiff}% different`);
+
+      //diff.pack().pipe(fs.createWriteStream(`${currentDir}/${view}-diff.png`));
       expect(numDiffPixels, 'number of different pixels').equal(0);
       resolve();
     }
