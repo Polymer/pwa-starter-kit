@@ -9,8 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import '../../src/components/counter-element.js';
+import {axeReport} from '../axe-report.js';
 
-describe('counter-element works', function() {
+describe('counter-element', function() {
   let el;
 
   beforeEach(function() {
@@ -52,5 +53,9 @@ describe('counter-element works', function() {
 
     expect(el.clicks).equal(1);
     expect(el.value).equal(-1);
+  });
+
+  it('a11y', function() {
+    return axeReport(el);
   });
 });

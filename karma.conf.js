@@ -26,6 +26,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       {pattern: 'test/unit/*.js', type: 'module'},
+      {pattern: 'test/axe-report.js', type: 'module'},
       {pattern: 'src/**/*.js', type: 'module', included: false},
       {pattern: 'node_modules/**/*.js', included: false},
     ],
@@ -67,7 +68,12 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     //browsers: ['Chrome', 'Firefox', 'Safari'],
-    browsers: ['Chrome', 'Safari'],
+
+    // Note: if you're having problems with your tests launching too many
+    // instances of Safari, see https://github.com/karma-runner/karma-safari-launcher/issues/6
+    // and run:
+    // defaults write com.apple.Safari ApplePersistenceIgnoreState YES
+    browsers: ['Chrome', 'SafariTechPreview'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -77,7 +83,7 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    customContextFile: 'test/unit/context.html',
-    customDebugFile: 'test/unit/context.html'
+    customContextFile: 'test/karma-context.html',
+    customDebugFile: 'test/karma-debug-context.html'
   })
 }
