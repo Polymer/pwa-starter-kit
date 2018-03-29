@@ -73,6 +73,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           });
         });
       }
+
+      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+      // https://github.com/reactjs/redux/issues/2907
+      window.process = { env: { NODE_ENV: 'production' } };
     </script>
 
     <!-- Add any global styles for body, document, etc. -->
