@@ -67,7 +67,6 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    //browsers: ['Chrome', 'Firefox', 'Safari'],
 
     // Note: if you're having problems with your tests launching too many
     // instances of Safari, see https://github.com/karma-runner/karma-safari-launcher/issues/6

@@ -48,7 +48,9 @@ describe('🎁 regenerate screenshots', function() {
 });
 
 async function generateBaselineScreenshots(page) {
-  const breakpoints = [{width: 800, height: 600}, {width: 375, height: 667}];
+  const breakpoints = [
+      {width: 800, height: 600},
+      {width: 375, height: 667}];
   const prefixes = ['wide', 'narrow'];
 
   for (let i = 0; i < prefixes.length; i++) {
