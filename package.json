@@ -10,8 +10,9 @@
     "start": "polyserve --module-resolution=node",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
-    "test:unit": "karma start karma.conf.js",
-    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000"
+    "test:unit": "wct --module-resolution=node --npm -l chrome",
+    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000",
+    "test:unit-karma": "karma start karma.conf.js"
   },
   "dependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
@@ -35,6 +36,8 @@
     "mocha": "^5.0.0",
     "pixelmatch": "^4.0.2",
     "polyserve": "^0.25.2",
-    "puppeteer": "^1.0.0"
+    "puppeteer": "^1.0.0",
+    "wct-browser-legacy": "0.0.1-pre.11",
+    "web-component-tester": "^6.6.0-pre.3"
   }
 }

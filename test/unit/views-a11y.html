@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>my-view1</title>
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <script type="module" src="../../src/components/my-view1.js"></script>
+    <script type="module" src="../../src/components/my-view2.js"></script>
+    <script type="module" src="../../src/components/my-view3.js"></script>
+    <script type="module" src="../../src/components/my-view404.js"></script>
+  </head>
+  <body>
+    <test-fixture id="view1">
+      <template>
+        <my-view1 active></my-view1>
+      </template>
+    </test-fixture>
+    <test-fixture id="view2">
+      <template>
+        <my-view2 active></my-view2>
+      </template>
+    </test-fixture>
+    <test-fixture id="view3">
+      <template>
+        <my-view3 active></my-view3>
+      </template>
+    </test-fixture>
+    <test-fixture id="view404">
+      <template>
+        <my-view404 active></my-view404>
+      </template>
+    </test-fixture>
+
+    <script type="module">
+      import {axeReport} from '../axe-report.js';
+
+      suite('views a11y tests', function() {
+        test('my-view1', function() {
+          const el = fixture('view1');
+          assert.ok(axeReport(el));
+        });
+
+        test('my-view2', function() {
+          const el = fixture('view2');
+          assert.ok(axeReport(el));
+        });
+
+        test('my-view3', function() {
+          const el = fixture('view3');
+          assert.ok(axeReport(el));
+        });
+
+        test('my-view404', function() {
+          const el = fixture('view404');
+          assert.ok(axeReport(el));
+        });
+      });
+    </script>
+  </body>
+</html>
