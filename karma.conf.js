@@ -25,7 +25,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'test/unit/*.js', type: 'module'},
+      {pattern: 'test/unit-karma/*.js', type: 'module'},
       {pattern: 'test/axe-report.js', type: 'module'},
       {pattern: 'src/**/*.js', type: 'module', included: false},
       {pattern: 'node_modules/**/*.js', included: false},
