@@ -15,11 +15,11 @@
     "test:unit-karma": "karma start karma.conf.js"
   },
   "dependencies": {
-    "@0xcda7a/redux-es6": "^3.7.2",
-    "@polymer/app-layout": "^3.0.0-pre.7",
+    "@polymer/app-layout": "^3.0.0-pre.12",
     "@polymer/lit-element": "^0.2.2",
     "@webcomponents/webcomponentsjs": "^1.0.0",
     "pwa-helpers": "polymerlabs/pwa-helpers",
+    "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
     "karma-safaritechpreview-launcher": "0.0.6",
     "mocha": "^5.0.0",
     "pixelmatch": "^4.0.2",
-    "polyserve": "^0.25.2",
+    "polyserve": "^0.26.0",
     "puppeteer": "^1.0.0",
     "wct-browser-legacy": "0.0.1-pre.11",
     "web-component-tester": "^6.6.0-pre.3"
