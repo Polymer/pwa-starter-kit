@@ -14,7 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>my-view1</title>
+    <title>views a11y</title>
+
+    <script>
+      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+      // https://github.com/reactjs/redux/issues/2907
+      window.process = { env: { NODE_ENV: 'production' } };
+    </script>
 
     <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
@@ -53,22 +59,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       suite('views a11y tests', function() {
         test('my-view1', function() {
           const el = fixture('view1');
-          assert.ok(axeReport(el));
+          return axeReport(el);
         });
 
         test('my-view2', function() {
           const el = fixture('view2');
-          assert.ok(axeReport(el));
+          return axeReport(el);
         });
 
         test('my-view3', function() {
           const el = fixture('view3');
-          assert.ok(axeReport(el));
+          return axeReport(el);
         });
 
         test('my-view404', function() {
           const el = fixture('view404');
-          assert.ok(axeReport(el));
+          return axeReport(el);
         });
       });
     </script>

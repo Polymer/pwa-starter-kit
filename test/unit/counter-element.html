@@ -65,9 +65,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(el.value, '-1');
         });
 
-        test('a11y', function(done) {
-          assert.ok(axeReport(el));
-          done();
+        test('a11y', function() {
+          return axeReport(el);
         });
       });
     </script>
