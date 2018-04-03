@@ -5,3 +5,8 @@ matrix:
     - node_js: stable
       os: osx
       script: npm run test:integration
+    - node_js: stable
+      os: osx
+      dist: trusty
+      script: npm run test:unit
+      sudo: required
