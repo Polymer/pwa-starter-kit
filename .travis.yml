@@ -4,9 +4,9 @@ matrix:
   include:
     - node_js: stable
       os: osx
-      script: npm run test:integration
+      script: npm run test:integration 
     - node_js: stable
-      os: osx
+      os: linux
       dist: trusty
       script: npm run test:unit
       sudo: required
