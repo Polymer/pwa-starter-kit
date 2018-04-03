@@ -11,8 +11,7 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
     "test:unit": "wct --module-resolution=node --npm -l chrome",
-    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000",
-    "test:unit-karma": "karma start karma.conf.js"
+    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.12",
@@ -25,14 +24,6 @@
   "devDependencies": {
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
-    "karma": "^2.0.0",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-safari-launcher": "^1.0.0",
-    "karma-safaritechpreview-launcher": "0.0.6",
     "mocha": "^5.0.0",
     "pixelmatch": "^4.0.2",
     "polyserve": "^0.26.0",
