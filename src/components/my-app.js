@@ -39,10 +39,8 @@ class MyApp extends connect(store)(LitElement) {
         --app-drawer-width: 256px;
         display: block;
 
-        --pink: #E91E63;
-        --gray: #293237;
-        --app-primary-color: var(--pink);
-        --app-secondary-color: var(--gray);
+        --app-primary-color: #E91E63;
+        --app-secondary-color: #293237;
         --app-dark-text-color: var(--app-secondary-color);
         --app-light-text-color: white;
         --app-section-even-color: #f7f7f7;
@@ -86,7 +84,7 @@ class MyApp extends connect(store)(LitElement) {
         display: none;
       }
 
-      .toolbar-list a {
+      .toolbar-list > a {
         display: inline-block;
         color: var(--app-header-text-color);
         text-decoration: none;
@@ -94,7 +92,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 4px 24px;
       }
 
-      .toolbar-list a[selected] {
+      .toolbar-list > a[selected] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -117,7 +115,7 @@ class MyApp extends connect(store)(LitElement) {
         position: relative;
       }
 
-      .drawer-list a {
+      .drawer-list > a {
         display: block;
         text-decoration: none;
         color: var(--app-drawer-text-color);
@@ -125,7 +123,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 0 24px;
       }
 
-      .drawer-list a[selected] {
+      .drawer-list > a[selected] {
         color: var(--app-drawer-selected-color);
       }
 
