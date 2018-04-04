@@ -33,26 +33,14 @@ import { responsiveWidth } from './shared-styles.js';
 class MyApp extends connect(store)(LitElement) {
   render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
-
-    if (page && appTitle) {
-      const pageTitle = appTitle + ' - ' + page;
-      updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-          // This object also takes an image property, that points to an img src.
-        })
-    }
-
     return html`
     <style>
       :host {
         --app-drawer-width: 256px;
         display: block;
 
-        --pink: #E91E63;
-        --gray: #293237;
-        --app-primary-color: var(--pink);
-        --app-secondary-color: var(--gray);
+        --app-primary-color: #E91E63;
+        --app-secondary-color: #293237;
         --app-dark-text-color: var(--app-secondary-color);
         --app-light-text-color: white;
         --app-section-even-color: #f7f7f7;
@@ -96,7 +84,7 @@ class MyApp extends connect(store)(LitElement) {
         display: none;
       }
 
-      .toolbar-list a {
+      .toolbar-list > a {
         display: inline-block;
         color: var(--app-header-text-color);
         text-decoration: none;
@@ -104,7 +92,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 4px 24px;
       }
 
-      .toolbar-list a[selected] {
+      .toolbar-list > a[selected] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -127,7 +115,7 @@ class MyApp extends connect(store)(LitElement) {
         position: relative;
       }
 
-      .drawer-list a {
+      .drawer-list > a {
         display: block;
         text-decoration: none;
         color: var(--app-drawer-text-color);
@@ -135,7 +123,7 @@ class MyApp extends connect(store)(LitElement) {
         padding: 0 24px;
       }
 
-      .drawer-list a[selected] {
+      .drawer-list > a[selected] {
         color: var(--app-drawer-selected-color);
       }
 
@@ -144,11 +132,11 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
-      .main-content .page {
+      .page {
         display: none;
       }
 
-      .main-content .page[active] {
+      .page[active] {
         display: block;
       }
 
@@ -184,7 +172,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
@@ -197,7 +185,7 @@ class MyApp extends connect(store)(LitElement) {
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
+    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
       <nav class="drawer-list">
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
@@ -245,7 +233,17 @@ class MyApp extends connect(store)(LitElement) {
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
-    this._readied = true;
+  }
+
+  didRender(properties, changeList) {
+    if ('page' in changeList) {
+      const pageTitle = properties.appTitle + ' - ' + changeList.page;
+      updateMetadata({
+          title: pageTitle,
+          description: pageTitle
+          // This object also takes an image property, that points to an img src.
+      });
+    }
   }
 
   stateChanged(state) {
@@ -257,14 +255,15 @@ class MyApp extends connect(store)(LitElement) {
 
   _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._drawerOpenedChanged(false);
+    this._updateDrawerState(false);
   }
 
   _offlineChanged(offline) {
+    const previousOffline = this.offline;
     store.dispatch(updateOffline(offline));
 
     // Don't show the snackbar on the first load of the page.
-    if (!this._readied) {
+    if (previousOffline === undefined) {
       return;
     }
     store.dispatch(showSnackbar());
@@ -274,10 +273,10 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
-    this._drawerOpenedChanged(false);
+    this._updateDrawerState(false);
   }
 
-  _drawerOpenedChanged(opened) {
+  _updateDrawerState(opened) {
     if (opened !== this.drawerOpened) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
     }
