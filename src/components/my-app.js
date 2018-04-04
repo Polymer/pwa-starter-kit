@@ -172,7 +172,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
@@ -185,7 +185,7 @@ class MyApp extends connect(store)(LitElement) {
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
+    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
       <nav class="drawer-list">
         <a selected?="${page === 'view1'}" href="/view1">View One</a>
         <a selected?="${page === 'view2'}" href="/view2">View Two</a>
@@ -233,7 +233,6 @@ class MyApp extends connect(store)(LitElement) {
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
-    this._readied = true;
   }
 
   didRender(properties, changeList) {
@@ -256,14 +255,15 @@ class MyApp extends connect(store)(LitElement) {
 
   _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._drawerOpenedChanged(false);
+    this._updateDrawerState(false);
   }
 
   _offlineChanged(offline) {
+    const previousOffline = this.offline;
     store.dispatch(updateOffline(offline));
 
     // Don't show the snackbar on the first load of the page.
-    if (!this._readied) {
+    if (previousOffline === undefined) {
       return;
     }
     store.dispatch(showSnackbar());
@@ -273,10 +273,10 @@ class MyApp extends connect(store)(LitElement) {
     store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
-    this._drawerOpenedChanged(false);
+    this._updateDrawerState(false);
   }
 
-  _drawerOpenedChanged(opened) {
+  _updateDrawerState(opened) {
     if (opened !== this.drawerOpened) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
     }
