@@ -29,7 +29,7 @@ store.addReducers({
 class MyView2 extends connect(store)(PageViewElement) {
   render(props) {
     return html`
-      <style>${SharedStyles}</style>
+      ${SharedStyles}
       <section>
         <h2>Redux example: simple counter</h2>
         <div class="circle">${props._clicks}</div>

@@ -15,7 +15,7 @@ import { SharedStyles } from './shared-styles.js';
 class MyView404 extends PageViewElement {
   render(props) {
     return html`
-      <style>${SharedStyles}</style>
+      ${SharedStyles}
       <section>
         <h2>Oops! You hit a 404</h2>
         <p>The page you're looking for doesn't seem to exist. Head back

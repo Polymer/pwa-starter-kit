@@ -15,8 +15,7 @@ import { PageViewElement } from './page-view-element.js';
 class MyView1 extends PageViewElement {
   render(props) {
     return html`
-      <style>${SharedStyles}</style>
-
+      ${SharedStyles}
       <section>
         <h2>Static page</h2>
         <p>This is a text-only page.</p>

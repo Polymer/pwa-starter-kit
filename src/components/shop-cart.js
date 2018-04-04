@@ -22,7 +22,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 class ShopCart extends connect(store)(LitElement) {
   render({_cart, _products}) {
     return html`
-      <style>${ButtonSharedStyles}</style>
+      ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>

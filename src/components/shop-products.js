@@ -24,7 +24,7 @@ class ShopProducts extends connect(store)(LitElement) {
 
   render({_products}) {
     return html`
-      <style>${ButtonSharedStyles}</style>
+      ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>

@@ -31,8 +31,8 @@ store.addReducers({
 class MyView3 extends connect(store)(PageViewElement) {
   render({_cart, _error}) {
     return html`
-      <style>${SharedStyles}</style>
-      <style>${ButtonSharedStyles}</style>
+      ${SharedStyles}
+      ${ButtonSharedStyles}
       <style>
         button {
           border: 2px solid var(--app-dark-text-color);
