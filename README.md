@@ -1,3 +1,5 @@
+![built_with pwa–starter–kit_](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)
+
 # ⚠️🚨Disclaimer: 🚨⚠️
 This template is still being developed  and is not yet production ready. There are things that haven't been finalized yet (such as the docs and the bundling solution), so this repo might change a signficant amount before it's ready for release.
 
@@ -24,7 +26,6 @@ for more details!
 - [ ] figure out the different bundles needed for different browsers
 - [ ] related: figure out polyfills, and making it work on all supported browsers
 - [ ] figure out the deployment story
-- [ ] figure out testing framework to use
 - [ ] update to use blessed UI elements/components (icon, app layout, shared styles)
 - [ ] docs cleanup
 - [ ] final code cleanup
