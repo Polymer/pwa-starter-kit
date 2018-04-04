@@ -33,16 +33,6 @@ import { responsiveWidth } from './shared-styles.js';
 class MyApp extends connect(store)(LitElement) {
   render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
-
-    if (page && appTitle) {
-      const pageTitle = appTitle + ' - ' + page;
-      updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-          // This object also takes an image property, that points to an img src.
-        })
-    }
-
     return html`
     <style>
       :host {
@@ -246,6 +236,17 @@ class MyApp extends connect(store)(LitElement) {
     installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
         (matches) => this._layoutChanged(matches));
     this._readied = true;
+  }
+
+  didRender(properties, changeList) {
+    if ('page' in changeList) {
+      const pageTitle = properties.appTitle + ' - ' + changeList.page;
+      updateMetadata({
+          title: pageTitle,
+          description: pageTitle
+          // This object also takes an image property, that points to an img src.
+      });
+    }
   }
 
   stateChanged(state) {
