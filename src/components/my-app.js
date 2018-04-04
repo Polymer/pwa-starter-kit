@@ -132,11 +132,11 @@ class MyApp extends connect(store)(LitElement) {
         min-height: 100vh;
       }
 
-      .main-content .page {
+      .page {
         display: none;
       }
 
-      .main-content .page[active] {
+      .page[active] {
         display: block;
       }
 
