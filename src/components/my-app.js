@@ -26,10 +26,6 @@ import './snack-bar.js';
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
-// When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
-// In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
-import { responsiveWidth } from './shared-styles.js';
-
 class MyApp extends connect(store)(LitElement) {
   render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
     // Anything that's related to rendering should be done in here.
@@ -147,8 +143,9 @@ class MyApp extends connect(store)(LitElement) {
         text-align: center;
       }
 
-      /* Wide layout */
-      @media (min-width: ${responsiveWidth}) {
+      /* Wide layout: when the viewport width is bigger than 460px, layout
+      changes to a wide layout. */
+      @media (min-width: 460px) {
         .toolbar-list {
           display: block;
         }
@@ -231,7 +228,7 @@ class MyApp extends connect(store)(LitElement) {
     super.ready();
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
-    installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
+    installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
   }
 

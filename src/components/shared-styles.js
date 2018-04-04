@@ -37,7 +37,7 @@ export const SharedStyles = html`
     color: var(--app-dark-text-color);
   }
 
-  @media (min-width: ${responsiveWidth}) {
+  @media (min-width: 460px) {
     h2 {
       font-size: 36px;
     }
