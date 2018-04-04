@@ -46,7 +46,6 @@ class MyView2 extends connect(store)(PageViewElement) {
           <counter-element value="${props._value}" clicks="${props._clicks}"
               on-counter-incremented="${() => store.dispatch(increment())}"
               on-counter-decremented="${() => store.dispatch(decrement())}">
-
           </counter-element>
         </p>
       </section>

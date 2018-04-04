@@ -67,7 +67,8 @@ class MyView3 extends connect(store)(PageViewElement) {
         <div>${_error}</div>
         <br>
         <p>
-          <button hidden="${_cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
+          <button hidden="${_cart.addedIds.length == 0}"
+              on-click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
         </p>
@@ -85,10 +86,6 @@ class MyView3 extends connect(store)(PageViewElement) {
   stateChanged(state) {
     this._cart = state.shop.cart;
     this._error = state.shop.error;
-  }
-
-  checkout(event) {
-    store.dispatch(checkout());
   }
 
   _numItemsInCart(cart) {
