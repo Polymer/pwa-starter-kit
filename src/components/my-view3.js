@@ -29,7 +29,7 @@ store.addReducers({
 });
 
 class MyView3 extends connect(store)(PageViewElement) {
-  render({cart, error}) {
+  render({_cart, _error}) {
     return html`
       <style>${SharedStyles}</style>
       <style>${ButtonSharedStyles}</style>
@@ -47,7 +47,7 @@ class MyView3 extends connect(store)(PageViewElement) {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(cart)}</div>
+        <div class="circle">${this._numItemsInCart(_cart)}</div>
 
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -64,10 +64,10 @@ class MyView3 extends connect(store)(PageViewElement) {
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
 
-        <div>${error}</div>
+        <div>${_error}</div>
         <br>
         <p>
-          <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
+          <button hidden="${_cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
             Checkout
           </button>
         </p>
@@ -77,14 +77,14 @@ class MyView3 extends connect(store)(PageViewElement) {
 
   static get properties() { return {
     // This is the data from the store.
-    cart: Object,
-    error: String
+    _cart: Object,
+    _error: String
   }}
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this.cart = state.shop.cart;
-    this.error = state.shop.error;
+    this._cart = state.shop.cart;
+    this._error = state.shop.error;
   }
 
   checkout(event) {
