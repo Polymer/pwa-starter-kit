@@ -20,14 +20,14 @@ import { removeFromCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  render({cart, products}) {
+  render({_cart, _products}) {
     return html`
-      <style>${ButtonSharedStyles}</style>
+      ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      ${this._displayCart(cart).map((item) =>
+      <p hidden="${_cart.addedIds.length !== 0}">Please add some products to cart.</p>
+      ${this._displayCart(_cart).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
@@ -44,20 +44,20 @@ class ShopCart extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
-    cart: Object,
-    products: Object
+    _cart: Object,
+    _products: Object
   }}
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this.products = state.shop.products;
-    this.cart = state.shop.cart;
+    this._products = state.shop.products;
+    this._cart = state.shop.cart;
   }
 
   _displayCart(cart) {
     const items = [];
     for (let id of cart.addedIds) {
-      const item = this.products[id];
+      const item = this._products[id];
       items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
     }
     return items;
@@ -66,7 +66,7 @@ class ShopCart extends connect(store)(LitElement) {
   _calculateTotal(cart) {
     let total = 0;
     for (let id of cart.addedIds) {
-      const item = this.products[id];
+      const item = this._products[id];
       total += item.price * cart.quantityById[id];
     }
     return parseFloat(Math.round(total * 100) / 100).toFixed(2);

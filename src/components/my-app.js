@@ -26,12 +26,8 @@ import './snack-bar.js';
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
-// When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
-// In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
-import { responsiveWidth } from './shared-styles.js';
-
 class MyApp extends connect(store)(LitElement) {
-  render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
+  render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -147,8 +143,9 @@ class MyApp extends connect(store)(LitElement) {
         text-align: center;
       }
 
-      /* Wide layout */
-      @media (min-width: ${responsiveWidth}) {
+      /* Wide layout: when the viewport width is bigger than 460px, layout
+      changes to a wide layout. */
+      @media (min-width: 460px) {
         .toolbar-list {
           display: block;
         }
@@ -178,45 +175,46 @@ class MyApp extends connect(store)(LitElement) {
 
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
+    <app-drawer opened="${_drawerOpened}"
+        on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
       <nav class="drawer-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
     <main class="main-content">
-      <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" active?="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" active?="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
+      <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
+      <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
+      <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
     </main>
 
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
 
-    <snack-bar active?="${snackbarOpened}">
-        You are now ${offline ? 'offline' : 'online'}.</snack-bar>
+    <snack-bar active?="${_snackbarOpened}">
+        You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
   static get properties() {
     return {
-      page: String,
       appTitle: String,
-      drawerOpened: Boolean,
-      snackbarOpened: Boolean,
-      offline: Boolean
+      _page: String,
+      _drawerOpened: Boolean,
+      _snackbarOpened: Boolean,
+      _offline: Boolean
     }
   }
 
@@ -231,7 +229,7 @@ class MyApp extends connect(store)(LitElement) {
     super.ready();
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
-    installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
+    installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
   }
 
@@ -247,10 +245,10 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   stateChanged(state) {
-    this.page = state.app.page;
-    this.offline = state.app.offline;
-    this.snackbarOpened = state.app.snackbarOpened;
-    this.drawerOpened = state.app.drawerOpened;
+    this._page = state.app.page;
+    this._offline = state.app.offline;
+    this._snackbarOpened = state.app.snackbarOpened;
+    this._drawerOpened = state.app.drawerOpened;
   }
 
   _layoutChanged(isWideLayout) {
@@ -259,7 +257,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _offlineChanged(offline) {
-    const previousOffline = this.offline;
+    const previousOffline = this._offline;
     store.dispatch(updateOffline(offline));
 
     // Don't show the snackbar on the first load of the page.
@@ -277,7 +275,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _updateDrawerState(opened) {
-    if (opened !== this.drawerOpened) {
+    if (opened !== this._drawerOpened) {
       store.dispatch(opened ? openDrawer() : closeDrawer());
     }
   }

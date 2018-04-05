@@ -29,10 +29,10 @@ store.addReducers({
 class MyView2 extends connect(store)(PageViewElement) {
   render(props) {
     return html`
-      <style>${SharedStyles}</style>
+      ${SharedStyles}
       <section>
         <h2>Redux example: simple counter</h2>
-        <div class="circle">${props.clicks}</div>
+        <div class="circle">${props._clicks}</div>
         <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
         element is not build in a Redux-y way (you can think of it as being a
         third-party element you got from someone else), but this page is connected to the
@@ -43,10 +43,9 @@ class MyView2 extends connect(store)(PageViewElement) {
       </section>
       <section>
         <p>
-          <counter-element value="${props.value}" clicks="${props.clicks}"
+          <counter-element value="${props._value}" clicks="${props._clicks}"
               on-counter-incremented="${() => store.dispatch(increment())}"
               on-counter-decremented="${() => store.dispatch(decrement())}">
-
           </counter-element>
         </p>
       </section>
@@ -55,14 +54,14 @@ class MyView2 extends connect(store)(PageViewElement) {
 
   static get properties() { return {
     // This is the data from the store.
-    clicks: Number,
-    value: Number
+    _clicks: Number,
+    _value: Number
   }}
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this.clicks = state.counter.clicks;
-    this.value = state.counter.value;
+    this._clicks = state.counter.clicks;
+    this._value = state.counter.value;
   }
 }
 

@@ -19,16 +19,16 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
   static get properties() { return {
-    products: Object
+    _products: Object
   }}
 
-  render({products}) {
+  render({_products}) {
     return html`
-      <style>${ButtonSharedStyles}</style>
+      ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      ${Object.values(products).map((item) =>
+      ${Object.values(_products).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
@@ -52,7 +52,7 @@ class ShopProducts extends connect(store)(LitElement) {
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this.products = state.shop.products;
+    this._products = state.shop.products;
   }
 
   addToCart(event) {
