@@ -7,18 +7,24 @@
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
-    "start": "polymer serve",
+    "serve": "polymer serve",
     "build": "polymer build",
     "rename": "LC_ALL=C find build -type f -exec sed -i '' s/node_modules/node_assets/g {} + && mv build/es5-bundled/node_modules build/es5-bundled/node_assets && mv build/es6-bundled/node_modules build/es6-bundled/node_assets && mv build/esm-bundled/node_modules build/esm-bundled/node_assets",
+    "deploy": "gcloud app deploy --project pwa-starter-kit --version prpl-server --no-promote",
+    "start": "prpl-server --root build/ --host 0.0.0.0 --https-redirect --bot-proxy https://render-tron.appspot.com/render",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
     "test:unit": "wct --module-resolution=node --npm -l chrome",
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000"
   },
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.12",
     "@polymer/lit-element": "^0.2.2",
     "@webcomponents/webcomponentsjs": "^1.0.0",
+    "prpl-server": "^1.0.0",
     "pwa-helpers": "polymerlabs/pwa-helpers",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
