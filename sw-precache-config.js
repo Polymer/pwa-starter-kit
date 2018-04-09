@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
  * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
  * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
  * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
@@ -12,9 +12,17 @@
 
 module.exports = {
   staticFileGlobs: [
-    'index.html',
     'manifest.json',
-    'bower_components/webcomponentsjs/*',
+    'src/**/*',
   ],
-  navigateFallback: 'index.html',
+  runtimeCaching: [
+    {
+      urlPattern: /\/@webcomponents\/webcomponentsjs\//,
+      handler: 'fastest'
+    },
+    {
+      urlPattern: /^https:\/\/fonts.gstatic.com\//,
+      handler: 'fastest'
+    }
+  ]
 };
