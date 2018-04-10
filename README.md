@@ -1,7 +1,6 @@
-# ⚠️🚨Disclaimer: 🚨⚠️
-This template is still being developed  and is not yet production ready. There are things that haven't been finalized yet (such as the docs and the bundling solution), so this repo might change a signficant amount before it's ready for release.
+![built_with pwa–starter–kit_](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)
 
-# PWA Starter Kit
+# PWA Starter Kit -- `template-responsive-drawer-layout`
 
 This sample app is a starting point for building PWAs. Out of the box, the template
 gives you the following features:
@@ -12,18 +11,9 @@ gives you the following features:
 - fast time-to-interactive and first-paint through the PRPL pattern.
 - deployment to AppEngine
 
+This template is very similar to the `master` template, in the sense that it keeps both Redux for state management, and all of the UI elements. The main difference is that the wide screen layout displays a persistent `app-drawer`, inline with the content.
+
 Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki)
 for more details!
 
-![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/35752411-b66260de-0810-11e8-8e13-4d593ab2d7d4.png)
-
-# TODOs
-[ ] `polymer build` is not ready yet
-[ ] service worker isn't ready yet
-[ ] figure out the different bundles needed for different browsers
-[ ] related: figure out polyfills, and making it work on all supported browsers
-[ ] figure out the deployment story
-[ ] figure out testing framework to use
-[ ] update to use blessed UI elements/components (icon, app layout, shared styles)
-[ ] docs cleanup
-[ ] final code cleanup
+![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/38551879-a7720e42-3cba-11e8-9f33-aa0a65c0218a.png)

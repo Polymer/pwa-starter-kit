@@ -18,7 +18,7 @@ describe('routing tests', function() {
   let polyserve, browser, page;
 
   before(async function() {
-    polyserve = await startServer({port:4444, root:path.join(__dirname, '..')});
+    polyserve = await startServer({port:4444, root:path.join(__dirname, '../..'), moduleResolution:'node'});
   });
 
   after((done) => polyserve.close(done));
@@ -29,7 +29,7 @@ describe('routing tests', function() {
   });
 
   afterEach(() => browser.close());
-  
+
   it('the page selector switches pages', async function() {
     await page.goto(`${appUrl}`);
     await page.waitForSelector('my-app', {visible: true});

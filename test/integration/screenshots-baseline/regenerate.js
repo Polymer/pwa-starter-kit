@@ -12,13 +12,13 @@ const puppeteer = require('puppeteer');
 const {startServer} = require('polyserve');
 const path = require('path');
 const fs = require('fs');
-const baselineDir = `${process.cwd()}/test/screenshots-baseline`;
+const baselineDir = `${process.cwd()}/test/integration/screenshots-baseline`;
 
 describe('🎁 regenerate screenshots', function() {
   let polyserve, browser, page;
 
   before(async function() {
-    polyserve = await startServer({port:4444, root:path.join(__dirname, '../..')});
+    polyserve = await startServer({port:4444, root:path.join(__dirname, '../../..'), moduleResolution:'node'});
 
     // Create the test directory if needed.
     if (!fs.existsSync(baselineDir)){
@@ -48,7 +48,9 @@ describe('🎁 regenerate screenshots', function() {
 });
 
 async function generateBaselineScreenshots(page) {
-  const breakpoints = [{width: 800, height: 600}, {width: 375, height: 667}];
+  const breakpoints = [
+      {width: 800, height: 600},
+      {width: 375, height: 667}];
   const prefixes = ['wide', 'narrow'];
 
   for (let i = 0; i < prefixes.length; i++) {
