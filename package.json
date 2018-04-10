@@ -1,30 +1,24 @@
 {
   "name": "pwa-starter-kit",
-  "version": "",
-  "flat": "true",
+  "version": "1.0.0",
+  "flat": true,
   "contributors": [
     "The Polymer Authors"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "scripts": {
-    "serve": "polymer serve",
-    "build": "polymer build",
-    "rename": "LC_ALL=C find build -type f -exec sed -i '' s/node_modules/node_assets/g {} + && mv build/es5-bundled/node_modules build/es5-bundled/node_assets && mv build/es6-bundled/node_modules build/es6-bundled/node_assets && mv build/esm-bundled/node_modules build/esm-bundled/node_assets",
-    "deploy": "gcloud app deploy --project pwa-starter-kit --version prpl-server --no-promote",
-    "start": "prpl-server --root build/ --host 0.0.0.0 --https-redirect --bot-proxy https://render-tron.appspot.com/render",
+    "start": "polymer serve",
+    "build": "polymer build && cp -r build server/ && LC_ALL=C find server/build -type f -exec sed -i '' s/node_modules/node_assets/g {} + && mv server/build/es5-bundled/node_modules server/build/es5-bundled/node_assets && mv server/build/es6-bundled/node_modules server/build/es6-bundled/node_assets && mv server/build/esm-bundled/node_modules server/build/esm-bundled/node_assets",
+    "deploy": "gcloud app deploy server/app.yaml --project pwa-starter-kit --version prpl-server --no-promote",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
     "test:unit": "wct --module-resolution=node --npm -l chrome",
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=10000"
   },
-  "engines": {
-    "node": ">=6.0.0"
-  },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.12",
     "@polymer/lit-element": "^0.2.2",
     "@webcomponents/webcomponentsjs": "^1.0.0",
-    "prpl-server": "^1.0.0",
     "pwa-helpers": "polymerlabs/pwa-helpers",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
@@ -34,7 +28,7 @@
     "chai": "^4.1.2",
     "mocha": "^5.0.0",
     "pixelmatch": "^4.0.2",
-    "polymer-cli": "^1.7.0-pre.4",
+    "polymer-cli": "^1.7.0-pre.6",
     "puppeteer": "^1.0.0",
     "wct-browser-legacy": "0.0.1-pre.11",
     "web-component-tester": "^6.6.0-pre.3"
