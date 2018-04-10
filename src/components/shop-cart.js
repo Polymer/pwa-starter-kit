@@ -61,7 +61,7 @@ class ShopCart extends LitElement {
   }
 
   _removeFromCart(event) {
-    this.dispatchEvent(new CustomEvent("removeFromCart",
+    this.dispatchEvent(new CustomEvent('removeFromCart',
         {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
   }
 }
