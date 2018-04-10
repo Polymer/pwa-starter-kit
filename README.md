@@ -1,3 +1,5 @@
+![built_with pwa–starter–kit_](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)
+
 # ⚠️🚨Disclaimer: 🚨⚠️
 This template is still being developed  and is not yet production ready. There are things that haven't been finalized yet (such as the docs and the bundling solution), so this repo might change a signficant amount before it's ready for release.
 
@@ -15,7 +17,7 @@ gives you the following features:
 Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki)
 for more details!
 
-![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/35752411-b66260de-0810-11e8-8e13-4d593ab2d7d4.png)
+![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/37805520-24955fb8-2df8-11e8-9261-20db32eff971.jpg)
 
 # TODOs
 
@@ -24,7 +26,6 @@ for more details!
 - [ ] figure out the different bundles needed for different browsers
 - [ ] related: figure out polyfills, and making it work on all supported browsers
 - [ ] figure out the deployment story
-- [ ] figure out testing framework to use
 - [ ] update to use blessed UI elements/components (icon, app layout, shared styles)
 - [ ] docs cleanup
 - [ ] final code cleanup

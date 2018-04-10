@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
@@ -16,10 +16,10 @@ import './shop-products.js';
 import './shop-cart.js';
 
 class MyView3 extends PageViewElement {
-  render({cart, products, error}) {
+  render({_cart, _products, _error}) {
     return html`
-      <style>${SharedStyles}</style>
-      <style>${ButtonSharedStyles}</style>
+      ${SharedStyles}
+      ${ButtonSharedStyles}
       <style>
         button {
           border: 2px solid var(--app-dark-text-color);
@@ -34,7 +34,7 @@ class MyView3 extends PageViewElement {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(cart)}</div>
+        <div class="circle">${this._numItemsInCart(_cart)}</div>
 
         <p>This is a slightly more advanced example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -46,16 +46,17 @@ class MyView3 extends PageViewElement {
       </section>
       <section>
         <h3>Products</h3>
-        <shop-products products="${products}"></shop-products>
+        <shop-products products="${_products}"></shop-products>
 
         <br>
         <h3>Your Cart</h3>
-        <shop-cart products="${products}" cart="${cart}"></shop-cart>
+        <shop-cart products="${_products}" cart="${_cart}"></shop-cart>
 
-        <div>${error}</div>
+        <div>${_error}</div>
         <br>
         <p>
-          <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
+          <button hidden="${_cart.addedIds.length == 0}"
+              on-click="${() => this.checkout()}">
             Checkout
           </button>
         </p>
@@ -65,19 +66,19 @@ class MyView3 extends PageViewElement {
 
   static get properties() { return {
     // This is the data from the store.
-    cart: Object,
-    products: Object,
-    error: String
+    _cart: Object,
+    _products: Object,
+    _error: String
   }}
 
   constructor() {
     super();
-    this.cart = {addedIds: [], quantityById: {}};
-    this.error = '';
+    this._cart = {addedIds: [], quantityById: {}};
+    this._error = '';
   }
 
   ready() {
-    this.products = this._getAllProducts();
+    this._products = this._getAllProducts();
     super.ready();
 
     this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
@@ -89,47 +90,47 @@ class MyView3 extends PageViewElement {
     // We're simulating that by flipping a coin :)
     const flip = Math.floor(Math.random() * 2);
     if (flip === 0) {
-      this.error = 'Checkout failed. Please try again';
+      this._error = 'Checkout failed. Please try again';
     } else {
-      this.error = '';
-      this.cart = {addedIds: [], quantityById: {}};
+      this._error = '';
+      this._cart = {addedIds: [], quantityById: {}};
     }
   }
 
   _addToCart(productId) {
-    this.error = '';
-    if (this.products[productId].inventory > 0) {
-      this.products[productId].inventory--;
+    this._error = '';
+    if (this._products[productId].inventory > 0) {
+      this._products[productId].inventory--;
 
-      if (this.cart.addedIds.indexOf(productId) !== -1) {
-        this.cart.quantityById[productId]++;
+      if (this._cart.addedIds.indexOf(productId) !== -1) {
+        this._cart.quantityById[productId]++;
       } else {
-        this.cart.addedIds.push(productId);
-        this.cart.quantityById[productId] = 1;
+        this._cart.addedIds.push(productId);
+        this._cart.quantityById[productId] = 1;
       }
     }
 
     // TODO: this should be this.invalidate
-    this.products = JSON.parse(JSON.stringify(this.products));
-    this.cart = JSON.parse(JSON.stringify(this.cart));
+    this._products = JSON.parse(JSON.stringify(this._products));
+    this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
   _removeFromCart(productId) {
-    this.error = '';
-    this.products[productId].inventory++;
+    this._error = '';
+    this._products[productId].inventory++;
 
-    const quantity = this.cart.quantityById[productId];
+    const quantity = this._cart.quantityById[productId];
     if (quantity === 1) {
-      this.cart.quantityById[productId] = 0;
+      this._cart.quantityById[productId] = 0;
       // This removes all items in this array equal to productId.
-      this.cart.addedIds = this.cart.addedIds.filter(e => e !== productId);
+      this._cart.addedIds = this._cart.addedIds.filter(e => e !== productId);
     } else{
-      this.cart.quantityById[productId]--;
+      this._cart.quantityById[productId]--;
     }
 
     // TODO: this should be this.invalidate
-    this.products = JSON.parse(JSON.stringify(this.products));
-    this.cart = JSON.parse(JSON.stringify(this.cart));
+    this._products = JSON.parse(JSON.stringify(this._products));
+    this._cart = JSON.parse(JSON.stringify(this._cart));
   }
 
   _numItemsInCart(cart) {

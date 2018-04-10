@@ -8,48 +8,31 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
-import { installRouter } from '../../node_modules/pwa-helpers/router.js';
-import { installOfflineWatcher } from '../../node_modules/pwa-helpers/network.js';
-import { installMediaQueryWatcher } from '../../node_modules/pwa-helpers/media-query.js';
-import { updateMetadata } from '../../node_modules/pwa-helpers/metadata.js';
+import { LitElement, html } from '@polymer/lit-element';
+import { installRouter } from 'pwa-helpers/router.js';
+import { installOfflineWatcher } from 'pwa-helpers/network.js';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
+import { updateMetadata } from 'pwa-helpers/metadata.js';
 
-import '../../node_modules/@polymer/app-layout/app-drawer/app-drawer.js';
-import '../../node_modules/@polymer/app-layout/app-header/app-header.js';
-import '../../node_modules/@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
-import '../../node_modules/@polymer/app-layout/app-toolbar/app-toolbar.js';
-import { setPassiveTouchGestures } from '../../node_modules/@polymer/polymer/lib/utils/settings.js';
-
+import '@polymer/app-layout/app-drawer/app-drawer.js';
+import '@polymer/app-layout/app-header/app-header.js';
+import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
+import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
-// When the viewport width is smaller than `responsiveWidth`, layout changes to narrow layout.
-// In narrow layout, the drawer will be stacked on top of the main content instead of side-by-side.
-import { responsiveWidth } from './shared-styles.js';
-
 class MyApp extends LitElement {
-  render({page, appTitle, drawerOpened, snackbarOpened, offline}) {
+  render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
     // Anything that's related to rendering should be done in here.
-
-    if (page && appTitle) {
-      const pageTitle = appTitle + ' - ' + page;
-      updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-          // This object also takes an image property, that points to an img src.
-        })
-    }
-
     return html`
     <style>
       :host {
         --app-drawer-width: 256px;
         display: block;
 
-        --pink: #E91E63;
-        --gray: #293237;
-        --app-primary-color: var(--pink);
-        --app-secondary-color: var(--gray);
+        --app-primary-color: #E91E63;
+        --app-secondary-color: #293237;
         --app-dark-text-color: var(--app-secondary-color);
         --app-light-text-color: white;
         --app-section-even-color: #f7f7f7;
@@ -83,13 +66,17 @@ class MyApp extends LitElement {
         font-family: 'Pacifico';
         text-transform: lowercase;
         font-size: 30px;
+        /* In the narrow layout, the toolbar is offset by the width of the
+        drawer button, and the text looks not centered. Add a padding to
+        match that button */
+        padding-right: 44px;
       }
 
       .toolbar-list {
         display: none;
       }
 
-      .toolbar-list a {
+      .toolbar-list > a {
         display: inline-block;
         color: var(--app-header-text-color);
         text-decoration: none;
@@ -97,7 +84,7 @@ class MyApp extends LitElement {
         padding: 4px 24px;
       }
 
-      .toolbar-list a[selected] {
+      .toolbar-list > a[selected] {
         color: var(--app-header-selected-color);
         border-bottom: 4px solid var(--app-header-selected-color);
       }
@@ -120,7 +107,7 @@ class MyApp extends LitElement {
         position: relative;
       }
 
-      .drawer-list a {
+      .drawer-list > a {
         display: block;
         text-decoration: none;
         color: var(--app-drawer-text-color);
@@ -128,7 +115,7 @@ class MyApp extends LitElement {
         padding: 0 24px;
       }
 
-      .drawer-list a[selected] {
+      .drawer-list > a[selected] {
         color: var(--app-drawer-selected-color);
       }
 
@@ -137,11 +124,11 @@ class MyApp extends LitElement {
         min-height: 100vh;
       }
 
-      .main-content .page {
+      .page {
         display: none;
       }
 
-      .main-content .page[active] {
+      .page[active] {
         display: block;
       }
 
@@ -152,14 +139,9 @@ class MyApp extends LitElement {
         text-align: center;
       }
 
-      /* In the narrow layout, the toolbar is offset by the width of the
-       drawer button, and the text looks not centered. Add a padding to
-       match that button */
-      [main-title] {
-        padding-right: 44px;
-      }
-      /* Wide layout */
-      @media (min-width: ${responsiveWidth}) {
+      /* Wide layout: when the viewport width is bigger than 460px, layout
+      changes to a wide layout. */
+      @media (min-width: 460px) {
         .toolbar-list {
           display: block;
         }
@@ -183,56 +165,58 @@ class MyApp extends LitElement {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this._drawerOpenedChanged(true)}">${menuIcon}</button>
+        <button class="menu-btn" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${drawerOpened}" on-opened-changed="${e => this._drawerOpenedChanged(e.target.opened)}">
+    <app-drawer opened="${_drawerOpened}"
+        on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
       <nav class="drawer-list">
-        <a selected?="${page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${page === 'view3'}" href="/view3">View Three</a>
+        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
+        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
+        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
     <main class="main-content">
-      <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
-      <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
-      <my-view3 class="page" active?="${page === 'view3'}"></my-view3>
-      <my-view404 class="page" active?="${page === 'view404'}"></my-view404>
+      <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
+      <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
+      <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
+      <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
     </main>
 
     <footer>
       <p>Made with &lt;3 by the Polymer team.</p>
     </footer>
-    <snack-bar active?="${snackbarOpened}">
-        You are now ${offline ? 'offline' : 'online'}.</snack-bar>
+
+    <snack-bar active?="${_snackbarOpened}">
+        You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
   static get properties() {
     return {
-      page: String,
       appTitle: String,
-      drawerOpened: Boolean,
-      snackbarOpened: Boolean,
-      offline: Boolean
+      _page: String,
+      _drawerOpened: Boolean,
+      _snackbarOpened: Boolean,
+      _offline: Boolean
     }
   }
 
   constructor() {
     super();
-    this.drawerOpened = false;
+    this._drawerOpened = false;
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
     setPassiveTouchGestures(true);
@@ -242,21 +226,32 @@ class MyApp extends LitElement {
     super.ready();
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
-    installMediaQueryWatcher(`(min-width: ${responsiveWidth})`,
+    installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
-    this._readied = true;
+  }
+
+  didRender(properties, changeList) {
+    if ('page' in changeList) {
+      const pageTitle = properties.appTitle + ' - ' + changeList.page;
+      updateMetadata({
+          title: pageTitle,
+          description: pageTitle
+          // This object also takes an image property, that points to an img src.
+      });
+    }
   }
 
   _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._drawerOpenedChanged(false);
+    this._updateDrawerState(false);
   }
 
   _offlineChanged(offline) {
-    this.offline = offline;
+    const previousOffline = this._offline;
+    this._offline = offline;
 
     // Don't show the snackbar on the first load of the page.
-    if (!this._readied) {
+    if (previousOffline === undefined) {
       return;
     }
 
@@ -273,12 +268,12 @@ class MyApp extends LitElement {
     // you can do here.
 
     // Close the drawer - in case the *path* change came from a link in the drawer.
-    this._drawerOpenedChanged(false);
+    this._updateDrawerState(false);
   }
 
-  _drawerOpenedChanged(opened) {
-    if (opened !== this.drawerOpened) {
-      this.drawerOpened = opened;
+  _updateDrawerState(opened) {
+    if (opened !== this._drawerOpened) {
+      this._drawerOpened = opened;
     }
   }
 
@@ -299,7 +294,7 @@ class MyApp extends LitElement {
         page = 'view404';
         await import('../components/my-view404.js');
     }
-    this.page = page;
+    this._page = page;
   }
 }
 

@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import './counter-element.js';
@@ -16,21 +16,21 @@ import './counter-element.js';
 class MyView2 extends PageViewElement {
   render(props) {
     return html`
-      <style>${SharedStyles}</style>
+      ${SharedStyles}
       <section>
         <h2>Redux example: simple counter</h2>
-        <div class="circle">${props.clicks}</div>
-        <p>This page contains a reusable <code>&lt;counter-element&gt;</code>, which
-        you can think of it as being a third-party element you got from someone else).
-        The source of truth for the data is this view, and it passes the value and
-        clicks to the element; when the element updates its counter, it fires
-        and event, and this page updates its internal state. You can also see the
-        total number of clicks reflected in the bubble above.</p>
+        <div class="circle">${props._clicks}</div>
+        <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
+        element is not build in a Redux-y way (you can think of it as being a
+        third-party element you got from someone else), but this page is connected to the
+        Redux store. When the element updates its counter, this page updates the values
+        in the Redux store, and you can see the total number of clicks reflected in
+        the bubble above.</p>
         <br><br>
       </section>
       <section>
         <p>
-          <counter-element value="${props.value}" clicks="${props.clicks}"
+          <counter-element value="${props._value}" clicks="${props._clicks}"
               on-counter-incremented="${() => this._increment()}"
               on-counter-decremented="${() => this._decrement()}">
           </counter-element>
@@ -41,24 +41,24 @@ class MyView2 extends PageViewElement {
 
   static get properties() { return {
     // This is the data from the store.
-    clicks: Number,
-    value: Number
+    _clicks: Number,
+    _value: Number
   }}
 
   constructor() {
     super();
-    this.clicks = 0;
-    this.value = 0;
+    this._clicks = 0;
+    this._value = 0;
   }
 
   _increment() {
-    this.clicks++;
-    this.value++;
+    this._clicks++;
+    this._value++;
   }
 
   _decrement() {
-    this.clicks++;
-    this.value--;
+    this._clicks++;
+    this._value--;
   }
 }
 
