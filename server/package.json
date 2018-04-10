@@ -1,6 +1,6 @@
 {
   "name": "pwa-starter-kit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "scripts": {
     "start": "prpl-server --root build/ --host 0.0.0.0 --https-redirect --bot-proxy https://render-tron.appspot.com/render"
   },
