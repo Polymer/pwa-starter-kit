@@ -40,7 +40,7 @@ class MyApp extends connect(store)(LitElement) {
         display: inline-block;
         color: black;
         text-decoration: none;
-        padding: 0 24px;
+        padding: 0 8px;
       }
 
       .toolbar-list > a[selected] {

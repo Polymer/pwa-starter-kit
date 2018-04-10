@@ -1,32 +1,18 @@
 ![built_with pwa–starter–kit_](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)
 
-# ⚠️🚨Disclaimer: 🚨⚠️
-This template is still being developed  and is not yet production ready. There are things that haven't been finalized yet (such as the docs and the bundling solution), so this repo might change a signficant amount before it's ready for release.
-
-# PWA Starter Kit
+# PWA Starter Kit -- `template-minimal-ui`
 
 This sample app is a starting point for building PWAs. Out of the box, the template
 gives you the following features:
 - all the PWA goodness (manifest, service worker)
 - a responsive layout
-- application theming
 - Redux for state management
 - fast time-to-interactive and first-paint through the PRPL pattern.
 - deployment to AppEngine
 
+This template uses Redux for state management like the `master` template, but doesn't use any of the `app-layout` elements (app-header or app-drawer) for the responsive UI.
+
 Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki)
 for more details!
 
-![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/37805520-24955fb8-2df8-11e8-9261-20db32eff971.jpg)
-
-# TODOs
-
-- [ ] `polymer build` is not ready yet
-- [ ] service worker isn't ready yet
-- [ ] figure out the different bundles needed for different browsers
-- [ ] related: figure out polyfills, and making it work on all supported browsers
-- [ ] figure out the deployment story
-- [ ] update to use blessed UI elements/components (icon, app layout, shared styles)
-- [ ] docs cleanup
-- [ ] final code cleanup
-- [ ] deploy all templates for demos
+![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/38551198-e214b92a-3cb8-11e8-8ae6-770b83a906b5.png)
