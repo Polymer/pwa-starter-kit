@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Import the element to test -->
     <script type="module" src="../../src/components/counter-element.js"></script>
+    <script src="../../node_modules/axe-core/axe.min.js"></script>
   </head>
   <body>
     <test-fixture id="basic">
@@ -30,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script type="module">
-      import {axeReport} from '../axe-report.js';
+      import {axeReport} from '../../node_modules/pwa-helpers/axe-report.js';
 
       suite('counter-element tests', function() {
         let el;
