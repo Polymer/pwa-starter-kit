@@ -7,13 +7,15 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-
-export const ButtonSharedStyles = `
-    button {
-      font-size: inherit;
-      vertical-align: middle;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
+import { html } from '@polymer/lit-element';
+export const ButtonSharedStyles = html`
+<style>
+  button {
+    font-size: inherit;
+    vertical-align: middle;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+</style>
 `;

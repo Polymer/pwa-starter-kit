@@ -8,8 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '../../node_modules/@polymer/lit-element/lit-element.js';
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
+import { LitElement, html } from '@polymer/lit-element';
+import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
@@ -19,13 +19,16 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
   static get properties() { return {
-    products: Object
+    _products: Object
   }}
 
-  render({products}) {
+  render({_products}) {
     return html`
-      <style>${ButtonSharedStyles}</style>
-      ${Object.values(products).map((item) =>
+      ${ButtonSharedStyles}
+      <style>
+        :host { display: block; }
+      </style>
+      ${Object.values(_products).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
@@ -49,7 +52,7 @@ class ShopProducts extends connect(store)(LitElement) {
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this.products = state.shop.products;
+    this._products = state.shop.products;
   }
 
   addToCart(event) {

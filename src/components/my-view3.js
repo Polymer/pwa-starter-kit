@@ -8,16 +8,19 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
-import { connect } from '../../node_modules/pwa-helpers/connect-mixin.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
 import './shop-products.js';
 import './shop-cart.js';
 
 // This element is connected to the redux store.
 import { store } from '../store.js';
+
+// These are the actions needed by this element.
+import { checkout } from '../actions/shop.js';
 
 // We are lazy loading its reducer.
 import shop from '../reducers/shop.js';
@@ -25,14 +28,11 @@ store.addReducers({
   shop
 });
 
-// These are the actions needed by this element.
-import { checkout } from '../actions/shop.js';
-
 class MyView3 extends connect(store)(PageViewElement) {
-  render({active, cart, error}) {
+  render({_cart, _error}) {
     return html`
-      <style>${SharedStyles}</style>
-      <style>${ButtonSharedStyles}</style>
+      ${SharedStyles}
+      ${ButtonSharedStyles}
       <style>
         button {
           border: 2px solid black;
@@ -43,7 +43,7 @@ class MyView3 extends connect(store)(PageViewElement) {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <p>Number of items in the cart: <b>${this._numItemsInCart(cart)}</b></p>
+        <p>Number of items in the cart: <b>${this._numItemsInCart(_cart)}</b></p>
 
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -58,10 +58,11 @@ class MyView3 extends connect(store)(PageViewElement) {
 
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
-      
-        <div>${error}</div>
+
+        <div>${_error}</div>
         <p>
-          <button hidden="${cart.addedIds.length == 0}" on-click="${() => this.checkout()}">
+          <button hidden="${_cart.addedIds.length == 0}"
+              on-click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
         </p>
@@ -71,18 +72,14 @@ class MyView3 extends connect(store)(PageViewElement) {
 
   static get properties() { return {
     // This is the data from the store.
-    cart: Object,
-    error: String
+    _cart: Object,
+    _error: String
   }}
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this.cart = state.shop.cart;
-    this.error = state.shop.error;
-  }
-
-  checkout(event) {
-    store.dispatch(checkout());
+    this._cart = state.shop.cart;
+    this._error = state.shop.error;
   }
 
   _numItemsInCart(cart) {

@@ -8,14 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '../../node_modules/@polymer/lit-element/lit-element.js';
+import { html } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView404 extends PageViewElement {
   render(props) {
     return html`
-      <style>${SharedStyles}</style>
+      ${SharedStyles}
       <section>
         <h2>Oops! You hit a 404</h2>
         <p>The page you're looking for doesn't seem to exist. Head back
