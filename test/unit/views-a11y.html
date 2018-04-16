@@ -30,7 +30,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script type="module" src="../../src/components/my-view2.js"></script>
     <script type="module" src="../../src/components/my-view3.js"></script>
     <script type="module" src="../../src/components/my-view404.js"></script>
-    <script src="../../node_modules/axe-core/axe.min.js"></script>
   </head>
   <body>
     <test-fixture id="view1">
@@ -55,7 +54,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script type="module">
-      import {axeReport} from '../../node_modules/pwa-helpers/axe-report.js';
+      import 'axe-core/axe.min.js';
+      import {axeReport} from 'pwa-helpers/axe-report.js';
 
       suite('views a11y tests', function() {
         test('my-view1', function() {
