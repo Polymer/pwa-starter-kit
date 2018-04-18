@@ -5,14 +5,15 @@
   "contributors": [
     "The Polymer Authors"
   ],
-  "license": "https://polymer.github.io/LICENSE.txt",
+  "license": "BSD-3-Clause",
+  "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
     "build:prpl-server": "polymer build && rm -rf server/build && mv build server/ && renamer --find node_modules --replace node_assets 'server/build/**' && replace node_modules node_assets server/build -r -s",
     "build:static": "polymer build --preset es6-bundled --js-transform-modules-to-amd",
     "serve:prpl-server": "prpl-server --root server/build",
-    "serve:static": "polymer serve build/es6-bundled",
+    "serve:static": "polymer serve --port 5000 build/es6-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
     "test:unit": "wct --module-resolution=node --npm -l chrome",
