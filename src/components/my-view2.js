@@ -26,7 +26,7 @@ store.addReducers({
   counter
 });
 
-class MyView2 extends connect(store)(PageViewElement) {
+export class MyView2 extends connect(store)(PageViewElement) {
   render(props) {
     return html`
       ${SharedStyles}
