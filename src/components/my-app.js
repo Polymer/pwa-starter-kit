@@ -231,8 +231,8 @@ class MyApp extends LitElement {
   }
 
   didRender(properties, changeList) {
-    if ('page' in changeList) {
-      const pageTitle = properties.appTitle + ' - ' + changeList.page;
+    if ('_page' in changeList) {
+      const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({
           title: pageTitle,
           description: pageTitle
