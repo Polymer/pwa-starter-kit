@@ -18,10 +18,6 @@ import { addToCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
-  static get properties() { return {
-    _products: Object
-  }}
-
   render({_products}) {
     return html`
       ${ButtonSharedStyles}
@@ -44,6 +40,10 @@ class ShopProducts extends connect(store)(LitElement) {
       )}
     `;
   }
+
+  static get properties() { return {
+    _products: Object
+  }}
 
   ready() {
     super.ready();
