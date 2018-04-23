@@ -12,7 +12,7 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from './shared-styles.js';
 import { PageViewElement } from './page-view-element.js';
 
-class MyView1 extends PageViewElement {
+export class MyView1 extends PageViewElement {
   render(props) {
     return html`
       ${SharedStyles}
