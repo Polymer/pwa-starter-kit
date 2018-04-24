@@ -9,7 +9,6 @@
     "node_modules/@webcomponents/webcomponentsjs/**",
     "push-manifest.json"
   ],
-  "autoBasePath": true,
   "builds": [
     {
       "name": "esm-bundled",
