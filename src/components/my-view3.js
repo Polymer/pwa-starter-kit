@@ -28,7 +28,7 @@ store.addReducers({
   shop
 });
 
-export class MyView3 extends connect(store)(PageViewElement) {
+class MyView3 extends connect(store)(PageViewElement) {
   render({_cart, _error}) {
     return html`
       ${SharedStyles}
