@@ -10,9 +10,13 @@ gives you the following features:
 - all the PWA goodness (manifest, service worker)
 - a responsive layout
 - application theming
-- Redux for state management
-- fast time-to-interactive and first-paint through the PRPL pattern.
-- deployment to AppEngine
+- example of using Redux for state management
+- offline UI
+- simple routing solution
+- fast time-to-interactive and first-paint through the PRPL pattern
+- easy deployment to prpl-server or static hosting
+- unit and integrating testing starting points
+- documentation about other advanced patterns.
 
 Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki)
 for more details!
