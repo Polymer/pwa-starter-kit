@@ -25,6 +25,6 @@ for more details!
 - ES5 bundle is broken ([issue](https://github.com/Polymer/polymer-cli/issues/1000))
 
 # TODOs
-- [ ] Add Safari testing on Travis
+- [ ] add Safari testing on Travis
 - [ ] update to latest [material-design-web-components](https://github.com/material-components/material-components-web-components)
 - [ ] deploy all templates as demos
