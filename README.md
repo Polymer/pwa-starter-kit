@@ -1,4 +1,5 @@
 ![built_with pwa–starter–kit_](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)
+[![Build status](https://api.travis-ci.org/polymer/pwa-starter-kit.svg?branch=template-no-redux)](https://travis-ci.org/polymer/pwa-starter-kit)
 
 # PWA Starter Kit -- `template-no-redux`
 
