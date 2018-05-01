@@ -18,7 +18,7 @@ import { addToCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends connect(store)(LitElement) {
-  render({_products}) {
+  _render({_products}) {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -30,7 +30,7 @@ class ShopProducts extends connect(store)(LitElement) {
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 disabled="${item.inventory === 0}"
-                on-click="${(e) => this.addToCart(e)}"
+                on-click="${(e) => this._addToCart(e)}"
                 data-index$="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
@@ -45,17 +45,16 @@ class ShopProducts extends connect(store)(LitElement) {
     _products: Object
   }}
 
-  ready() {
-    super.ready();
+  _firstRendered() {
     store.dispatch(getAllProducts());
   }
 
   // This is called every time something is updated in the store.
-  stateChanged(state) {
+  _stateChanged(state) {
     this._products = state.shop.products;
   }
 
-  addToCart(event) {
+  _addToCart(event) {
     store.dispatch(addToCart(event.currentTarget.dataset['index']));
   }
 }

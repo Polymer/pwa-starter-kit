@@ -16,7 +16,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class CounterElement extends LitElement {
-  render(props) {
+  _render(props) {
     return html`
       ${ButtonSharedStyles}
       <style>

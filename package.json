@@ -21,8 +21,7 @@
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.12",
-    "@polymer/lit-element": "^0.3.0",
-    "@webcomponents/shadycss": "^1.2.0-0",
+    "@polymer/lit-element": "^0.4.0",
     "@webcomponents/webcomponentsjs": "^2.0.0-0",
     "pwa-helpers": "polymerlabs/pwa-helpers",
     "redux": "^3.7.2",
