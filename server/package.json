@@ -1,6 +1,8 @@
 {
   "name": "pwa-starter-kit",
   "version": "0.1.0",
+  "license": "BSD-3-Clause",
+  "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "prpl-server --root build/ --host 0.0.0.0 --https-redirect --bot-proxy https://render-tron.appspot.com/render"
   },
@@ -8,6 +10,6 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "prpl-server": "^1.0.0"
+    "prpl-server": "^1.1.0"
   }
 }

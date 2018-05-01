@@ -16,7 +16,7 @@ import './shop-products.js';
 import './shop-cart.js';
 
 class MyView3 extends PageViewElement {
-  render({_cart, _products, _error}) {
+  _render({_cart, _products, _error}) {
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}

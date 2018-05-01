@@ -13,11 +13,7 @@ import { addToCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends LitElement {
-  static get properties() { return {
-    products: Object
-  }}
-
-  render({products}) {
+  _render({products}) {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -29,7 +25,7 @@ class ShopProducts extends LitElement {
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 disabled="${item.inventory === 0}"
-                on-click="${(e) => this.addToCart(e)}"
+                on-click="${(e) => this._addToCart(e)}"
                 data-index$="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
@@ -40,7 +36,11 @@ class ShopProducts extends LitElement {
     `;
   }
 
-  addToCart(event) {
+  static get properties() { return {
+    products: Object
+  }}
+
+  _addToCart(event) {
     this.dispatchEvent(new CustomEvent("addToCart",
         {bubbles: true, composed: true, detail:{item:event.currentTarget.dataset['index']}}));
   }

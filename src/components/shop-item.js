@@ -11,21 +11,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '@polymer/lit-element';
 
 class ShopItem extends LitElement {
-  static get properties() {
-    return {
-      name: String,
-      amount: String,
-      price: String
-    }
-  }
-
-  render(props) {
+  _render(props) {
     return html`
       ${props.name}:
       <span hidden="${props.amount === 0}">${props.amount} * </span>
       $${props.price}
       </span>
     `;
+  }
+
+  static get properties() {
+    return {
+      name: String,
+      amount: String,
+      price: String
+    }
   }
 }
 

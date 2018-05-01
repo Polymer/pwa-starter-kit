@@ -14,7 +14,7 @@ import { SharedStyles } from './shared-styles.js';
 import './counter-element.js';
 
 class MyView2 extends PageViewElement {
-  render(props) {
+  _render(props) {
     return html`
       ${SharedStyles}
       <section>

@@ -7,8 +7,12 @@ gives you the following features:
 - all the PWA goodness (manifest, service worker)
 - a responsive layout
 - application theming
-- fast time-to-interactive and first-paint through the PRPL pattern.
-- deployment to AppEngine
+- offline UI
+- simple routing solution
+- fast time-to-interactive and first-paint through the PRPL pattern
+- easy deployment to prpl-server or static hosting
+- unit and integrating testing starting points
+- documentation about other advanced patterns.
 
 This template has the same UI elements as the `master` one (`app-layout` elements, theming, etc), but does not use Redux for state management. Instead, it does a properties-down-events-up unidirectional data flow approach, where the data source of truth is mutable, and individual elements (specifically, each view) own parts of the entire application state.
 

@@ -23,7 +23,7 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
 class MyApp extends LitElement {
-  render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
+  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -165,7 +165,7 @@ class MyApp extends LitElement {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
+        <button class="menu-btn" title="Menu" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
@@ -222,15 +222,14 @@ class MyApp extends LitElement {
     setPassiveTouchGestures(true);
   }
 
-  ready() {
-    super.ready();
+  _firstRendered() {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
   }
 
-  didRender(properties, changeList) {
+  _didRender(properties, changeList) {
     if ('_page' in changeList) {
       const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({

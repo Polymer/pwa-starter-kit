@@ -14,7 +14,7 @@ import { removeFromCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends LitElement {
-  render({cart}) {
+  _render({cart}) {
     return html`
       ${ButtonSharedStyles}
       <style>
