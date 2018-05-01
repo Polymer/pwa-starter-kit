@@ -16,20 +16,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class CounterElement extends LitElement {
-  static get properties() { return {
-    /* The total number of clicks you've done. */
-    clicks: Number,
-    /* The current value of the counter. */
-    value: Number
-  }};
-
-  constructor() {
-    super();
-    this.clicks = 0;
-    this.value = 0;
-  }
-
-  render(props) {
+  _render(props) {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -44,6 +31,19 @@ class CounterElement extends LitElement {
         </p>
       </div>
     `;
+  }
+
+  static get properties() { return {
+    /* The total number of clicks you've done. */
+    clicks: Number,
+    /* The current value of the counter. */
+    value: Number
+  }};
+
+  constructor() {
+    super();
+    this.clicks = 0;
+    this.value = 0;
   }
 
   _onIncrement() {

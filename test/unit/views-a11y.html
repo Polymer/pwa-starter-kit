@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       window.process = { env: { NODE_ENV: 'production' } };
     </script>
 
-    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
     <script src="../../node_modules/wct-browser-legacy/browser.js"></script>
 
     <!-- Import the element to test -->
@@ -54,7 +54,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script type="module">
-      import {axeReport} from '../axe-report.js';
+      import 'axe-core/axe.min.js';
+      import {axeReport} from 'pwa-helpers/axe-report.js';
 
       suite('views a11y tests', function() {
         test('my-view1', function() {

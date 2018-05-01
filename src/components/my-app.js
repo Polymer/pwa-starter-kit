@@ -27,7 +27,7 @@ import { store } from '../store.js';
 import { navigate, updateOffline, updateWideLayout, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _wideLayout}) {
+  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _wideLayout}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -143,7 +143,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
+        <button class="menu-btn" title="Menu" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
     </app-header>
@@ -192,17 +192,16 @@ class MyApp extends connect(store)(LitElement) {
     setPassiveTouchGestures(true);
   }
 
-  ready() {
-    super.ready();
+  _firstRendered() {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 768px)`,
         (matches) => this._layoutChanged(matches));
   }
 
-  didRender(properties, changeList) {
-    if ('page' in changeList) {
-      const pageTitle = properties.appTitle + ' - ' + changeList.page;
+  _didRender(properties, changeList) {
+    if ('_page' in changeList) {
+      const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({
           title: pageTitle,
           description: pageTitle
@@ -211,7 +210,7 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  stateChanged(state) {
+  _stateChanged(state) {
     this._page = state.app.page;
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;

@@ -13,7 +13,7 @@ import { SharedStyles } from './shared-styles.js';
 import { PageViewElement } from './page-view-element.js';
 
 class MyView1 extends PageViewElement {
-  render(props) {
+  _render(props) {
     return html`
       ${SharedStyles}
       <section>
