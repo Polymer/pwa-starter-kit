@@ -12,8 +12,8 @@ import { html } from '@polymer/lit-element';
 import { SharedStyles } from './shared-styles.js';
 import { PageViewElement } from './page-view-element.js';
 
-export class MyView1 extends PageViewElement {
-  render(props) {
+class MyView1 extends PageViewElement {
+  _render(props) {
     return html`
       ${SharedStyles}
       <section>

@@ -20,7 +20,7 @@ import { removeFromCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  render({_cart, _products}) {
+  _render({_cart, _products}) {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -49,7 +49,7 @@ class ShopCart extends connect(store)(LitElement) {
   }}
 
   // This is called every time something is updated in the store.
-  stateChanged(state) {
+  _stateChanged(state) {
     this._products = state.shop.products;
     this._cart = state.shop.cart;
   }

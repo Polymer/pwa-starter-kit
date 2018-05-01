@@ -11,11 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '@polymer/lit-element';
 
 class SnackBar extends LitElement {
-  static get properties() { return {
-    active: Boolean,
-  }};
-
-  render(props) {
+  _render(props) {
     return html`
       <style>
       :host {
@@ -48,6 +44,10 @@ class SnackBar extends LitElement {
     <slot></slot>
     `;
   }
+
+  static get properties() { return {
+    active: Boolean,
+  }}
 }
 
 window.customElements.define('snack-bar', SnackBar);
