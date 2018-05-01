@@ -27,7 +27,7 @@ import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
+  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -225,15 +225,14 @@ class MyApp extends connect(store)(LitElement) {
     setPassiveTouchGestures(true);
   }
 
-  ready() {
-    super.ready();
+  _firstRendered() {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
   }
 
-  didRender(properties, changeList) {
+  _didRender(properties, changeList) {
     if ('_page' in changeList) {
       const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({
@@ -244,7 +243,7 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  stateChanged(state) {
+  _stateChanged(state) {
     this._page = state.app.page;
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;

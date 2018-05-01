@@ -27,7 +27,7 @@ store.addReducers({
 });
 
 class MyView2 extends connect(store)(PageViewElement) {
-  render(props) {
+  _render(props) {
     return html`
       ${SharedStyles}
       <section>
@@ -59,7 +59,7 @@ class MyView2 extends connect(store)(PageViewElement) {
   }}
 
   // This is called every time something is updated in the store.
-  stateChanged(state) {
+  _stateChanged(state) {
     this._clicks = state.counter.clicks;
     this._value = state.counter.value;
   }

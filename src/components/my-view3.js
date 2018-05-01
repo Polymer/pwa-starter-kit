@@ -29,7 +29,7 @@ store.addReducers({
 });
 
 class MyView3 extends connect(store)(PageViewElement) {
-  render({_cart, _error}) {
+  _render({_cart, _error}) {
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -83,7 +83,7 @@ class MyView3 extends connect(store)(PageViewElement) {
   }}
 
   // This is called every time something is updated in the store.
-  stateChanged(state) {
+  _stateChanged(state) {
     this._cart = state.shop.cart;
     this._error = state.shop.error;
   }
