@@ -1,5 +1,5 @@
 ![built_with pwa–starter–kit_](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)
-[![Build status](https://api.travis-ci.org/polymer/pwa-starter-kit.svg?branch=master)](https://travis-ci.org/Polymer/pwa-starter-kit)
+[![Build status](https://api.travis-ci.org/Polymer/pwa-starter-kit.svg?branch=master)](https://travis-ci.org/Polymer/pwa-starter-kit)
 
 ## 🚨Disclaimer 🚨
 This template is not yet production ready. There are things that haven't been finalized yet, so this repo might change slightly before it's ready for release. Check out the list of Known Issues and TODOs for updates.
