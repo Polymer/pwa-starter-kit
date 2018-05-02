@@ -24,11 +24,12 @@ gives you the following features:
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/37805520-24955fb8-2df8-11e8-9261-20db32eff971.jpg)
 
 ## Known issues
+These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
 - does not work Edge and Safari < 11.1 ([object spread operator issue](https://github.com/Polymer/tools/issues/173))
 - does not work on IE11 ([String.prototype.startsWith issue](https://github.com/Polymer/lit-html/issues/311))
 - ES5 bundle is broken ([issue](https://github.com/Polymer/polymer-cli/issues/1000))
 
 ## TODOs
-- [ ] add Safari testing on Travis
+- [ ] setup Safari testing on Travis
 - [ ] update to latest [material-design-web-components](https://github.com/material-components/material-components-web-components)
 - [ ] deploy all templates as demos
