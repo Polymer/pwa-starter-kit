@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../actions/shop.js';
+import { createSelector } from 'reselect';
 
 const INITIAL_CART = {
   addedIds: [],
@@ -136,3 +137,43 @@ const quantityById = (state = INITIAL_CART.quantityById, action) => {
 }
 
 export default shop;
+
+const cartSelector = state => state.shop.cart;
+const productsSelector = state => state.shop.products;
+
+export const cartItemsSelector = createSelector(
+  cartSelector,
+  productsSelector,
+  (cart, products) => {
+    const items = [];
+    for (let id of cart.addedIds) {
+      const item = products[id];
+      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
+    }
+    return items;
+  }
+);
+
+export const cartTotalSelector = createSelector(
+  cartSelector,
+  productsSelector,
+  (cart, products) => {
+    let total = 0;
+    for (let id of cart.addedIds) {
+      const item = products[id];
+      total += item.price * cart.quantityById[id];
+    }
+    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+  }
+);
+
+export const cartQuantitySelector = createSelector(
+  cartSelector,
+  cart => {
+    let num = 0;
+    for (let id of cart.addedIds) {
+      num += cart.quantityById[id];
+    }
+    return num;  
+  }
+)

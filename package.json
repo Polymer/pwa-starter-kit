@@ -25,7 +25,8 @@
     "@webcomponents/webcomponentsjs": "^2.0.0-beta.2",
     "pwa-helpers": "polymerlabs/pwa-helpers",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
   },
   "devDependencies": {
     "axe-core": "^3.0.0",
