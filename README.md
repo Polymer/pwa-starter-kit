@@ -25,9 +25,7 @@ gives you the following features:
 
 ## Known issues
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
-- does not work Edge and Safari < 11.1 ([object spread operator issue](https://github.com/Polymer/tools/issues/173))
-- does not work on IE11 ([String.prototype.startsWith issue](https://github.com/Polymer/lit-html/issues/311))
-- ES5 bundle is broken ([issue](https://github.com/Polymer/polymer-cli/issues/1000))
+- Lit-html does not work on IE11 ([String.prototype.startsWith issue](https://github.com/Polymer/lit-html/issues/311))
 
 ## TODOs
 - [ ] setup Safari testing on Travis
