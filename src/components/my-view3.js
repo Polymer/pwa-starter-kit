@@ -23,13 +23,13 @@ import { store } from '../store.js';
 import { checkout } from '../actions/shop.js';
 
 // We are lazy loading its reducer.
-import shop from '../reducers/shop.js';
+import shop, { cartQuantitySelector } from '../reducers/shop.js';
 store.addReducers({
   shop
 });
 
 class MyView3 extends connect(store)(PageViewElement) {
-  _render({_cart, _error}) {
+  _render({_quantity, _error}) {
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -49,7 +49,7 @@ class MyView3 extends connect(store)(PageViewElement) {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(_cart)}</div>
+        <div class="circle">${_quantity}</div>
 
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -69,7 +69,7 @@ class MyView3 extends connect(store)(PageViewElement) {
         <div>${_error}</div>
         <br>
         <p>
-          <button class="checkout" hidden="${_cart.addedIds.length == 0}"
+          <button class="checkout" hidden="${_quantity == 0}"
               on-click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
@@ -80,22 +80,14 @@ class MyView3 extends connect(store)(PageViewElement) {
 
   static get properties() { return {
     // This is the data from the store.
-    _cart: Object,
+    _quantity: Number,
     _error: String
   }}
 
   // This is called every time something is updated in the store.
   _stateChanged(state) {
-    this._cart = state.shop.cart;
+    this._quantity = cartQuantitySelector(state);
     this._error = state.shop.error;
-  }
-
-  _numItemsInCart(cart) {
-    let num = 0;
-    for (let id of cart.addedIds) {
-      num += cart.quantityById[id];
-    }
-    return num;
   }
 }
 

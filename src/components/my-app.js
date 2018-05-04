@@ -9,22 +9,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { installRouter } from 'pwa-helpers/router.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
+
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { installRouter } from 'pwa-helpers/router.js';
+import { installOfflineWatcher } from 'pwa-helpers/network.js';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
+import { updateMetadata } from 'pwa-helpers/metadata.js';
+
 import { store } from '../store.js';
-import { navigate, updateOffline, showSnackbar, openDrawer, closeDrawer } from '../actions/app.js';
+import { navigate, updateOffline, updateDrawerState, updateLayout } from '../actions/app.js';
 
 class MyApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
@@ -169,7 +171,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" title="Menu" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
+        <button class="menu-btn" title="Menu" on-click="${_ => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
@@ -183,7 +185,7 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Drawer content -->
     <app-drawer opened="${_drawerOpened}"
-        on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
+        on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
       <nav class="drawer-list">
         <a selected?="${_page === 'view1'}" href="/view1">View One</a>
         <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
@@ -226,10 +228,10 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _firstRendered() {
-    installRouter((location) => this._locationChanged(location));
-    installOfflineWatcher((offline) => this._offlineChanged(offline));
+    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+    installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => this._layoutChanged(matches));
+        (matches) => store.dispatch(updateLayout(matches)));
   }
 
   _didRender(properties, changeList) {
@@ -248,35 +250,6 @@ class MyApp extends connect(store)(LitElement) {
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;
     this._drawerOpened = state.app.drawerOpened;
-  }
-
-  _layoutChanged(isWideLayout) {
-    // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
-    this._updateDrawerState(false);
-  }
-
-  _offlineChanged(offline) {
-    const previousOffline = this._offline;
-    store.dispatch(updateOffline(offline));
-
-    // Don't show the snackbar on the first load of the page.
-    if (previousOffline === undefined) {
-      return;
-    }
-    store.dispatch(showSnackbar());
-  }
-
-  _locationChanged(location) {
-    store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
-
-    // Close the drawer - in case the *path* change came from a link in the drawer.
-    this._updateDrawerState(false);
-  }
-
-  _updateDrawerState(opened) {
-    if (opened !== this._drawerOpened) {
-      store.dispatch(opened ? openDrawer() : closeDrawer());
-    }
   }
 }
 
