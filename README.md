@@ -27,7 +27,7 @@ gives you the following features:
 
 ## Known issues
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
-- Lit-html does not work on IE11 ([String.prototype.startsWith issue](https://github.com/Polymer/lit-html/issues/311))
+- lit-element and lit-html have IE11 compatibility issues
 
 ## TODOs
 - [ ] setup Safari testing on Travis
