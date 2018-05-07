@@ -18,7 +18,6 @@ gives you the following features:
 
 This template is very similar to the `master` template, in the sense that it keeps both Redux for state management, and all of the UI elements. The main difference is that the wide screen layout displays a persistent `app-drawer`, inline with the content.
 
-Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki)
-for more details!
+### 📖Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki) for more details!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/38551879-a7720e42-3cba-11e8-9f33-aa0a65c0218a.png)

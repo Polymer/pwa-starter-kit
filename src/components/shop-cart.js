@@ -16,23 +16,24 @@ import './shop-item.js';
 // This element is connected to the redux store.
 import { store } from '../store.js';
 import { removeFromCart } from '../actions/shop.js';
+import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 import { removeFromCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  _render({_cart, _products}) {
+  _render({_items, _total}) {
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      <p hidden="${_cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      ${this._displayCart(_cart).map((item) =>
+      <p hidden="${_items.length !== 0}">Please add some products to cart.</p>
+      ${_items.map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
             <button
-                on-click="${(e) => this._removeFromCart(e)}"
+                on-click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
                 data-index$="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
@@ -40,40 +41,19 @@ class ShopCart extends connect(store)(LitElement) {
           </div>
         `
       )}
+      <p hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
     `;
   }
 
   static get properties() { return {
-    _cart: Object,
-    _products: Object
+    _items: Array,
+    _total: Number
   }}
 
   // This is called every time something is updated in the store.
   _stateChanged(state) {
-    this._products = state.shop.products;
-    this._cart = state.shop.cart;
-  }
-
-  _displayCart(cart) {
-    const items = [];
-    for (let id of cart.addedIds) {
-      const item = this._products[id];
-      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
-    }
-    return items;
-  }
-
-  _calculateTotal(cart) {
-    let total = 0;
-    for (let id of cart.addedIds) {
-      const item = this._products[id];
-      total += item.price * cart.quantityById[id];
-    }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
-  }
-
-  _removeFromCart(event) {
-    store.dispatch(removeFromCart(event.currentTarget.dataset['index']));
+    this._items = cartItemsSelector(state);
+    this._total = cartTotalSelector(state);
   }
 }
 

@@ -30,7 +30,7 @@ class ShopProducts extends connect(store)(LitElement) {
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 disabled="${item.inventory === 0}"
-                on-click="${(e) => this._addToCart(e)}"
+                on-click="${(e) => store.dispatch(addToCart(e.currentTarget.dataset['index']))}"
                 data-index$="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
@@ -52,10 +52,6 @@ class ShopProducts extends connect(store)(LitElement) {
   // This is called every time something is updated in the store.
   _stateChanged(state) {
     this._products = state.shop.products;
-  }
-
-  _addToCart(event) {
-    store.dispatch(addToCart(event.currentTarget.dataset['index']));
   }
 }
 
