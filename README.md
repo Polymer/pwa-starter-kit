@@ -21,7 +21,7 @@ gives you the following features:
 
 ### 📖Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki) for more details!
 
-![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/37805520-24955fb8-2df8-11e8-9261-20db32eff971.jpg)
+![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)
 
 ## Known issues
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
