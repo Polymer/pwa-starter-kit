@@ -62,8 +62,18 @@ export const showSnackbar = () => (dispatch) => {
 };
 
 export const updateOffline = (offline) => {
-  return {
-    type: UPDATE_OFFLINE,
-    offline
-  };
+  return (dispatch, getState) => {
+    // Show the snackbar, unless this is the first load of the page.
+    if (getState().app.offline !== undefined) {
+      dispatch(showSnackbar());
+    }
+    dispatch({
+      type: UPDATE_OFFLINE,
+      offline
+    });
+  }
 };
+
+export const updateLayout = (wide) => (dispatch, getState) => {
+  console.log(`The window changed to a ${wide ? 'wide' : 'narrow'} layout`);
+}
