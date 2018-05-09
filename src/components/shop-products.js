@@ -19,8 +19,9 @@ class ShopProducts extends LitElement {
       <style>
         :host { display: block; }
       </style>
-      ${Object.values(products).map((item) =>
-        html`
+      ${Object.keys(products).map((key) => {
+        const item = products[key];
+        return html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
@@ -32,7 +33,7 @@ class ShopProducts extends LitElement {
             </button>
           </div>
         `
-      )}
+      })}
     `;
   }
 
