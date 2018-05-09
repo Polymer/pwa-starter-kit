@@ -24,8 +24,9 @@ class ShopProducts extends connect(store)(LitElement) {
       <style>
         :host { display: block; }
       </style>
-      ${Object.values(_products).map((item) =>
-        html`
+      ${Object.keys(_products).map((key) => {
+        const item = _products[key];
+        return html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
@@ -37,7 +38,7 @@ class ShopProducts extends connect(store)(LitElement) {
             </button>
           </div>
         `
-      )}
+      })}
     `;
   }
 
