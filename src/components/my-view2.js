@@ -34,7 +34,7 @@ class MyView2 extends connect(store)(PageViewElement) {
         <h2>Redux example: simple counter</h2>
         <div class="circle">${props._clicks}</div>
         <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
-        element is not build in a Redux-y way (you can think of it as being a
+        element is not built in a Redux-y way (you can think of it as being a
         third-party element you got from someone else), but this page is connected to the
         Redux store. When the element updates its counter, this page updates the values
         in the Redux store, and you can see the total number of clicks reflected in
