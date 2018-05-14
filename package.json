@@ -1,7 +1,6 @@
 {
   "name": "pwa-starter-kit",
   "version": "0.8.0",
-  "flat": true,
   "contributors": [
     "The Polymer Authors"
   ],
@@ -20,7 +19,7 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-    "@polymer/app-layout": "^3.0.0-pre.18",
+    "@polymer/app-layout": "^3.0.0-pre.19",
     "@polymer/lit-element": "^0.5.0",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "pwa-helpers": "^0.8.2",
@@ -36,9 +35,9 @@
     "polymer-cli": "^1.7.1",
     "polyserve": "^0.27.0",
     "prpl-server": "^1.1.0",
-    "puppeteer": "^1.3.0",
+    "puppeteer": "^1.4.0",
     "renamer": "^0.6.1",
-    "replace": "^0.3.0",
+    "replace": "^1.0.0",
     "wct-browser-legacy": "^1.0.0"
   }
 }
