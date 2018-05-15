@@ -30,6 +30,6 @@ These are high priority and currently being worked on, and they will all be fixe
 - lit-element and lit-html have IE11 compatibility issues
 
 ## TODOs
-- [ ] setup Safari testing on Travis
+- [x] setup Safari testing on Travis
 - [ ] update to latest [material-design-web-components](https://github.com/material-components/material-components-web-components)
-- [ ] deploy all templates as demos
+- [x] deploy all templates as demos
