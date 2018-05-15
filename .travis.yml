@@ -3,10 +3,7 @@ matrix:
   include:
   - node_js: '9'
     os: osx
-    addons:
-      chrome: stable
-      firefox: latest
-    script: npm run test
+    script: npm run test:integration
   - node_js: '9'
     sudo: required
     os: linux
