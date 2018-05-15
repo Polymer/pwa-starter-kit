@@ -15,7 +15,8 @@
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
-    "test:unit": "polymer test --module-resolution=node --npm -l chrome -l firefox",
+    "test:unit": "polymer test --module-resolution=node --npm",
+    "test:sauce": "polymer test --module-resolution=node --npm -s 'windows 10/microsoftedge@17'",
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
