@@ -9,7 +9,7 @@
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "polymer build --auto-base-path && del-cli server/build && move-cli build server/build && renamer --find node_modules --replace node_assets server/build/**/* && replace node_modules node_assets server/build -r -s",
+    "build:prpl-server": "polymer build --auto-base-path && del-cli server/build && move-cli --mkdirp  build server/build && renamer --find node_modules --replace node_assets server/build/**/* && replace node_modules node_assets server/build -r -s",
     "build:static": "polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
