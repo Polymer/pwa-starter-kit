@@ -36,6 +36,8 @@ const build = async (options, polymerProject) => {
   const buildDirectory = path.join(options.outputDir, buildName);
   const logPrefix = options.logPrefix || '';
 
+  logger.info(`${logPrefix}(${buildName}) Preparing...`);
+
   // Fork the two streams to guarentee we are working with clean copies of each
   // file and not sharing object references with other builds.
   const sourcesStream = forkStream(polymerProject.sources());
@@ -104,15 +106,14 @@ const build = async (options, polymerProject) => {
     buildStream = buildStream.pipe(polymerProject.addPushManifest());
   }
 
+  // If this option is specified, then we have to rename node_modules in our output
   if (options.nodeModulesName) {
-    buildStream = pipeStreams([
-      buildStream,
-      // FIXME this replace isn't currenly working,
-      // it MUST be fixed before carrying this branch forward
-      replace(/node_nodules/, options.nodeModulesName),
-      rename((path) =>
-        path.dirname = path.dirname.replace(/node_modules/, options.nodeModulesName)),
-    ]);
+    buildStream = buildStream
+      // Replace all the "node_modules" occurencies in files
+      .pipe(replace(/node_modules/g, options.nodeModulesName))
+      // Rename all the "node_modules" to the specified value
+      .pipe(rename((path) =>
+        path.dirname = path.dirname.replace(/node_modules/g, options.nodeModulesName)));
   }
 
   // Finish the build stream by piping it into the final build directory.
