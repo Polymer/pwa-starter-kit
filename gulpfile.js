@@ -3,6 +3,7 @@ const replace = require('gulp-replace');
 const rename = require('gulp-rename');
 const logger = require('gulplog');
 const path = require('path');
+const fs = require('mz/fs');
 const del = require('del');
 const mergeStream = require('merge-stream');
 const {forkStream, PolymerProject, addServiceWorker, HtmlSplitter, getOptimizeStreams} = require('polymer-build');
@@ -163,13 +164,17 @@ gulp.task('clean:prpl-server', () =>
  * Builds a static version of the PWA that can be used on any hosting service
  */
 gulp.task('build:static', () => {
+  const outputDir = 'build';
   const project = new PolymerProject(projectConfig);
   return Promise.all(projectConfig.builds.map((buildConfig) =>
     build({
       ...buildConfig,
-      outputDir: 'build',
+      outputDir,
       logPrefix: '[build:static] ',
-    }, project)));
+    }, project)))
+    .then(() =>
+      // Finally, output `polymer.json`
+      fs.writeFile(path.join(outputDir, 'polymer.json'), project.config.toJSON()));
 });
 
 /**
@@ -178,6 +183,7 @@ gulp.task('build:static', () => {
  * upload it
  */
 gulp.task('build:prpl-server', () => {
+  const outputDir = 'server/build';
   const autoBasePathedConfig = {
     ...projectConfig,
     builds: projectConfig.builds.map((build) => ({
@@ -189,10 +195,13 @@ gulp.task('build:prpl-server', () => {
   return Promise.all(autoBasePathedConfig.builds.map((buildConfig) =>
     build({
       ...buildConfig,
-      outputDir: 'server/build',
+      outputDir,
       nodeModulesName: 'node_assets',
       logPrefix: '[build:prpl-server] ',
-    }, project)));
+    }, project)))
+    .then(() =>
+      // Finally, output `polymer.json`
+      fs.writeFile(path.join(outputDir, 'polymer.json'), project.config.toJSON()));
 });
 
 /**
