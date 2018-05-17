@@ -45,6 +45,6 @@
     "polyserve": "^0.27.0",
     "prpl-server": "^1.1.0",
     "puppeteer": "^1.4.0",
-    "wct-browser-legacy": "^1.0.0"
+    "wct-browser-legacy": "^1.0.1"
   }
 }
