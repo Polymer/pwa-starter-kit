@@ -28,6 +28,7 @@ gives you the following features:
 ## Known issues
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
 - lit-element and lit-html have IE11 compatibility issues
+- if you have node version 10, you might have problems running the unit tests (and you will get an error along the lines of `Cannot read property '1' of null`. For now, we recommend using node 8 or 9.
 
 ## TODOs
 - [x] setup Safari testing on Travis
