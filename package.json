@@ -39,6 +39,6 @@
     "puppeteer": "^1.4.0",
     "renamer": "^0.6.1",
     "replace": "^1.0.0",
-    "wct-browser-legacy": "^1.0.0"
+    "wct-browser-legacy": "^1.0.1"
   }
 }
