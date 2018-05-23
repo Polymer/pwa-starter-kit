@@ -64,12 +64,3 @@ gulp.task('build:prpl-server', (cb) => {
     cb();
   });
 });
-
-/**
- * Cleans and builds both the static and the PRPL-server-ready versions of the PWA
- */
-gulp.task('build', gulp.series(
-  'clean:prpl-server',
-  'build:prpl-server',
-  'build:static',
-));
