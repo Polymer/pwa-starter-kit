@@ -22,13 +22,6 @@ gulp.task('clean:prpl-server', () =>
   del`server/build`);
 
 /**
- * Builds a static version of the PWA that can be used on any hosting service
- */
-gulp.task('build:static', (cb) =>
-  // Build the project using Polymer CLI
-  exec('polymer build', cb));
-
-/**
  * Builds the PRPL-server-ready version of the PWA, auto setting the base path
  * and renaming the node_modules folder, otherwise services like App Engine won't
  * upload it
