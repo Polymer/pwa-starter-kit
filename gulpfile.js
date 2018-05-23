@@ -1,158 +1,9 @@
 const gulp = require('gulp');
-const replace = require('gulp-replace');
-const rename = require('gulp-rename');
-const logger = require('gulplog');
-const path = require('path');
-const fs = require('mz/fs');
 const del = require('del');
-const mergeStream = require('merge-stream');
-const {forkStream, PolymerProject, addServiceWorker, HtmlSplitter, getOptimizeStreams} = require('polymer-build');
-const projectConfig = require('./polymer.json');
-
-
-/* ********** HELPERS ****************************************************** */
-
-/**
- * Returns a promise that resolves when the stream ends,
- * or rejects when the stream throws an error
- */
-const waitFor = (stream) => new Promise((resolve, reject) => {
-  stream.on('end', resolve);
-  stream.on('error', reject);
-});
-
-/**
- * Utility that allows to avoid loads of .pipe chains
- */
-const pipeStreams = (streams) => Array.prototype.concat.apply([], streams)
-  .reduce((a, b) => a.pipe(b));
-
-/**
- * This helper function does basically the same things as the Polymer CLI
- * `build` command, but it also has some extra options to help us with some
- * special tasks (e.g. renaming the node_modules output folder).
- */
-const build = async (options, polymerProject) => {
-  const buildName = options.name || 'default';
-  const buildDirectory = path.join(options.outputDir, buildName);
-  const logPrefix = options.logPrefix || '';
-
-  logger.info(`${logPrefix}(${buildName}) Preparing...`);
-
-  // Fork the two streams to guarentee we are working with clean copies of each
-  // file and not sharing object references with other builds.
-  const sourcesStream = forkStream(polymerProject.sources());
-  const depsStream = forkStream(polymerProject.dependencies());
-
-  const bundled = !!options.bundle;
-
-  let buildStream = mergeStream(sourcesStream, depsStream);
-
-  const compiledToES5 = (options.js === undefined) ?
-    false :
-    options.js.compile === true || options.js.compile === 'es5';
-  if (compiledToES5) {
-    buildStream = buildStream.pipe(polymerProject.addCustomElementsEs5Adapter());
-  }
-
-  if (bundled) {
-    const bundlerOptions = {
-      rewriteUrlsInTemplates: true
-    };
-    if (typeof options.bundle === 'object') {
-      Object.assign(bundlerOptions, options.bundle);
-    }
-    buildStream = buildStream.pipe(polymerProject.bundler(bundlerOptions));
-  }
-
-  const htmlSplitter = new HtmlSplitter();
-
-  buildStream = pipeStreams([
-    buildStream,
-    htmlSplitter.split(),
-
-    getOptimizeStreams({
-      html: options.html,
-      css: options.css,
-      js: {
-        ...options.js,
-        moduleResolution: polymerProject.config.moduleResolution,
-      },
-      entrypointPath: polymerProject.config.entrypoint,
-      rootDir: polymerProject.config.root,
-    }),
-
-    htmlSplitter.rejoin(),
-  ]);
-
-  if (options.insertPrefetchLinks) {
-    buildStream = buildStream.pipe(polymerProject.addPrefetchLinks());
-  }
-
-  buildStream.once('data', () =>
-    logger.info(`${logPrefix}(${buildName}) Building...`));
-
-  if (options.basePath) {
-    let basePath = options.basePath === true ? buildName : options.basePath;
-    if (!basePath.startsWith('/')) {
-      basePath = '/' + basePath;
-    }
-    if (!basePath.endsWith('/')) {
-      basePath = basePath + '/';
-    }
-    buildStream = buildStream.pipe(polymerProject.updateBaseTag(basePath));
-  }
-
-  if (options.addPushManifest) {
-    buildStream = buildStream.pipe(polymerProject.addPushManifest());
-  }
-
-  // If this option is specified, then we have to rename node_modules in our output
-  if (options.nodeModulesName) {
-    buildStream = buildStream
-      // Replace all the "node_modules" occurencies in files
-      .pipe(replace(/node_modules/g, options.nodeModulesName))
-      // Rename all the "node_modules" to the specified value
-      .pipe(rename((path) =>
-        path.dirname = path.dirname.replace(/node_modules/g, options.nodeModulesName)));
-  }
-
-  // Finish the build stream by piping it into the final build directory.
-  buildStream = buildStream.pipe(gulp.dest(buildDirectory));
-
-  // If a service worker was requested, parse the service worker config file
-  // while the build is in progress. Loading the config file during the build
-  // saves the user ~300ms vs. loading it afterwards.
-  const swPrecacheConfigPath = path.resolve(
-    polymerProject.config.root,
-    options.swPrecacheConfig || 'sw-precache-config.js');
-  let swConfig = null;
-  if (options.addServiceWorker) {
-    swConfig = require(swPrecacheConfigPath);
-  }
-
-  // There is nothing left to do, so wait for the build stream to complete.
-  await waitFor(buildStream);
-
-  if (options.addServiceWorker) {
-    await addServiceWorker({
-      buildRoot: buildDirectory,
-      project: polymerProject,
-      swPrecacheConfig: swConfig || undefined,
-      bundled: bundled,
-    });
-  }
-
-  logger.info(`${logPrefix}(${buildName}) Build complete!`);
-};
-
-/* ********** TASKS ******************************************************** */
-
-/**
- * Cleans the static build directory (<project folder>/build)
- */
-gulp.task('clean:static', () =>
-  del`build`);
+const { exec } = require('child_process');
+const { renameSync: move } = require('fs');
+const renamer = require('renamer');
+const replace = require('replace');
 
 /**
  * Cleans the PRPL server build directory (<project folder>/server/build)
@@ -163,52 +14,52 @@ gulp.task('clean:prpl-server', () =>
 /**
  * Builds a static version of the PWA that can be used on any hosting service
  */
-gulp.task('build:static', () => {
-  const outputDir = 'build';
-  const project = new PolymerProject(projectConfig);
-  return Promise.all(projectConfig.builds.map((buildConfig) =>
-    build({
-      ...buildConfig,
-      outputDir,
-      logPrefix: '[build:static] ',
-    }, project)))
-    .then(() =>
-      // Finally, output `polymer.json`
-      fs.writeFile(path.join(outputDir, 'polymer.json'), project.config.toJSON()));
-});
+gulp.task('build:static', (cb) =>
+  // Build the project using Polymer CLI
+  exec('polymer build', cb));
 
 /**
  * Builds the PRPL-server-ready version of the PWA, auto setting the base path
  * and renaming the node_modules folder, otherwise services like App Engine won't
  * upload it
  */
-gulp.task('build:prpl-server', () => {
-  const outputDir = 'server/build';
-  const autoBasePathedConfig = {
-    ...projectConfig,
-    builds: projectConfig.builds.map((build) => ({
-      ...build,
-      basePath: true,
-    })),
-  };
-  const project = new PolymerProject(autoBasePathedConfig);
-  return Promise.all(autoBasePathedConfig.builds.map((buildConfig) =>
-    build({
-      ...buildConfig,
-      outputDir,
-      nodeModulesName: 'node_assets',
-      logPrefix: '[build:prpl-server] ',
-    }, project)))
-    .then(() =>
-      // Finally, output `polymer.json`
-      fs.writeFile(path.join(outputDir, 'polymer.json'), project.config.toJSON()));
+gulp.task('build:prpl-server', (cb) => {
+  // Build the project using Polymer CLI
+  exec('polymer build --auto-base-path', (err) => {
+    if (err) {
+      cb(err);
+    }
+
+    // Move the CLI output to `server/`
+    move('build', 'server/build');
+
+    // Rename all the `node_modules` folders to `node_assets`
+    const results = renamer.replace({
+      find: 'node_modules',
+      replace: 'node_assets',
+      files: renamer.expand('server/build/**').filesAndDirs,
+    });
+    const resultsTokens = renamer.replaceIndexToken(results);
+    renamer.rename(resultsTokens);
+
+    // Replace all the occurrencies of `node_modules` to `node_assets` in files
+    replace({
+      regex: 'node_modules',
+      replacement: 'node_assets',
+      paths: ['server/build'],
+      recursive: true,
+      silent: true,
+    });
+
+    cb();
+  });
 });
 
 /**
  * Cleans and builds both the static and the PRPL-server-ready versions of the PWA
- * in parallel
  */
-gulp.task('build', gulp.parallel(
-  gulp.series('clean:static', 'build:static'),
-  gulp.series('clean:prpl-server', 'build:prpl-server'),
+gulp.task('build', gulp.series(
+  'clean:prpl-server',
+  'build:prpl-server',
+  'build:static',
 ));
