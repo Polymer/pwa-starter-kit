@@ -15,7 +15,7 @@
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
-    "test:unit": "polymer test --module-resolution=node --npm -l chrome -l firefox",
+    "test:unit": "polymer test --module-resolution=node --npm",
     "test:sauce": "polymer test --module-resolution=node --npm -s 'windows 10/microsoftedge@17' -s 'macos 10.13/safari@11'",
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
@@ -38,6 +38,6 @@
     "puppeteer": "^1.4.0",
     "renamer": "^0.6.1",
     "replace": "^1.0.0",
-    "wct-browser-legacy": "^1.0.0"
+    "wct-browser-legacy": "^1.0.1"
   }
 }
