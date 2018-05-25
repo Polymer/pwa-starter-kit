@@ -25,8 +25,9 @@ class CounterElement extends LitElement {
       <div>
         <p>
           Clicked: <span>${props.clicks}</span> times.
-          <button on-click="${() => this._onDecrement()}" title="Minus 1">${minusIcon}</button>
+          Value is <span>${props.value}</span>.
           <button on-click="${() => this._onIncrement()}" title="Add 1">${plusIcon}</button>
+          <button on-click="${() => this._onDecrement()}" title="Minus 1">${minusIcon}</button>
         </p>
       </div>
     `;
