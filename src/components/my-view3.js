@@ -13,6 +13,7 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
+import { addToCartIcon } from './my-icons.js';
 import './shop-products.js';
 import './shop-cart.js';
 
@@ -45,12 +46,30 @@ class MyView3 extends connect(store)(PageViewElement) {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
+        .shroud svg path#first {
+            fill: var(--app-primary-color);
+        }
+        .shroud {
+          width: 64px;
+          height: 64px;
+        }
+        .shroud svg {
+          width: 64px;
+          height: 64px;
+        }
+        .circle.small {
+          margin-top: -72px;
+          width: 28px;
+          height: 28px;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 30px;
+        }
       </style>
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${_quantity}</div>
-
+        <div class="shroud">${addToCartIcon}<div class="circle small">${_quantity}</div></div>
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
