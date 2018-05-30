@@ -8,8 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element/lit-element.js';
+import { LitElement, html } from '@polymer/lit-element';
+
+// These are the elements needed by this element.
 import { addToCartIcon } from './my-icons.js';
+
+// These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends LitElement {
