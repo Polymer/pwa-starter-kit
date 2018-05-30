@@ -21,3 +21,13 @@ This template is very similar to the `master` template, in the sense that it kee
 ### 📖Head over to the [wiki](https://github.com/Polymer/pwa-starter-kit/wiki) for more details!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/39718020-dd60403e-51e9-11e8-9384-e019a6775841.png)
+
+## Known issues
+These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
+- lit-element and lit-html have IE11 compatibility issues
+- if you have node version 10, you might have problems running the unit tests (and you will get an error along the lines of `Cannot read property '1' of null`. For now, we recommend using node 8 or 9.
+
+## TODOs
+- [x] setup Safari testing on Travis
+- [ ] update to latest [material-design-web-components](https://github.com/material-components/material-components-web-components)
+- [x] deploy all templates as demos
