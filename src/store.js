@@ -8,7 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { createStore, compose as origCompose, applyMiddleware, combineReducers } from 'redux';
+import {
+  createStore,
+  compose as origCompose,
+  applyMiddleware,
+  combineReducers
+} from 'redux';
 import thunk from 'redux-thunk';
 import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
