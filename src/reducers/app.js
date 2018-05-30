@@ -8,8 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { UPDATE_PAGE, UPDATE_OFFLINE, UPDATE_WIDE_LAYOUT,
-         OPEN_SNACKBAR, CLOSE_SNACKBAR, UPDATE_DRAWER_STATE } from '../actions/app.js';
+import {
+  UPDATE_PAGE,
+  UPDATE_OFFLINE,
+  UPDATE_WIDE_LAYOUT,
+  OPEN_SNACKBAR,
+  CLOSE_SNACKBAR,
+  UPDATE_DRAWER_STATE
+} from '../actions/app.js';
 
 const app = (state = {drawerOpened: false}, action) => {
   switch (action.type) {

@@ -8,7 +8,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../actions/shop.js';
+import {
+  GET_PRODUCTS,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  CHECKOUT_SUCCESS,
+  CHECKOUT_FAILURE
+} from '../actions/shop.js';
 import { createSelector } from 'reselect';
 
 const INITIAL_CART = {
@@ -188,6 +194,6 @@ export const cartQuantitySelector = createSelector(
     for (let id of cart.addedIds) {
       num += cart.quantityById[id];
     }
-    return num;  
+    return num;
   }
 )
