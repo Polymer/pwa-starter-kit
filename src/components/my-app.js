@@ -9,20 +9,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
+import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
+import { installOfflineWatcher } from 'pwa-helpers/network.js';
+import { installRouter } from 'pwa-helpers/router.js';
+import { updateMetadata } from 'pwa-helpers/metadata.js';
 
+// These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
-import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
-
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
-
-import { installRouter } from 'pwa-helpers/router.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 class MyApp extends LitElement {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
@@ -279,6 +278,14 @@ class MyApp extends LitElement {
   }
 
   async _loadPage(page) {
+    // If the page is invalid, set to 404. The is also a good spot to check
+    // other location things like sub-path or query params.
+    if (['view1', 'view2', 'view3'].indexOf(page) === -1) {
+      page = 'view404';
+    }
+
+    this._page = page;
+
     switch(page) {
       case 'view1':
         await import('../components/my-view1.js');
@@ -292,10 +299,8 @@ class MyApp extends LitElement {
         await import('../components/my-view3.js');
         break;
       default:
-        page = 'view404';
         await import('../components/my-view404.js');
     }
-    this._page = page;
   }
 }
 

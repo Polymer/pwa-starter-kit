@@ -9,8 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import './shop-item.js';
+
+// These are the elements needed by this element.
 import { removeFromCartIcon } from './my-icons.js';
+import './shop-item.js';
+
+// These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends LitElement {

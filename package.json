@@ -9,13 +9,13 @@
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "polymer build --auto-base-path && rm -rf server/build && mv build server/ && renamer --find node_modules --replace node_assets 'server/build/**' && replace node_modules node_assets server/build -r -s",
+    "build:prpl-server": "gulp clean:prpl-server && gulp build:prpl-server",
     "build:static": "polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
-    "test:unit": "polymer test --module-resolution=node --npm -l chrome -l firefox",
+    "test:unit": "polymer test --module-resolution=node --npm",
     "test:sauce": "polymer test --module-resolution=node --npm -s 'windows 10/microsoftedge@17' -s 'macos 10.13/safari@11'",
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
@@ -28,6 +28,8 @@
   "devDependencies": {
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
     "mocha": "^5.1.0",
     "pixelmatch": "^4.0.2",
     "polymer-cli": "^1.7.1",
@@ -36,6 +38,6 @@
     "puppeteer": "^1.4.0",
     "renamer": "^0.6.1",
     "replace": "^1.0.0",
-    "wct-browser-legacy": "^1.0.0"
+    "wct-browser-legacy": "^1.0.1"
   }
 }
