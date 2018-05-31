@@ -46,7 +46,7 @@ class MyView3 extends connect(store)(PageViewElement) {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
-        .shroud svg path#first {
+        .shroud svg path#cart-path {
             fill: var(--app-primary-color);
         }
         .shroud {
