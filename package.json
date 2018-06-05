@@ -9,7 +9,7 @@
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "gulp clean:prpl-server && gulp build:prpl-server",
+    "build:prpl-server": "gulp build:prpl-server",
     "build:static": "polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
