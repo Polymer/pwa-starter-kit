@@ -16,17 +16,14 @@ const renamer = require('renamer');
 const replace = require('replace');
 
 /**
- * Cleans the PRPL server build directory (<project folder>/server/build)
- */
-gulp.task('clean:prpl-server', () =>
-  del`server/build`);
-
-/**
  * Builds the PRPL-server-ready version of the PWA, auto setting the base path
  * and renaming the node_modules folder, otherwise services like App Engine won't
  * upload it
  */
 gulp.task('build:prpl-server', (cb) => {
+  // Cleans the PRPL server build directory (<project folder>/server/build)
+  del('server/build');
+
   // Build the project using Polymer CLI
   exec('polymer build --auto-base-path', (err) => {
     if (err) {
