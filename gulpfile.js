@@ -9,48 +9,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 const gulp = require('gulp');
+const rename = require('gulp-rename');
+const replace = require('gulp-replace');
 const del = require('del');
-const { exec } = require('child_process');
-const { renameSync: move } = require('fs');
-const renamer = require('renamer');
-const replace = require('replace');
+
+/**
+ * Cleans the PRPL server build directory (<project folder>/server/build)
+ */
+gulp.task('prpl-server:clean', () => {
+  return del('server/build');
+});
 
 /**
  * Builds the PRPL-server-ready version of the PWA, auto setting the base path
  * and renaming the node_modules folder, otherwise services like App Engine won't
  * upload it
  */
-gulp.task('build:prpl-server', (cb) => {
-  // Cleans the PRPL server build directory (<project folder>/server/build)
-  del('server/build');
+gulp.task('prpl-server:build', () => {
+  const pattern = 'node_modules';
+  const replacement = 'node_assets';
 
-  // Build the project using Polymer CLI
-  exec('polymer build --auto-base-path', (err) => {
-    if (err) {
-      cb(err);
-    }
-
-    // Move the CLI output to `server/`
-    move('build', 'server/build');
-
-    // Rename all the `node_modules` folders to `node_assets`
-    const results = renamer.replace({
-      find: 'node_modules',
-      replace: 'node_assets',
-      files: renamer.expand('server/build/**').filesAndDirs,
-    });
-    const resultsTokens = renamer.replaceIndexToken(results);
-    renamer.rename(resultsTokens);
-
-    // Replace all the occurrencies of `node_modules` to `node_assets` in files
-    replace({
-      regex: 'node_modules',
-      replacement: 'node_assets',
-      paths: ['server/build'],
-      recursive: true,
-      silent: true,
-    });
-
-    cb();
-  });
+  return gulp.src('build/**')
+    .pipe(rename(((path) => {
+      path.basename = path.basename.replace(pattern, replacement);
+      path.dirname = path.dirname.replace(pattern, replacement);
+    })))
+    .pipe(replace(pattern, replacement))
+    .pipe(gulp.dest('server/build'));
 });
+
+gulp.task('prpl-server', gulp.series(
+  'prpl-server:clean',
+  'prpl-server:build'
+));
