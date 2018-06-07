@@ -14,16 +14,15 @@ const replace = require('gulp-replace');
 const del = require('del');
 
 /**
- * Cleans the PRPL server build directory (<project folder>/server/build)
+ * Cleans the prpl-server build in the server directory.
  */
 gulp.task('prpl-server:clean', () => {
   return del('server/build');
 });
 
 /**
- * Builds the PRPL-server-ready version of the PWA, auto setting the base path
- * and renaming the node_modules folder, otherwise services like App Engine won't
- * upload it
+ * Copies the prpl-server build to the server directory while renaming the
+ * node_modules directory so services like App Engine will upload it.
  */
 gulp.task('prpl-server:build', () => {
   const pattern = 'node_modules';
