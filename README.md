@@ -31,7 +31,7 @@ the extra copy to it.
 ## Sending a PR for the docs
 Most of the time if you want to send a PR to update the documentation, you'll want to update one of the `.md` files.
 Make sure that when sending the PR, the base branch is `gh-pages`:
-![screenshot of github PR base branch](https://user-images.githubusercontent.com/1369170/41371387-013f6c5a-6eff-11e8-93fe-906bf66a8eea.png)
+<img width="412" alt="screenshot of github base branches" src="https://user-images.githubusercontent.com/1369170/41371519-716b430a-6eff-11e8-8bc6-8e3789bb7079.png">
 
 ## Running locally  
 You need to first have `ruby` and the `jekyll` gem installed on your computer. Installing `ruby` on your computer might differ,
