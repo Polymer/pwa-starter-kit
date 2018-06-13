@@ -1,4 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { htmlTransform } = require('polymer-build/lib/html-transform');
+const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elements-es5-adapter');
 
 const es2015 = true;
 
@@ -8,18 +10,18 @@ class WebcomponentsjsHtmlWebpackPlugin {
       compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync(
         'WebcomponentsjsHtmlWebpackPlugin',
         (data, cb) => {
-          // Webpack will output normal scripts (not ES modules).
+          // Source uses modules, but Webpack will output regular script.
           data.html = data.html.replace(' type="module"', '');
-  
-          // Inject custom-elements-es5-adapter if es2015.
+
+          data.html = htmlTransform(data.html, {
+            js: {
+              // transformModulesToAmd: true
+            },
+            minifyHtml: true
+          })
+
           if (es2015) {
-            const webcomponentsjsBasePath = `node_modules/@webcomponents/webcomponentsjs/`;
-            const loaderFragment = `<script src="${webcomponentsjsBasePath}webcomponents-loader.js"></script>`;
-            const es5AdapterFragment = `<script>if (!window.customElements) { document.write('<!--'); }</script>
-<script type="text/javascript" src="${webcomponentsjsBasePath}custom-elements-es5-adapter.js"></script>
-<!--! do not remove -->`;
-            data.html = data.html.replace(loaderFragment, `${es5AdapterFragment}
-${loaderFragment}`);
+            data.html = addCustomElementsEs5Adapter(data.html);
           }
   
           cb(null, data)
