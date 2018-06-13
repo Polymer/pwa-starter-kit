@@ -1,0 +1,452 @@
+body {
+  min-height: 101vh;
+  margin: 0;
+  background-color: #FFF;
+  color: #383838;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.flex {
+  flex: 1;
+}
+
+/* top nav */
+.main-nav {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 12px 0 24px;
+  box-sizing: border-box;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: normal;
+}
+
+.main-nav > a {
+  position: relative;
+  padding: 8px 0;
+  margin: 0 12px;
+}
+
+.main-nav-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 2px;
+}
+
+.main-nav-item:hover::after {
+  border-bottom: 1px solid;
+}
+
+/* home page */
+.pretty-button {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0 4px;
+  padding: 8px 44px;
+  border: 2px solid #000;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.pretty-button:active {
+  background-color: #333;
+  color: #FFF;
+}
+
+.pretty-button:hover {
+  text-decoration: none !important;
+  background-color: #333;
+  color: #FFF;
+}
+
+section {
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.hero {
+  background-color: transparent;
+  background-size: cover;
+}
+
+.hero p {
+  font-size: 20px;
+  max-width: 600px;
+  line-height: 1.5;
+  margin: 24px auto 32px;
+}
+
+.devices {
+  display: block;
+  height: 460px;
+  background-image: url(https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+
+.hero-buttons {
+  padding-top: 16px;
+}
+
+.news {
+  max-width: 460px;
+  text-align: left;
+  margin: 0 auto;
+  padding-top: 0;
+}
+
+.news-item {
+  display: flex;
+  padding: 0 0 8px 0;
+}
+
+.news-item > * {
+  margin: 0;
+}
+
+.news-item > date {
+  width: 90px;
+}
+
+.news-item > p {
+  flex: 1;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  color: #FFF;
+}
+
+.feature > .icon {
+  width: 76px;
+  height: 76px;
+}
+
+.feature > p {
+  /* IE11 flexbox bug: https://github.com/philipwalton/flexbugs#2-column-flex-items-set-to-align-itemscenter-overflow-their-container */
+  max-width: 100%;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #FFF;
+}
+
+.main-item {
+  display: flex;
+  max-width: 700px;
+  padding: 16px 0;
+  text-align: left;
+}
+
+.main-item > img {
+  width: auto;
+  height: 100px;
+  padding-right: 32px;
+}
+
+.main-item h2 {
+  margin-top: 0;
+}
+
+.compatibility {
+  background-color: #F2F2F2;
+}
+
+.browsers > img {
+  width: 70px;
+  height: 70px;
+  padding: 20px;
+}
+
+footer {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  height: 64px;
+  padding: 0 24px;
+}
+
+/* doc page */
+header {
+  padding: 20px 40px;
+  text-align: center;
+  background-color: #333;
+  color: #FFF;
+}
+
+.toc {
+  /* position: sticky works in Chrome, Firefox, Safari and Edge; fallback to position: static for which the nav will just be part of the scrolling content. */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 340px;
+  height: 300px;
+  box-sizing: border-box;
+  padding: 56px 24px 40px 40px;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+}
+
+.toc ul {
+  padding: 0 0 0 16px;
+}
+
+.toc ul ul {
+  padding: 8px 0 0 16px;
+}
+
+.toc > ul {
+  border-left: 1px solid #222;
+}
+
+.toc li {
+  padding: 6px 0;
+  list-style-type: none;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.toc li[data-level="H3"] {
+  font-size: 14px;
+}
+
+.toc > ul > li {
+  font-weight: 300;
+}
+
+article {
+  max-width: 860px;
+  padding: 48px 40px 56px 340px;
+  margin: -300px auto 0;
+}
+
+article > section {
+  padding: 8px 0;
+  text-align: left;
+}
+
+article h1 {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.1;
+  margin: 40px 0 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #222;
+}
+
+article h2 {
+  font-weight: 600;
+  margin: 64px 0 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #222;
+}
+
+article h3 {
+  font-weight: 600;
+  margin: 32px 0 16px;
+}
+
+article h3 > code {
+  font-weight: 600 !important;
+}
+
+article a {
+  color: #1e88e5;
+}
+
+article a:hover {
+  text-decoration: underline;
+}
+
+article img {
+  max-width: 600px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+}
+
+p.caption, b {
+  font-weight: 500;
+}
+
+code, pre {
+  font-family: 'Source Code Pro', 'Roboto Mono', Consolas, Menlo, monospace !important;
+}
+
+code {
+  color: #0d47a1;
+  font-weight: 300;
+}
+
+pre {
+  white-space: pre;
+  word-wrap: normal;
+  font-size: 14px;
+  padding: 8px;
+  background: #FFF !important;
+  overflow-x: auto;
+}
+
+/* small screen */
+@media (max-width: 767px) {
+  /* top nav */
+  .main-nav {
+    height: 64px;
+    padding: 0 8px 0 16px;
+    box-sizing: border-box;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+  }
+
+  .main-nav > a {
+    padding: 8px 0;
+    margin: 0 8px;
+  }
+
+  /* home page */
+  section {
+    padding: 24px;
+  }
+
+  .devices {
+    height: 200px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-buttons > * {
+    width: 240px;
+    margin: 8px 0;
+  }
+
+  .features {
+    display: block;
+  }
+
+  .feature {
+    display: block;
+    width: auto;
+    padding: 16px 0;
+  }
+
+  .feature > iron-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .feature > p {
+    margin: 4px 0;
+  }
+
+  .main {
+    display: block;
+  }
+
+  .main-item {
+    display: block;
+    padding: 16px 0;
+    text-align: center;
+  }
+
+  .main-item > img {
+    width: 48px;
+    height: auto;
+    padding: 0 0 4px 0;
+  }
+
+  .main-item h2 {
+    margin: 0 0 10px;
+  }
+
+  .main-item p {
+    margin: 4px 0;
+  }
+
+  .browsers > img {
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+  }
+
+  footer {
+    padding: 0 16px;
+  }
+
+  /* doc page */
+  .toc {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 16px 24px 0;
+  }
+
+  article {
+    padding: 0 24px;
+    margin-top: 0;
+  }
+}
