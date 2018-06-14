@@ -46,14 +46,14 @@ const loadPage = (page) => (dispatch) => {
   }
 
   dispatch(updatePage(page));
-}
+};
 
 const updatePage = (page) => {
   return {
     type: UPDATE_PAGE,
     page
   };
-}
+};
 
 let snackbarTimer;
 
@@ -81,7 +81,7 @@ export const updateLayout = (wide) => (dispatch, getState) => {
   if (getState().app.drawerOpened) {
     dispatch(updateDrawerState(false));
   }
-}
+};
 
 export const updateDrawerState = (opened) => (dispatch, getState) => {
   if (getState().app.drawerOpened !== opened) {
@@ -90,4 +90,4 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
       opened
     });
   }
-}
+};
