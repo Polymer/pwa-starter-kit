@@ -201,12 +201,12 @@ class MyApp extends connect(store)(LitElement) {
     </app-drawer>
 
     <!-- Main content -->
-    <main class="main-content">
+    <div role="main" class="main-content">
       <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
       <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
-    </main>
+    </div>
 
     <footer>
       <p>Made with &hearts; by the Polymer team.</p>
