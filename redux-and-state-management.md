@@ -9,7 +9,6 @@ This page will take you through the steps you need to do to use Redux to manage 
 - [General principles](#general-principles)
   - [Some definitions](#some-definitions)
   - [Naming conventions](#naming-conventions)
-  - [Polymer-specific things to look out for](#polymer-specific-things-to-look-out-for)
 - [Connecting elements to the store](#connecting-elements-to-the-store)
   - [What to connect](#what-to-connect)
   - [How to connect](#how-to-connect)
@@ -74,15 +73,6 @@ src
     - Same as action type, camel cased (`addTodo` -> `ADD_TODO`)
 - Selector
   - `categorySelector`/`itemsSelector` vs `getCategory`/`getItems` (to distinguish that one is a selector, whereas the `get*` methods could just be non-memoized selectors
-
-### Polymer-specific things to look out for
-In a Polymer app, to make sure that your elements are not accidentally modifying data that’s in the store, you should:
-- Not use any two-way data binding: `{{foo}}`
-- Not use any `this.set('foo.id', bar)` data setters
-- In your own app elements, don’t use ``notify:true`` properties
-  - If you’re using a third-party element that does have notifying properties, use their `foo-changed` events too hook up those changes to the store (in the connected parent element)
-- Use any property assignments (`this.foo = bar`) or `this._setFoo` to set read-only properties
-  - In particular, connected elements can set properties in their `_stateChanged()` methods alone
 
 ## Connecting elements to the store
 
