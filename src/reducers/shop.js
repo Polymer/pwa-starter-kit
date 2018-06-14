@@ -51,7 +51,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
     default:
       return state;
   }
-}
+};
 
 // Slice reducer: it only reduces the bit of the state it's concerned about.
 const products = (state, action) => {
@@ -66,7 +66,7 @@ const products = (state, action) => {
     default:
       return state;
   }
-}
+};
 
 const product = (state, action) => {
   switch (action.type) {
@@ -83,7 +83,7 @@ const product = (state, action) => {
     default:
       return state;
   }
-}
+};
 
 const cart = (state = INITIAL_CART, action) => {
   switch (action.type) {
@@ -98,7 +98,7 @@ const cart = (state = INITIAL_CART, action) => {
     default:
       return state;
   }
-}
+};
 
 const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
   const productId = action.productId;
@@ -122,7 +122,7 @@ const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
     default:
       return state;
   }
-}
+};
 
 const quantityById = (state = INITIAL_CART.quantityById, action) => {
   const productId = action.productId;
@@ -140,7 +140,7 @@ const quantityById = (state = INITIAL_CART.quantityById, action) => {
     default:
       return state;
   }
-}
+};
 
 export default shop;
 
@@ -196,4 +196,4 @@ export const cartQuantitySelector = createSelector(
     }
     return num;
   }
-)
+);
