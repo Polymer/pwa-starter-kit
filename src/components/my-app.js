@@ -132,6 +132,11 @@ class MyApp extends connect(store)(LitElement) {
         color: var(--app-drawer-selected-color);
       }
 
+      /* Workaround for IE11 displaying <main> as inline */
+      main {
+        display: block;
+      }
+
       .main-content {
         padding-top: 64px;
         min-height: 100vh;
@@ -201,12 +206,12 @@ class MyApp extends connect(store)(LitElement) {
     </app-drawer>
 
     <!-- Main content -->
-    <div role="main" class="main-content">
+    <main role="main" class="main-content">
       <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
       <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
-    </div>
+    </main>
 
     <footer>
       <p>Made with &hearts; by the Polymer team.</p>
