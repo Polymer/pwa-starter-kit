@@ -8,12 +8,14 @@ This page will take you through the steps you need to do to build and deploy you
 - [prpl-server (recommended)](#prpl-server-recommended)
   - [Building for prpl-server](#building-for-prpl-server)
   - [Previewing prpl-server](#previewing-prpl-server)
-  - [Deploying prpl-server to App Engine](#deploying-prpl-server-to-app-engine)
+  - [Deploying prpl-server](#deploying-prpl-server)
+    - [App Engine](#app-engine)
+    - [Firebase Hosting + Firebase Functions](#firebase-hosting--firebase-functions)
 - [Static hosting](#static-hosting)
   - [Building for static hosting](#building-for-static-hosting)
   - [Previewing static hosting](#previewing-static-hosting)
   - [Deploying static hosting](#deploying-static-hosting)
-    - [App Engine](#app-engine)
+    - [App Engine](#app-engine-1)
     - [Firebase Hosting](#firebase-hosting)
     - [Netlify](#netlify)
 - [Service Worker](#service-worker)
@@ -54,8 +56,14 @@ To preview the build using prpl-server locally:
 npm run serve:prpl-server
 ```
 
-### Deploying `prpl-server` to App Engine
-The contents of `server/app.yaml` is pre-configured to be deployed to Google App Engine (e.g. `gcloud app deploy server/app.yaml`). The provided `server/package.json` can also be used on other hosting services that support Node.js.
+### Deploying `prpl-server`
+After building, the contents of `server/` contains all the files and configuration necessary to run the app in production. The provided `server/package.json` specifies server dependencies and the start command which can be used on almost any hosting service that supports Node.js.
+
+#### App Engine
+The contents of `server/app.yaml` is pre-configured to be deployed to [Google App Engine Node.js Flexible Environment](https://cloud.google.com/appengine/docs/flexible/nodejs/). Use the `gcloud` tool to deploy this (e.g. `gcloud app deploy server/app.yaml`).
+
+#### Firebase Hosting + Firebase Functions
+_Firebase Hosting_ alone is not sufficient for hosting the `prpl-server` build since it requires some server-side processing of the user agent string. Instead, you will have to use `Firebase Functions` for server-side processing. [This gist](https://gist.github.com/Dabolus/314bd939959ebe68f57f1dcebe120a7e) contains detailed instructions on how to accomplish this.
 
 ## Static hosting
 If you don't need differential serving and want to serve the same build to all browsers, you can just deploy to a static server.

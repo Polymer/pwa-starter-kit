@@ -190,10 +190,10 @@ Note that in all of these code snippets, the `selected` attribute is used to [hi
 
 Finally, we need to lazy load this page. Without this, the links will appear, but they won't be able to navigate to your new page, since `my-view4` will be undefined (we haven't imported its source code anywhere). In the [`loadPage ` action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29), add a new `case` statement:
 ```js
-switch(this.page) {
+switch(page) {
   ...
   case 'view4':
-    await import('../components/my-view4.js');
+    import('../components/my-view4.js');
     break;
 }
 ```
