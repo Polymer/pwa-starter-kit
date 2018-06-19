@@ -324,7 +324,7 @@ Sometimes you might need to update this location (and the Redux store) imperativ
 onArticleLinkClick(page) {
   const newLocation = `/article/${page}`
   window.history.pushState({}, '', newLocation);
-  this._updateLocation(newLocation);
+  this._locationChanged(newLocation);
 };
 ```
 
