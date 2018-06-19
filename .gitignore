@@ -2,3 +2,4 @@ build/
 node_modules/
 test/integration/screenshots-current
 .DS_Store
+rollup_dist/*.js
