@@ -40,6 +40,6 @@ const app = (state = {}, action) => {
     default:
       return state;
   }
-}
+};
 
 export default app;
