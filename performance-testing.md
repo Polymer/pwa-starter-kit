@@ -6,7 +6,7 @@ This page takes you through the tools you can use to measure your application's 
 
 ## Loading performance
 `pwa-starter-kit` is built using the [PRPL pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/), which is a new approach for structuring and serving PWAs, with an emphasis on performance. It stands for:
-- **Push** critical resources for the initial URL route. This is achieved by using HTTP2 push, and covered in the [Building and Deploying]({{site.baseurl}}/building-&amp;-deploying#h2-server-push-optional) section
+- **Push** critical resources for the initial URL route. This is achieved by using HTTP2 push, and covered in the [Building and Deploying]({{site.baseurl}}/building-and-deploying#h2-server-push-optional) section
 - **Render** initial route. In order to get render the requested page as quickly as possible, each route should only load exactly what it needs, and not any resources that are needed by other, yet un-requested parts of the app
 - **Pre-cache** remaining routes. Once the requested page has loaded, a Service Worker will be installed and it will pre-cache the fragments specified in your [polymer.json](https://github.com/Polymer/pwa-starter-kit/blob/master/polymer.json#L4).
 - **Lazy-load** and create remaining routes on demand. When the user switches routes, the app lazy-loads any required resources that haven't been cached yet by the Service Worker, and creates the views.

@@ -157,7 +157,7 @@ class MyView4 extends PageViewElement {
 window.customElements.define('my-view4', MyView4);
 ```
 
-(🔎This page extends `PageViewElement` rather than `LitElement` as an optimization; for more details on that, check out the [conditional rendering](https://github.com/PolymerLabs/pwa-starter-kit/wiki/3.-Configuring-and-personalizing#conditionally-rendering-views) section)
+(🔎This page extends `PageViewElement` rather than `LitElement` as an optimization; for more details on that, check out the [conditional rendering]({{site.baseurl}}/Configuring-and-personalizing#conditionally-rendering-views) section)
 
 ### Adding the page to the application
 Great! Now we that we have our new element, we need to add it to the application!
@@ -403,4 +403,4 @@ You control when this class is added; this could be when a "use dark theme" butt
 Now that you're done configuring your application, check out the next steps:
 - [Testing the performance]({{site.baseurl}}/performance-testing) of your  app to ensure your users have a fast experience
 - [General testing]({{site.baseurl}}/application-testing) your app to make sure new changes don't accidentally cause regressions
-- [Building and deploying]({{site.baseurl}}/building-&amp;-deploying) to production
+- [Building and deploying]({{site.baseurl}}/building-and-deploying) to production
