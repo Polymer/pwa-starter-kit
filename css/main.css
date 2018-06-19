@@ -261,6 +261,9 @@ footer a {
   transition: transform .3s ease;
 }
 
+.toc {
+  list-style-type: none;
+}
 .toc ul {
   padding: 0 0 0 16px;
 }
@@ -361,6 +364,11 @@ p.caption, b {
   font-weight: 500;
 }
 
+/* table of contents. align the first set of bullets with the title. */
+#table-of-contents ~ ul {
+  list-style-type: none;
+  padding: 0;
+}
 code, pre {
   font-family: 'Source Code Pro', 'Roboto Mono', Consolas, Menlo, monospace !important;
 }
