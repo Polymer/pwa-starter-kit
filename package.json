@@ -37,7 +37,7 @@
     "gulp-replace": "^1.0.0",
     "mocha": "^5.1.0",
     "pixelmatch": "^4.0.2",
-    "polymer-cli": "^1.7.1",
+    "polymer-cli": "^1.7.4",
     "polyserve": "^0.27.0",
     "prpl-server": "^1.1.0",
     "puppeteer": "^1.4.0",
