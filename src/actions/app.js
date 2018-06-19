@@ -27,38 +27,34 @@ export const navigate = (path) => (dispatch) => {
   dispatch(updateDrawerState(false));
 };
 
-const loadPage = (page) => async (dispatch) => {
-  // If the page is invalid, set to 404. The is also a good spot to check
-  // other location things like sub-path or query params.
-  if (['view1', 'view2', 'view3'].indexOf(page) === -1) {
-    page = 'view404';
+const loadPage = (page) => (dispatch) => {
+  switch(page) {
+    case 'view1':
+      import('../components/my-view1.js').then((module) => {
+        // Put code in here that you want to run every time when
+        // navigating to view1 after my-view1.js is loaded.
+      });
+      break;
+    case 'view2':
+      import('../components/my-view2.js');
+      break;
+    case 'view3':
+      import('../components/my-view3.js');
+      break;
+    default:
+      page = 'view404';
+      import('../components/my-view404.js');
   }
 
   dispatch(updatePage(page));
-
-  switch(page) {
-    case 'view1':
-      await import('../components/my-view1.js');
-      // Put code here that you want it to run every time when
-      // navigate to view1 page and my-view1.js is loaded
-      break;
-    case 'view2':
-      await import('../components/my-view2.js');
-      break;
-    case 'view3':
-      await import('../components/my-view3.js');
-      break;
-    default:
-      await import('../components/my-view404.js');
-  }
-}
+};
 
 const updatePage = (page) => {
   return {
     type: UPDATE_PAGE,
     page
   };
-}
+};
 
 let snackbarTimer;
 
@@ -90,7 +86,7 @@ export const updateLayout = (wideLayout) => (dispatch, getState) => {
   // Open the drawer when we are switching to wide layout and close it when we are
   // switching to narrow.
   dispatch(updateDrawerState(wideLayout));
-}
+};
 
 export const updateDrawerState = (opened) => (dispatch, getState) => {
   const app = getState().app;
@@ -101,4 +97,4 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
       opened
     });
   }
-}
+};

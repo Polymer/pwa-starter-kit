@@ -20,7 +20,7 @@ const PRODUCT_LIST = [
   {"id": 3, "title": "Tillamook Medium Cheddar Cheese", "price": 8.99, "inventory": 5},
   {"id": 4, "title": "Point Reyes Bay Blue Cheese", "price": 24.99, "inventory": 7},
   {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
-]
+];
 
 export const getAllProducts = () => (dispatch, getState) => {
   // Here you would normally get the data from the server. We're simulating
@@ -76,4 +76,4 @@ export const addToCartUnsafe = (productId) => {
     type: ADD_TO_CART,
     productId
   };
-}
+};
