@@ -8,6 +8,7 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "polymer serve",
+    "start:webpack": "webpack-dev-server --open --mode development",
     "build": "npm run build:prpl-server && npm run build:static",
     "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
@@ -47,6 +48,7 @@
     "puppeteer": "^1.4.0",
     "wct-browser-legacy": "^1.0.1",
     "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.5"
+    "webpack-cli": "^2.1.5",
+    "webpack-dev-server": "^3.1.4"
   }
 }

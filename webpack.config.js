@@ -42,6 +42,9 @@ module.exports = {
     'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf': '@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js',
     'src/components/my-app': './src/components/my-app.js'
   },
+  devServer: {
+    historyApiFallback: true
+  },
   mode: 'production',
   module: {
     rules: es2015 ? [
