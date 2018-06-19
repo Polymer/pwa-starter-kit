@@ -261,8 +261,8 @@ class MyApp extends LitElement {
     }
 
     clearTimeout(this.__snackbarTimer);
-    this.snackbarOpened = true;
-    this.__snackbarTimer = setTimeout(() => { this.snackbarOpened = false }, 3000);
+    this._snackbarOpened = true;
+    this.__snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
   }
 
   _locationChanged() {
