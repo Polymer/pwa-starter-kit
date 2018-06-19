@@ -38,7 +38,7 @@ const app = (state = {drawerOpened: false}, action) => {
       return {
         ...state,
         drawerOpened: action.opened
-      }
+      };
     case OPEN_SNACKBAR:
       return {
         ...state,
@@ -52,6 +52,6 @@ const app = (state = {drawerOpened: false}, action) => {
     default:
       return state;
   }
-}
+};
 
 export default app;
