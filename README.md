@@ -18,14 +18,14 @@ gives you the following features:
 
 This template uses Redux for state management like the `master` template, but doesn't use any of the `app-layout` elements (app-header or app-drawer) for the responsive UI.
 
-### 📖Head over to the [wiki](https://github.com/Polymer/pwa-starter-kit/wiki) for more details!
+### 📖Head over to the [documentation site](https://polymer.github.io/pwa-starter-kit/) for more details or check out [how to get started](https://polymer.github.io/pwa-starter-kit/setup/)!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/39716939-a353c706-51e6-11e8-972b-e006d25817ce.png)
 
 ## Known issues
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
-- lit-element and lit-html have IE11 compatibility issues
-- if you have node version 10, you might have problems running the unit tests (and you will get an error along the lines of `Cannot read property '1' of null`. For now, we recommend using node 8 or 9.
+- `lit-element` and `lit-html` have IE11 compatibility issues
+- if you have Node version 10, you might have problems running the unit tests (and you will get an error along the lines of `Cannot read property '1' of null`. For now, we recommend using node 8 or 9.
 
 ## TODOs
 - [x] setup Safari testing on Travis
