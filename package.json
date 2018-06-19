@@ -9,7 +9,7 @@
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "gulp clean:prpl-server && gulp build:prpl-server",
+    "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.19",
-    "@polymer/lit-element": "^0.5.0",
+    "@polymer/lit-element": "^0.5.2",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "pwa-helpers": "^0.8.2"
   },
@@ -30,14 +30,14 @@
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "gulp": "^4.0.0",
+    "gulp-rename": "^1.2.3",
+    "gulp-replace": "^1.0.0",
     "mocha": "^5.1.0",
     "pixelmatch": "^4.0.2",
     "polymer-cli": "^1.7.1",
     "polyserve": "^0.27.0",
     "prpl-server": "^1.1.0",
     "puppeteer": "^1.4.0",
-    "renamer": "^0.6.1",
-    "replace": "^1.0.0",
     "wct-browser-legacy": "^1.0.1"
   }
 }

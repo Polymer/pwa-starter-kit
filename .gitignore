@@ -1,5 +1,4 @@
 build/
 node_modules/
 test/integration/screenshots-current
-yarn.lock
 .DS_Store

@@ -120,6 +120,11 @@ class MyApp extends LitElement {
         color: var(--app-drawer-selected-color);
       }
 
+      /* Workaround for IE11 displaying <main> as inline */
+      main {
+        display: block;
+      }
+
       .main-content {
         padding-top: 64px;
         min-height: 100vh;
@@ -189,7 +194,7 @@ class MyApp extends LitElement {
     </app-drawer>
 
     <!-- Main content -->
-    <main class="main-content">
+    <main role="main" class="main-content">
       <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
@@ -197,7 +202,7 @@ class MyApp extends LitElement {
     </main>
 
     <footer>
-      <p>Made with &lt;3 by the Polymer team.</p>
+      <p>Made with &hearts; by the Polymer team.</p>
     </footer>
 
     <snack-bar active?="${_snackbarOpened}">
