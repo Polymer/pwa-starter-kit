@@ -17,11 +17,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <title>My app</title>
     <meta name="description" content="My App description">
-    
-    <!-- Performance tip: hint to the browser to fetch and cache webcomponents-loader.js -->
-    <link rel="preload" as="script" href="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js">
-    <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 
     <!--
       The `<base>` tag below is present to support two advanced deployment options:
@@ -67,8 +62,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="twitter:site" content="@username">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="my-app">
-    <meta property="og:image" content="images/manifest/icon-144x144.png" />    
-    
+    <meta property="og:image" content="images/manifest/icon-144x144.png" />
+
+    <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <script>
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
