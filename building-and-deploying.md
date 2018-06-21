@@ -60,7 +60,18 @@ npm run serve:prpl-server
 After building, the contents of `server/` contains all the files and configuration necessary to run the app in production. The provided `server/package.json` specifies server dependencies and the start command which can be used on almost any hosting service that supports Node.js.
 
 #### App Engine
-The contents of `server/app.yaml` is pre-configured to be deployed to [Google App Engine Node.js Flexible Environment](https://cloud.google.com/appengine/docs/flexible/nodejs/). Use the `gcloud` tool to deploy this (e.g. `gcloud app deploy server/app.yaml`).
+
+##### Flexible Environment
+The contents of `server/app.yaml` is pre-configured to be deployed to [Google App Engine Node.js Flexible Environment](https://cloud.google.com/appengine/docs/flexible/nodejs/). Use the `gcloud` tool to deploy the contents of `server/` (e.g. `gcloud app deploy server/app.yaml`).
+
+##### Standard Environment (Beta)
+To deploy to [Google App Engine Node.js Standard Environment (Beta)](https://cloud.google.com/appengine/docs/standard/nodejs/), replace the entire contents of `server/app.yaml` with:
+
+```yaml
+runtime: nodejs8
+```
+
+Use the `gcloud` tool to deploy the contents of `server/` (e.g. `gcloud app deploy server/app.yaml`).
 
 #### Firebase Hosting + Firebase Functions
 _Firebase Hosting_ alone is not sufficient for hosting the `prpl-server` build since it requires some server-side processing of the user agent string. Instead, you will have to use `Firebase Functions` for server-side processing. [This gist](https://gist.github.com/Dabolus/314bd939959ebe68f57f1dcebe120a7e) contains detailed instructions on how to accomplish this.
