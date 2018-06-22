@@ -39,7 +39,7 @@ class MyView3 extends PageViewElement {
       </style>
 
       <section>
-        <h2>Redux example: shopping cart</h2>
+        <h2>State container example: shopping cart</h2>
         <div class="circle">${this._numItemsInCart(_cart)}</div>
 
         <p>This is a slightly more advanced example, that simulates a
