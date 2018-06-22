@@ -120,6 +120,11 @@ class MyApp extends LitElement {
         color: var(--app-drawer-selected-color);
       }
 
+      /* Workaround for IE11 displaying <main> as inline */
+      main {
+        display: block;
+      }
+
       .main-content {
         padding-top: 64px;
         min-height: 100vh;
@@ -189,7 +194,7 @@ class MyApp extends LitElement {
     </app-drawer>
 
     <!-- Main content -->
-    <main class="main-content">
+    <main role="main" class="main-content">
       <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
@@ -197,7 +202,7 @@ class MyApp extends LitElement {
     </main>
 
     <footer>
-      <p>Made with &lt;3 by the Polymer team.</p>
+      <p>Made with &hearts; by the Polymer team.</p>
     </footer>
 
     <snack-bar active?="${_snackbarOpened}">
@@ -277,30 +282,26 @@ class MyApp extends LitElement {
     }
   }
 
-  async _loadPage(page) {
-    // If the page is invalid, set to 404. The is also a good spot to check
-    // other location things like sub-path or query params.
-    if (['view1', 'view2', 'view3'].indexOf(page) === -1) {
-      page = 'view404';
+  _loadPage(page) {
+    switch(page) {
+      case 'view1':
+        import('../components/my-view1.js').then((module) => {
+          // Put code in here that you want to run every time when
+          // navigating to view1 after my-view1.js is loaded.
+        });
+        break;
+      case 'view2':
+        import('../components/my-view2.js');
+        break;
+      case 'view3':
+        import('../components/my-view3.js');
+        break;
+      default:
+        page = 'view404';
+        import('../components/my-view404.js');
     }
 
     this._page = page;
-
-    switch(page) {
-      case 'view1':
-        await import('../components/my-view1.js');
-        // Put code here that you want it to run every time when
-        // navigate to view1 page and my-view1.js is loaded
-        break;
-      case 'view2':
-        await import('../components/my-view2.js');
-        break;
-      case 'view3':
-        await import('../components/my-view3.js');
-        break;
-      default:
-        await import('../components/my-view404.js');
-    }
   }
 }
 
