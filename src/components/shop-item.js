@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '@polymer/lit-element';
 
-// This element is *not* connected to the redux store.
+// This element is *not* connected to the Redux store.
 class ShopItem extends LitElement {
   _render(props) {
     return html`
