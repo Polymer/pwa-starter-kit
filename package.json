@@ -7,11 +7,11 @@
   "license": "BSD-3-Clause",
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
+    "bootstrap": "npm run install:tools && npm run install:flat",
     "start": "./tools/node_modules/.bin/polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
     "build:prpl-server": "./tools/node_modules/.bin/polymer build --auto-base-path && ./tools/node_modules/.bin/gulp prpl-server --cwd ./tools",
     "build:static": "./tools/node_modules/.bin/polymer build",
-    "install:all": "npm run install:tools && npm run install:flat",
     "install:flat": "./tools/node_modules/.bin/yarn install --flat",
     "install:tools": "cd tools && npm install",
     "serve:prpl-server": "./tools/node_modules/.bin/prpl-server --root server/build",
