@@ -9,7 +9,7 @@
   "scripts": {
     "start": "./tools/node_modules/.bin/polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "./tools/node_modules/.bin/polymer build --auto-base-path && ./tools/node_modules/.bin/gulp prpl-server",
+    "build:prpl-server": "./tools/node_modules/.bin/polymer build --auto-base-path && ./tools/node_modules/.bin/gulp prpl-server --cwd ./tools",
     "build:static": "./tools/node_modules/.bin/polymer build",
     "install:all": "npm run install:tools && npm run install:flat",
     "install:flat": "./tools/node_modules/.bin/yarn install --flat",
