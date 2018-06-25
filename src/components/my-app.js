@@ -9,24 +9,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
+import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
+import { installOfflineWatcher } from 'pwa-helpers/network.js';
+import { installRouter } from 'pwa-helpers/router.js';
+import { updateMetadata } from 'pwa-helpers/metadata.js';
 
+// This element is connected to the Redux store.
+import { store } from '../store.js';
+
+// These are the actions needed by this element.
+import {
+  navigate,
+  updateOffline,
+  updateDrawerState,
+  updateLayout
+} from '../actions/app.js';
+
+// These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
-import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
-
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
-
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { installRouter } from 'pwa-helpers/router.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
-
-import { store } from '../store.js';
-import { navigate, updateOffline, updateDrawerState, updateLayout } from '../actions/app.js';
 
 class MyApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
@@ -125,6 +132,11 @@ class MyApp extends connect(store)(LitElement) {
         color: var(--app-drawer-selected-color);
       }
 
+      /* Workaround for IE11 displaying <main> as inline */
+      main {
+        display: block;
+      }
+
       .main-content {
         padding-top: 64px;
         min-height: 100vh;
@@ -194,7 +206,7 @@ class MyApp extends connect(store)(LitElement) {
     </app-drawer>
 
     <!-- Main content -->
-    <main class="main-content">
+    <main role="main" class="main-content">
       <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
@@ -202,7 +214,7 @@ class MyApp extends connect(store)(LitElement) {
     </main>
 
     <footer>
-      <p>Made with &lt;3 by the Polymer team.</p>
+      <p>Made with &hearts; by the Polymer team.</p>
     </footer>
 
     <snack-bar active?="${_snackbarOpened}">

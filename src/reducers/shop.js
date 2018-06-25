@@ -8,7 +8,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../actions/shop.js';
+import {
+  GET_PRODUCTS,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  CHECKOUT_SUCCESS,
+  CHECKOUT_FAILURE
+} from '../actions/shop.js';
 import { createSelector } from 'reselect';
 
 const INITIAL_CART = {
@@ -45,7 +51,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
     default:
       return state;
   }
-}
+};
 
 // Slice reducer: it only reduces the bit of the state it's concerned about.
 const products = (state, action) => {
@@ -60,7 +66,7 @@ const products = (state, action) => {
     default:
       return state;
   }
-}
+};
 
 const product = (state, action) => {
   switch (action.type) {
@@ -77,7 +83,7 @@ const product = (state, action) => {
     default:
       return state;
   }
-}
+};
 
 const cart = (state = INITIAL_CART, action) => {
   switch (action.type) {
@@ -92,7 +98,7 @@ const cart = (state = INITIAL_CART, action) => {
     default:
       return state;
   }
-}
+};
 
 const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
   const productId = action.productId;
@@ -116,7 +122,7 @@ const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
     default:
       return state;
   }
-}
+};
 
 const quantityById = (state = INITIAL_CART.quantityById, action) => {
   const productId = action.productId;
@@ -134,7 +140,7 @@ const quantityById = (state = INITIAL_CART.quantityById, action) => {
     default:
       return state;
   }
-}
+};
 
 export default shop;
 
@@ -188,6 +194,6 @@ export const cartQuantitySelector = createSelector(
     for (let id of cart.addedIds) {
       num += cart.quantityById[id];
     }
-    return num;  
+    return num;
   }
-)
+);
