@@ -8,8 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-const puppeteer = require('puppeteer');
-const {startServer} = require('polyserve');
+const puppeteer = require('../../../tools/node_modules/puppeteer');
+const {startServer} = require('../../../tools/node_modules/polyserve');
 const path = require('path');
 const fs = require('fs');
 const baselineDir = `${process.cwd()}/test/integration/screenshots-baseline`;

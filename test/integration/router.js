@@ -8,9 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('../../tools/node_modules/puppeteer');
 const expect = require('chai').expect;
-const {startServer} = require('polyserve');
+const {startServer} = require('../../tools/node_modules/polyserve');
 const path = require('path');
 const appUrl = 'http://127.0.0.1:4444';
 

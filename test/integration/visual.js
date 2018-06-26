@@ -8,13 +8,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('../../tools/node_modules/puppeteer');
 const expect = require('chai').expect;
-const {startServer} = require('polyserve');
+const {startServer} = require('../../tools/node_modules/polyserve');
 const path = require('path');
 const fs = require('fs');
-const PNG = require('pngjs').PNG;
-const pixelmatch = require('pixelmatch');
+const PNG = require('../../tools/node_modules/pngjs').PNG;
+const pixelmatch = require('../../tools/node_modules/pixelmatch');
 
 const currentDir = `${process.cwd()}/test/integration/screenshots-current`;
 const baselineDir = `${process.cwd()}/test/integration/screenshots-baseline`;
