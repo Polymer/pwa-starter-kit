@@ -21,14 +21,31 @@ gives you the following features:
 - unit and integrating testing starting points
 - documentation about other advanced patterns.
 
-### 📖Head over to the [documentation site](https://polymer.github.io/pwa-starter-kit/) for more details or check out [how to get started](https://polymer.github.io/pwa-starter-kit/setup/)!
+### 🐇 Quick Start
+
+```
+npm run bootstrap
+    # installs CLI packages into `./tools` folder
+    # installs web assets using `yarn install --flat` 
+
+npm run start
+    # start up local zero-build development server
+
+npm run build
+    # builds static es5 bundled build
+    # builds targeted builds for use with prpl-server
+
+npm test
+    # run unit, integration and screenshot diffing tests
+```
+
+### 📖 Head over to the [documentation site](https://polymer.github.io/pwa-starter-kit/) for more details or check out [how to get started](https://polymer.github.io/pwa-starter-kit/setup/)!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)
 
 ## Known issues
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
 - `lit-element` and `lit-html` have IE11 compatibility issues
-- if you have Node version 10, you might have problems running the unit tests (and you will get an error along the lines of `Cannot read property '1' of null`. For now, we recommend using node 8 or 9.
 
 ## TODOs
 - [x] setup Safari testing on Travis
