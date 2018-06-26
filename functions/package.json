@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "firebase-admin": "~5.12.1",
+    "firebase-functions": "^1.0.3",
+    "prpl-server": "^1.2.0",
+    "rendertron-middleware": "^0.1.2"
+  }
+}

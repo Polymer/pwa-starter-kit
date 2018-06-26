@@ -9,6 +9,7 @@
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
+    "build:firebase": "polymer build --auto-base-path && gulp firebase",
     "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
