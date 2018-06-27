@@ -50,14 +50,8 @@ class MyView3 extends connect(store)(PageViewElement) {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
-        .shroud svg path#cart-path {
-            fill: var(--app-primary-color);
-        }
-        .shroud {
-          width: 64px;
-          height: 64px;
-        }
-        .shroud svg {
+        .cart, .cart svg {
+          fill: var(--app-primary-color);
           width: 64px;
           height: 64px;
         }
@@ -73,7 +67,7 @@ class MyView3 extends connect(store)(PageViewElement) {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="shroud">${addToCartIcon}<div class="circle small">${_quantity}</div></div>
+        <div class="cart">${addToCartIcon}<div class="circle small">${_quantity}</div></div>
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
