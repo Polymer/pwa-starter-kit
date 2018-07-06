@@ -346,7 +346,7 @@ const selectedItemSelector = createSelector(
 );
 
 // To get the selected item:
-console.log(selectedItemSelector(state);
+console.log(selectedItemSelector(state));
 ```
 
 To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#L89) or the [item selector](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.js#L70) from the [Redux-HN](https://github.com/PolymerLabs/polymer-redux-hn) sample app. In both exampls, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
