@@ -365,7 +365,7 @@ p.caption, b {
 }
 
 /* table of contents. align the first set of bullets with the title. */
-#table-of-contents ~ ul {
+#table-of-contents + ul {
   list-style-type: none;
   padding: 0;
 }
