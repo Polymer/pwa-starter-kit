@@ -6,8 +6,8 @@ This page takes you through the tools you can use to measure your application's 
 
 ## Loading performance
 `pwa-starter-kit` is built using the [PRPL pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/), which is a new approach for structuring and serving PWAs, with an emphasis on performance. It stands for:
-- **Push** critical resources for the initial URL route. This is achieved by using HTTP2 push, and covered in the [Building and Deploying]({{site.baseurl}}/building-and-deploying#h2-server-push-optional) section
-- **Render** initial route. In order to get render the requested page as quickly as possible, each route should only load exactly what it needs, and not any resources that are needed by other, yet un-requested parts of the app
+- **Push** critical resources for the initial URL route. This is achieved by using HTTP2 push, and covered in the [Building and Deploying]({{site.baseurl}}/building-and-deploying#h2-server-push-optional) section.
+- **Render** initial route. In order to get render the requested page as quickly as possible, each route should only load exactly what it needs, and not any resources that are needed by other, yet un-requested parts of the app.
 - **Pre-cache** remaining routes. Once the requested page has loaded, a Service Worker will be installed and it will pre-cache the fragments specified in your [polymer.json](https://github.com/Polymer/pwa-starter-kit/blob/master/polymer.json#L4).
 - **Lazy-load** and create remaining routes on demand. When the user switches routes, the app lazy-loads any required resources that haven't been cached yet by the Service Worker, and creates the views.
 
@@ -18,7 +18,7 @@ Lazy loading is an important aspect of `pwa-starter-kit`, since it makes sure ea
 The actual JavaScript code for each route is only loaded if that route is requested. This is done in the [`loadPage`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29) action creator, which is called any time you perform a navigation.
 
 ### Lazy-loading reducers
-If a route is connected to the Redux store, since it is lazy-loaded, then its reducers must be as well. The [Redux and state management]({{site.baseurl}}/redux-and-state-management#lazy-loading) page covers how to set up your store to accommodate lazy loading reducers, and gives you an [example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L23) of how this is done in `pwa-starter-kit`
+If a route is connected to the Redux store, since it is lazy-loaded, then its reducers must be as well. The [Redux and state management]({{site.baseurl}}/redux-and-state-management#lazy-loading) page covers how to set up your store to accommodate lazy loading reducers, and gives you an [example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L23) of how this is done in `pwa-starter-kit`.
 
 ## Measuring performance
 There are a few [tools](https://developers.google.com/web/fundamentals/performance/rail#tools) to help you measure and automate your performance measurements.
@@ -39,5 +39,5 @@ In particular, the [film strip view](https://www.webpagetest.org/video/compare.p
 <img width="897" alt="screen shot 2018-05-02 at 11 00 46 am" src="https://user-images.githubusercontent.com/1369170/39540684-3c8ff676-4df8-11e8-8239-23f89c76ffec.png">
 
 
-Interactive timeline of your resources loading, and who generated the requests
+Interactive timeline of your resources loading, and who generated the requests:
 <img width="926" alt="screen shot 2018-05-02 at 11 01 02 am" src="https://user-images.githubusercontent.com/1369170/39540689-3dfebc04-4df8-11e8-9159-430aaed9ba1a.png">

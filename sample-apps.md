@@ -7,7 +7,7 @@ Here are some applications that we [![built with pwa–starter–kit](https://im
 ### Hacker News ([code](https://github.com/PolymerLabs/polymer-redux-hn), [demo](https://polymer-redux-hn.appspot.com/))
 - a small Hacker News client, inspired by the [HN PWA](https://hnpwa.com/) project that compares implementations for the same PWA app
 - pattern for fetching data from a generic API
-- pattern for using [`indexedDB`](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) for local storage.
+- pattern for using [`indexedDB`](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) for local storage
 
 ### Flash Cards ([code](https://github.com/notwaldorf/flash-cards), [demo](https://flash-cards.netlify.com))
 - flash-cards game to help you learn Japanese (but can be extended for any language and set of cards)

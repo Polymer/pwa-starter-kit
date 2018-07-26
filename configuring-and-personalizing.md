@@ -25,7 +25,7 @@ This page will take you through the steps you need to do to modify the app and a
   - [Theming](#theming)
 
 # Folder structure
-Your app will be initialized with a bunch of folders and files, that looks like this
+Your app will be initialized with a bunch of folders and files, that looks like this:
 ```
 my-app
 ├── images
@@ -58,15 +58,15 @@ my-app
 ```
 - `images/` has your logos and favicons. If you needed to add any other assets to your application, this would be a good place for them.
 - `src/` is where all the code lives. It's broken down in 4 areas:
-  - `components/` is the directory that contains all the custom elements in the application
+  - `components/` is the directory that contains all the custom elements in the application.
   - `actions/`, `reducers/` and `store.js` are Redux specific files and folders. Check out the [Redux and state management]({{site.baseurl}}/redux-and-state-management) page for details on that setup.
 - `test/` is the directory with all of your tests. it's split in `unit` tests (that are run across different browsers), and `integration` tests, that just run on headless Chrome to ensure that the end-to-end application runs and is accessible. Check out the [application testing]({{site.baseurl}}/application-testing) page for more information.
 - `index.html` is your application's starting point. It's where you load your polyfills and the main entry point element.
 - `package.json`: the `npm` configuration file, where you specify your dependencies. Make sure you run `npm install` any time you make any changes to this file.
-- `polymer.json`: the `polymer cli` configuration file, that specifies how your project should be bundled, what's included in the service worker, etc. [docs](https://www.polymer-project.org/2.0/docs/tools/polymer-json)
-- `manifest.json` is the PWA [metadata file](https://developers.google.com/web/fundamentals/web-app-manifest/). It contains the name, theme color and logos for your app, that are used whenever a user adds your application to the homescreen
+- `polymer.json`: the `polymer cli` configuration file, that specifies how your project should be bundled, what's included in the service worker, etc. ([docs](https://www.polymer-project.org/2.0/docs/tools/polymer-json)).
+- `manifest.json` is the PWA [metadata file](https://developers.google.com/web/fundamentals/web-app-manifest/). It contains the name, theme color and logos for your app, that are used whenever a user adds your application to the homescreen.
 - `service-worker.js` is a placeholder file for your Service Worker. In each build directory, the `polymer cli` will populate this file with [actual contents](https://www.polymer-project.org/2.0/toolbox/service-worker), but during development it is disabled.
-- `sw-precache-config.js` is a [configuration file](https://www.polymer-project.org/2.0/toolbox/service-worker) that sets up the precaching behaviour of the Service Worker (such as which files to be precached, the navigation fallback, etc)
+- `sw-precache-config.js` is a [configuration file](https://www.polymer-project.org/2.0/toolbox/service-worker) that sets up the precaching behaviour of the Service Worker (such as which files to be precached, the navigation fallback, etc.).
 - `wct.conf.json` is the [web-component-tester](https://github.com/Polymer/web-component-tester) configuration file, that specifies the folder to run tests from, etc.
 - `.travis.yml` sets up the integration testing we run on every commit on [Travis](https://docs.travis-ci.com/user/customizing-the-build/).
 
@@ -74,8 +74,8 @@ You can add more app-specific folders if you want, to keep your code organized -
 
 # Naming and code conventions
 This section covers some background about the naming and coding conventions you will find in this template:
-- generally, an element `<sample-element>` will be created in a file called `src/components/sample-element.html`, and the class used to register it will be called `SampleElement`.
-- the elements use a mix of Polymer 3 and `lit-html` via the [`LitElement`](https://github.com/Polymer/lit-element) base class. The structure of one of these elements is basically:
+- Generally, an element `<sample-element>` will be created in a file called `src/components/sample-element.html`, and the class used to register it will be called `SampleElement`.
+- The elements use a mix of Polymer 3 and `lit-html` via the [`LitElement`](https://github.com/Polymer/lit-element) base class. The structure of one of these elements is basically:
 
 ```js
 import { LitElement, html } from '@polymer/lit-element';
@@ -112,22 +112,22 @@ class SampleElement extends LitElement {
 }
 window.customElements.define('sample-element', SampleElement);
 ```
-- note that private properties are named with a leading underscore (`_foo` instead of `foo`). Since JavaScript doesn't have proper private properties, this in a coding convention that implies this property shouldn't be used outside of the element itself (so you would never write `<sample-element _foo="bar">`)
+- Note that private properties are named with a leading underscore (`_foo` instead of `foo`). Since JavaScript doesn't have proper private properties, this in a coding convention that implies this property shouldn't be used outside of the element itself (so you would never write `<sample-element _foo="bar">`).
 
 # Customizing the app
 Here are some changes you might want to make to your app to personalize it.
 
 ## Changing the name of your app
 By default, your app is called `my-app`. If you want to change this (which you obviously will), you'll want to make changes in a bunch of places:
-- config files: `package.json`, `polymer.json` and `manifest.json`
-- in the app: `index.html`, the `<title>`, several `meta` fields, and the `appTitle` attribute on the `<my-app>` element.
+- Config files: `package.json`, `polymer.json` and `manifest.json`
+- In the app: `index.html`, the `<title>`, several `meta` fields, and the `appTitle` attribute on the `<my-app>` element
 
 ## Adding a new page
 There are 4 places where the active page is used at any time:
-- as a view in the [`<main>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L197) element
-- as a navigation link in the [`drawer <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L189) element. This is the side nav that is shown in the small-screen (i.e. mobile) view
-- as a navigation link in the [`toolbar <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L179) element. This is the toolbar that is shown in the wide-screen (i.e. desktop) view
-- in the code for [lazy loading](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29) pages. We explicitly list these pages, rather that doing something like `import('./my-'+page+'.js')`, so that the bundler knows these are separate routes, and bundles their dependencies accordingly. ⚠️Don't change this! :)
+- As a view in the [`<main>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L197) element.
+- As a navigation link in the [`drawer <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L189) element. This is the side nav that is shown in the small-screen (i.e. mobile) view.
+- As a navigation link in the [`toolbar <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L179) element. This is the toolbar that is shown in the wide-screen (i.e. desktop) view.
+- In the code for [lazy loading](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29) pages. We explicitly list these pages, rather that doing something like `import('./my-'+page+'.js')`, so that the bundler knows these are separate routes, and bundles their dependencies accordingly. ⚠️Don't change this! :)
 
 To add a new page, you need to add a new entry in each of these places. Note that if you only want to add an external link or button in the toolbar, then you can skip adding anything to the `<main>` element.
 
@@ -157,7 +157,7 @@ class MyView4 extends PageViewElement {
 window.customElements.define('my-view4', MyView4);
 ```
 
-(🔎This page extends `PageViewElement` rather than `LitElement` as an optimization; for more details on that, check out the [conditional rendering]({{site.baseurl}}/Configuring-and-personalizing#conditionally-rendering-views) section)
+(🔎This page extends `PageViewElement` rather than `LitElement` as an optimization; for more details on that, check out the [conditional rendering]({{site.baseurl}}/Configuring-and-personalizing#conditionally-rendering-views) section).
 
 ### Adding the page to the application
 Great! Now we that we have our new element, we need to add it to the application!
@@ -259,7 +259,7 @@ _render(props) {
 ```
 
 ## Fonts
-The app doesn't use any web fonts for the content copy, but does use a Google font for the app title. Be careful not too load too many fonts, however: aside from increasing the download size of your first page, web fonts also  [slow down the performance](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/webfont-optimization) of an app, and cause flashes of unstyled content.
+The app doesn't use any web fonts for the content copy, but does use a Google font for the app title. Be careful not too load too many fonts, however: aside from increasing the download size of your first page, web fonts also [slow down the performance](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/webfont-optimization) of an app, and cause flashes of unstyled content.
 
 ## But I don't want to use Redux
 The `pwa-starter-kit` is supposed to be the well-lit path to building a fairly complex PWA, but it should in no way feel restrictive. If you know what you're doing, and don't want to use Redux to manage your application's state, that's totally fine! We've created a separate template, [`template-no-redux`](https://github.com/Polymer/pwa-starter-kit/tree/template-no-redux), that has the same UI and PWA elements as the main template, but does not have Redux.
@@ -277,7 +277,7 @@ For a different kind of responsive layout, the [`template-responsive-drawer-layo
 The wide screen styles are controlled in CSS by a [media-query](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L150). In that block you can add any selectors that would only apply when the window viewport's width is at least `460px`; you can change this pixel value if you want to change the size at which these styles get applied (or, can add a separate style if you want to have several breakpoints).
 
 #### Changing narrow screen styles
-The rest of the styles in [`my-app`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L35) are outside of the media-query, and thus are either general styles (if they're not overwritten by the media-query styles), or narrow-screen specific, like [this one](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L81) (in this example, the  `<nav class="toolbar-list">` is hidden in the narrow screen view, and visible in the wide screen view)
+The rest of the styles in [`my-app`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L35) are outside of the media-query, and thus are either general styles (if they're not overwritten by the media-query styles), or narrow-screen specific, like [this one](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L81) (in this example, the  `<nav class="toolbar-list">` is hidden in the narrow screen view, and visible in the wide screen view).
 
 #### Responsive styles in JavaScript
 If you want to run specific JavaScript code when the size changes from a wide to narrow screen (for example, to make the drawer persistent, etc), you can use the [`installMediaQueryWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/media-query.js) helper from `pwa-helpers`. When you [set it up](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L233), you can specify the callback that is ran whenever the media query matches.
@@ -332,8 +332,8 @@ onArticleLinkClick(page) {
 We've added a starting point for adding rich social graph content to each pages, both using the [Open Graph](http://ogp.me/) protocol (used on Facebook, Slack etc) and [Twitter cards](https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards).
 
 This is done in two places:
-- statically, in the [`index.html`](https://github.com/Polymer/pwa-starter-kit/blob/master/index.html#L60). These are used by the homepage, and represent any of the common metadata across all pages (for example, if you don't have a page specific description or image, etc).
-- automatically, after you change pages, in [`my-app.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L240), using the [`updateMetadata`](https://github.com/Polymer/pwa-helpers/blob/master/metadata.js) helper from `pwa-helpers`. By default, we update the url and the title of each page, but there are multiple ways in which you can add page-specific content that depend on your apps.
+- Statically, in the [`index.html`](https://github.com/Polymer/pwa-starter-kit/blob/master/index.html#L60). These are used by the homepage, and represent any of the common metadata across all pages (for example, if you don't have a page specific description or image, etc).
+- Automatically, after you change pages, in [`my-app.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L240), using the [`updateMetadata`](https://github.com/Polymer/pwa-helpers/blob/master/metadata.js) helper from `pwa-helpers`. By default, we update the url and the title of each page, but there are multiple ways in which you can add page-specific content that depend on your apps.
 
 A different approach is to update this metadata differently, depending on what page you are. For example, the **Books** doesn't update the metadata in the main [top-level element](https://github.com/PolymerLabs/books/blob/master/src/components/book-app.js#L47), but on specific sub-pages. It uses the image thumbnail of a book only on the [detail pages](https://github.com/PolymerLabs/books/blob/master/src/components/book-detail.js#L61), and adds the search query on the [explore page](https://github.com/PolymerLabs/books/blob/master/src/components/book-explore.js#L35).
 
@@ -401,6 +401,6 @@ You control when this class is added; this could be when a "use dark theme" butt
 
 ## Next steps
 Now that you're done configuring your application, check out the next steps:
-- [Testing the performance]({{site.baseurl}}/performance-testing) of your  app to ensure your users have a fast experience
-- [General testing]({{site.baseurl}}/application-testing) your app to make sure new changes don't accidentally cause regressions
-- [Building and deploying]({{site.baseurl}}/building-and-deploying) to production
+- [Testing the performance]({{site.baseurl}}/performance-testing) of your app to ensure your users have a fast experience.
+- [General testing]({{site.baseurl}}/application-testing) your app to make sure new changes don't accidentally cause regressions.
+- [Building and deploying]({{site.baseurl}}/building-and-deploying) to production.

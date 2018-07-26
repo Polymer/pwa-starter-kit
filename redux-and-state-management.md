@@ -38,11 +38,11 @@ One of the neat features of Redux is that it lets you do [time travel debugging]
 ### Some definitions
 
 When working with Redux, a bunch of words get used a lot, that might sound confusing at first:
-- **state**: this is the information contained by the app. In general, any element properties that you use could be considered the state
-- **store**: the thing that holds the state. You can only have one store, and it is the source of all truth. You can get the state from the store via `store.getState()`
+- **state**: this is the information contained by the app. In general, any element properties that you use could be considered the state.
+- **store**: the thing that holds the state. You can only have one store, and it is the source of all truth. You can get the state from the store via `store.getState()`.
 - **actions**: represent the facts about “what happened” to the state, and are how the application communicates with the store (to tell it that something needs to be updated. You send an action `MEOW` to the store using `store.dispatch(MEOW)`.
 - **action creators**: functions that create actions. They return an action, which can then be dispatched. You use an action creator in your app via `store.dispatch(doAMeow())`. Action creators can also dispatch asynchronous actions, which makes them very useful!
-- **reducers**: describe how the state updates as a result of an action.They are functions that take the old state, an action, and (after doing some work), return a brand new copy of the state, with the right updates applied.
+- **reducers**: describe how the state updates as a result of an action. They are functions that take the old state, an action, and (after doing some work), return a brand new copy of the state, with the right updates applied.
 
 ### Naming conventions
 We recommend structuring your application code as follows:
@@ -62,22 +62,22 @@ src
 ```
 
 - Action creators and reducers can (but aren't required) have the same name, and be named after the slice of the app’s data they deal with. For example, a shopping app could have the following reducers:
-  - `app.js` (to deal with big picture app-related data, such as online/offline status, route paths, etc)
-  - `products.js` for the list of products you can purchase
-  - `cart.js` for the shopping cart
+  - `app.js` to deal with big picture app-related data, such as online/offline status, route paths, etc.
+  - `products.js` for the list of products you can purchase.
+  - `cart.js` for the shopping cart.
   - etc.
 - Action type
-  - verb(+noun, optional), present tense: `ADD_TODO`, `FETCH`, `FETCH_ITEMS`, `RECEIVE_ITEMS`.
+  - Verb(+noun, optional), present tense: `ADD_TODO`, `FETCH`, `FETCH_ITEMS`, `RECEIVE_ITEMS`.
   - These should represent what’s about to happen, not what has already happened.  
-  - Action creator
-    - Same as action type, camel cased (`addTodo` -> `ADD_TODO`)
+- Action creator
+  - Same as action type, camel cased (`addTodo` -> `ADD_TODO`).
 - Selector
-  - `categorySelector`/`itemsSelector` vs `getCategory`/`getItems` (to distinguish that one is a selector, whereas the `get*` methods could just be non-memoized selectors
+  - `categorySelector`/`itemsSelector` vs `getCategory`/`getItems` (to distinguish that one is a selector, whereas the `get*` methods could just be non-memoized selectors).
 
 ## Connecting elements to the store
 
 ### What to connect
-Generally, anything that needs to have direct access to the store data should be considered a **connected** element. This includes both updating the state (by calling `store.dispatch`), or consuming the state (by calling `store.subscribe`). However, if the element only needs to consume store data, it could receive this data via data bindings from a connected parent element. If you think about a shopping cart example: the cart itself needs to be connected to the store, since “what’s in the cart” is part of the application’s state, but the reusable elements that are rendering each item in the cart don’t need to be connected (since they can just receive their data through a data binding)
+Generally, anything that needs to have direct access to the store data should be considered a **connected** element. This includes both updating the state (by calling `store.dispatch`), or consuming the state (by calling `store.subscribe`). However, if the element only needs to consume store data, it could receive this data via data bindings from a connected parent element. If you think about a shopping cart example: the cart itself needs to be connected to the store, since “what’s in the cart” is part of the application’s state, but the reusable elements that are rendering each item in the cart don’t need to be connected (since they can just receive their data through a data binding).
 
 Since this is a very application specific decision, one way to start looking at it is to try connecting your lazy-loaded elements, and then go up or down one level from there. That might end up looking something like:
 <img width="785" alt="screen shot 2018-01-25 at 12 22 39 pm" src="https://user-images.githubusercontent.com/1369170/35410478-7373c98a-01ca-11e8-9f7f-4b95c8a4f47c.png">
@@ -221,7 +221,7 @@ class MyView2 extends connect(store)(LitElement) {
 ...
 }
 ```
-- Lazily load the reducers. You don’t _have_ to do this (especially if you’re prototyping), but since this view is lazy loaded, its reducers should be as well (to follow the “don’t do anything until you actually need it” PRPL approach)
+- Lazily load the reducers. You don’t _have_ to do this (especially if you’re prototyping), but since this view is lazy loaded, its reducers should be as well (to follow the “don’t do anything until you actually need it” PRPL approach).
 
 ```js
 import counter from '../reducers/counter.js';
@@ -229,14 +229,14 @@ store.addReducers({
   counter
 });
 ```
-- Implement the `_stateChanged` method, which is called when anything is updated in the store. Since the store is the source of truth for the 2 properties (rather than `counter-element` itself), any time the Redux store updates we need to update any local properties; this keeps `counter-element` up to-date
+- Implement the `_stateChanged` method, which is called when anything is updated in the store. Since the store is the source of truth for the 2 properties (rather than `counter-element` itself), any time the Redux store updates we need to update any local properties; this keeps `counter-element` up to-date:
 ```
 _stateChanged(state) {
   this._clicks = state.counter.clicks;
   this._value = state.counter.value;
 }
 ```
-- Note that here both `_clicks` and `_value` start with an underscore, which means they are protected -- we don't expect anyone from _outside_ the `<my-view2>` element to want to modify them
+- Note that here both `_clicks` and `_value` start with an underscore, which means they are protected -- we don't expect anyone from _outside_ the `<my-view2>` element to want to modify them.
 - In turn, when `counter-element` updates its value (because the buttons were clicked), we listen to its change events and dispatch an action creator to the store:
 ```js
 this.addEventListener('counter-incremented', function() {
@@ -251,14 +251,14 @@ The [shopping cart example](https://redux.js.org/docs/introduction/Examples.html
 
 #### `my-view3.js`
 This is a connected element that displays both the list of products, the cart, and the Checkout button. It is only connected because it needs to display conditional UI, based on whether the cart has any items (i.e. show a Checkout button or not). This could’ve been an unconnected element if the Checkout button belonged to the cart, for example.
-- Pressing the Checkout button calls the `checkout` action creator. In this action creator you would do any credit cart/server validations, so if the operation cannot be completed, you would fire `CHECKOUT_FAILURE` here. We simulate that by flipping a coin, and conditionally dispatching the async action
-- If the checkout action succeeds, then the `products` object will be updated (with the new stock), and the `cart` will be reset to its initial value (empty)
+- Pressing the Checkout button calls the `checkout` action creator. In this action creator you would do any credit cart/server validations, so if the operation cannot be completed, you would fire `CHECKOUT_FAILURE` here. We simulate that by flipping a coin, and conditionally dispatching the async action.
+- If the checkout action succeeds, then the `products` object will be updated (with the new stock), and the `cart` will be reset to its initial value (empty).
 - One thing to note: in the `src/reducers/shop.js` reducer we use a lot of slice reducers. A slice reducer is responsible for a slice (yes, really) of the whole store (for example, one product item) and updating it. To update the available stock for a specific item ID in the store, we call the `products` slide reducer (to reduce the whole store to just the products), then the `product` slice reducer for the product ID passed in the action.
 
 #### `shop-products.js`
 This element gets the list of products from the store by dispatching the `getAllProducts` action creator. When the store is updated (by fetching the products from a service, for example), its `_stateChanged` method is called, which populates a `products` object. Finally, this object is used to render the list of products.
 - `getAllProducts` is an action creator that simulates getting the data from a service (it doesn’t, it gets it from a local object, but that’s where you would out that logic). When the data is ready, it dispatches an async `GET_PRODUCTS` action.
-- Note that whenever a product is added to the cart, the `addToCart` action creator is dispatched. This updates both the `products` and `cart` objects in the Redux store, which will in turn call `_stateChanged` in both `shop-products` and `shop-cart`
+- Note that whenever a product is added to the cart, the `addToCart` action creator is dispatched. This updates both the `products` and `cart` objects in the Redux store, which will in turn call `_stateChanged` in both `shop-products` and `shop-cart`.
 - Adding an item to the cart dispatches the `addToCart` action creator, which first double-checks the stock (on the Redux side) before actually adding the item to the cart. This is done to avoid any front-end hacks where you could add more items to the cart than in the stock 😅
 
 #### `shop-cart.js`
@@ -356,11 +356,11 @@ Most third-party components were not written to be used in an immutable way, and
 - Use one-way data bindings to pass primitives (Strings, Numbers, etc) down to the element.
   - `<paper-input value="${foo}"></paper-input>`
   - Because it’s a primitive value, paper-input receives a copy of `foo`. When it updates `foo`, it only updates **its** copy, not the actual property in the store
-  - Listen to `foo-changed` events outside the element, and dispatch an action to update the store from there ([example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L47))
-- Since arrays/objects are mutable, pass down a **copy** of an array or object down to the element
+  - Listen to `foo-changed` events outside the element, and dispatch an action to update the store from there ([example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L47)).
+- Since arrays/objects are mutable, pass down a **copy** of an array or object down to the element:
   - `<other-input data="${_copy(fooArray)}"></other-input>`
   - `<other-input data="${_deepCopy(fooObj)}"></other-input>`
-  - Listen to change events as above to dispatch an action to update the store
+  - Listen to change events as above to dispatch an action to update the store.
 
 ### Routing
 With Redux, you’re basically on your own for routing. However, we have provided a [helper router](https://github.com/Polymer/pwa-helpers/blob/master/router.js) to get you started. Our suggestion is to update the location state based on `window.location`. That is, whenever a link is clicked (or the user navigates back), an action is dispatched to update the state based on the location. This works well with time-travel debugging - jumping to a previous state doesn’t affect the URL bar or history stack.

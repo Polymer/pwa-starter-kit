@@ -12,7 +12,7 @@ The `pwa-starter-kit` is a sample app that's meant to be used as a starting poin
 - fast time-to-interactive and first-paint through the PRPL pattern
 - easy deployment to prpl-server or static hosting
 - unit and integrating testing starting points
-- documentation about other advanced patterns.
+- documentation about other advanced patterns
 
 ## Other templates
 If you already know what you're doing and want a simpler template to start from, we've created several separate templates, with some of the features removed:
