@@ -29,23 +29,23 @@ Your app will be initialized with a bunch of folders and files, that looks like 
 ```
 my-app
 ├── images
-│   └── favicon.ico
+│   ├── favicon.ico
 │   └── manifest
-│       └── icon-48x48.png
+│       ├── icon-48x48.png
 │       └── ...
-└── src
-   └── store.js
-   └── actions
-        └── ...
-    └── reducers
-        └── ...
-    └── components
-        └── ...
-└── test
-    └── unit
-        └── ...
-    └── integration
-        └── ...
+├── src
+│   ├── store.js
+│   ├── actions
+│   │   └── ...
+│   ├── reducers
+│   │   └── ...
+│   ├── components
+│   │   └── ...
+├── test
+│   ├── unit
+│   │   └── ...
+│   └── integration
+│       └── ...
 ├── index.html
 ├── README.md
 ├── package.json
@@ -157,7 +157,7 @@ class MyView4 extends PageViewElement {
 window.customElements.define('my-view4', MyView4);
 ```
 
-(🔎This page extends `PageViewElement` rather than `LitElement` as an optimization; for more details on that, check out the [conditional rendering]({{site.baseurl}}/Configuring-and-personalizing#conditionally-rendering-views) section)
+(🔎This page extends `PageViewElement` rather than `LitElement` as an optimization; for more details on that, check out the [conditional rendering]({{site.baseurl}}/configuring-and-personalizing#conditionally-rendering-views) section)
 
 ### Adding the page to the application
 Great! Now we that we have our new element, we need to add it to the application!

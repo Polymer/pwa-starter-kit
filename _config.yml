@@ -1,3 +1,4 @@
 permalink: /:title/
 name: PWA Starter Kit
-description: Starter templates for building PWAs 
+description: Starter templates for building PWAs
+google_analytics: UA-39334307-23
