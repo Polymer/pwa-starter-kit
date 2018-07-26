@@ -303,7 +303,7 @@ _firstRendered() {
 ```
 
 #### Automatically
-Alternatively, you can write a helper to automatically convert any Polymer `foo-changed` property change event into a redux action. Note that this requires the `<child-element>`’s properties to by notifying (i.e. have `notify: true`), which isn’t necessarily true of all third party elements out there. Here's an [example](https://gist.github.com/kevinpschaaf/995c9d1fd0f58fe021b174c4238b38c3#file-5-connect-element-mixin-js) of that.
+Alternatively, you can write a helper to automatically convert any Polymer `foo-changed` property change event into a Redux action. Note that this requires the `<child-element>`’s properties to by notifying (i.e. have `notify: true`), which isn’t necessarily true of all third party elements out there. Here's an [example](https://gist.github.com/kevinpschaaf/995c9d1fd0f58fe021b174c4238b38c3#file-5-connect-element-mixin-js) of that.
 
 ### Reducers: slice reducers
 
@@ -319,7 +319,7 @@ export const store = createStore(
 
 **`src/components/my-view2.js:`**
 ```js
-// This element is connected to the redux store.
+// This element is connected to the Redux store.
 import { store } from '../store.js';
 
 // We are lazy loading its reducer.
