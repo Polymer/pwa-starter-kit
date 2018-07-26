@@ -354,7 +354,7 @@ Rather than just using it as an FYI, you can use the offline status to display c
 ## State management
 There are many different ways in which you can manage your application's state, and choosing the right one depends a lot on the size of your team and application. For simple applications, a uni-directional data flow pattern might be enough (the top level, `<my-app>` element could be in charge of being the source of state truth, and it could pass it down to each of the elements, as needed); if that's what you're looking for, check out the [`template-no-redux`](https://github.com/Polymer/pwa-starter-kit/tree/template-no-redux) branch.
 
-Another popular approach is [Redux](https://redux.js.org/), which keeps the state in a store outside of the app, and passes immutable copies to each element. To see how that is setup up, check out the [Redux and state management]({{site.baseurl}}/redux-and-state-management) section for an explainer, and more details.
+Another popular approach is [Redux](https://redux.js.org/), which keeps the state in a store outside of the app, and passes immutable copies to each element. To see how that is set up, check out the [Redux and state management]({{site.baseurl}}/redux-and-state-management) section for an explainer, and more details.
 
 
 ## Theming

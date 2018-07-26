@@ -61,7 +61,7 @@ src
     └── ...
 ```
 
-- Action creators and reducers can (but aren't required) have the same name, and be named after the slice of the app’s data they deal with. For example, a shopping app could have the following reducers:
+- Action creators and reducers can (but aren't required to) have the same name, and be named after the slice of the app’s data they deal with. For example, a shopping app could have the following reducers:
   - `app.js` to deal with big picture app-related data, such as online/offline status, route paths, etc.
   - `products.js` for the list of products you can purchase.
   - `cart.js` for the shopping cart.
@@ -303,7 +303,7 @@ _firstRendered() {
 ```
 
 #### Automatically
-Alternatively, you can write a helper to automatically convert any Polymer `foo-changed` property change event into a Redux action. Note that this requires the `<child-element>`’s properties to by notifying (i.e. have `notify: true`), which isn’t necessarily true of all third party elements out there. Here's an [example](https://gist.github.com/kevinpschaaf/995c9d1fd0f58fe021b174c4238b38c3#file-5-connect-element-mixin-js) of that.
+Alternatively, you can write a helper to automatically convert any Polymer `foo-changed` property change event into a Redux action. Note that this requires the `<child-element>`’s properties to be notifying (i.e. have `notify: true`), which isn’t necessarily true of all third party elements out there. Here's an [example](https://gist.github.com/kevinpschaaf/995c9d1fd0f58fe021b174c4238b38c3#file-5-connect-element-mixin-js) of that.
 
 ### Reducers: slice reducers
 
@@ -349,7 +349,7 @@ const selectedItemSelector = createSelector(
 console.log(selectedItemSelector(state));
 ```
 
-To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#L89) or the [item selector](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.js#L70) from the [Redux-HN](https://github.com/PolymerLabs/polymer-redux-hn) sample app. In both exampls, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
+To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#L89) or the [item selector](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.js#L70) from the [Redux-HN](https://github.com/PolymerLabs/polymer-redux-hn) sample app. In both examples, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
 
 ### How to make sure third-party components don’t mutate the state
 Most third-party components were not written to be used in an immutable way, and are not connected to the Redux store so you can’t guarantee that they will not try to update the store. For example, `paper-input` has a `value` property, that it updates based on internal actions (i.e. you typing, validating, etc). To make sure that elements like this don’t update the store:

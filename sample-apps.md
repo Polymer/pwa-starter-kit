@@ -18,7 +18,7 @@ Here are some applications that we [![built with pwa–starter–kit](https://im
 ### Books ([code](https://github.com/PolymerLabs/books), [demo](https://books-pwakit.appspot.com/))
 - app that searches for books using the [Google Books API](https://developers.google.com/books/docs/v1/reference/volumes/list)
 - shows how to use the [Embedded Viewer API](https://developers.google.com/books/docs/viewer/reference) to display book content
-- shows how to use [Google Books API](https://developers.google.com/books/docs/v1/reference/volumes/list) to list/update favorites on the authenticated user's bookshelf
+- shows how to use the [Google Books API](https://developers.google.com/books/docs/v1/reference/volumes/list) to list/update favorites on the authenticated user's bookshelf
 - pattern for using UI loading placeholders
 - pattern for re-fetching data when the network state changes
 - pattern for integrating [Google Sign-In](https://developers.google.com/identity/protocols/OAuth2UserAgent)
