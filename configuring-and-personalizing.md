@@ -74,7 +74,7 @@ You can add more app-specific folders if you want, to keep your code organized -
 
 # Naming and code conventions
 This section covers some background about the naming and coding conventions you will find in this template:
-- Generally, an element `<sample-element>` will be created in a file called `src/components/sample-element.html`, and the class used to register it will be called `SampleElement`.
+- Generally, an element `<sample-element>` will be created in a file called `src/components/sample-element.js`, and the class used to register it will be called `SampleElement`.
 - The elements use a mix of Polymer 3 and `lit-html` via the [`LitElement`](https://github.com/Polymer/lit-element) base class. The structure of one of these elements is basically:
 
 ```js
