@@ -18,12 +18,12 @@ The folder structure is roughly this:
 
 Where:
 - `_layouts` are the Jekyll templates used by different pages. There are two layouts,
-`default` (which is used on every page, and sets up the nav header and footer), and `post`, (which sets up the documentation pages in particular, their nav links and content)
+`default` (which is used on every page, and sets up the nav header and footer), and `post`, (which sets up the documentation pages in particular, their nav links and content).
 - `css` is where the site's css is stored. There are two files, `main.css` (which
   contains general site styles) and `pygments.css` (which contains the code syntax
-  highlighting styles)
-- `images` contains the different static images used across the site
-- `_config.yml` is the Jekyll configuration file
+  highlighting styles).
+- `images` contains the different static images used across the site.
+- `_config.yml` is the Jekyll configuration file.
 - `index.html` is the main landing page. It uses the `default` layout, and adds
 the extra copy to it.
 - `*.md` are the markdown files rendered in the static site. They are all using the `post` layout, and Jekyll transforms them to static html pages.

@@ -107,7 +107,7 @@ To preview it locally, run:
 npm run serve:static
 ```
 
-Our provided configuration will serve the `es5-bundled` build. If you don't need to support legacy browsers,  you can use a more modern build by modifying the `serve:static` script in package.json to use `es6-bundled` or `esm-bundled` instead. Be sure that all page navigation requests are served the contents of `index.html`.
+Our provided configuration will serve the `es5-bundled` build. If you don't need to support legacy browsers, you can use a more modern build by modifying the `serve:static` script in package.json to use `es6-bundled` or `esm-bundled` instead. Be sure that all page navigation requests are served the contents of `index.html`.
 
 ### Deploying static hosting
 By default, static hosting servers aren't set up to work with single page apps (SPAs) -- in particular, the problem is that an SPA uses routes that do not correspond to full file path names. For example, in `pwa-starter-kit` the second view's URL is `http://localhost:8081/view2`, but that doesn't correspond to a file that the browser can use. Each static hosting server has a different approach to working around this:

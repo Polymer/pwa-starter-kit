@@ -20,11 +20,11 @@ test
 |   └── views-a11y.js
 ```
 Where
-- `screenshots-baseline` is the golden ("correct") set of screenshots for the app, as used in visual testing
-- `router.js` tests that the router is working correctly, and clicking on the nav links actually does a navigation
-- `visual.js` does a visual diffing of what your application currently looks like, and what it _should_ look like according to the screenshots in `screenshots-baseline`
-- `counter-element.js` is a WCT unit test that tests the simple counter element used in the first Redux demo
-- `views-a11y.js` is a WCT unit test that uses [axe-core](https://github.com/dequelabs/axe-core) to test that each of the application's views are accessible
+- `screenshots-baseline` is the golden ("correct") set of screenshots for the app, as used in visual testing.
+- `router.js` tests that the router is working correctly, and clicking on the nav links actually does a navigation.
+- `visual.js` does a visual diffing of what your application currently looks like, and what it _should_ look like according to the screenshots in `screenshots-baseline`.
+- `counter-element.js` is a WCT unit test that tests the simple counter element used in the first Redux demo.
+- `views-a11y.js` is a WCT unit test that uses [axe-core](https://github.com/dequelabs/axe-core) to test that each of the application's views are accessible.
 
 You can run the entire test suite via
 ```
@@ -41,8 +41,8 @@ npm run test:integration
 
 ### Basic testing
 We use [WCT](https://github.com/Polymer/web-component-tester) to run unit tests. WCT comes pre-packaged with `<test-fixture>`, an element that defines a template of content and copies a clean, new instance of that content into each test suite (more information [here](https://www.polymer-project.org/2.0/docs/tools/tests#test-fixtures)). To add a new unit test to the suite:
-- create a new file under `test/unit/` (or just copy and rename `test/unit/counter-element` for a starting point
-- add the test to the WCT suite, in `test/unit/index.html`:
+- Create a new file under `test/unit/` (or just copy and rename `test/unit/counter-element` for a starting point.
+- Add the test to the WCT suite, in `test/unit/index.html`:
 
 ```js
 WCT.loadSuites([
@@ -53,7 +53,7 @@ WCT.loadSuites([
   'my-new-test.html?wc-shadydom=true&wc-ce=true',
 ]);
 ```
-- once you've added the new tests to this test suite, you can run the unit tests via
+- Once you've added the new tests to this test suite, you can run the unit tests via
 ```
 npm run test:unit
 ```
@@ -79,14 +79,14 @@ suite('my-element tests', function() {
 ```
 
 ### Setting up Travis
-By default `npm test` runs the tests on the command line. However, you can set up a continuous integration server,
+By default, `npm test` runs the tests on the command line. However, you can set up a continuous integration server,
 like [Travis](https://travis-ci.org/), to run the tests every time a new commit is made.
 
 Before you do anything, make sure you've set up Travis on your Github repository according to the [Getting Started](https://docs.travis-ci.com/user/getting-started/) guide, including flipping your repo "on" on your [Travis profile page](https://travis-ci.org/profile)
 
 The `pwa-starter-kit` Travis config lives in `.travis.yml`, and has a couple of different configurations in its matrix
 - `os: osx` is a macOS build, which runs the integration tests. This is because in order to match, the baseline tests needs to be ran on the same OS as the tests (or else you're likely to run into web font problems). On our team, we generated the screenshots on a macOS machine, so it makes sense the tests are setup in the same way.
-- `os: linux` runs the unit tests on Firefox/Chrome
+- `os: linux` runs the unit tests on Firefox/Chrome.
 - [SauceLabs](https://saucelabs.com/) testing for browsers that aren't available on Travis, such as Edge.
 
 To trigger your first continuous integration test, push a new commit to a branch.
