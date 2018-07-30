@@ -26,7 +26,7 @@ There are a few [tools](https://developers.google.com/web/fundamentals/performan
 ### Lighthouse
 [Lighthouse](https://developers.google.com/web/tools/lighthouse/) is an open source tool that helps you measure and improve the performance of your page. It comes as a Chrome DevTools extension or a node module, so that you can run it in the command line (and integrated it with your other automated Node testing). Once it's ran, it gives you an overall score, and suggestions for each area of improvement:
 
-<img width="1552" alt="screenshot of lighthouse results" src="https://user-images.githubusercontent.com/1369170/39538144-ae72695c-4df0-11e8-8240-72f4bc4738b4.png">
+<img width="1552" alt="screenshot of lighthouse results" src="https://user-images.githubusercontent.com/1369170/43412131-1626a17c-93e1-11e8-9814-bc40c947cb8b.png">
 
 ### WebPageTest
 [WebPageTest](https://www.webpagetest.org/easy) is an application that loads your page on an actual Moto G4 device with a slow 3G connection, and then gives you a details report on the page's load performance in that scenario. It is very useful to see how your application performs in a real-world, non-testing environment.
