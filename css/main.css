@@ -97,13 +97,19 @@ a {
 
 #searchBox {
   display: inline-block;
+  width: 200px;
   background: white;
   border: none;
   font-family: inherit;
   font-size: inherit;
   color: black;
-  padding: 0 12px;
+  margin: 0 10px;
   border-bottom: 1px solid black;
+  -webkit-appearance: textfield;
+}
+
+#searchBox::-webkit-search-decoration {
+  -webkit-appearance: none;
 }
 
 /* home page */
