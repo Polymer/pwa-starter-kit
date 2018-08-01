@@ -29,8 +29,6 @@ gives you the following features:
 
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
 
-- `lit-element` and `lit-html` have IE11 compatibility issues.
-
 ## TODOs
 
 - [x] Setup Safari testing on Travis.
