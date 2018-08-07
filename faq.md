@@ -6,13 +6,13 @@ We often get very similar questions across issues and PRs, and we figured it wou
 
 ## Replace an existing library with a different one
 
-Sample issues: https://github.com/Polymer/pwa-starter-kit/issues/201, https://github.com/Polymer/pwa-starter-kit/pull/195
+Sample issues: [#201](https://github.com/Polymer/pwa-starter-kit/issues/201), [#195](https://github.com/Polymer/pwa-starter-kit/pull/195)
 
 We built pwa-starter kit (both the included templates and the sample apps) to be a good starting point for building a fairly complex PWA. This means that we had to make some decisions about which components, libraries and patterns to use -- these decisions were made around ease of use, popularity, and available documentation. There are many other options and libraries that are objectively good choices, and at the end of the day they all come down to a matter of personal preference. Since that’s not something that everyone can come to a consensus on, it’s unlikely that we will change an existing choice for a new one. You can, of course, replace any bits and pieces of pwa-starter-kit in _your_ application.
 
 ## Add example of using a library/framework
 
-Sample issues: https://github.com/Polymer/pwa-starter-kit/issues/196, https://github.com/Polymer/pwa-starter-kit/issues/207
+Sample issues: [#196](https://github.com/Polymer/pwa-starter-kit/issues/196), [#201](https://github.com/Polymer/pwa-starter-kit/issues/207)
 
 pwa-starter-kit is not meant to replace any frameworks or application architecture patterns -- it’s meant to get you started towards building a complex PWA, but does not promise to build the entire thing for you. The templates are built in such a way that most JS libraries can be plugged in, since they don’t rely on a specific application structure. However, providing an example for each one of these patterns and libraries is a daunting task (and is generally applicable to a very small number of people).
 
@@ -20,12 +20,12 @@ If you’re looking for a good starting point of where to plug in a library, `st
 
 ## Can't add libraries not distributed as an ES module (ESM)
 
-Sample issues: https://github.com/Polymer/pwa-starter-kit/issues/199
+Sample issues: [#199](https://github.com/Polymer/pwa-starter-kit/issues/199)
 
 Libraries must provide ES modules (ESM) - other module formats, such as UMD, `module.exports`, AMD, CommonJS, etc., are not compatible with Polymer tools. If the library's `pkg.main` is not already ESM, check if `package.json` defines `pkg.module` or `pkg[‘jsnext:main’]` - our tools will prefer those if present. Alternatively, you can import from `some-lib/src` if the source is written as ESM. If the library sets browser globals, you can reference them through the window object (e.g. `window.someLib`). Otherwise, you have to request ESM from the library author.
 
 ## I’m getting errors when running the tests
 
-Sample issues: https://github.com/Polymer/pwa-starter-kit/issues/193
+Sample issues: [#193](https://github.com/Polymer/pwa-starter-kit/issues/193)
 
 The integration tests are fairly fragile, and require that you have the correct setup for the screenshot testing to match the expected output. When in doubt, test results from Travis CI should be considered as correct.
