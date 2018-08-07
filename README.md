@@ -25,10 +25,6 @@ gives you the following features:
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)
 
-## Known issues
-
-These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
-
 ## TODOs
 
 - [x] Setup Safari testing on Travis.
