@@ -11,6 +11,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '@polymer/lit-element';
 
 // These are the elements needed by this element.
+import './shop-item.js';
+
+// These are the elements needed by this element.
 import { addToCartIcon } from './my-icons.js';
 
 // These are the shared styles needed by this element.

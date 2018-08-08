@@ -18,6 +18,7 @@ import './shop-cart.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
+import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends PageViewElement {
   _render({_cart, _products, _error}) {
@@ -36,11 +37,24 @@ class MyView3 extends PageViewElement {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
+        .cart, .cart svg {
+          fill: var(--app-primary-color);
+          width: 64px;
+          height: 64px;
+        }
+        .circle.small {
+          margin-top: -72px;
+          width: 28px;
+          height: 28px;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 30px;
+        }
       </style>
 
       <section>
         <h2>State container example: shopping cart</h2>
-        <div class="circle">${this._numItemsInCart(_cart)}</div>
+        <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(_cart)}</div></div>
 
         <p>This is a slightly more advanced example, that simulates a
           shopping cart: getting the products, adding/removing items to the

@@ -224,7 +224,7 @@ class MyApp extends LitElement {
     super();
     this._drawerOpened = false;
     // To force all event listeners for gestures to be passive.
-    // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
+    // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
   }
 
