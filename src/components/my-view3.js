@@ -84,7 +84,7 @@ class MyView3 extends connect(store)(PageViewElement) {
         <div>${_error}</div>
         <br>
         <p>
-          <button class="checkout" hidden="${_quantity == 0}"
+          <button hidden="${_quantity == 0}"
               on-click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
