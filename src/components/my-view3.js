@@ -34,7 +34,8 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
-  _render({_quantity, _error}) {
+  render() {
+    const {_quantity, _error} = this;
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -84,8 +85,8 @@ class MyView3 extends connect(store)(PageViewElement) {
         <div>${_error}</div>
         <br>
         <p>
-          <button hidden="${_quantity == 0}"
-              on-click="${() => store.dispatch(checkout())}">
+          <button ?hidden="${_quantity == 0}"
+              @click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
         </p>
