@@ -55,7 +55,7 @@ class ShopProducts extends connect(store)(LitElement) {
     _products: Object
   }}
 
-  firstUpdated() {
+  finishFirstUpdate() {
     store.dispatch(getAllProducts());
   }
 

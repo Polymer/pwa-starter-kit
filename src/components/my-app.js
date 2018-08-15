@@ -240,7 +240,7 @@ class MyApp extends connect(store)(LitElement) {
     setPassiveTouchGestures(true);
   }
 
-  firstUpdated() {
+  finishFirstUpdate() {
     installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
@@ -248,7 +248,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   finishUpdate(changedProps) {
-    if ('_page' in changedProps) {
+    if (changedProps.has('_page')) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
         title: pageTitle,
