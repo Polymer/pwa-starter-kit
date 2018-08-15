@@ -247,9 +247,7 @@ class MyApp extends connect(store)(LitElement) {
         (matches) => store.dispatch(updateLayout(matches)));
   }
 
-  async update(changedProps) {
-    super.update(changedProps);
-    await this.updateComplete;
+  finishUpdate(changedProps) {
     if ('_page' in changedProps) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
