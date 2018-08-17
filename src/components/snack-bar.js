@@ -47,7 +47,7 @@ class SnackBar extends LitElement {
   }
 
   static get properties() { return {
-    active: Boolean,
+    active: { type: Boolean },
   }}
 }
 

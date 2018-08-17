@@ -225,11 +225,11 @@ class MyApp extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      appTitle: String,
-      _page: String,
-      _drawerOpened: Boolean,
-      _snackbarOpened: Boolean,
-      _offline: Boolean
+      appTitle: { type: String },
+      _page: { type: String },
+      _drawerOpened: { type: Boolean },
+      _snackbarOpened: { type: Boolean },
+      _offline: { type: Boolean }
     }
   }
 

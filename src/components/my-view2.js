@@ -58,8 +58,8 @@ class MyView2 extends connect(store)(PageViewElement) {
 
   static get properties() { return {
     // This is the data from the store.
-    _clicks: Number,
-    _value: Number
+    _clicks: { type: Number },
+    _value: { type: Number },
   }}
 
   // This is called every time something is updated in the store.

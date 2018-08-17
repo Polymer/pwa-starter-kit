@@ -54,8 +54,8 @@ class ShopCart extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
-    _items: Array,
-    _total: Number
+    _items: { type: Array },
+    _total: { type: Number }
   }}
 
   // This is called every time something is updated in the store.

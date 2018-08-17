@@ -52,7 +52,7 @@ class ShopProducts extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
-    _products: Object
+    _products: { type: Object }
   }}
 
   finishFirstUpdate() {

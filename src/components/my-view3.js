@@ -96,8 +96,8 @@ class MyView3 extends connect(store)(PageViewElement) {
 
   static get properties() { return {
     // This is the data from the store.
-    _quantity: Number,
-    _error: String
+    _quantity: { type: Number },
+    _error: { type: String },
   }}
 
   // This is called every time something is updated in the store.

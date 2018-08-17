@@ -39,9 +39,9 @@ class CounterElement extends LitElement {
 
   static get properties() { return {
     /* The total number of clicks you've done. */
-    clicks: Number,
+    clicks: { type: Number },
     /* The current value of the counter. */
-    value: Number
+    value: { type: Number }
   }};
 
   constructor() {
