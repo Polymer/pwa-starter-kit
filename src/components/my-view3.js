@@ -26,14 +26,12 @@ class MyView3 extends PageViewElement {
       ${SharedStyles}
       ${ButtonSharedStyles}
       <style>
-        /* Add more specificity (.checkout) to workaround an issue in lit-element:
-           https://github.com/PolymerLabs/lit-element/issues/34 */
-        button.checkout {
+        button {
           border: 2px solid var(--app-dark-text-color);
           border-radius: 3px;
           padding: 8px 16px;
         }
-        button.checkout:hover {
+        button:hover {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
@@ -75,7 +73,7 @@ class MyView3 extends PageViewElement {
         <div>${_error}</div>
         <br>
         <p>
-          <button class="checkout" hidden="${_cart.addedIds.length == 0}"
+          <button hidden="${_cart.addedIds.length == 0}"
               on-click="${() => this.checkout()}">
             Checkout
           </button>
