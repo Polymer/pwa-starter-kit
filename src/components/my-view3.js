@@ -38,9 +38,7 @@ class MyView3 extends connect(store)(PageViewElement) {
       ${SharedStyles}
       ${ButtonSharedStyles}
       <style>
-        /* Add more specificity (.checkout) to workaround an issue in lit-element:
-           https://github.com/PolymerLabs/lit-element/issues/34 */
-        button.checkout {
+        button {
           border: 2px solid black;
           border-radius: 3px;
           padding: 8px 16px;
@@ -67,7 +65,7 @@ class MyView3 extends connect(store)(PageViewElement) {
 
         <div>${_error}</div>
         <p>
-          <button class="checkout" hidden="${_quantity == 0}"
+          <button hidden="${_quantity == 0}"
               on-click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
