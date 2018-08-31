@@ -68,7 +68,7 @@ src
   - etc.
 - Action type
   - Verb(+noun, optional), present tense: `ADD_TODO`, `FETCH`, `FETCH_ITEMS`, `RECEIVE_ITEMS`.
-  - These should represent what's about to happen, not what has already happened.  
+  - These should represent what's about to happen, not what has already happened.
 - Action creator
   - Same as action type, camel cased (`addTodo` -> `ADD_TODO`).
 - Selector
@@ -118,11 +118,11 @@ class MyElement extends connect(store)(LitElement) {
   static get is() { return 'my-element'; }
 
   static get properties() { return {
-    clicks: Number,
-    value: Number
+    clicks: { type: Number },
+    value: { type: Number }
   }}
 
-  _render(props) {
+  render() {
     return html`...`;
   }
 
@@ -135,7 +135,7 @@ class MyElement extends connect(store)(LitElement) {
 }
 ```
 
-Note that `_stateChanged` gets called **any** time the store updates, not when only the things you care about update. So in the example above, `_stateChanged` could be called multiple times without `state.counter.clicks` and `state.counter.value` ever changing. If you're doing any expensive work in `_stateChanged`, such as transforming the data from the Redux store (with something like `Object.values(state.data.someArray)`), consider moving that logic into the `_render()` function (which is called only if the properties update), using a selector, or adding some form of dirty checking:
+Note that `_stateChanged` gets called **any** time the store updates, not when only the things you care about update. So in the example above, `_stateChanged` could be called multiple times without `state.counter.clicks` and `state.counter.value` ever changing. If you're doing any expensive work in `_stateChanged`, such as transforming the data from the Redux store (with something like `Object.values(state.data.someArray)`), consider moving that logic into the `render()` function (which is called only if the properties update), using a selector, or adding some form of dirty checking:
 
 ```js
 _stateChanged(state) {
@@ -150,12 +150,12 @@ If an element needs to dispatch an action to update the store, it should call an
 ```js
 import { increment } from './store/actions/counter.js';
 
-_firstRendered() {
-    // Every time the display of the counter updates, save
-    // these values in the store
-    this.addEventListener('counter-incremented', function() {
-      store.dispatch(increment());
-    });
+firstUpdated() {
+  // Every time the display of the counter updates, save
+  // these values in the store
+  this.addEventListener('counter-incremented', function() {
+    store.dispatch(increment());
+  });
 }
 ```
 
@@ -206,7 +206,7 @@ This element is an [app-level element](https://github.com/Polymer/pwa-starter-ki
 - Add `counter-element` to this view. Note that we pass the state **down** to the element, since the state lives in the Redux store, not in the element. We do this because even though the `counter-element` updates _its_ internal properties every time you click any of the buttons, that may not necessarily be the true state of the app -- imagine a more complex example, where a different view is also updating the value of this counter. The store is then the only source of truth for the data, and the `counter-element` must always reflect that.
 
 ```html
- <counter-element value="${props._value}" clicks="${props._clicks}"></counter-element>
+<counter-element value="${props._value}" clicks="${props._clicks}"></counter-element>
 ```
 - To demonstrate that it is the Redux store driving the state, and not `counter-element`'s internal, hidden state, we also added the `clicks` property to the circle in the header:
 
@@ -230,14 +230,17 @@ store.addReducers({
 });
 ```
 - Implement the `_stateChanged` method, which is called when anything is updated in the store. Since the store is the source of truth for the 2 properties (rather than `counter-element` itself), any time the Redux store updates we need to update any local properties; this keeps `counter-element` up to-date:
-```
+
+```js
 _stateChanged(state) {
   this._clicks = state.counter.clicks;
   this._value = state.counter.value;
 }
 ```
+
 - Note that here both `_clicks` and `_value` start with an underscore, which means they are protected -- we don't expect anyone from _outside_ the `<my-view2>` element to want to modify them.
 - In turn, when `counter-element` updates its value (because the buttons were clicked), we listen to its change events and dispatch an action creator to the store:
+
 ```js
 this.addEventListener('counter-incremented', function() {
   store.dispatch(increment());
@@ -268,7 +271,7 @@ Similar to `shop-products`, this element is also connected to the store and obse
 We use a very simple (but flexible) redux-friendly router, that uses the window location and stores it in store. We do this by using the `installRouter` helper method provided from the `pwa-helpers` package:
 ```js
 import { installRouter } from '@polymer/pwa-helpers/router.js';
-_firstRendered() {
+firstUpdated() {
   installRouter((location) => this._locationChanged(location));
 }
 ```
@@ -281,6 +284,7 @@ If you don't want to connect every element to the store (and you shouldn't), unc
 #### Manually
 You can do this manually by firing event. If `<child-element>` is unconnected but displays and modifies a property `foo`:
 - Whenever foo is modified, `<child-element>` fires an event:
+
 ```js
 _onIncrement() {
   this.value++;
@@ -295,7 +299,7 @@ _onIncrement() {
 
 Or in JavaScript,
 ```js
-_firstRendered() {
+firstUpdated() {
   this.addEventListener('counter-incremented', function() {
     store.dispatch(increment());
   });
@@ -373,7 +377,7 @@ import { installRouter } from '@polymer/pwa-helpers/router.js';
 
 class MyApp extends connect(store)(LitElement) {
     // ...
-    _firstRendered() {
+    firstUpdated() {
       installRouter((location) => this._locationChanged(location));
 
       // The argument passed to installRouter is a callback. If you don't
@@ -384,7 +388,7 @@ class MyApp extends connect(store)(LitElement) {
 
     _locationChanged(location) {
       // What action creator you dispatch and what part of the location
-      // will depend on your app.    
+      // will depend on your app.
       store.dispatch(navigate(location.pathname));
 
       // Do other work, if needed, like closing drawers, etc.

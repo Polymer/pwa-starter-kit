@@ -82,8 +82,8 @@ import { LitElement, html } from '@polymer/lit-element';
 class SampleElement extends LitElement {
   // The properties that your element exposes.
   static get properties() { return {
-    publicProperty: Number,
-    _privateProperty: String    /* note the leading underscore */
+    publicProperty: { type: Number },
+    _privateProperty: { type: String }    /* note the leading underscore */
   }};
 
   constructor() {
@@ -93,9 +93,10 @@ class SampleElement extends LitElement {
     this._privateProperty = '';
   }
 
-  _render({publicProperty, _privateProperty}) {
+  render() {
     // Note the use of the object spread to explicitely
     // call out which properties you're using for rendering.
+    const {publicProperty, _privateProperty} = this;
 
     // Anything code that is related to rendering should be done in here.
 
@@ -104,7 +105,7 @@ class SampleElement extends LitElement {
     `;
   });
 
-  _firstRendered() {
+  firstUpdated() {
     // Any code that relies on render having been called once goes here.
     // (for example setting up listeners, etc)
   }
@@ -142,7 +143,7 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView4 extends PageViewElement {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       <section>
@@ -166,7 +167,7 @@ First, add it to each of the list of nav links. In the toolbar (the wide-screen 
 ```html
 <nav class="toolbar-list">
   ...
-  <a selected?="${_page === 'view4'}" href="/view4">New View!</a>
+  <a ?selected="${_page === 'view4'}" href="/view4">New View!</a>
 </nav>
 ```
 
@@ -174,7 +175,7 @@ Similarly, we can add it to the list of nav links in the drawer:
 ```html
 <nav class="drawer-list">
   ...
-  <a selected?="${_page === 'view4'}" href="$/view4">New View!</a>
+  <a ?selected="${_page === 'view4'}" href="$/view4">New View!</a>
 </nav>
 ```
 
@@ -182,7 +183,7 @@ And in the main content itself:
 ```html
 <main class="main-content">
   ...
-  <my-view4 class="page" active?="${_page === 'view4'}"></my-view4>
+  <my-view4 class="page" ?active="${_page === 'view4'}"></my-view4>
 </main>
 ```
 
@@ -235,10 +236,10 @@ can just add a new line to that file:
 export const closeIcon = html`<svg>...</svg>`
 ```
 
-Then, you can import it and use it as a template literal in an element's `_render()` method:
+Then, you can import it and use it as a template literal in an element's `render()` method:
 ```js
 import { closeIcon } from './my-icons.js';
-_render(props) {
+render() {
   return html`
     <button title="close">${closeIcon}</button>
   `;
@@ -247,10 +248,10 @@ _render(props) {
 
 ## Sharing styles
 Similarly, shared styles are also just exported template literals. If you take a look at `shared-styles.js`, it
-exports a `<style>` node template, that is then inlined in an element's `_render()` method:
+exports a `<style>` node template, that is then inlined in an element's `render()` method:
 ```js
 import { SharedStyles } from './shared-styles.js';
-_render(props) {
+render() {
   return html`
     ${SharedStyles}
     <div>...</div>
@@ -295,15 +296,15 @@ Which view is visible at a given time is controlled through an `active` attribut
   }
 </style>
 <main class="main-content">
-  <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
-  <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
+  <my-view1 class="page" ?active="${page === 'view1'}"></my-view1>
+  <my-view2 class="page" ?active="${page === 'view2'}"></my-view2>
   ...
 </main>
 ```
 
-However, just because a particular view isn't visible doesn't mean it's "inactive" -- its JavaScript can still run. In particular, if your application is using Redux, and the view is connected (like [`my-view2`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L17) for example), then it will get notified **any** time the Redux store changes, which could trigger `_render()` to be called. Most of the time this is probably not what you want -- a hidden view shouldn't be updating itself until it's actually visible on screen. Apart from being inefficient (you're doing work that nobody is looking at), you could run into really weird side effects: if a view's `_render()` function also updates the title of the application, for example, the title may end up being set incorrectly by one of these inactive views, just because it was the last view to set it.
+However, just because a particular view isn't visible doesn't mean it's "inactive" -- its JavaScript can still run. In particular, if your application is using Redux, and the view is connected (like [`my-view2`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L17) for example), then it will get notified **any** time the Redux store changes, which could trigger `render()` to be called. Most of the time this is probably not what you want -- a hidden view shouldn't be updating itself until it's actually visible on screen. Apart from being inefficient (you're doing work that nobody is looking at), you could run into really weird side effects: if a view's `render()` function also updates the title of the application, for example, the title may end up being set incorrectly by one of these inactive views, just because it was the last view to set it.
 
-To get around that, the views inherit from a [`PageViewElement`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js) base class, rather than `LitElement` directly. This base class checks whether the `active` attribute is set on the host (the same attribute we use for styling), and calls `_render()` only if it [is set](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L15).
+To get around that, the views inherit from a [`PageViewElement`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js) base class, rather than `LitElement` directly. This base class checks whether the `active` attribute is set on the host (the same attribute we use for styling), and calls `render()` only if it [is set](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L15).
 
 If this isn't the behaviour you want, and you want hidden pages to update behind the scenes, then all you have to do is change the view's base class back to `LitElement` (i.e. changing [this line](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view1.js#L15)). Just look out for those side effects!
 
