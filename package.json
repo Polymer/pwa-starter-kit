@@ -20,6 +20,8 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
+    "@firebase/app": "^0.3.3",
+    "@firebase/auth": "^0.7.4",
     "@polymer/app-layout": "^3.0.0-pre.21",
     "@polymer/lit-element": "dev",
     "@polymer/polymer": "^3.0.0",
