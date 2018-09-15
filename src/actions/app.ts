@@ -8,13 +8,25 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { Action, ActionCreator } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { RootState } from '../store.js';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
-export const navigate = (path) => (dispatch) => {
+export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {page: string};
+export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {offline: boolean};
+export interface AppActionUpdateDrawerState extends Action<'UPDATE_DRAWER_STATE'> {opened: boolean};
+export interface AppActionOpenSnackbar extends Action<'OPEN_SNACKBAR'> {};
+export interface AppActionCloseSnackbar extends Action<'CLOSE_SNACKBAR'> {};
+export type AppAction = AppActionUpdatePage | AppActionUpdateOffline | AppActionUpdateDrawerState | AppActionOpenSnackbar | AppActionCloseSnackbar;
+
+type ThunkResult = ThunkAction<void, RootState, undefined, AppActionUpdatePage | AppActionUpdateOffline | AppActionUpdateDrawerState | AppActionOpenSnackbar | AppActionCloseSnackbar>;
+
+export const navigate: ActionCreator<ThunkResult> = (path: string) => (dispatch) => {
   // Extract the page name from path.
   const page = path === '/' ? 'view1' : path.slice(1);
 
@@ -26,10 +38,10 @@ export const navigate = (path) => (dispatch) => {
   dispatch(updateDrawerState(false));
 };
 
-const loadPage = (page) => (dispatch) => {
+const loadPage: ActionCreator<ThunkResult> = (page: string) => (dispatch) => {
   switch(page) {
     case 'view1':
-      import('../components/my-view1.js').then((module) => {
+      import('../components/my-view1.js').then(() => {
         // Put code in here that you want to run every time when
         // navigating to view1 after my-view1.js is loaded.
       });
@@ -48,25 +60,25 @@ const loadPage = (page) => (dispatch) => {
   dispatch(updatePage(page));
 };
 
-const updatePage = (page) => {
+const updatePage: ActionCreator<Action> = (page: string) => {
   return {
     type: UPDATE_PAGE,
     page
   };
 };
 
-let snackbarTimer;
+let snackbarTimer: number;
 
-export const showSnackbar = () => (dispatch) => {
+export const showSnackbar: ActionCreator<ThunkResult> = () => (dispatch) => {
   dispatch({
     type: OPEN_SNACKBAR
   });
-  clearTimeout(snackbarTimer);
-  snackbarTimer = setTimeout(() =>
+  window.clearTimeout(snackbarTimer);
+  snackbarTimer = window.setTimeout(() =>
     dispatch({ type: CLOSE_SNACKBAR }), 3000);
 };
 
-export const updateOffline = (offline) => (dispatch, getState) => {
+export const updateOffline: ActionCreator<ThunkResult> = (offline: boolean) => (dispatch, getState) => {
   // Show the snackbar, unless this is the first load of the page.
   if (getState().app.offline !== undefined) {
     dispatch(showSnackbar());
@@ -77,13 +89,13 @@ export const updateOffline = (offline) => (dispatch, getState) => {
   });
 };
 
-export const updateLayout = (wide) => (dispatch, getState) => {
+export const updateLayout: ActionCreator<ThunkResult> = () => (dispatch, getState) => {
   if (getState().app.drawerOpened) {
     dispatch(updateDrawerState(false));
   }
 };
 
-export const updateDrawerState = (opened) => (dispatch, getState) => {
+export const updateDrawerState: ActionCreator<ThunkResult> = (opened: boolean) => (dispatch, getState) => {
   if (getState().app.drawerOpened !== opened) {
     dispatch({
       type: UPDATE_DRAWER_STATE,

@@ -8,19 +8,25 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { Reducer } from 'redux';
 import { INCREMENT, DECREMENT } from '../actions/counter.js';
 
-const counter = (state = {clicks: 0, value: 0}, action) => {
+export interface CounterState {
+  clicks: number;
+  value: number;
+}
+
+const counter: Reducer<CounterState, any> = (state = {clicks: 0, value: 0}, action) => {
   switch (action.type) {
     case INCREMENT:
       return {
-        'clicks': state.clicks + 1,
-        'value': state.value + 1
+        clicks: state.clicks + 1,
+        value: state.value + 1
       };
     case DECREMENT:
       return {
-        'clicks': state.clicks + 1,
-        'value': state.value - 1
+        clicks: state.clicks + 1,
+        value: state.value - 1
       };
     default:
       return state;

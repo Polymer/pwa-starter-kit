@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html, property } from '@polymer/lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
@@ -35,7 +35,7 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
-class MyApp extends connect(store)(LitElement) {
+class MyApp extends (LitElement) {
   render() {
     const {appTitle, _page, _drawerOpened, _snackbarOpened, _offline} = this;
     // Anything that's related to rendering should be done in here.
@@ -223,15 +223,20 @@ class MyApp extends connect(store)(LitElement) {
     `;
   }
 
-  static get properties() {
-    return {
-      appTitle: { type: String },
-      _page: { type: String },
-      _drawerOpened: { type: Boolean },
-      _snackbarOpened: { type: Boolean },
-      _offline: { type: Boolean }
-    }
-  }
+  @property({type: String})
+  appTitle = '';
+
+  @property({type: String})
+  _page = '';
+
+  @property({type: Boolean})
+  _drawerOpened = false;
+
+  @property({type: Boolean})
+  _snackbarOpened = false;
+
+  @property({type: Boolean})
+  _offline = false;
 
   constructor() {
     super();
@@ -241,7 +246,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+    installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => store.dispatch(updateLayout(matches)));
@@ -266,4 +271,4 @@ class MyApp extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('my-app', MyApp);
+window.customElements.define('my-app', connect(store)(MyApp));

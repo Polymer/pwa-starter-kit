@@ -13,6 +13,7 @@
     "build:static": "polymer build",
     "serve:prpl-server": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
+    "tsc": "tsc",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
     "test:unit": "polymer test --module-resolution=node --npm",
@@ -42,6 +43,7 @@
     "polyserve": "^0.27.0",
     "prpl-server": "^1.2.0",
     "puppeteer": "^1.5.0",
+    "typescript": "^3.0.3",
     "wct-browser-legacy": "^1.0.1"
   }
 }

@@ -8,15 +8,24 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { Reducer } from 'redux';
 import {
   UPDATE_PAGE,
   UPDATE_OFFLINE,
   OPEN_SNACKBAR,
   CLOSE_SNACKBAR,
-  UPDATE_DRAWER_STATE
+  UPDATE_DRAWER_STATE,
+  AppAction
 } from '../actions/app.js';
 
-const app = (state = {drawerOpened: false}, action) => {
+export interface AppState {
+  page?: string;
+  offline?: boolean;
+  drawerOpened: boolean;
+  snackbarOpened?: boolean;
+}
+
+const app: Reducer<AppState, AppAction> = (state = {drawerOpened: false}, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {
