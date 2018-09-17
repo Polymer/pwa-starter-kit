@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html, property } from '@polymer/lit-element';
 
 // These are the elements needed by this element.
 import { plusIcon, minusIcon } from './my-icons.js';
@@ -37,18 +37,11 @@ class CounterElement extends LitElement {
     `;
   }
 
-  static get properties() { return {
-    /* The total number of clicks you've done. */
-    clicks: { type: Number },
-    /* The current value of the counter. */
-    value: { type: Number }
-  }};
+  @property({type: Number})
+  clicks = 0;
 
-  constructor() {
-    super();
-    this.clicks = 0;
-    this.value = 0;
-  }
+  @property({type: Number})
+  value = 0;
 
   _onIncrement() {
     this.value++;
