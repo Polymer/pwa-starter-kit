@@ -16,18 +16,27 @@ import {
   CHECKOUT_FAILURE
 } from '../actions/shop.js';
 import { createSelector } from 'reselect';
+import { RootState } from '../store.js';
 
-const INITIAL_CART = {
-  addedIds: [],
-  quantityById: {}
-};
+export interface ShopState {
+  products: ProductsState;
+  cart: CartState;
+  error: string;
+}
+export interface ProductsState {
+  [index:string]: ProductState;
+}
+export interface ProductState {
+  id: number;
+  title: string;
+  price: number;
+  inventory: number;
+}
+export interface CartState {
+  [index:string]: number;
+}
 
-const UPDATED_CART = {
-  addedIds: ['1'],
-  quantityById: {'1': 1}
-};
-
-const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
+const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: any) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return {
@@ -54,7 +63,7 @@ const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
 };
 
 // Slice reducer: it only reduces the bit of the state it's concerned about.
-const products = (state, action) => {
+const products = (state: ProductsState, action: any) => {
   switch (action.type) {
     case ADD_TO_CART:
     case REMOVE_FROM_CART:
@@ -68,7 +77,7 @@ const products = (state, action) => {
   }
 };
 
-const product = (state, action) => {
+const product = (state: ProductState, action: any) => {
   switch (action.type) {
     case ADD_TO_CART:
       return {
@@ -85,46 +94,7 @@ const product = (state, action) => {
   }
 };
 
-const cart = (state = INITIAL_CART, action) => {
-  switch (action.type) {
-    case ADD_TO_CART:
-    case REMOVE_FROM_CART:
-      return {
-        addedIds: addedIds(state.addedIds, state.quantityById, action),
-        quantityById: quantityById(state.quantityById, action)
-      };
-    case CHECKOUT_SUCCESS:
-      return INITIAL_CART;
-    default:
-      return state;
-  }
-};
-
-const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
-  const productId = action.productId;
-  switch (action.type) {
-    case ADD_TO_CART:
-      if (state.indexOf(productId) !== -1) {
-        return state;
-      }
-      return [
-        ...state,
-        action.productId
-      ];
-    case REMOVE_FROM_CART:
-      // This is called before the state is updated, so if you have 1 item in the
-      // cart during the remove action, you'll have 0.
-      if (quantityById[productId] <= 1) {
-        // This removes all items in this array equal to productId.
-        return state.filter(e => e !== productId);
-      }
-      return state;
-    default:
-      return state;
-  }
-};
-
-const quantityById = (state = INITIAL_CART.quantityById, action) => {
+const cart = (state: CartState, action: any) => {
   const productId = action.productId;
   switch (action.type) {
     case ADD_TO_CART:
@@ -133,10 +103,21 @@ const quantityById = (state = INITIAL_CART.quantityById, action) => {
         [productId]: (state[productId] || 0) + 1
       };
     case REMOVE_FROM_CART:
-      return {
-        ...state,
-        [productId]: (state[productId] || 0) - 1
-      };
+      const quantity = (state[productId] || 0) - 1;
+      if (quantity <= 0) {
+        const newState = {
+          ...state
+        };
+        delete newState[productId];
+        return newState;
+      } else {
+        return {
+          ...state,
+          [productId]: quantity
+        }
+      }
+    case CHECKOUT_SUCCESS:
+      return {};
     default:
       return state;
   }
@@ -155,20 +136,18 @@ export default shop;
 // We use a tiny library called `reselect` to create efficient
 // selectors. More info: https://github.com/reduxjs/reselect.
 
-const cartSelector = state => state.shop.cart;
-const productsSelector = state => state.shop.products;
+const cartSelector = (state: RootState) => (state.shop as ShopState).cart;
+const productsSelector = (state: RootState) => (state.shop as ShopState).products;
 
 // Return a flattened array representation of the items in the cart
 export const cartItemsSelector = createSelector(
   cartSelector,
   productsSelector,
   (cart, products) => {
-    const items = [];
-    for (let id of cart.addedIds) {
+    return Object.keys(cart).map(id => {
       const item = products[id];
-      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
-    }
-    return items;
+      return {id: item.id, title: item.title, amount: cart[id], price: item.price};
+    });
   }
 );
 
@@ -178,11 +157,11 @@ export const cartTotalSelector = createSelector(
   productsSelector,
   (cart, products) => {
     let total = 0;
-    for (let id of cart.addedIds) {
+    Object.keys(cart).forEach(id => {
       const item = products[id];
-      total += item.price * cart.quantityById[id];
-    }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+      total += item.price * cart[id];
+    });
+    return Math.round(total * 100) / 100;
   }
 );
 
@@ -191,9 +170,9 @@ export const cartQuantitySelector = createSelector(
   cartSelector,
   cart => {
     let num = 0;
-    for (let id of cart.addedIds) {
-      num += cart.quantityById[id];
-    }
+    Object.keys(cart).forEach(id => {
+      num += cart[id];
+    });
     return num;
   }
 );

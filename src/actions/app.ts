@@ -24,7 +24,7 @@ export interface AppActionOpenSnackbar extends Action<'OPEN_SNACKBAR'> {};
 export interface AppActionCloseSnackbar extends Action<'CLOSE_SNACKBAR'> {};
 export type AppAction = AppActionUpdatePage | AppActionUpdateOffline | AppActionUpdateDrawerState | AppActionOpenSnackbar | AppActionCloseSnackbar;
 
-type ThunkResult = ThunkAction<void, RootState, undefined, AppActionUpdatePage | AppActionUpdateOffline | AppActionUpdateDrawerState | AppActionOpenSnackbar | AppActionCloseSnackbar>;
+type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>;
 
 export const navigate: ActionCreator<ThunkResult> = (path: string) => (dispatch) => {
   // Extract the page name from path.

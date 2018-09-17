@@ -7,12 +7,23 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-
+import { Action, ActionCreator } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { RootState } from '../store.js';
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
+
+export interface ShopActionGetProducts extends Action<'GET_PRODUCTS'> {};
+export interface ShopActionAddToCart extends Action<'ADD_TO_CART'> {productId: string};
+export interface ShopActionRemoveFromCart extends Action<'REMOVE_FROM_CART'> {productId: string};
+export interface ShopActionCheckoutSuccess extends Action<'CHECKOUT_SUCCESS'> {};
+export interface ShopActionCheckoutFailure extends Action<'CHECKOUT_FAILURE'> {};
+export type ShopAction = ShopActionGetProducts | ShopActionAddToCart | ShopActionRemoveFromCart | ShopActionCheckoutSuccess | ShopActionCheckoutFailure;
+
+type ThunkResult = ThunkAction<void, RootState, undefined, ShopAction>;
 
 const PRODUCT_LIST = [
   {"id": 1, "title": "Cabot Creamery Extra Sharp Cheddar Cheese", "price": 10.99, "inventory": 2},
@@ -22,7 +33,7 @@ const PRODUCT_LIST = [
   {"id": 5, "title": "Shepherd's Halloumi Cheese", "price": 11.99, "inventory": 3}
 ];
 
-export const getAllProducts = () => (dispatch, getState) => {
+export const getAllProducts: ActionCreator<ThunkResult> = () => (dispatch) => {
   // Here you would normally get the data from the server. We're simulating
   // that by dispatching an async action (that you would dispatch when you
   // succesfully got the data back)
@@ -35,11 +46,11 @@ export const getAllProducts = () => (dispatch, getState) => {
 
   dispatch({
     type: GET_PRODUCTS,
-    products: products
+    products
   });
 };
 
-export const checkout = (productId) => (dispatch) => {
+export const checkout: ActionCreator<ThunkResult> = () => (dispatch) => {
   // Here you could do things like credit card validation, etc.
   // If that fails, dispatch CHECKOUT_FAILURE. We're simulating that
   // by flipping a coin :)
@@ -55,7 +66,7 @@ export const checkout = (productId) => (dispatch) => {
   }
 };
 
-export const addToCart = (productId) => (dispatch, getState) =>{
+export const addToCart: ActionCreator<ThunkResult> = (productId) => (dispatch, getState) =>{
   const state = getState();
   // Just because the UI thinks you can add this to the cart
   // doesn't mean it's in the inventory (user could've fixed it);
@@ -64,14 +75,14 @@ export const addToCart = (productId) => (dispatch, getState) =>{
   }
 };
 
-export const removeFromCart = (productId) => {
+export const removeFromCart: ActionCreator<Action> = (productId) => {
   return {
     type: REMOVE_FROM_CART,
     productId
   };
 };
 
-export const addToCartUnsafe = (productId) => {
+export const addToCartUnsafe: ActionCreator<Action> = (productId) => {
   return {
     type: ADD_TO_CART,
     productId

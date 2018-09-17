@@ -32,12 +32,13 @@ import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
 import app, { AppState } from './reducers/app.js';
 import { CounterState } from './reducers/counter.js';
+import { ShopState } from './reducers/shop.js';
 
 // Overall state extends static states and partials lazy states.
 export interface RootState {
   app?: AppState;
   counter?: CounterState;
-  shop: any;
+  shop?: ShopState;
 }
 
 // Sets up a Chrome extension for time travel debugging.
