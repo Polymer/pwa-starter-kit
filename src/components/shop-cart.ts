@@ -8,11 +8,11 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html, property } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
-import { store } from '../store.js';
+import { store, RootState } from '../store.js';
 
 // These are the elements needed by this element.
 import { removeFromCartIcon } from './my-icons.js';
@@ -27,7 +27,7 @@ import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
-class ShopCart extends connect(store)(LitElement) {
+class ShopCart extends LitElement {
   render() {
     const {_items, _total} = this;
     return html`
@@ -39,7 +39,7 @@ class ShopCart extends connect(store)(LitElement) {
       ${_items.map((item) =>
         html`
           <div>
-            <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
+            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
                 @click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
                 data-index="${item.id}"
@@ -53,16 +53,19 @@ class ShopCart extends connect(store)(LitElement) {
     `;
   }
 
-  static get properties() { return {
-    _items: { type: Array },
-    _total: { type: Number }
-  }}
+  @property({type: Array})
+  _items;
 
+  @property({type: Number})
+  _total = 0;
+}
+
+class ConnectedShopCart extends connect(store)(ShopCart) {
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  _stateChanged(state: RootState) {
     this._items = cartItemsSelector(state);
     this._total = cartTotalSelector(state);
   }
 }
 
-window.customElements.define('shop-cart', ShopCart);
+window.customElements.define('shop-cart', ConnectedShopCart);

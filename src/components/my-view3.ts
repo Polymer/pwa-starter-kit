@@ -8,12 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { html, property } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
-import { store } from '../store.js';
+import { store, RootState } from '../store.js';
 
 // These are the actions needed by this element.
 import { checkout } from '../actions/shop.js';
@@ -33,7 +33,7 @@ import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
-class MyView3 extends connect(store)(PageViewElement) {
+class MyView3 extends PageViewElement {
   render() {
     const {_quantity, _error} = this;
     return html`
@@ -94,17 +94,19 @@ class MyView3 extends connect(store)(PageViewElement) {
     `;
   }
 
-  static get properties() { return {
-    // This is the data from the store.
-    _quantity: { type: Number },
-    _error: { type: String },
-  }}
+  @property({type: Number})
+  _quantity = 0;
 
+  @property({type: String})
+  _error = '';
+}
+
+class ConnectedMyView3 extends connect(store)(MyView3) {
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  _stateChanged(state: RootState) {
     this._quantity = cartQuantitySelector(state);
     this._error = state.shop.error;
   }
 }
 
-window.customElements.define('my-view3', MyView3);
+window.customElements.define('my-view3', ConnectedMyView3);

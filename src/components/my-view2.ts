@@ -8,12 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { html, property } from '@polymer/lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
-import { store } from '../store.js';
+import { store, RootState } from '../store.js';
 
 // These are the actions needed by this element.
 import { increment, decrement } from '../actions/counter.js';
@@ -30,7 +30,7 @@ import './counter-element.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
-class MyView2 extends connect(store)(PageViewElement) {
+class MyView2 extends PageViewElement {
   render() {
     return html`
       ${SharedStyles}
@@ -56,17 +56,19 @@ class MyView2 extends connect(store)(PageViewElement) {
     `;
   }
 
-  static get properties() { return {
-    // This is the data from the store.
-    _clicks: { type: Number },
-    _value: { type: Number },
-  }}
+  @property({type: Number})
+  _clicks = 0;
 
+  @property({type: Number})
+  _value = 0;
+}
+
+class ConnectedMyView2 extends connect(store)(MyView2) {
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  _stateChanged(state: RootState) {
     this._clicks = state.counter.clicks;
     this._value = state.counter.value;
   }
 }
 
-window.customElements.define('my-view2', MyView2);
+window.customElements.define('my-view2', ConnectedMyView2);

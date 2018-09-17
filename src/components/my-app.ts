@@ -17,7 +17,7 @@ import { installRouter } from 'pwa-helpers/router.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 // This element is connected to the Redux store.
-import { store } from '../store.js';
+import { store, RootState } from '../store.js';
 
 // These are the actions needed by this element.
 import {
@@ -35,7 +35,7 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
-class MyApp extends (LitElement) {
+class MyApp extends LitElement {
   render() {
     const {appTitle, _page, _drawerOpened, _snackbarOpened, _offline} = this;
     // Anything that's related to rendering should be done in here.
@@ -262,8 +262,10 @@ class MyApp extends (LitElement) {
       });
     }
   }
+}
 
-  _stateChanged(state) {
+class ConnectedMyApp extends connect(store)(MyApp) {
+  _stateChanged(state: RootState) {
     this._page = state.app.page;
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;
@@ -271,4 +273,4 @@ class MyApp extends (LitElement) {
   }
 }
 
-window.customElements.define('my-app', connect(store)(MyApp));
+window.customElements.define('my-app', ConnectedMyApp);

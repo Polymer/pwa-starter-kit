@@ -37,6 +37,7 @@ import { CounterState } from './reducers/counter.js';
 export interface RootState {
   app?: AppState;
   counter?: CounterState;
+  shop: any;
 }
 
 // Sets up a Chrome extension for time travel debugging.
