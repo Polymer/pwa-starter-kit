@@ -28,12 +28,13 @@ import {
 } from '../actions/app.js';
 
 // These are the elements needed by this element.
-import '@polymer/app-layout/app-drawer/app-drawer.js';
+import { AppDrawerElement } from '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
+import { AppState } from '../reducers/app.js';
 
 class MyApp extends LitElement {
   render() {
@@ -184,7 +185,7 @@ class MyApp extends LitElement {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" title="Menu" @click="${_ => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
+        <button class="menu-btn" title="Menu" @click="${() => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
@@ -198,7 +199,7 @@ class MyApp extends LitElement {
 
     <!-- Drawer content -->
     <app-drawer .opened="${_drawerOpened}"
-        @opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
+        @opened-changed="${(e: Event) => store.dispatch(updateDrawerState((e.target as AppDrawerElement).opened))}">
       <nav class="drawer-list">
         <a ?selected="${_page === 'view1'}" href="/view1">View One</a>
         <a ?selected="${_page === 'view2'}" href="/view2">View Two</a>
@@ -252,7 +253,7 @@ class MyApp extends LitElement {
         (matches) => store.dispatch(updateLayout(matches)));
   }
 
-  updated(changedProps) {
+  updated(changedProps: Map<string, string>) {
     if (changedProps.has('_page')) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
@@ -266,10 +267,10 @@ class MyApp extends LitElement {
 
 class ConnectedMyApp extends connect(store)(MyApp) {
   _stateChanged(state: RootState) {
-    this._page = state.app.page;
-    this._offline = state.app.offline;
-    this._snackbarOpened = state.app.snackbarOpened;
-    this._drawerOpened = state.app.drawerOpened;
+    this._page = (state.app as AppState).page;
+    this._offline = (state.app as AppState).offline;
+    this._snackbarOpened = (state.app as AppState).snackbarOpened;
+    this._drawerOpened = (state.app as AppState).drawerOpened;
   }
 }
 

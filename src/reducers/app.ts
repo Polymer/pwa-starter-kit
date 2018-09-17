@@ -19,13 +19,20 @@ import {
 } from '../actions/app.js';
 
 export interface AppState {
-  page?: string;
-  offline?: boolean;
+  page: string;
+  offline: boolean;
   drawerOpened: boolean;
-  snackbarOpened?: boolean;
+  snackbarOpened: boolean;
 }
 
-const app: Reducer<AppState, AppAction> = (state = {drawerOpened: false}, action) => {
+const INITIAL_STATE = {
+  page: '',
+  offline: false,
+  drawerOpened: false,
+  snackbarOpened: false,
+};
+
+const app: Reducer<AppState, AppAction> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {

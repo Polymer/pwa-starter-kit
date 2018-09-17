@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store.js';
+import { AppState } from '../reducers/app.js';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
@@ -80,7 +81,7 @@ export const showSnackbar: ActionCreator<ThunkResult> = () => (dispatch) => {
 
 export const updateOffline: ActionCreator<ThunkResult> = (offline: boolean) => (dispatch, getState) => {
   // Show the snackbar, unless this is the first load of the page.
-  if (getState().app.offline !== undefined) {
+  if ((getState().app as AppState).offline !== undefined) {
     dispatch(showSnackbar());
   }
   dispatch({
@@ -90,13 +91,13 @@ export const updateOffline: ActionCreator<ThunkResult> = (offline: boolean) => (
 };
 
 export const updateLayout: ActionCreator<ThunkResult> = () => (dispatch, getState) => {
-  if (getState().app.drawerOpened) {
+  if ((getState().app as AppState).drawerOpened) {
     dispatch(updateDrawerState(false));
   }
 };
 
 export const updateDrawerState: ActionCreator<ThunkResult> = (opened: boolean) => (dispatch, getState) => {
-  if (getState().app.drawerOpened !== opened) {
+  if ((getState().app as AppState).drawerOpened !== opened) {
     dispatch({
       type: UPDATE_DRAWER_STATE,
       opened

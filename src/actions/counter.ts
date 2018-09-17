@@ -8,8 +8,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { Action } from 'redux';
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
+
+export interface CounterActionIncrement extends Action<'INCREMENT'> {};
+export interface CounterActionDecrement extends Action<'DECREMENT'> {};
+export type CounterAction = CounterActionIncrement | CounterActionDecrement;
 
 export const increment = () => {
   return {

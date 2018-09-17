@@ -9,14 +9,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { Reducer } from 'redux';
-import { INCREMENT, DECREMENT } from '../actions/counter.js';
+import { INCREMENT, DECREMENT, CounterAction } from '../actions/counter.js';
 
 export interface CounterState {
   clicks: number;
   value: number;
 }
 
-const counter: Reducer<CounterState, any> = (state = {clicks: 0, value: 0}, action) => {
+const counter: Reducer<CounterState, CounterAction> = (state = {clicks: 0, value: 0}, action) => {
   switch (action.type) {
     case INCREMENT:
       return {

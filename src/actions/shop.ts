@@ -10,13 +10,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store.js';
+import { ProductsState, ShopState } from '../reducers/shop.js';
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
 
-export interface ShopActionGetProducts extends Action<'GET_PRODUCTS'> {};
+export interface ShopActionGetProducts extends Action<'GET_PRODUCTS'> {products: ProductsState};
 export interface ShopActionAddToCart extends Action<'ADD_TO_CART'> {productId: string};
 export interface ShopActionRemoveFromCart extends Action<'REMOVE_FROM_CART'> {productId: string};
 export interface ShopActionCheckoutSuccess extends Action<'CHECKOUT_SUCCESS'> {};
@@ -42,7 +43,7 @@ export const getAllProducts: ActionCreator<ThunkResult> = () => (dispatch) => {
   const products = PRODUCT_LIST.reduce((obj, product) => {
     obj[product.id] = product
     return obj
-  }, {});
+  }, {} as ProductsState);
 
   dispatch({
     type: GET_PRODUCTS,
@@ -70,7 +71,7 @@ export const addToCart: ActionCreator<ThunkResult> = (productId) => (dispatch, g
   const state = getState();
   // Just because the UI thinks you can add this to the cart
   // doesn't mean it's in the inventory (user could've fixed it);
-  if (state.shop.products[productId].inventory > 0) {
+  if ((state.shop as ShopState).products[productId].inventory > 0) {
     dispatch(addToCartUnsafe(productId));
   }
 };

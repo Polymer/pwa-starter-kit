@@ -26,6 +26,7 @@ import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
+import { CartItem } from '../reducers/shop.js';
 
 class ShopCart extends LitElement {
   render() {
@@ -41,7 +42,7 @@ class ShopCart extends LitElement {
           <div>
             <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
-                @click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
+                @click="${(e: Event) => store.dispatch(removeFromCart((e.currentTarget as HTMLButtonElement).dataset['index']))}"
                 data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
@@ -54,7 +55,7 @@ class ShopCart extends LitElement {
   }
 
   @property({type: Array})
-  _items;
+  _items: Array<CartItem> = [];
 
   @property({type: Number})
   _total = 0;

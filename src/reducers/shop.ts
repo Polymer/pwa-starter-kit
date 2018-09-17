@@ -13,7 +13,8 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   CHECKOUT_SUCCESS,
-  CHECKOUT_FAILURE
+  CHECKOUT_FAILURE,
+  ShopAction
 } from '../actions/shop.js';
 import { createSelector } from 'reselect';
 import { RootState } from '../store.js';
@@ -35,8 +36,14 @@ export interface ProductState {
 export interface CartState {
   [index:string]: number;
 }
+export interface CartItem {
+  id: number;
+  title: string;
+  amount: number;
+  price: number;
+}
 
-const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: any) => {
+const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: ShopAction) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return {
@@ -63,7 +70,7 @@ const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: an
 };
 
 // Slice reducer: it only reduces the bit of the state it's concerned about.
-const products = (state: ProductsState, action: any) => {
+const products = (state: ProductsState, action: ShopAction) => {
   switch (action.type) {
     case ADD_TO_CART:
     case REMOVE_FROM_CART:
@@ -77,7 +84,7 @@ const products = (state: ProductsState, action: any) => {
   }
 };
 
-const product = (state: ProductState, action: any) => {
+const product = (state: ProductState, action: ShopAction) => {
   switch (action.type) {
     case ADD_TO_CART:
       return {
@@ -94,26 +101,27 @@ const product = (state: ProductState, action: any) => {
   }
 };
 
-const cart = (state: CartState, action: any) => {
-  const productId = action.productId;
+const cart = (state: CartState, action: ShopAction) => {
   switch (action.type) {
     case ADD_TO_CART:
+      const addId = action.productId;
       return {
         ...state,
-        [productId]: (state[productId] || 0) + 1
+        [addId]: (state[addId] || 0) + 1
       };
     case REMOVE_FROM_CART:
-      const quantity = (state[productId] || 0) - 1;
+      const removeId = action.productId;
+      const quantity = (state[removeId] || 0) - 1;
       if (quantity <= 0) {
         const newState = {
           ...state
         };
-        delete newState[productId];
+        delete newState[removeId];
         return newState;
       } else {
         return {
           ...state,
-          [productId]: quantity
+          [removeId]: quantity
         }
       }
     case CHECKOUT_SUCCESS:
@@ -146,7 +154,7 @@ export const cartItemsSelector = createSelector(
   (cart, products) => {
     return Object.keys(cart).map(id => {
       const item = products[id];
-      return {id: item.id, title: item.title, amount: cart[id], price: item.price};
+      return {id: item.id, title: item.title, amount: cart[id], price: item.price} as CartItem;
     });
   }
 );

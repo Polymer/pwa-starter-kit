@@ -13,11 +13,6 @@ declare global {
     process?: Object;
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
-
-  // TODO: demo code in pwa-helpers polluting generated output.
-  interface HTMLElementTagNameMap {
-    'counter-element': HTMLElement
-  }
 }
 
 import {

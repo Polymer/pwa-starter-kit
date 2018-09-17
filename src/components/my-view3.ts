@@ -19,7 +19,7 @@ import { store, RootState } from '../store.js';
 import { checkout } from '../actions/shop.js';
 
 // We are lazy loading its reducer.
-import shop, { cartQuantitySelector } from '../reducers/shop.js';
+import shop, { cartQuantitySelector, ShopState } from '../reducers/shop.js';
 store.addReducers({
   shop
 });
@@ -105,7 +105,7 @@ class ConnectedMyView3 extends connect(store)(MyView3) {
   // This is called every time something is updated in the store.
   _stateChanged(state: RootState) {
     this._quantity = cartQuantitySelector(state);
-    this._error = state.shop.error;
+    this._error = (state.shop as ShopState).error;
   }
 }
 

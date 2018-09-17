@@ -25,6 +25,7 @@ import { addToCartIcon } from './my-icons.js';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
+import { ShopState, ProductsState } from '../reducers/shop.js';
 
 class ShopProducts extends LitElement {
   render() {
@@ -40,7 +41,7 @@ class ShopProducts extends LitElement {
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 .disabled="${item.inventory === 0}"
-                @click="${(e) => store.dispatch(addToCart(e.currentTarget.dataset['index']))}"
+                @click="${(e: Event) => store.dispatch(addToCart((e.currentTarget as HTMLButtonElement).dataset['index']))}"
                 data-index="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
@@ -52,7 +53,7 @@ class ShopProducts extends LitElement {
   }
 
   @property({type: Object})
-  _products;
+  _products: ProductsState = {};
 
   firstUpdated() {
     store.dispatch(getAllProducts());
@@ -62,7 +63,7 @@ class ShopProducts extends LitElement {
 class ConnectedShopProducts extends connect(store)(ShopProducts) {
   // This is called every time something is updated in the store.
   _stateChanged(state: RootState) {
-    this._products = state.shop.products;
+    this._products = (state.shop as ShopState).products;
   }
 }
 
