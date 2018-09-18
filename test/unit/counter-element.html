@@ -36,6 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         let el;
         setup(function() {
           el = fixture('basic');
+          // Make tests wait until element is rendered.
+          return el.updateComplete;
         });
 
         test('starts empty', function() {
