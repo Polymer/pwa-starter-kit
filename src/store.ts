@@ -20,14 +20,17 @@ import {
   compose,
   applyMiddleware,
   combineReducers,
-  Reducer
+  Reducer,
+  ReducersMapObject
 } from 'redux';
-import thunk from 'redux-thunk';
-import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
 
 import app, { AppState } from './reducers/app.js';
 import { CounterState } from './reducers/counter.js';
 import { ShopState } from './reducers/shop.js';
+import { AppAction } from './actions/app.js';
+import { CounterAction } from './actions/counter.js';
+import { ShopAction } from './actions/shop.js';
 
 // Overall state extends static states and partials lazy states.
 export interface RootState {
@@ -36,9 +39,11 @@ export interface RootState {
   shop?: ShopState;
 }
 
+export type RootAction = AppAction | CounterAction | ShopAction;
+
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
-const composeWithDevtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const devCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // Initializes the Redux store with a lazyReducerEnhancer (so that you can
 // lazily add reducers after the store has been created) and redux-thunk (so
@@ -46,11 +51,17 @@ const composeWithDevtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compo
 // section of the wiki for more details:
 // https://github.com/Polymer/pwa-starter-kit/wiki/4.-Redux-and-state-management
 export const store = createStore(
-  ((state) => state) as Reducer<RootState, any>,
-  composeWithDevtools(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
+  state => state as Reducer<RootState, RootAction>,
+  devCompose(applyMiddleware(thunk as ThunkMiddleware<RootState, RootAction>))
 );
 
+let lazyReducers = {};
+export function addReducers(newReducers: ReducersMapObject<RootState, RootAction>) {
+  lazyReducers = Object.assign({}, lazyReducers, newReducers);
+  store.replaceReducer(combineReducers(lazyReducers));
+}
+
 // Initially loaded reducers.
-store.addReducers({
+addReducers({
   app
 });

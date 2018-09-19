@@ -17,7 +17,7 @@ import {
   ShopAction
 } from '../actions/shop.js';
 import { createSelector } from 'reselect';
-import { RootState } from '../store.js';
+import { RootState, RootAction } from '../store.js';
 
 export interface ShopState {
   products: ProductsState;
@@ -43,7 +43,7 @@ export interface CartItem {
   price: number;
 }
 
-const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: ShopAction) => {
+const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: RootAction) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return {
