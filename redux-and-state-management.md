@@ -82,7 +82,7 @@ Generally, anything that needs to have direct access to the store data should be
 Since this is a very application specific decision, one way to start looking at it is to try connecting your lazy-loaded elements, and then go up or down one level from there. That might end up looking something like:
 <img width="785" alt="screen shot 2018-01-25 at 12 22 39 pm" src="https://user-images.githubusercontent.com/1369170/35410478-7373c98a-01ca-11e8-9f7f-4b95c8a4f47c.png">
 
-In this example, only `my-app` and `my-view1` are connected. Since `a-element` is more of a reusable component rather than an application level component, even if it needs to update the application's data, it will communicate this via a DOM event, like [this](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/counter-element.js#L49).
+In this example, only `my-app` and `my-view1` are connected. Since `a-element` is more of a reusable component rather than an application level component, even if it needs to update the application's data, it will communicate this via a DOM event, like [this](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/counter-element.js#L56).
 
 ## How to connect
 If you want to follow along with actual code, we've included a basic Redux [counter example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js) in `pwa-starter-kit`.
@@ -353,14 +353,14 @@ const selectedItemSelector = createSelector(
 console.log(selectedItemSelector(state));
 ```
 
-To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#L89) or the [item selector](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.js#L70) from the [Redux-HN](https://github.com/PolymerLabs/polymer-redux-hn) sample app. In both examples, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
+To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#105) or the [item selector](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.js#L70) from the [Redux-HN](https://github.com/PolymerLabs/polymer-redux-hn) sample app. In both examples, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
 
 ### How to make sure third-party components don't mutate the state
 Most third-party components were not written to be used in an immutable way, and are not connected to the Redux store so you can't guarantee that they will not try to update the store. For example, `paper-input` has a `value` property, that it updates based on internal actions (i.e. you typing, validating, etc). To make sure that elements like this don't update the store:
 - Use one-way data bindings to pass primitives (Strings, Numbers, etc) down to the element.
   - `<paper-input value="${foo}"></paper-input>`
   - Because it's a primitive value, paper-input receives a copy of `foo`. When it updates `foo`, it only updates **its** copy, not the actual property in the store
-  - Listen to `foo-changed` events outside the element, and dispatch an action to update the store from there ([example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L47)).
+  - Listen to `foo-changed` events outside the element, and dispatch an action to update the store from there ([example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L51)).
 - Since arrays/objects are mutable, pass down a **copy** of an array or object down to the element:
   - `<other-input data="${_copy(fooArray)}"></other-input>`
   - `<other-input data="${_deepCopy(fooObj)}"></other-input>`
