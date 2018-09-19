@@ -28,33 +28,34 @@ import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  _render({_items, _total}) {
+  render() {
+    const {_items, _total} = this;
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      <p hidden="${_items.length !== 0}">Please add some products to cart.</p>
+      <p ?hidden="${_items.length !== 0}">Please add some products to cart.</p>
       ${_items.map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
             <button
-                on-click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
-                data-index$="${item.id}"
+                @click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
+                data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
             </button>
           </div>
         `
       )}
-      <p hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
+      <p ?hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
     `;
   }
 
   static get properties() { return {
-    _items: Array,
-    _total: Number
+    _items: { type: Array },
+    _total: { type: Number }
   }}
 
   // This is called every time something is updated in the store.
