@@ -21,7 +21,8 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends PageViewElement {
-  _render({_cart, _products, _error}) {
+  render() {
+    const {_cart, _products, _error} = this;
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -64,17 +65,17 @@ class MyView3 extends PageViewElement {
       </section>
       <section>
         <h3>Products</h3>
-        <shop-products products="${_products}"></shop-products>
+        <shop-products .products="${_products}"></shop-products>
 
         <br>
         <h3>Your Cart</h3>
-        <shop-cart products="${_products}" cart="${_cart}"></shop-cart>
+        <shop-cart .products="${_products}" .cart="${_cart}"></shop-cart>
 
         <div>${_error}</div>
         <br>
         <p>
-          <button hidden="${_cart.addedIds.length == 0}"
-              on-click="${() => this.checkout()}">
+          <button ?hidden="${_cart.addedIds.length == 0}"
+              @click="${() => this.checkout()}">
             Checkout
           </button>
         </p>
@@ -84,21 +85,16 @@ class MyView3 extends PageViewElement {
 
   static get properties() { return {
     // This is the data from the store.
-    _cart: Object,
-    _products: Object,
-    _error: String
+    _cart: { type: Object },
+    _products: { type: Object },
+    _error: { type: String }
   }}
 
   constructor() {
     super();
     this._cart = {addedIds: [], quantityById: {}};
     this._error = '';
-  }
-
-  ready() {
     this._products = this._getAllProducts();
-    super.ready();
-
     this.addEventListener('addToCart', (e) => this._addToCart(e.detail.item));
     this.addEventListener('removeFromCart', (e) => this._removeFromCart(e.detail.item));
   }

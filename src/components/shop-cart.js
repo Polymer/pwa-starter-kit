@@ -18,20 +18,20 @@ import './shop-item.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends LitElement {
-  _render({cart}) {
+  render() {
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      <p hidden="${cart.addedIds.length !== 0}">Please add some products to cart.</p>
-      ${this._displayCart(cart).map((item) =>
+      <p ?hidden="${this.cart.addedIds.length !== 0}">Please add some products to cart.</p>
+      ${this._displayCart(this.cart).map((item) =>
         html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
             <button
-                on-click="${(e) => this._removeFromCart(e)}"
-                data-index$="${item.id}"
+                @click="${(e) => this._removeFromCart(e)}"
+                data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
             </button>
@@ -42,8 +42,8 @@ class ShopCart extends LitElement {
   }
 
   static get properties() { return {
-    cart: Object,
-    products: Object
+    cart: { type: Object },
+    products: { type: Object }
   }}
 
   _displayCart(cart) {

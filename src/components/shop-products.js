@@ -20,21 +20,21 @@ import { addToCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopProducts extends LitElement {
-  _render({products}) {
+  render() {
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      ${Object.keys(products).map((key) => {
-        const item = products[key];
+      ${Object.keys(this.products).map((key) => {
+        const item = this.products[key];
         return html`
           <div>
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
-                disabled="${item.inventory === 0}"
-                on-click="${(e) => this._addToCart(e)}"
-                data-index$="${item.id}"
+                .disabled="${item.inventory === 0}"
+                @click="${(e) => this._addToCart(e)}"
+                data-index="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
             </button>
@@ -45,7 +45,7 @@ class ShopProducts extends LitElement {
   }
 
   static get properties() { return {
-    products: Object
+    products: { type: Object }
   }}
 
   _addToCart(event) {

@@ -18,12 +18,12 @@ import './counter-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView2 extends PageViewElement {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       <section>
         <h2>State container example: simple counter</h2>
-        <div class="circle">${props._clicks}</div>
+        <div class="circle">${this._clicks}</div>
         <p>This page contains a reusable <code>&lt;counter-element&gt;</code> which is connected to the
         store. When the element updates its counter, this page updates the values
         in the store, and you can see the total number of clicks reflected in
@@ -32,9 +32,9 @@ class MyView2 extends PageViewElement {
       </section>
       <section>
         <p>
-          <counter-element value="${props._value}" clicks="${props._clicks}"
-              on-counter-incremented="${() => this._increment()}"
-              on-counter-decremented="${() => this._decrement()}">
+          <counter-element value="${this._value}" clicks="${this._clicks}"
+              @counter-incremented="${() => this._increment()}"
+              @counter-decremented="${() => this._decrement()}">
           </counter-element>
         </p>
       </section>
@@ -43,8 +43,8 @@ class MyView2 extends PageViewElement {
 
   static get properties() { return {
     // This is the data from the store.
-    _clicks: Number,
-    _value: Number
+    _clicks: { type: Number },
+    _value: { type: Number },
   }}
 
   constructor() {
