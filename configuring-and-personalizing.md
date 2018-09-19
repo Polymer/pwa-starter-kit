@@ -82,8 +82,8 @@ import { LitElement, html } from '@polymer/lit-element';
 class SampleElement extends LitElement {
   // The properties that your element exposes.
   static get properties() { return {
-    publicProperty: Number,
-    _privateProperty: String    /* note the leading underscore */
+    publicProperty: { type: Number },
+    _privateProperty: { type: String }    /* note the leading underscore */
   }};
 
   constructor() {
@@ -93,9 +93,10 @@ class SampleElement extends LitElement {
     this._privateProperty = '';
   }
 
-  _render({publicProperty, _privateProperty}) {
+  render() {
     // Note the use of the object spread to explicitely
     // call out which properties you're using for rendering.
+    const {publicProperty, _privateProperty} = this;
 
     // Anything code that is related to rendering should be done in here.
 
@@ -104,7 +105,7 @@ class SampleElement extends LitElement {
     `;
   });
 
-  _firstRendered() {
+  firstUpdated() {
     // Any code that relies on render having been called once goes here.
     // (for example setting up listeners, etc)
   }
@@ -142,7 +143,7 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView4 extends PageViewElement {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       <section>
@@ -166,7 +167,7 @@ First, add it to each of the list of nav links. In the toolbar (the wide-screen 
 ```html
 <nav class="toolbar-list">
   ...
-  <a selected?="${_page === 'view4'}" href="/view4">New View!</a>
+  <a ?selected="${_page === 'view4'}" href="/view4">New View!</a>
 </nav>
 ```
 
@@ -174,7 +175,7 @@ Similarly, we can add it to the list of nav links in the drawer:
 ```html
 <nav class="drawer-list">
   ...
-  <a selected?="${_page === 'view4'}" href="$/view4">New View!</a>
+  <a ?selected="${_page === 'view4'}" href="$/view4">New View!</a>
 </nav>
 ```
 
@@ -182,11 +183,11 @@ And in the main content itself:
 ```html
 <main class="main-content">
   ...
-  <my-view4 class="page" active?="${_page === 'view4'}"></my-view4>
+  <my-view4 class="page" ?active="${_page === 'view4'}"></my-view4>
 </main>
 ```
 
-Note that in all of these code snippets, the `selected` attribute is used to [highlight](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L93) the active page, and the `active` attribute is also used to ensure that only the active page is [actually rendered](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L16).
+Note that in all of these code snippets, the `selected` attribute is used to [highlight](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L101) the active page, and the `active` attribute is also used to ensure that only the active page is [actually rendered](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L16).
 
 Finally, we need to lazy load this page. Without this, the links will appear, but they won't be able to navigate to your new page, since `my-view4` will be undefined (we haven't imported its source code anywhere). In the [`loadPage ` action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29), add a new `case` statement:
 ```js
@@ -235,10 +236,10 @@ can just add a new line to that file:
 export const closeIcon = html`<svg>...</svg>`
 ```
 
-Then, you can import it and use it as a template literal in an element's `_render()` method:
+Then, you can import it and use it as a template literal in an element's `render()` method:
 ```js
 import { closeIcon } from './my-icons.js';
-_render(props) {
+render() {
   return html`
     <button title="close">${closeIcon}</button>
   `;
@@ -247,10 +248,10 @@ _render(props) {
 
 ## Sharing styles
 Similarly, shared styles are also just exported template literals. If you take a look at `shared-styles.js`, it
-exports a `<style>` node template, that is then inlined in an element's `_render()` method:
+exports a `<style>` node template, that is then inlined in an element's `render()` method:
 ```js
 import { SharedStyles } from './shared-styles.js';
-_render(props) {
+render() {
   return html`
     ${SharedStyles}
     <div>...</div>
@@ -274,16 +275,16 @@ By default, the `pwa-starter-kit` comes with a responsive layout. At `460px`, th
 For a different kind of responsive layout, the [`template-responsive-drawer-layout`](https://github.com/Polymer/pwa-starter-kit/tree/template-responsive-drawer-layout) template displays a persistent app-drawer, inline with the content on wide screens (and uses the same small-screen drawer as the main template).
 
 #### Changing the wide screen styles
-The wide screen styles are controlled in CSS by a [media-query](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L150). In that block you can add any selectors that would only apply when the window viewport's width is at least `460px`; you can change this pixel value if you want to change the size at which these styles get applied (or, can add a separate style if you want to have several breakpoints).
+The wide screen styles are controlled in CSS by a [media-query](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L163). In that block you can add any selectors that would only apply when the window viewport's width is at least `460px`; you can change this pixel value if you want to change the size at which these styles get applied (or, can add a separate style if you want to have several breakpoints).
 
 #### Changing narrow screen styles
-The rest of the styles in [`my-app`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L35) are outside of the media-query, and thus are either general styles (if they're not overwritten by the media-query styles), or narrow-screen specific, like [this one](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L81) (in this example, the  `<nav class="toolbar-list">` is hidden in the narrow screen view, and visible in the wide screen view).
+The rest of the styles in [`my-app`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L35) are outside of the media-query, and thus are either general styles (if they're not overwritten by the media-query styles), or narrow-screen specific, like [this one](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L89) (in this example, the  `<nav class="toolbar-list">` is hidden in the narrow screen view, and visible in the wide screen view).
 
 #### Responsive styles in JavaScript
-If you want to run specific JavaScript code when the size changes from a wide to narrow screen (for example, to make the drawer persistent, etc), you can use the [`installMediaQueryWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/media-query.js) helper from `pwa-helpers`. When you [set it up](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L233), you can specify the callback that is ran whenever the media query matches.
+If you want to run specific JavaScript code when the size changes from a wide to narrow screen (for example, to make the drawer persistent, etc), you can use the [`installMediaQueryWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/media-query.js) helper from `pwa-helpers`. When you [set it up](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L246), you can specify the callback that is ran whenever the media query matches.
 
 ## Conditionally rendering views
-Which view is visible at a given time is controlled through an `active` attribute, that is set if the name of the page matches the location, and is then used for [styling](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L137):
+Which view is visible at a given time is controlled through an `active` attribute, that is set if the name of the page matches the location, and is then used for [styling](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L150):
 
 ```html
 <style>
@@ -295,17 +296,17 @@ Which view is visible at a given time is controlled through an `active` attribut
   }
 </style>
 <main class="main-content">
-  <my-view1 class="page" active?="${page === 'view1'}"></my-view1>
-  <my-view2 class="page" active?="${page === 'view2'}"></my-view2>
+  <my-view1 class="page" ?active="${page === 'view1'}"></my-view1>
+  <my-view2 class="page" ?active="${page === 'view2'}"></my-view2>
   ...
 </main>
 ```
 
-However, just because a particular view isn't visible doesn't mean it's "inactive" -- its JavaScript can still run. In particular, if your application is using Redux, and the view is connected (like [`my-view2`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L17) for example), then it will get notified **any** time the Redux store changes, which could trigger `_render()` to be called. Most of the time this is probably not what you want -- a hidden view shouldn't be updating itself until it's actually visible on screen. Apart from being inefficient (you're doing work that nobody is looking at), you could run into really weird side effects: if a view's `_render()` function also updates the title of the application, for example, the title may end up being set incorrectly by one of these inactive views, just because it was the last view to set it.
+However, just because a particular view isn't visible doesn't mean it's "inactive" -- its JavaScript can still run. In particular, if your application is using Redux, and the view is connected (like [`my-view2`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L17) for example), then it will get notified **any** time the Redux store changes, which could trigger `render()` to be called. Most of the time this is probably not what you want -- a hidden view shouldn't be updating itself until it's actually visible on screen. Apart from being inefficient (you're doing work that nobody is looking at), you could run into really weird side effects: if a view's `render()` function also updates the title of the application, for example, the title may end up being set incorrectly by one of these inactive views, just because it was the last view to set it.
 
-To get around that, the views inherit from a [`PageViewElement`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js) base class, rather than `LitElement` directly. This base class checks whether the `active` attribute is set on the host (the same attribute we use for styling), and calls `_render()` only if it [is set](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L15).
+To get around that, the views inherit from a [`PageViewElement`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js) base class, rather than `LitElement` directly. This base class checks whether the `active` attribute is set on the host (the same attribute we use for styling), and calls `render()` only if it [is set](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L15).
 
-If this isn't the behaviour you want, and you want hidden pages to update behind the scenes, then all you have to do is change the view's base class back to `LitElement` (i.e. changing [this line](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view1.js#L15)). Just look out for those side effects!
+If this isn't the behaviour you want, and you want hidden pages to update behind the scenes, then all you have to do is change the view's base class back to `LitElement` (i.e. changing [this line](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view1.js#L17)). Just look out for those side effects!
 
 ## Routing
 The app uses a very [basic router](https://github.com/Polymer/pwa-helpers/blob/master/router.js), that listens to changes to the `window.location`. You install the router by passing it a callback, which is a function that will be called any time the location changes:
@@ -347,7 +348,7 @@ A similar approach is taken in the **Hacker News** app where an element [dispatc
 ## Responding to network state changes
 You might want to change your UI as a response to the network state changing (i.e. going from offline to online).
 
-Using the [`installOfflineWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/network.js) helper from `pwa-helpers`, we've added a [callback](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L232) that will be called any time we go online or offline. In particular, we've added a [snackbar](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L208) that gets shown; you can configure its contents and style in [`snack-bar.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/snack-bar.js). Note that the snackbar is shown as a result of a Redux [action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L69) being dispatched, and its duration can be configured there.
+Using the [`installOfflineWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/network.js) helper from `pwa-helpers`, we've added a [callback](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L245) that will be called any time we go online or offline. In particular, we've added a [snackbar](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L221) that gets shown; you can configure its contents and style in [`snack-bar.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/snack-bar.js). Note that the snackbar is shown as a result of a Redux [action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L69) being dispatched, and its duration can be configured there.
 
 Rather than just using it as an FYI, you can use the offline status to display conditional UI in your application. For example, the **Books** sample app displays an [offline view](https://github.com/PolymerLabs/books/blob/master/src/components/book-offline.js) rather than the details view when the [application is offline](https://github.com/PolymerLabs/books/blob/master/src/components/book-detail.js#L293).
 
@@ -371,7 +372,7 @@ And similarly for the other UI elements in the application.
 
 #### Switching themes
 Re-theming the entire app basically involves updating the custom properties that are used throughout the app.
-If you just want to personalize the default template with your own theme, all you have to do is change the values of the app's [custom properties](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L40).
+If you just want to personalize the default template with your own theme, all you have to do is change the values of the app's [custom properties](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L48).
 
 If you want to be able to switch between two different themes in the app (for example between a "light" and "dark" theme), you could just add a class (for example, `dark-theme`) to the `my-app` element for the new theme, and style that separately. This would end up looking similar to this:
 
