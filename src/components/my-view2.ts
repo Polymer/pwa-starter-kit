@@ -13,14 +13,14 @@ import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
-import { store, RootState, addReducers } from '../store.js';
+import { store, RootState } from '../store.js';
 
 // These are the actions needed by this element.
 import { increment, decrement } from '../actions/counter.js';
 
 // We are lazy loading its reducer.
 import counter from '../reducers/counter.js';
-addReducers({
+store.addReducers({
   counter
 });
 
