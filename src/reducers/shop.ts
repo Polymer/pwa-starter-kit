@@ -144,8 +144,8 @@ export default shop;
 // We use a tiny library called `reselect` to create efficient
 // selectors. More info: https://github.com/reduxjs/reselect.
 
-const cartSelector = (state: RootState) => (state.shop as ShopState).cart;
-const productsSelector = (state: RootState) => (state.shop as ShopState).products;
+const cartSelector = (state: RootState) => state.shop!.cart;
+const productsSelector = (state: RootState) => state.shop!.products;
 
 // Return a flattened array representation of the items in the cart
 export const cartItemsSelector = createSelector(
@@ -154,7 +154,7 @@ export const cartItemsSelector = createSelector(
   (cart, products) => {
     return Object.keys(cart).map(id => {
       const item = products[id];
-      return {id: item.id, title: item.title, amount: cart[id], price: item.price} as CartItem;
+      return {id: item.id, title: item.title, amount: cart[id], price: item.price};
     });
   }
 );

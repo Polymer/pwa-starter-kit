@@ -19,7 +19,7 @@ import { store, RootState, addReducers } from '../store.js';
 import { increment, decrement } from '../actions/counter.js';
 
 // We are lazy loading its reducer.
-import counter, { CounterState } from '../reducers/counter.js';
+import counter from '../reducers/counter.js';
 addReducers({
   counter
 });
@@ -66,8 +66,8 @@ class MyView2 extends PageViewElement {
 class ConnectedMyView2 extends connect(store)(MyView2) {
   // This is called every time something is updated in the store.
   _stateChanged(state: RootState) {
-    this._clicks = (state.counter as CounterState).clicks;
-    this._value = (state.counter as CounterState).value;
+    this._clicks = state.counter!.clicks;
+    this._value = state.counter!.value;
   }
 }
 

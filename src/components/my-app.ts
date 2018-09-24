@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, property } from '@polymer/lit-element';
+import { LitElement, html, property, PropertyValues } from '@polymer/lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
@@ -38,7 +38,6 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
-import { AppState } from '../reducers/app.js';
 
 class MyApp extends LitElement {
   render() {
@@ -257,7 +256,7 @@ class MyApp extends LitElement {
         (matches) => store.dispatch(updateLayout(matches)));
   }
 
-  updated(changedProps: Map<string, string>) {
+  updated(changedProps: PropertyValues) {
     if (changedProps.has('_page')) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
@@ -271,10 +270,10 @@ class MyApp extends LitElement {
 
 class ConnectedMyApp extends connect(store)(MyApp) {
   _stateChanged(state: RootState) {
-    this._page = (state.app as AppState).page;
-    this._offline = (state.app as AppState).offline;
-    this._snackbarOpened = (state.app as AppState).snackbarOpened;
-    this._drawerOpened = (state.app as AppState).drawerOpened;
+    this._page = state.app!.page;
+    this._offline = state.app!.offline;
+    this._snackbarOpened = state.app!.snackbarOpened;
+    this._drawerOpened = state.app!.drawerOpened;
   }
 }
 

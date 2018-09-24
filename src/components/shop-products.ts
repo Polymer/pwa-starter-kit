@@ -25,7 +25,7 @@ import { addToCartIcon } from './my-icons.js';
 
 // These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles.js';
-import { ShopState, ProductsState } from '../reducers/shop.js';
+import { ProductsState } from '../reducers/shop.js';
 
 class ShopProducts extends LitElement {
   render() {
@@ -63,7 +63,7 @@ class ShopProducts extends LitElement {
 class ConnectedShopProducts extends connect(store)(ShopProducts) {
   // This is called every time something is updated in the store.
   _stateChanged(state: RootState) {
-    this._products = (state.shop as ShopState).products;
+    this._products = state.shop!.products;
   }
 }
 
