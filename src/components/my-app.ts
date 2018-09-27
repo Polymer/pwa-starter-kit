@@ -23,8 +23,7 @@ import { store, RootState } from '../store.js';
 import {
   navigate,
   updateOffline,
-  updateDrawerState,
-  updateLayout
+  updateDrawerState
 } from '../actions/app.js';
 
 // The following line imports the type only - it will be removed by tsc so
@@ -253,7 +252,7 @@ class MyApp extends LitElement {
     installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => store.dispatch(updateLayout(matches)));
+      () => store.dispatch(updateDrawerState(false)));
   }
 
   updated(changedProps: PropertyValues) {
