@@ -7,6 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
+
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store.js';
@@ -76,14 +77,14 @@ export const addToCart: ActionCreator<ThunkResult> = (productId) => (dispatch, g
   }
 };
 
-export const removeFromCart: ActionCreator<Action> = (productId) => {
+export const removeFromCart: ActionCreator<ShopActionRemoveFromCart> = (productId) => {
   return {
     type: REMOVE_FROM_CART,
     productId
   };
 };
 
-export const addToCartUnsafe: ActionCreator<Action> = (productId) => {
+export const addToCartUnsafe: ActionCreator<ShopActionAddToCart> = (productId) => {
   return {
     type: ADD_TO_CART,
     productId

@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { Reducer } from 'redux';
 import {
   GET_PRODUCTS,
   ADD_TO_CART,
@@ -43,7 +44,13 @@ export interface CartItem {
   price: number;
 }
 
-const shop = (state: ShopState = {products: {}, cart: {}, error: ''}, action: RootAction) => {
+const INITIAL_STATE: ShopState = {
+  products: {},
+  cart: {},
+  error: ''
+};
+
+const shop: Reducer<ShopState, RootAction> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return {

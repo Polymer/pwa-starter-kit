@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import { Reducer } from 'redux';
 import {
   UPDATE_PAGE,
   UPDATE_OFFLINE,
@@ -24,14 +25,14 @@ export interface AppState {
   snackbarOpened: boolean;
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: AppState = {
   page: '',
   offline: false,
   drawerOpened: false,
   snackbarOpened: false,
 };
 
-const app = (state: AppState = INITIAL_STATE, action: RootAction) => {
+const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {

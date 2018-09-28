@@ -60,7 +60,7 @@ const loadPage: ActionCreator<ThunkResult> = (page: string) => (dispatch) => {
   dispatch(updatePage(page));
 };
 
-const updatePage: ActionCreator<Action> = (page: string) => {
+const updatePage: ActionCreator<AppActionUpdatePage> = (page: string) => {
   return {
     type: UPDATE_PAGE,
     page
@@ -89,7 +89,7 @@ export const updateOffline: ActionCreator<ThunkResult> = (offline: boolean) => (
   });
 };
 
-export const updateDrawerState: ActionCreator<Action> = (opened: boolean) => {
+export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (opened: boolean) => {
   return {
     type: UPDATE_DRAWER_STATE,
     opened
