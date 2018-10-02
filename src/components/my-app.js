@@ -23,8 +23,7 @@ import { store } from '../store.js';
 import {
   navigate,
   updateOffline,
-  updateDrawerState,
-  updateLayout
+  updateDrawerState
 } from '../actions/app.js';
 
 // These are the elements needed by this element.
@@ -184,7 +183,7 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" title="Menu" @click="${_ => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
+        <button class="menu-btn" title="Menu" @click="${() => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
         <div main-title>${appTitle}</div>
       </app-toolbar>
 
@@ -241,10 +240,10 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
-    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+    installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => store.dispatch(updateLayout(matches)));
+        () => store.dispatch(updateDrawerState(false)));
   }
 
   updated(changedProps) {

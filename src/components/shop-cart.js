@@ -39,7 +39,7 @@ class ShopCart extends connect(store)(LitElement) {
       ${_items.map((item) =>
         html`
           <div>
-            <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
+            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
                 @click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
                 data-index="${item.id}"

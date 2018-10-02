@@ -17,17 +17,13 @@ import {
 } from '../actions/shop.js';
 import { createSelector } from 'reselect';
 
-const INITIAL_CART = {
-  addedIds: [],
-  quantityById: {}
+const INITIAL_STATE = {
+  products: {},
+  cart: {},
+  error: ''
 };
 
-const UPDATED_CART = {
-  addedIds: ['1'],
-  quantityById: {'1': 1}
-};
-
-const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
+const shop = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return {
@@ -85,58 +81,31 @@ const product = (state, action) => {
   }
 };
 
-const cart = (state = INITIAL_CART, action) => {
+const cart = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-    case REMOVE_FROM_CART:
+      const addId = action.productId;
       return {
-        addedIds: addedIds(state.addedIds, state.quantityById, action),
-        quantityById: quantityById(state.quantityById, action)
+        ...state,
+        [addId]: (state[addId] || 0) + 1
       };
+    case REMOVE_FROM_CART:
+      const removeId = action.productId;
+      const quantity = (state[removeId] || 0) - 1;
+      if (quantity <= 0) {
+        const newState = {
+          ...state
+        };
+        delete newState[removeId];
+        return newState;
+      } else {
+        return {
+          ...state,
+          [removeId]: quantity
+        }
+      }
     case CHECKOUT_SUCCESS:
-      return INITIAL_CART;
-    default:
-      return state;
-  }
-};
-
-const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
-  const productId = action.productId;
-  switch (action.type) {
-    case ADD_TO_CART:
-      if (state.indexOf(productId) !== -1) {
-        return state;
-      }
-      return [
-        ...state,
-        action.productId
-      ];
-    case REMOVE_FROM_CART:
-      // This is called before the state is updated, so if you have 1 item in the
-      // cart during the remove action, you'll have 0.
-      if (quantityById[productId] <= 1) {
-        // This removes all items in this array equal to productId.
-        return state.filter(e => e !== productId);
-      }
-      return state;
-    default:
-      return state;
-  }
-};
-
-const quantityById = (state = INITIAL_CART.quantityById, action) => {
-  const productId = action.productId;
-  switch (action.type) {
-    case ADD_TO_CART:
-      return {
-        ...state,
-        [productId]: (state[productId] || 0) + 1
-      };
-    case REMOVE_FROM_CART:
-      return {
-        ...state,
-        [productId]: (state[productId] || 0) - 1
-      };
+      return {};
     default:
       return state;
   }
@@ -163,12 +132,10 @@ export const cartItemsSelector = createSelector(
   cartSelector,
   productsSelector,
   (cart, products) => {
-    const items = [];
-    for (let id of cart.addedIds) {
+    return Object.keys(cart).map(id => {
       const item = products[id];
-      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
-    }
-    return items;
+      return {id: item.id, title: item.title, amount: cart[id], price: item.price};
+    });
   }
 );
 
@@ -178,11 +145,11 @@ export const cartTotalSelector = createSelector(
   productsSelector,
   (cart, products) => {
     let total = 0;
-    for (let id of cart.addedIds) {
+    Object.keys(cart).forEach(id => {
       const item = products[id];
-      total += item.price * cart.quantityById[id];
-    }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+      total += item.price * cart[id];
+    });
+    return Math.round(total * 100) / 100;
   }
 );
 
@@ -191,9 +158,9 @@ export const cartQuantitySelector = createSelector(
   cartSelector,
   cart => {
     let num = 0;
-    for (let id of cart.addedIds) {
-      num += cart.quantityById[id];
-    }
+    Object.keys(cart).forEach(id => {
+      num += cart[id];
+    });
     return num;
   }
 );
