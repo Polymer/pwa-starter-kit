@@ -252,7 +252,7 @@ class MyApp extends LitElement {
     installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
-      () => store.dispatch(updateDrawerState(false)));
+        () => store.dispatch(updateDrawerState(false)));
   }
 
   updated(changedProps: PropertyValues) {
