@@ -48,8 +48,8 @@ class MyView2 extends connect(store)(PageViewElement) {
       <section>
         <p>
           <counter-element value="${this._value}" clicks="${this._clicks}"
-              @counter-incremented="${() => store.dispatch(increment())}"
-              @counter-decremented="${() => store.dispatch(decrement())}">
+              @counter-incremented="${this._counterIncremented}"
+              @counter-decremented="${this._counterDecremented}">
           </counter-element>
         </p>
       </section>
@@ -62,8 +62,16 @@ class MyView2 extends connect(store)(PageViewElement) {
     _value: { type: Number },
   }}
 
+  _counterIncremented() {
+    store.dispatch(increment());
+  }
+
+  _counterDecremented() {
+    store.dispatch(decrement());
+  }
+
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  stateChanged(state) {
     this._clicks = state.counter.clicks;
     this._value = state.counter.value;
   }
