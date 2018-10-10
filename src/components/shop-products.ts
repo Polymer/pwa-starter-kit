@@ -27,7 +27,7 @@ import { addToCartIcon } from './my-icons.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { ProductsState } from '../reducers/shop.js';
 
-class ShopProducts extends LitElement {
+class ShopProducts extends connect(store)(LitElement) {
   render() {
     return html`
       ${ButtonSharedStyles}
@@ -41,7 +41,7 @@ class ShopProducts extends LitElement {
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 .disabled="${item.inventory === 0}"
-                @click="${(e: Event) => store.dispatch(addToCart((e.currentTarget as HTMLButtonElement).dataset['index']))}"
+                @click="${this._addButtonClicked}"
                 data-index="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
@@ -58,13 +58,15 @@ class ShopProducts extends LitElement {
   firstUpdated() {
     store.dispatch(getAllProducts());
   }
-}
 
-class ConnectedShopProducts extends connect(store)(ShopProducts) {
+  _addButtonClicked(e: Event) {
+    store.dispatch(addToCart((e.currentTarget as HTMLButtonElement).dataset['index']));
+  }
+
   // This is called every time something is updated in the store.
-  _stateChanged(state: RootState) {
+  stateChanged(state: RootState) {
     this._products = state.shop!.products;
   }
 }
 
-window.customElements.define('shop-products', ConnectedShopProducts);
+window.customElements.define('shop-products', ShopProducts);

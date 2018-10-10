@@ -30,7 +30,7 @@ import './counter-element.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
-class MyView2 extends PageViewElement {
+class MyView2 extends connect(store)(PageViewElement) {
   render() {
     return html`
       ${SharedStyles}
@@ -48,8 +48,8 @@ class MyView2 extends PageViewElement {
       <section>
         <p>
           <counter-element value="${this._value}" clicks="${this._clicks}"
-              @counter-incremented="${() => store.dispatch(increment())}"
-              @counter-decremented="${() => store.dispatch(decrement())}">
+              @counter-incremented="${this._counterIncremented}"
+              @counter-decremented="${this._counterDecremented}">
           </counter-element>
         </p>
       </section>
@@ -61,14 +61,20 @@ class MyView2 extends PageViewElement {
 
   @property({type: Number})
   _value = 0;
-}
 
-class ConnectedMyView2 extends connect(store)(MyView2) {
+  _counterIncremented() {
+    store.dispatch(increment());
+  }
+
+  _counterDecremented() {
+    store.dispatch(decrement());
+  }
+
   // This is called every time something is updated in the store.
-  _stateChanged(state: RootState) {
+  stateChanged(state: RootState) {
     this._clicks = state.counter!.clicks;
     this._value = state.counter!.value;
   }
 }
 
-window.customElements.define('my-view2', ConnectedMyView2);
+window.customElements.define('my-view2', MyView2);

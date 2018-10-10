@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, property } from '@polymer/lit-element';
 
-export abstract class PageViewElement extends LitElement {
+export class PageViewElement extends LitElement {
   // Only render this page if it's actually visible.
   shouldUpdate() {
     return this.active;

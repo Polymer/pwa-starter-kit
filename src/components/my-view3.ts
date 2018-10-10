@@ -33,9 +33,8 @@ import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
-class MyView3 extends PageViewElement {
+class MyView3 extends connect(store)(PageViewElement) {
   render() {
-    const {_quantity, _error} = this;
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -66,7 +65,7 @@ class MyView3 extends PageViewElement {
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="cart">${addToCartIcon}<div class="circle small">${_quantity}</div></div>
+        <div class="cart">${addToCartIcon}<div class="circle small">${this._quantity}</div></div>
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
@@ -82,11 +81,10 @@ class MyView3 extends PageViewElement {
         <h3>Your Cart</h3>
         <shop-cart></shop-cart>
 
-        <div>${_error}</div>
+        <div>${this._error}</div>
         <br>
         <p>
-          <button ?hidden="${_quantity == 0}"
-              @click="${() => store.dispatch(checkout())}">
+          <button ?hidden="${this._quantity == 0}" @click="${this._checkoutButtonClicked}">
             Checkout
           </button>
         </p>
@@ -99,14 +97,16 @@ class MyView3 extends PageViewElement {
 
   @property({type: String})
   _error = '';
-}
 
-class ConnectedMyView3 extends connect(store)(MyView3) {
+  _checkoutButtonClicked() {
+    store.dispatch(checkout());
+  }
+
   // This is called every time something is updated in the store.
-  _stateChanged(state: RootState) {
+  stateChanged(state: RootState) {
     this._quantity = cartQuantitySelector(state);
     this._error = state.shop!.error;
   }
 }
 
-window.customElements.define('my-view3', ConnectedMyView3);
+window.customElements.define('my-view3', MyView3);

@@ -28,21 +28,20 @@ import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { CartItem } from '../reducers/shop.js';
 
-class ShopCart extends LitElement {
+class ShopCart extends connect(store)(LitElement) {
   render() {
-    const {_items, _total} = this;
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      <p ?hidden="${_items.length !== 0}">Please add some products to cart.</p>
-      ${_items.map((item) =>
+      <p ?hidden="${this._items.length !== 0}">Please add some products to cart.</p>
+      ${this._items.map((item) =>
         html`
           <div>
             <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
-                @click="${(e: Event) => store.dispatch(removeFromCart((e.currentTarget as HTMLButtonElement).dataset['index']))}"
+                @click="${this._removeButtonClicked}"
                 data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
@@ -50,7 +49,7 @@ class ShopCart extends LitElement {
           </div>
         `
       )}
-      <p ?hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
+      <p ?hidden="${!this._items.length}"><b>Total:</b> ${this._total}</p>
     `;
   }
 
@@ -59,14 +58,16 @@ class ShopCart extends LitElement {
 
   @property({type: Number})
   _total = 0;
-}
 
-class ConnectedShopCart extends connect(store)(ShopCart) {
+  _removeButtonClicked(e: Event) {
+    store.dispatch(removeFromCart((e.currentTarget as HTMLButtonElement).dataset['index']));
+  }
+
   // This is called every time something is updated in the store.
-  _stateChanged(state: RootState) {
+  stateChanged(state: RootState) {
     this._items = cartItemsSelector(state);
     this._total = cartTotalSelector(state);
   }
 }
 
-window.customElements.define('shop-cart', ConnectedShopCart);
+window.customElements.define('shop-cart', ShopCart);
