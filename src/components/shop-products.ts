@@ -28,7 +28,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { ProductsState } from '../reducers/shop.js';
 
 class ShopProducts extends connect(store)(LitElement) {
-  render() {
+  protected render() {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -53,13 +53,13 @@ class ShopProducts extends connect(store)(LitElement) {
   }
 
   @property({type: Object})
-  _products: ProductsState = {};
+  private _products: ProductsState = {};
 
-  firstUpdated() {
+  protected firstUpdated() {
     store.dispatch(getAllProducts());
   }
 
-  _addButtonClicked(e: Event) {
+  private _addButtonClicked(e: Event) {
     store.dispatch(addToCart((e.currentTarget as HTMLButtonElement).dataset['index']));
   }
 

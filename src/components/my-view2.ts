@@ -31,7 +31,7 @@ import './counter-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView2 extends connect(store)(PageViewElement) {
-  render() {
+  protected render() {
     return html`
       ${SharedStyles}
       <section>
@@ -57,16 +57,16 @@ class MyView2 extends connect(store)(PageViewElement) {
   }
 
   @property({type: Number})
-  _clicks = 0;
+  private _clicks = 0;
 
   @property({type: Number})
-  _value = 0;
+  private _value = 0;
 
-  _counterIncremented() {
+  private _counterIncremented() {
     store.dispatch(increment());
   }
 
-  _counterDecremented() {
+  private _counterDecremented() {
     store.dispatch(decrement());
   }
 

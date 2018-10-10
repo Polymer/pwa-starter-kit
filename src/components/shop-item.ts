@@ -12,7 +12,7 @@ import { LitElement, html, property } from '@polymer/lit-element';
 
 // This element is *not* connected to the Redux store.
 class ShopItem extends LitElement {
-  render() {
+  protected render() {
     return html`
       ${this.name}:
       <span ?hidden="${this.amount === 0}">${this.amount} * </span>

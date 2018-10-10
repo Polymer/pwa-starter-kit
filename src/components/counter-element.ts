@@ -20,7 +20,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class CounterElement extends LitElement {
-  render() {
+  protected render() {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -43,13 +43,13 @@ class CounterElement extends LitElement {
   @property({type: Number})
   value = 0;
 
-  _onIncrement() {
+  private _onIncrement() {
     this.value++;
     this.clicks++;
     this.dispatchEvent(new CustomEvent('counter-incremented'));
   }
 
-  _onDecrement() {
+  private _onDecrement() {
     this.value--;
     this.clicks++;
     this.dispatchEvent(new CustomEvent('counter-decremented'));

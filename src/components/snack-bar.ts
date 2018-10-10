@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, property } from '@polymer/lit-element';
 
 class SnackBar extends LitElement {
-  render() {
+  protected render() {
     return html`
       <style>
       :host {

@@ -39,7 +39,7 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
 class MyApp extends connect(store)(LitElement) {
-  render() {
+  protected render() {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -229,16 +229,16 @@ class MyApp extends connect(store)(LitElement) {
   appTitle = '';
 
   @property({type: String})
-  _page = '';
+  private _page = '';
 
   @property({type: Boolean})
-  _drawerOpened = false;
+  private _drawerOpened = false;
 
   @property({type: Boolean})
-  _snackbarOpened = false;
+  private _snackbarOpened = false;
 
   @property({type: Boolean})
-  _offline = false;
+  private _offline = false;
 
   constructor() {
     super();
@@ -247,14 +247,14 @@ class MyApp extends connect(store)(LitElement) {
     setPassiveTouchGestures(true);
   }
 
-  firstUpdated() {
+  protected firstUpdated() {
     installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
         () => store.dispatch(updateDrawerState(false)));
   }
 
-  updated(changedProps: PropertyValues) {
+  protected updated(changedProps: PropertyValues) {
     if (changedProps.has('_page')) {
       const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
@@ -265,11 +265,11 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  _menuButtonClicked() {
+  private _menuButtonClicked() {
     store.dispatch(updateDrawerState(true));
   }
 
-  _drawerOpenedChanged(e: Event) {
+  private _drawerOpenedChanged(e: Event) {
     store.dispatch(updateDrawerState((e.target as AppDrawerElement).opened));
   }
 

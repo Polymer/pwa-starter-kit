@@ -34,7 +34,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
-  render() {
+  protected render() {
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -93,12 +93,12 @@ class MyView3 extends connect(store)(PageViewElement) {
   }
 
   @property({type: Number})
-  _quantity = 0;
+  private _quantity = 0;
 
   @property({type: String})
-  _error = '';
+  private _error = '';
 
-  _checkoutButtonClicked() {
+  private _checkoutButtonClicked() {
     store.dispatch(checkout());
   }
 

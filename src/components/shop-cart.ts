@@ -29,7 +29,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { CartItem } from '../reducers/shop.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  render() {
+  protected render() {
     return html`
       ${ButtonSharedStyles}
       <style>
@@ -54,12 +54,12 @@ class ShopCart extends connect(store)(LitElement) {
   }
 
   @property({type: Array})
-  _items: Array<CartItem> = [];
+  private _items: Array<CartItem> = [];
 
   @property({type: Number})
-  _total = 0;
+  private _total = 0;
 
-  _removeButtonClicked(e: Event) {
+  private _removeButtonClicked(e: Event) {
     store.dispatch(removeFromCart((e.currentTarget as HTMLButtonElement).dataset['index']));
   }
 
