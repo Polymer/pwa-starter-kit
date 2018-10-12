@@ -22,7 +22,6 @@ import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends PageViewElement {
   render() {
-    const {_cart, _products, _error} = this;
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -53,7 +52,7 @@ class MyView3 extends PageViewElement {
 
       <section>
         <h2>State container example: shopping cart</h2>
-        <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(_cart)}</div></div>
+        <div class="cart">${addToCartIcon}<div class="circle small">${this._numItemsInCart(this._cart)}</div></div>
 
         <p>This is a slightly more advanced example, that simulates a
           shopping cart: getting the products, adding/removing items to the
@@ -65,17 +64,17 @@ class MyView3 extends PageViewElement {
       </section>
       <section>
         <h3>Products</h3>
-        <shop-products .products="${_products}"></shop-products>
+        <shop-products .products="${this._products}"></shop-products>
 
         <br>
         <h3>Your Cart</h3>
-        <shop-cart .products="${_products}" .cart="${_cart}"></shop-cart>
+        <shop-cart .products="${this._products}" .cart="${this._cart}"></shop-cart>
 
-        <div>${_error}</div>
+        <div>${this._error}</div>
         <br>
         <p>
-          <button ?hidden="${_cart.addedIds.length == 0}"
-              @click="${() => this.checkout()}">
+          <button ?hidden="${this._cart.addedIds.length == 0}"
+              @click="${this.checkout}">
             Checkout
           </button>
         </p>

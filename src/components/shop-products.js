@@ -33,7 +33,7 @@ class ShopProducts extends LitElement {
             <shop-item name="${item.title}" amount="${item.inventory}" price="${item.price}"></shop-item>
             <button
                 .disabled="${item.inventory === 0}"
-                @click="${(e) => this._addToCart(e)}"
+                @click="${this._addToCart}"
                 data-index="${item.id}"
                 title="${item.inventory === 0 ? 'Sold out' : 'Add to cart' }">
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }

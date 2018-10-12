@@ -33,8 +33,8 @@ class MyView2 extends PageViewElement {
       <section>
         <p>
           <counter-element value="${this._value}" clicks="${this._clicks}"
-              @counter-incremented="${() => this._increment()}"
-              @counter-decremented="${() => this._decrement()}">
+              @counter-incremented="${this._increment}"
+              @counter-decremented="${this._decrement}">
           </counter-element>
         </p>
       </section>

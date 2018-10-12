@@ -28,9 +28,9 @@ class ShopCart extends LitElement {
       ${this._displayCart(this.cart).map((item) =>
         html`
           <div>
-            <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
+            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
-                @click="${(e) => this._removeFromCart(e)}"
+                @click="${this._removeFromCart}"
                 data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
