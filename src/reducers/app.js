@@ -15,7 +15,13 @@ import {
   CLOSE_SNACKBAR,
 } from '../actions/app.js';
 
-const app = (state = {}, action) => {
+const INITIAL_STATE = {
+  page: '',
+  offline: false,
+  snackbarOpened: false,
+};
+
+const app = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {
