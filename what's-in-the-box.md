@@ -17,6 +17,10 @@ The `pwa-starter-kit` is a sample app that's meant to be used as a starting poin
 ## Other templates
 If you already know what you're doing and want a simpler template to start from, we've created several separate templates, with some of the features removed:
 
+### `template-typescript` ([code](https://github.com/Polymer/pwa-starter-kit/tree/template-typescript), [demo](https://pwa-starter-kit.appspot.com/))
+
+This template is the same as the `master` template and it's using `TypeScript`.
+
 ### `template-minimal-ui` ([code](https://github.com/Polymer/pwa-starter-kit/tree/template-minimal-ui), [demo](https://template-minimal-ui-dot-pwa-starter-kit.appspot.com/))
 
 This template uses Redux for state management like the `master` template, but doesn't use any of the `app-layout` elements (`app-header` or `app-drawer`) for the responsive UI.

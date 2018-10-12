@@ -107,7 +107,7 @@ export const store = createStore(
 You can find more details on the `lazyReducerEnhancer` in the [Lazy Loading](#lazy-loading) section.
 
 ### Connecting an element to the store
-An element that is connected should call `store.subscribe` in the constructor, and only update its properties in the `update` method (if it needs to). We use a mixin ([`connect-mixin.js`](https://github.com/Polymer/pwa-helpers/blob/master/connect-mixin.js)) from `pwa-helpers` that does all the connection boilerplate for you, and expects you to implement the `_stateChanged` method. Example use:
+An element that is connected should call `store.subscribe` in the constructor, and only update its properties in the `update` method (if it needs to). We use a mixin ([`connect-mixin.js`](https://github.com/Polymer/pwa-helpers/blob/master/connect-mixin.js)) from `pwa-helpers` that does all the connection boilerplate for you, and expects you to implement the `stateChanged` method. Example use:
 
 ```js
 import { LitElement, html } from '@polymer/lit-element/lit-element.js'
@@ -128,17 +128,17 @@ class MyElement extends connect(store)(LitElement) {
 
   // If you don't implement this method, you will get a
   // warning in the console.
-  _stateChanged(state) {
+  stateChanged(state) {
     this.clicks = state.counter.clicks;
     this.value = state.counter.value;
   }
 }
 ```
 
-Note that `_stateChanged` gets called **any** time the store updates, not when only the things you care about update. So in the example above, `_stateChanged` could be called multiple times without `state.counter.clicks` and `state.counter.value` ever changing. If you're doing any expensive work in `_stateChanged`, such as transforming the data from the Redux store (with something like `Object.values(state.data.someArray)`), consider moving that logic into the `render()` function (which is called only if the properties update), using a selector, or adding some form of dirty checking:
+Note that `stateChanged` gets called **any** time the store updates, not when only the things you care about update. So in the example above, `stateChanged` could be called multiple times without `state.counter.clicks` and `state.counter.value` ever changing. If you're doing any expensive work in `stateChanged`, such as transforming the data from the Redux store (with something like `Object.values(state.data.someArray)`), consider moving that logic into the `render()` function (which is called only if the properties update), using a selector, or adding some form of dirty checking:
 
 ```js
-_stateChanged(state) {
+stateChanged(state) {
   if (this.clicks !== state.counter.clicks) {
     this.clicks = state.counter.clicks;
   }
@@ -229,10 +229,10 @@ store.addReducers({
   counter
 });
 ```
-- Implement the `_stateChanged` method, which is called when anything is updated in the store. Since the store is the source of truth for the 2 properties (rather than `counter-element` itself), any time the Redux store updates we need to update any local properties; this keeps `counter-element` up to-date:
+- Implement the `stateChanged` method, which is called when anything is updated in the store. Since the store is the source of truth for the 2 properties (rather than `counter-element` itself), any time the Redux store updates we need to update any local properties; this keeps `counter-element` up to-date:
 
 ```js
-_stateChanged(state) {
+stateChanged(state) {
   this._clicks = state.counter.clicks;
   this._value = state.counter.value;
 }
@@ -259,9 +259,9 @@ This is a connected element that displays both the list of products, the cart, a
 - One thing to note: in the `src/reducers/shop.js` reducer we use a lot of slice reducers. A slice reducer is responsible for a slice (yes, really) of the whole store (for example, one product item) and updating it. To update the available stock for a specific item ID in the store, we call the `products` slide reducer (to reduce the whole store to just the products), then the `product` slice reducer for the product ID passed in the action.
 
 #### `shop-products.js`
-This element gets the list of products from the store by dispatching the `getAllProducts` action creator. When the store is updated (by fetching the products from a service, for example), its `_stateChanged` method is called, which populates a `products` object. Finally, this object is used to render the list of products.
+This element gets the list of products from the store by dispatching the `getAllProducts` action creator. When the store is updated (by fetching the products from a service, for example), its `stateChanged` method is called, which populates a `products` object. Finally, this object is used to render the list of products.
 - `getAllProducts` is an action creator that simulates getting the data from a service (it doesn't, it gets it from a local object, but that's where you would out that logic). When the data is ready, it dispatches an async `GET_PRODUCTS` action.
-- Note that whenever a product is added to the cart, the `addToCart` action creator is dispatched. This updates both the `products` and `cart` objects in the Redux store, which will in turn call `_stateChanged` in both `shop-products` and `shop-cart`.
+- Note that whenever a product is added to the cart, the `addToCart` action creator is dispatched. This updates both the `products` and `cart` objects in the Redux store, which will in turn call `stateChanged` in both `shop-products` and `shop-cart`.
 - Adding an item to the cart dispatches the `addToCart` action creator, which first double-checks the stock (on the Redux side) before actually adding the item to the cart. This is done to avoid any front-end hacks where you could add more items to the cart than in the stock 😅
 
 #### `shop-cart.js`
