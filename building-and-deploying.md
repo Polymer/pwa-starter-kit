@@ -194,6 +194,17 @@ Create a Firebase config file (`firebase.json`) with the following:
         "source": "**/!(*.*)",
         "destination": "/index.html"
       }
+    ],
+     "headers": [
+      { 
+        "source":"/service-worker.js", 
+        "headers": [
+          {
+            "key": "Cache-Control", 
+            "value": "no-cache"
+          }
+        ] 
+      }
     ]
   }
 }
