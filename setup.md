@@ -7,7 +7,7 @@ This page will take you through the steps you need to do to build and run the sa
 ## Prerequisites
 The app uses [Web Components](https://www.webcomponents.org/introduction), [lit-html](https://github.com/Polymer/lit-html), which is a small library for writing HTML templates with JavaScript string literals, and [lit-element](https://github.com/Polymer/lit-element), a small Web Component base class built on top of it.
 
-This app depends on several [npm](https://www.npmjs.com/) packages, which you must be able to install. Make sure that you've already installed [node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) before moving on to the next step. If you already have `node` installed, make sure you're using the latest version -- we recommend using `v8.0.0` and above. Note that at the moment `v10.0.0` is not supported (we're working on fixing this!).
+This app depends on several [npm](https://www.npmjs.com/) packages, which you must be able to install. Make sure that you've already installed [node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) before moving on to the next step. If you already have `node` installed, make sure you're using the latest version -- we recommend using `v8.0.0` and above.
 
 ## Creating a new app
 To create a new app that uses the `pwa-starter-kit` template:
