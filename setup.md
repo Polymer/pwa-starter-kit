@@ -21,9 +21,9 @@ This will generate the initial project structure inside the `my-app` folder, whi
 my-app
 ├── images
 |   └── ...
-└── src
+├── src
 |   └── ...
-└── test
+├── test
 |   └── ...
 ├── index.html
 ├── README.md
