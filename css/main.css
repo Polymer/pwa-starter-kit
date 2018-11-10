@@ -1,12 +1,16 @@
 /* Theme colors */
 a {
-  color: #6711df;
+  color: #6700DF;
 }
 
-.hero,
+.hero {
+  background: #6700DF;
+  background: linear-gradient(315deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%), linear-gradient(315deg, #AF6AFF 0%, #6700DF 100%);
+}
+
 .main-nav {
-  background: #6711df;
-  background: linear-gradient(175deg, #6711df 0%, #d8bbfa 100%);
+  background: #6700DF;
+  background: linear-gradient(315deg, #AF6AFF 0%, #6700DF 100%);
 }
 
 .hero .hero-title,
