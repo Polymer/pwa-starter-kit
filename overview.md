@@ -1,25 +1,27 @@
 ---
 layout: post
-title: What's in the box?
+title: "Overview: What's in the box?"
 ---
-The `pwa-starter-kit` is a sample app that's meant to be used as a starting point for building PWAs. Out of the box, it gives you the following features:
-- all the PWA goodness (manifest, service worker)
-- a responsive layout
-- application theming
-- example of using Redux for state management
-- offline UI
-- simple routing solution
-- fast time-to-interactive and first-paint through the PRPL pattern
-- easy deployment to prpl-server or static hosting
-- unit and integrating testing starting points
-- documentation about other advanced patterns
+The `pwa-starter-kit` is a set of templates you can use as a starting point for building PWAs. Out of the box, the default template gives you the following features:
+
+- All the PWA goodness (manifest, service worker).
+- A responsive layout.
+- Application theming.
+- Example of using Redux for state management.
+- Offline UI.
+- Simple routing solution.
+- Fast time-to-interactive and first-paint using the PRPL pattern.
+- Easy deployment to prpl-server or static hosting.
+- Unit and integration testing starting points.
+- Documentation about other advanced patterns.
 
 ## Other templates
-If you already know what you're doing and want a simpler template to start from, we've created several separate templates, with some of the features removed:
+
+If you already know what you're doing and want a different template to start from, we've created several separate templates, with different sets of features:
 
 ### `template-typescript` ([code](https://github.com/Polymer/pwa-starter-kit/tree/template-typescript), [demo](https://pwa-starter-kit.appspot.com/))
 
-This template is the same as the `master` template and it's using `TypeScript`.
+This template is the same as the `master` template, but implemented using `TypeScript`.
 
 ### `template-minimal-ui` ([code](https://github.com/Polymer/pwa-starter-kit/tree/template-minimal-ui), [demo](https://template-minimal-ui-dot-pwa-starter-kit.appspot.com/))
 
@@ -34,11 +36,12 @@ This template has the same UI elements as the `master` one (`app-layout` element
 This template is very similar to the `master` template, in the sense that it keeps both Redux for state management, and all of the UI elements. The main difference is that the wide screen layout displays a persistent `app-drawer`, inline with the content.
 
 ## `pwa-helpers`
-A lot of the reusable functionality of `pwa-starter-kit` has already been pulled out as helper methods, into a separate repo. The [`pwa-helpers`](https://github.com/Polymer/pwa-helpers) contains:
-- `router.js`: a very basic router that calls a callback any time the location changes
-- `network.js`: calls a callback whenever the network connectivity of the app changes
-- `metadata.js`: utility method that sets the Twitter card/open graph metadata for a specific page
-- `media-query.js`: calls a callback whenever a media-query matches in response to the viewport size changing
-- `connect-mixin.js`: small mixin that you can add to a Custom Element base class to automatically connect to a Redux store
+A lot of the reusable functionality of `pwa-starter-kit` has already been pulled out as helper methods, into a separate repo. The [`pwa-helpers`](https://github.com/Polymer/pwa-helpers) repo contains:
+
+- `router.js`: A very basic router that calls a callback any time the location changes.
+- `network.js`: Calls a callback whenever the network connectivity of the app changes.
+- `metadata.js`: Utility method that sets the Twitter card/open graph metadata for a specific page.
+- `media-query.js`: Calls a callback whenever a media-query matches in response to the viewport size changing.
+- `connect-mixin.js`: Small mixin that you can add to a Custom Element base class to automatically connect to a Redux store.
 
 Each of these helpers is very small, and can be implemented in many different, bespoke ways. However, they each represent a feature that is often needed across many different applications, so unless you already have a solution planned for your app, you could use one of these.

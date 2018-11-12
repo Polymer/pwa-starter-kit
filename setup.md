@@ -9,8 +9,9 @@ The app uses [Web Components](https://www.webcomponents.org/introduction), [lit-
 
 This app depends on several [npm](https://www.npmjs.com/) packages, which you must be able to install. Make sure that you've already installed [node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) before moving on to the next step. If you already have `node` installed, make sure you're using the latest version -- we recommend using `v8.0.0` and above.
 
-## Creating a new app
-To create a new app that uses the `pwa-starter-kit` template:
+## Create a new app
+
+To create a new app that uses the default `pwa-starter-kit` template:
 ```
 git clone --depth 1 https://github.com/Polymer/pwa-starter-kit my-app
 cd my-app
@@ -35,6 +36,21 @@ my-app
 ├── ... (misc project config files)
 ```
 Checkout the [folder structure]({{site.baseurl}}/configuring-and-personalizing#folder-structure) page for details on what each file is used for.
+
+
+## Alternate templates
+
+To create a new app based on one of the other templates listed in [Other templates]({{site.baseurl}}/overview#other-templates), you can clone the appropriate branch from the `pwa-starter-kit` repo:
+
+```
+git clone --depth 1 -b <template-name> --single-branch https://github.com/Polymer/pwa-starter-kit my-app
+```
+
+For example, to start from Typescript template (`template-typescript`):
+
+```
+git clone --depth 1 -b template-typescript --single-branch https://github.com/Polymer/pwa-starter-kit my-app
+```
 
 ### Installing dependencies
 To install the project's dependencies, run

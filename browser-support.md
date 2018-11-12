@@ -16,7 +16,7 @@ title: Browser support
 
 At the time of writing, Chrome 60, Safari 11.1, and iOS 11.3 natively support all of these features, out of the box. To run `pwa-starter-kit` on other browsers, you need to use a combination of polyfills and transpilation (e.g. babel).
 
-This step is automated by the `npm run build` script for you, but in case you want to roll your own building and bundling strategy, here is an overview of what is needed and where:
+This step is automated for you by the `npm run build` script, but in case you want to roll your own building and bundling strategy, here is an overview of what is needed and where:
 
 Feature  | Action needed | On what browsers|
  ------------ | :-----------: | -----------: |
