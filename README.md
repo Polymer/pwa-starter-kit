@@ -1,6 +1,6 @@
 # PWA Starter Kit Docs
 
-This `gh-pages` branch contains the documentation for the `pwa-starter-kit` project.
+This `docs` branch contains the documentation for the `pwa-starter-kit` project.
 It is a static site rendered via [Jekyll](https://jekyllrb.com/).
 
 The folder structure is roughly this:
@@ -30,11 +30,11 @@ the extra copy to it.
 
 ## Sending a PR for the docs
 Most of the time if you want to send a PR to update the documentation, you'll want to update one of the `.md` files.
-Make sure that when sending the PR, the base branch is `gh-pages`:
+Make sure that when sending the PR, the base branch is `docs`:
 
-<img width="412" alt="screenshot of github base branches" src="https://user-images.githubusercontent.com/1369170/41371519-716b430a-6eff-11e8-8bc6-8e3789bb7079.png">
+<img width="412" alt="screenshot of github base branches" src="https://user-images.githubusercontent.com/116360/48451621-031e6380-e760-11e8-8841-4d29c7914e4f.png">
 
-## Running locally  
+## Running locally
 You need to first have `ruby` and the `jekyll` gem installed on your computer. Installing `ruby` on your computer might differ,
 and as JavaScript developers, we're not confident enough to recommend you a preferred method (thought [rvm](https://rvm.io/) and [rbenv](https://github.com/rbenv/rbenv) are two popular approaches). Once you've set things up, you can run the
 site via
