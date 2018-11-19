@@ -196,14 +196,14 @@ Create a Firebase config file (`firebase.json`) with the following:
       }
     ],
      "headers": [
-      { 
-        "source":"/service-worker.js", 
+      {
+        "source":"/service-worker.js",
         "headers": [
           {
-            "key": "Cache-Control", 
+            "key": "Cache-Control",
             "value": "no-cache"
           }
-        ] 
+        ]
       }
     ]
   }
@@ -242,4 +242,4 @@ build/
 └── ...
 ```
 
-By default, all of the source files (inside the `/src` directory) will be pre-cached, as specified in the [`sw-precache-config.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/sw-precache-config.js) configuration file. If you want to change this behaviour, check out the [`sw-precache-config` docs](https://www.polymer-project.org/2.0/toolbox/service-worker).
+By default, all of the source files (inside the `/src` directory) will be pre-cached, as specified in the [`sw-precache-config.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/sw-precache-config.js) configuration file. If you want to change this behaviour, check out the [`sw-precache-config` docs](https://www.polymer-project.org/3.0/toolbox/service-worker).

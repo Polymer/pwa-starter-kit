@@ -63,10 +63,10 @@ my-app
 - `test/` is the directory with all of your tests. it's split in `unit` tests (that are run across different browsers), and `integration` tests, that just run on headless Chrome to ensure that the end-to-end application runs and is accessible. Check out the [application testing]({{site.baseurl}}/application-testing) page for more information.
 - `index.html` is your application's starting point. It's where you load your polyfills and the main entry point element.
 - `package.json`: the `npm` configuration file, where you specify your dependencies. Make sure you run `npm install` any time you make any changes to this file.
-- `polymer.json`: the `polymer cli` configuration file, that specifies how your project should be bundled, what's included in the service worker, etc. ([docs](https://www.polymer-project.org/2.0/docs/tools/polymer-json)).
+- `polymer.json`: the `polymer cli` configuration file, that specifies how your project should be bundled, what's included in the service worker, etc. ([docs](https://www.polymer-project.org/3.0/docs/tools/polymer-json)).
 - `manifest.json` is the PWA [metadata file](https://developers.google.com/web/fundamentals/web-app-manifest/). It contains the name, theme color and logos for your app, that are used whenever a user adds your application to the homescreen.
-- `service-worker.js` is a placeholder file for your Service Worker. In each build directory, the `polymer cli` will populate this file with [actual contents](https://www.polymer-project.org/2.0/toolbox/service-worker), but during development it is disabled.
-- `sw-precache-config.js` is a [configuration file](https://www.polymer-project.org/2.0/toolbox/service-worker) that sets up the precaching behaviour of the Service Worker (such as which files to be precached, the navigation fallback, etc.).
+- `service-worker.js` is a placeholder file for your Service Worker. In each build directory, the `polymer cli` will populate this file with [actual contents](https://www.polymer-project.org/3.0/toolbox/service-worker), but during development it is disabled.
+- `sw-precache-config.js` is a [configuration file](https://www.polymer-project.org/3.0/toolbox/service-worker) that sets up the precaching behaviour of the Service Worker (such as which files to be precached, the navigation fallback, etc.).
 - `wct.conf.json` is the [web-component-tester](https://github.com/Polymer/web-component-tester) configuration file, that specifies the folder to run tests from, etc.
 - `.travis.yml` sets up the integration testing we run on every commit on [Travis](https://docs.travis-ci.com/user/customizing-the-build/).
 
@@ -309,7 +309,7 @@ To get around that, the views inherit from a [`PageViewElement`](https://github.
 If this isn't the behaviour you want, and you want hidden pages to update behind the scenes, then all you have to do is change the view's base class back to `LitElement` (i.e. changing [this line](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view1.js#L17)). Just look out for those side effects!
 
 ## Routing
-The app uses a very [basic router](https://github.com/Polymer/pwa-helpers/blob/master/router.js), that listens to changes to the `window.location`. You install the router by passing it a callback, which is a function that will be called any time the location changes:
+The app uses a very [basic router](https://github.com/Polymer/pwa-helpers/blob/master/src/router.ts), that listens to changes to the `window.location`. You install the router by passing it a callback, which is a function that will be called any time the location changes:
 
 ```js
 installRouter((location) => this._locationChanged(location));
