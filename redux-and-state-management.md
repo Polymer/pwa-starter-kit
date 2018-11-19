@@ -367,7 +367,7 @@ Most third-party components were not written to be used in an immutable way, and
   - Listen to change events as above to dispatch an action to update the store.
 
 ### Routing
-With Redux, you're basically on your own for routing. However, we have provided a [helper router](https://github.com/Polymer/pwa-helpers/blob/master/router.js) to get you started. Our suggestion is to update the location state based on `window.location`. That is, whenever a link is clicked (or the user navigates back), an action is dispatched to update the state based on the location. This works well with time-travel debugging - jumping to a previous state doesn't affect the URL bar or history stack.
+With Redux, you're basically on your own for routing. However, we have provided a [helper router](https://github.com/Polymer/pwa-helpers/blob/master/src/router.ts) to get you started. Our suggestion is to update the location state based on `window.location`. That is, whenever a link is clicked (or the user navigates back), an action is dispatched to update the state based on the location. This works well with time-travel debugging - jumping to a previous state doesn't affect the URL bar or history stack.
 
 Example of installing and using the router:
 
@@ -400,7 +400,7 @@ class MyApp extends connect(store)(LitElement) {
 ### Lazy loading
 One of the main aspects of the PRPL pattern is lazy loading your application's components as they are needed. If one of these lazy-loaded elements is connected to the store, then your app needs to be able to lazy load that element's reducers as well.
 
-There are many ways in which you can do this. We've implemented one of them as a [helper](https://github.com/Polymer/pwa-helpers/blob/master/lazy-reducer-enhancer.js), which can be added to the store:
+There are many ways in which you can do this. We've implemented one of them as a [helper](https://github.com/Polymer/pwa-helpers/blob/master/src/lazy-reducer-enhancer.ts), which can be added to the store:
 ```js
 import lazyReducerEnhancer from '@polymer/pwa-helpers/lazy-reducer-enhancer.js';
 
