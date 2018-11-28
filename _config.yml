@@ -1,4 +1,7 @@
 permalink: /:title/
 name: PWA Starter Kit
 description: Starter templates for building full-featured Progressive Web Apps from web components
+markdown: kramdown
+kramdown: 
+  parse_block_html: true
 google_analytics: UA-39334307-23
