@@ -31,7 +31,6 @@ class MainPage(webapp2.RequestHandler):
     except jinja2.exceptions.TemplateNotFound:
       template = find_template('/404.html')
       self.response.set_status(404)
-      self.response.headers['Cache-Control'] = 'public, max-age=60'
     except Exception:
       template = find_template('/500.html')
       self.response.set_status(500)
