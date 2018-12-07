@@ -211,10 +211,12 @@ To take advantage of HTTP/2 server push, you need to specify what scripts are ne
 {
   "/view4": {
     "src/components/my-app.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
     "src/components/my-view4.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
