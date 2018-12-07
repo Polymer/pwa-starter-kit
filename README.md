@@ -18,7 +18,7 @@ gives you the following features:
 
 This template uses Redux for state management like the `master` template, but doesn't use any of the `app-layout` elements (app-header or app-drawer) for the responsive UI.
 
-### 📖 Head over to the [documentation site](https://polymer.github.io/pwa-starter-kit/) for more details or check out [how to get started](https://polymer.github.io/pwa-starter-kit/setup/)!
+### 📖 Head over to the [documentation site](https://pwa-starter-kit.polymer-project.org/) for more details or check out [how to get started](https://pwa-starter-kit.polymer-project.org/setup/)!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/116360/39716939-a353c706-51e6-11e8-972b-e006d25817ce.png)
 
