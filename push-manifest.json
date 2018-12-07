@@ -1,10 +1,12 @@
 {
   "/": {
     "src/components/my-app.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
     "src/components/my-view1.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
@@ -15,10 +17,12 @@
   },
   "/view1": {
     "src/components/my-app.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
     "src/components/my-view1.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
@@ -29,10 +33,12 @@
   },
   "/view2": {
     "src/components/my-app.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
     "src/components/my-view2.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
@@ -43,10 +49,12 @@
   },
   "/view3": {
     "src/components/my-app.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
     "src/components/my-view3.js": {
+      "crossorigin": "anonymous",
       "type": "script",
       "weight": 1
     },
