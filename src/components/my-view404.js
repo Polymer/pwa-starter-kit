@@ -15,7 +15,7 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView404 extends PageViewElement {
-  _render(props) {
+  render() {
     return html`
       ${SharedStyles}
       <section>

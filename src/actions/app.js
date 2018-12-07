@@ -61,14 +61,14 @@ export const showSnackbar = () => (dispatch) => {
   dispatch({
     type: OPEN_SNACKBAR
   });
-  clearTimeout(snackbarTimer);
-  snackbarTimer = setTimeout(() =>
+  window.clearTimeout(snackbarTimer);
+  snackbarTimer = window.setTimeout(() =>
     dispatch({ type: CLOSE_SNACKBAR }), 3000);
 };
 
 export const updateOffline = (offline) => (dispatch, getState) => {
-  // Show the snackbar, unless this is the first load of the page.
-  if (getState().app.offline !== undefined) {
+  // Show the snackbar only if offline status changes.
+  if (offline !== getState().app.offline) {
     dispatch(showSnackbar());
   }
   dispatch({
@@ -77,17 +77,9 @@ export const updateOffline = (offline) => (dispatch, getState) => {
   });
 };
 
-export const updateLayout = (wide) => (dispatch, getState) => {
-  if (getState().app.drawerOpened) {
-    dispatch(updateDrawerState(false));
-  }
-};
-
-export const updateDrawerState = (opened) => (dispatch, getState) => {
-  if (getState().app.drawerOpened !== opened) {
-    dispatch({
-      type: UPDATE_DRAWER_STATE,
-      opened
-    });
-  }
+export const updateDrawerState = (opened) => {
+  return {
+    type: UPDATE_DRAWER_STATE,
+    opened
+  };
 };

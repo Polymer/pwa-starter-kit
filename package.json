@@ -1,6 +1,6 @@
 {
   "name": "pwa-starter-kit",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "contributors": [
     "The Polymer Authors"
   ],
@@ -21,27 +21,29 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-    "@polymer/app-layout": "^3.0.0-pre.19",
-    "@polymer/lit-element": "^0.5.2",
+    "@polymer/app-layout": "^3.0.0",
+    "@polymer/lit-element": "^0.6.2",
+    "@polymer/polymer": "^3.1.0",
     "@webcomponents/webcomponentsjs": "^2.0.0",
-    "pwa-helpers": "^0.8.2",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "pwa-helpers": "^0.9.0",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
+    "@polymer/test-fixture": "^4.0.2",
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "gulp": "^4.0.0",
-    "gulp-rename": "^1.2.3",
+    "gulp-rename": "^1.3.0",
     "gulp-replace": "^1.0.0",
-    "mocha": "^5.1.0",
+    "mocha": "^5.2.0",
     "pixelmatch": "^4.0.2",
-    "polymer-cli": "^1.7.4",
+    "polymer-cli": "^1.9.2",
     "polyserve": "^0.27.0",
-    "prpl-server": "^1.1.0",
-    "puppeteer": "^1.4.0",
-    "wct-browser-legacy": "^1.0.1"
+    "prpl-server": "^1.3.0",
+    "puppeteer": "^1.5.0",
+    "wct-mocha": "^1.0.0"
   }
 }
