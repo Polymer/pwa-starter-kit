@@ -2,8 +2,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { htmlTransform } = require('polymer-build/lib/html-transform');
 const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elements-es5-adapter');
 
-// TODO: Fix babel transpilation step.
-const USE_BABEL = false;
+
+/**
+ * Set `USE_BABEL` to false if Babel transpilation isn't needed (i.e. all your
+ * target browsers support all the language features used in your source code).
+ */
+const USE_BABEL = true;
+
 
 class WebcomponentsjsHtmlWebpackPlugin {
   apply(compiler) {
@@ -16,16 +21,17 @@ class WebcomponentsjsHtmlWebpackPlugin {
 
           data.html = htmlTransform(data.html, {
             js: {
-              // transformModulesToAmd: true
+              minify: true
             },
-            minifyHtml: true
-          })
+            minifyHtml: true,
+            injectRegeneratorRuntime: USE_BABEL
+          });
 
           if (USE_BABEL) {
             data.html = addCustomElementsEs5Adapter(data.html);
           }
   
-          cb(null, data)
+          cb(null, data);
         }
       );
     });
@@ -55,13 +61,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              'babel-preset-es2015'
-            ],
-            plugins: [
-              'syntax-dynamic-import',
-              'transform-object-rest-spread'
-            ]
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-syntax-dynamic-import']
           }
         }
       }
