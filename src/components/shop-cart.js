@@ -28,37 +28,41 @@ import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
-  _render({_items, _total}) {
+  render() {
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
-      <p hidden="${_items.length !== 0}">Please add some products to cart.</p>
-      ${_items.map((item) =>
+      <p ?hidden="${this._items.length !== 0}">Please add some products to cart.</p>
+      ${this._items.map((item) =>
         html`
           <div>
-            <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
+            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
-                on-click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
-                data-index$="${item.id}"
+                @click="${this._removeButtonClicked}"
+                data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
             </button>
           </div>
         `
       )}
-      <p hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
+      <p ?hidden="${!this._items.length}"><b>Total:</b> ${this._total}</p>
     `;
   }
 
   static get properties() { return {
-    _items: Array,
-    _total: Number
+    _items: { type: Array },
+    _total: { type: Number }
   }}
 
+  _removeButtonClicked(e) {
+    store.dispatch(removeFromCart(e.currentTarget.dataset['index']));
+  }
+
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  stateChanged(state) {
     this._items = cartItemsSelector(state);
     this._total = cartTotalSelector(state);
   }
