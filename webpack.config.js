@@ -2,7 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { htmlTransform } = require('polymer-build/lib/html-transform');
 const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elements-es5-adapter');
 
-const es2015 = true;
+// TODO: Fix babel transpilation step.
+const USE_BABEL = false;
 
 class WebcomponentsjsHtmlWebpackPlugin {
   apply(compiler) {
@@ -20,7 +21,7 @@ class WebcomponentsjsHtmlWebpackPlugin {
             minifyHtml: true
           })
 
-          if (es2015) {
+          if (USE_BABEL) {
             data.html = addCustomElementsEs5Adapter(data.html);
           }
   
@@ -47,7 +48,7 @@ module.exports = {
   },
   mode: 'production',
   module: {
-    rules: es2015 ? [
+    rules: USE_BABEL ? [
       {
         test: /\.js$/,
         exclude: /webcomponentsjs/,
