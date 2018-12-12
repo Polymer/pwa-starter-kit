@@ -275,6 +275,46 @@ section p {
   justify-content: center;
 }
 
+/* Section features */
+#section-features h3 {
+  position: absolute;
+  left: 94px;
+  top: 0px;
+  width: 180px;
+  height: 80px;
+  margin: 0px 0px;
+  color: #6700DF;
+}
+
+#section-features .responsive-row > div {
+  flex: 1;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+#section-features .responsive-row > div:before {
+  content: "";
+  background: #6700DF;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: block;
+  z-index: -1;
+  position: absolute;
+}
+
+#section-features svg {
+  fill: white;
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+}
+
+/* Browser support */
+#browser-thumbnails img {
+  margin: 0 16px 0 0;
+}
+
 /* Main/left nav */
 .side-nav {
   /* position: sticky works in Chrome, Firefox, Safari and Edge;

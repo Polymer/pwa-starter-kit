@@ -32,43 +32,6 @@ h1 {
   content: url('data:image/svg+xml; utf8, <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="%23FFFFFF"><path d="M21.5 12.495L16 18h-3l4.498-4.5H3v-2h14.498L13 7h3z"/></svg>');
 }
 
-#section-features h3 {
-  position: absolute;
-  left: 94px;
-  top: 0px;
-  width: 180px;
-  height: 80px;
-  margin: 0px 0px;
-  color: #6700DF;
-}
-
-#section-features .responsive-row > div {
-  flex: 1;
-  position: relative;
-  margin-bottom: 24px;
-}
-
-#section-features .responsive-row > div:before {
-  content: "";
-  background: #6700DF;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: block;
-  z-index: -1;
-  position: absolute;
-}
-
-#section-features svg {
-  fill: white;
-  width: 40px;
-  height: 40px;
-  margin: 10px;
-}
-
-#browser-thumbnails img {
-  margin: 0 16px 0 0;
-}
 
 @media screen and (max-width: 1160px) {
   #section-features .responsive-row > div {
