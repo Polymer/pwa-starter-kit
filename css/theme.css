@@ -31,24 +31,3 @@ h1 {
 .hero-link.link-with-arrow::before {
   content: url('data:image/svg+xml; utf8, <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="%23FFFFFF"><path d="M21.5 12.495L16 18h-3l4.498-4.5H3v-2h14.498L13 7h3z"/></svg>');
 }
-
-
-@media screen and (max-width: 1160px) {
-  #section-features .responsive-row > div {
-    flex: 0 0 calc(50% - 32px);
-  }
-}
-
-@media screen and (max-width: 640px) {
-  #section-features h2 {
-    left: 92px;
-  }
-  #section-features .responsive-row > div:before {
-    width: 52px;
-    height: 52px;
-  }
-  #section-features svg {
-    width: 32px;
-    height: 32px;
-  }
-}

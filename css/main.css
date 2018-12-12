@@ -473,8 +473,6 @@ th, td {
 }
 /* TODO: figure out if above rules are still needed */
 
-
-
 @media screen and (min-width: 1400px) {
   .wrapper {
     margin-left: auto;
@@ -501,6 +499,9 @@ th, td {
   }
   .responsive-row > * {
     padding: 0 12px;
+  }
+  #section-features .responsive-row > div {
+    flex: 0 0 calc(50% - 32px);
   }
   .side-nav {
     padding: 32px 24px 32px 0;
@@ -573,6 +574,18 @@ th, td {
     margin-right: 12px;
     width: 38px;
     height: 26px;
+  }
+
+  #section-features h2 {
+    left: 92px;
+  }
+  #section-features .responsive-row > div:before {
+    width: 52px;
+    height: 52px;
+  }
+  #section-features svg {
+    width: 32px;
+    height: 32px;
   }
 
   /* doc page */
