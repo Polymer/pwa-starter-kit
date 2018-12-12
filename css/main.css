@@ -49,8 +49,8 @@ h2.center.description {
 }
 h2.description {
   margin-top: 20px;
-  margin-bottom: 40px;
-  max-width: 560px;
+  margin-bottom: 24px;
+  max-width: 600px;
   color: #999;
 }
 
@@ -172,6 +172,7 @@ time {
   width: 24px;
   height: 24px;
   background-size: cover;
+  display: block;
 }
 
 /* Content area */
