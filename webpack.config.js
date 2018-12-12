@@ -1,3 +1,14 @@
+/**
+@license
+Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { htmlTransform } = require('polymer-build/lib/html-transform');
 const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elements-es5-adapter');
@@ -7,7 +18,7 @@ const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elemen
  * Set `USE_BABEL` to false if Babel transpilation isn't needed (i.e. all your
  * target browsers support all the language features used in your source code).
  */
-const USE_BABEL = true;
+const USE_BABEL = false;
 
 
 class WebcomponentsjsHtmlWebpackPlugin {
@@ -40,13 +51,6 @@ class WebcomponentsjsHtmlWebpackPlugin {
 
 module.exports = {
   entry: {
-    'node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter': '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js',
-    'node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle': '@webcomponents/webcomponentsjs/webcomponents-bundle.js',
-    'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader': '@webcomponents/webcomponentsjs/webcomponents-loader.js',
-    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce': '@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js',
-    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd': '@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js',
-    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce': '@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js',
-    'node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf': '@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js',
     'src/components/my-app': './src/components/my-app.js'
   },
   devServer: {
@@ -69,6 +73,11 @@ module.exports = {
     ] : []
   },
   plugins: [
+    new CopyWebpackPlugin([
+      { from: 'images', to: 'images' },
+      { from: 'node_modules/@webcomponents/webcomponentsjs', to: 'node_modules/@webcomponents/webcomponentsjs' },
+      { from: 'manifest.json', to: 'manifest.json' },
+    ]),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       inject: false,
