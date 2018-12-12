@@ -12,6 +12,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { htmlTransform } = require('polymer-build/lib/html-transform');
 const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elements-es5-adapter');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 
 /**
@@ -83,6 +84,24 @@ module.exports = {
       inject: false,
       template: 'index.html'
     }),
-    new WebcomponentsjsHtmlWebpackPlugin()
+    new WebcomponentsjsHtmlWebpackPlugin(),
+    new WorkboxWebpackPlugin.GenerateSW({
+      include: ['index.html', 'manifest.json', /^src\/.*.js$/],
+      exclude: [],
+      navigateFallback: 'index.html',
+      swDest: 'service-worker.js',
+      clientsClaim: true,
+      skipWaiting: true,
+      runtimeCaching: [
+        {
+          urlPattern: /\/@webcomponents\/webcomponentsjs\//,
+          handler: 'staleWhileRevalidate'
+        },
+        {
+          urlPattern: /^https:\/\/fonts.gstatic.com\//,
+          handler: 'staleWhileRevalidate'
+        }
+      ]
+    })
   ]
 };
