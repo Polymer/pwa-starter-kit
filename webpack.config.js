@@ -10,68 +10,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { htmlTransform } = require('polymer-build/lib/html-transform');
-const { addCustomElementsEs5Adapter } = require('polymer-build/lib/custom-elements-es5-adapter');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
-
-/**
- * Set `USE_BABEL` to false if Babel transpilation isn't needed (i.e. all your
- * target browsers support all the language features used in your source code).
- */
-const USE_BABEL = false;
-
-
-class WebcomponentsjsHtmlWebpackPlugin {
-  apply(compiler) {
-    compiler.hooks.compilation.tap('WebcomponentsjsHtmlWebpackPlugin', (compilation) => {
-      compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync(
-        'WebcomponentsjsHtmlWebpackPlugin',
-        (data, cb) => {
-          // Source uses modules, but Webpack will output regular script.
-          data.html = data.html.replace(' type="module"', '');
-
-          data.html = htmlTransform(data.html, {
-            js: {
-              minify: true
-            },
-            minifyHtml: true,
-            injectRegeneratorRuntime: USE_BABEL
-          });
-
-          if (USE_BABEL) {
-            data.html = addCustomElementsEs5Adapter(data.html);
-          }
-  
-          cb(null, data);
-        }
-      );
-    });
-  }
-}
-
 module.exports = {
-  entry: {
-    'src/components/my-app': './src/components/my-app.js'
-  },
   devServer: {
     historyApiFallback: true
   },
   mode: 'production',
   module: {
-    rules: USE_BABEL ? [
+    rules: [
       {
         test: /\.js$/,
-        exclude: /webcomponentsjs/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: [
+              ['@babel/preset-env', {targets: {ie: '11'}}]
+            ],
             plugins: ['@babel/plugin-syntax-dynamic-import']
           }
         }
       }
-    ] : []
+    ]
   },
   plugins: [
     new CopyWebpackPlugin([
@@ -81,13 +41,11 @@ module.exports = {
     ]),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
-      inject: false,
       template: 'index.html'
     }),
-    new WebcomponentsjsHtmlWebpackPlugin(),
     new WorkboxWebpackPlugin.GenerateSW({
-      include: ['index.html', 'manifest.json', /^src\/.*.js$/],
-      exclude: [],
+      include: ['index.html', 'manifest.json', /\.js$/],
+      exclude: [/\/@webcomponents\/webcomponentsjs\//],
       navigateFallback: 'index.html',
       swDest: 'service-worker.js',
       clientsClaim: true,
