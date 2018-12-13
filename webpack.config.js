@@ -35,9 +35,9 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: 'images', to: 'images' },
-      { from: 'node_modules/@webcomponents/webcomponentsjs', to: 'node_modules/@webcomponents/webcomponentsjs' },
-      { from: 'manifest.json', to: 'manifest.json' },
+      'images/**',
+      'node_modules/@webcomponents/webcomponentsjs/**',
+      'manifest.json'
     ]),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
