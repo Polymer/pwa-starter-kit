@@ -13,7 +13,8 @@ import {
   UPDATE_OFFLINE,
   OPEN_SNACKBAR,
   CLOSE_SNACKBAR,
-  UPDATE_DRAWER_STATE
+  UPDATE_DRAWER_STATE,
+  UPDATE_WIDE_LAYOUT
 } from '../actions/app.js';
 
 const INITIAL_STATE = {
@@ -21,6 +22,7 @@ const INITIAL_STATE = {
   offline: false,
   drawerOpened: false,
   snackbarOpened: false,
+  wideLayout: false,
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -49,6 +51,11 @@ const app = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         snackbarOpened: false
+      };
+    case UPDATE_WIDE_LAYOUT:
+      return {
+        ...state,
+        wideLayout: action.wideLayout
       };
     default:
       return state;

@@ -20,9 +20,7 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-    "@polymer/app-layout": "^3.0.0",
     "@polymer/lit-element": "^0.6.5",
-    "@polymer/polymer": "^3.1.0",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "pwa-helpers": "^0.9.0",
     "redux": "^4.0.0",

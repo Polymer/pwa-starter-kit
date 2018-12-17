@@ -13,6 +13,7 @@ export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const UPDATE_WIDE_LAYOUT = 'UPDATE_WIDE_LAYOUT';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -82,4 +83,12 @@ export const updateDrawerState = (opened) => {
     type: UPDATE_DRAWER_STATE,
     opened
   };
+};
+
+export const updateWideLayout = (wideLayout) => (dispatch) => {
+  dispatch({
+    type: UPDATE_WIDE_LAYOUT,
+    wideLayout
+  })
+  dispatch(updateDrawerState(false));
 };

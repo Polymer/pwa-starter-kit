@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { installOfflineWatcher } from 'pwa-helpers/network.js';
@@ -23,14 +22,13 @@ import { store } from '../store.js';
 import {
   navigate,
   updateOffline,
-  updateDrawerState
+  updateDrawerState,
+  updateWideLayout
 } from '../actions/app.js';
 
 // These are the elements needed by this element.
-import '@polymer/app-layout/app-drawer/app-drawer.js';
-import '@polymer/app-layout/app-header/app-header.js';
-import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
-import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '@material/mwc-drawer';
+import '@material/mwc-top-app-bar';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
@@ -40,7 +38,6 @@ class MyApp extends connect(store)(LitElement) {
     return html`
     <style>
       :host {
-        --app-drawer-width: 256px;
         display: block;
 
         --app-primary-color: #E91E63;
@@ -59,33 +56,20 @@ class MyApp extends connect(store)(LitElement) {
         --app-drawer-selected-color: #78909C;
       }
 
-      app-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        background-color: var(--app-header-background-color);
-        color: var(--app-header-text-color);
-        border-bottom: 1px solid #eee;
+      mwc-top-app-bar {
+        --mdc-theme-primary: var(--app-header-background-color);
       }
 
-      .toolbar-top {
-        background-color: var(--app-header-background-color);
-      }
-
-      [main-title] {
+      .main-title {
         font-family: 'Pacifico';
-        text-transform: lowercase;
         font-size: 30px;
-        /* In the narrow layout, the toolbar is offset by the width of the
-        drawer button, and the text looks not centered. Add a padding to
-        match that button */
-        padding-right: 44px;
+        line-height: 2em;
+        color: var(--app-header-text-color);
       }
 
       .toolbar-list {
-        display: none;
+        align-self: flex-end;
+        margin: 0 auto;
       }
 
       .toolbar-list > a {
@@ -156,53 +140,43 @@ class MyApp extends connect(store)(LitElement) {
         text-align: center;
       }
 
-      /* Wide layout: when the viewport width is bigger than 460px, layout
+      /* Wide layout: when the viewport width is bigger than 600px, layout
       changes to a wide layout. */
-      @media (min-width: 460px) {
-        .toolbar-list {
-          display: block;
-        }
-
+      @media (min-width: 600px) {
         .menu-btn {
           display: none;
         }
 
         .main-content {
-          padding-top: 107px;
-        }
-
-        /* The drawer button isn't shown in the wide layout, so we don't
-        need to offset the title */
-        [main-title] {
-          padding-right: 0px;
+          padding-top: 128px;
         }
       }
     </style>
 
     <!-- Header -->
-    <app-header condenses reveals effects="waterfall">
-      <app-toolbar class="toolbar-top">
-        <button class="menu-btn" title="Menu" @click="${this._menuButtonClicked}">${menuIcon}</button>
-        <div main-title>${this.appTitle}</div>
-      </app-toolbar>
+    <mwc-top-app-bar .extraRow="${this._wideLayout}">
+      <button slot="navigationIcon" class="menu-btn" title="Menu"
+          @click="${this._menuButtonClicked}">${menuIcon}</button>
+      <div slot="title" class="main-title">${this.appTitle}</div>
 
       <!-- This gets hidden on a small screen-->
-      <nav class="toolbar-list">
+      <nav slot="extraRow" class="toolbar-list">
         <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
         <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
         <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
       </nav>
-    </app-header>
+    </mwc-top-app-bar>
 
     <!-- Drawer content -->
-    <app-drawer .opened="${this._drawerOpened}"
-        @opened-changed="${this._drawerOpenedChanged}">
+    <mwc-drawer type="modal" .open="${this._drawerOpened}"
+        @MDCDrawer:opened="${this._drawerOpenedChanged}"
+        @MDCDrawer:closed="${this._drawerOpenedChanged}">
       <nav class="drawer-list">
         <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
         <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
         <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
       </nav>
-    </app-drawer>
+    </mwc-drawer>
 
     <!-- Main content -->
     <main role="main" class="main-content">
@@ -227,22 +201,16 @@ class MyApp extends connect(store)(LitElement) {
       _page: { type: String },
       _drawerOpened: { type: Boolean },
       _snackbarOpened: { type: Boolean },
-      _offline: { type: Boolean }
+      _offline: { type: Boolean },
+      _wideLayout: { type: Boolean }
     }
-  }
-
-  constructor() {
-    super();
-    // To force all event listeners for gestures to be passive.
-    // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
-    setPassiveTouchGestures(true);
   }
 
   firstUpdated() {
     installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-    installMediaQueryWatcher(`(min-width: 460px)`,
-        () => store.dispatch(updateDrawerState(false)));
+    installMediaQueryWatcher(`(min-width: 600px)`,
+        (matches) => store.dispatch(updateWideLayout(matches)));
   }
 
   updated(changedProps) {
@@ -261,7 +229,7 @@ class MyApp extends connect(store)(LitElement) {
   }
 
   _drawerOpenedChanged(e) {
-    store.dispatch(updateDrawerState(e.target.opened));
+    store.dispatch(updateDrawerState(e.target.open));
   }
 
   stateChanged(state) {
@@ -269,6 +237,7 @@ class MyApp extends connect(store)(LitElement) {
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;
     this._drawerOpened = state.app.drawerOpened;
+    this._wideLayout = state.app.wideLayout;
   }
 }
 

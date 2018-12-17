@@ -18,7 +18,7 @@ export const SharedStyles = html`
   }
 
   section {
-    padding: 24px;
+    padding: 16px;
     background: var(--app-section-odd-color);
   }
 
@@ -38,7 +38,11 @@ export const SharedStyles = html`
     color: var(--app-dark-text-color);
   }
 
-  @media (min-width: 460px) {
+  @media (min-width: 600px) {
+    section {
+      padding: 24px;
+    }
+
     h2 {
       font-size: 36px;
     }
