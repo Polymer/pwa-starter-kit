@@ -8,10 +8,9 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "polymer serve",
-    "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
+    "build": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
-    "serve:prpl-server": "prpl-server --root server/build",
+    "serve": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
