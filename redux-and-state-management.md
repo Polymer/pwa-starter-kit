@@ -107,7 +107,7 @@ export const store = createStore(
 You can find more details on the `lazyReducerEnhancer` in the [Lazy Loading](#lazy-loading) section.
 
 ### Connecting an element to the store
-An element that is connected should call `store.subscribe` in the constructor, and only update its properties in the `update` method (if it needs to). We use a mixin ([`connect-mixin.js`](https://github.com/Polymer/pwa-helpers/blob/master/connect-mixin.js)) from `pwa-helpers` that does all the connection boilerplate for you, and expects you to implement the `stateChanged` method. Example use:
+An element that is connected should call `store.subscribe` in the constructor, and only update its properties in the change listener passed as the first and only argument (if it needs to). We use a mixin ([`connect-mixin.js`](https://github.com/Polymer/pwa-helpers/blob/master/connect-mixin.js)) from `pwa-helpers` that does all the connection boilerplate for you, and expects you to implement the `stateChanged` method. Example use:
 
 ```js
 import { LitElement, html } from '@polymer/lit-element/lit-element.js'
