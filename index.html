@@ -111,6 +111,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <!-- Built with love using PWA Starter Kit -->
-    <script type="module" src="src/components/my-app.js"></script>
+    <!-- Use modules only when dynamic import is available. Pattern used by
+    https://github.com/rollup/rollup-starter-code-splitting. -->
+    <script>
+      import('./src/components/my-app.js');
+      window.supportsDynamicImport = true;
+    </script>
+    <script>
+      if (!window.supportsDynamicImport) {
+        const systemJsLoaderTag = document.createElement('script');
+        systemJsLoaderTag.src = 'node_modules/systemjs/dist/s.min.js';
+        systemJsLoaderTag.addEventListener('load', function () {
+          System.import('./src_nomodule/components/my-app.js');
+        });
+        document.head.appendChild(systemJsLoaderTag);
+      }
+    </script>
   </body>
 </html>

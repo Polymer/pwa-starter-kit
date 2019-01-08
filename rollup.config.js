@@ -12,10 +12,16 @@ import resolve from 'rollup-plugin-node-resolve';
 
 export default {
   input: './src/components/my-app.js',
-  output: {
-    dir: 'public/src/components',
-    format: 'esm'
-  },
+  output: [
+    {
+      dir: 'public/src/components',
+      format: 'esm'
+    },
+    {
+      dir: 'public/src_nomodule/components',
+      format: 'system'
+    }
+  ],
   plugins: [
     resolve({
       // use "jsnext:main" if possible

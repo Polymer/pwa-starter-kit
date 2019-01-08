@@ -49,6 +49,7 @@ gulp.task('rollup', () => {
   return gulp.src([
       'images/**',
       'node_modules/@webcomponents/webcomponentsjs/**',
+      'node_modules/systemjs/dist/s.min.js',
       'index.html',
       'manifest.json'
     ], {base: '.'})
