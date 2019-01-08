@@ -23,8 +23,7 @@ import { store } from '../store.js';
 import {
   navigate,
   updateOffline,
-  updateDrawerState,
-  updateLayout
+  updateDrawerState
 } from '../actions/app.js';
 
 // These are the elements needed by this element.
@@ -36,7 +35,7 @@ import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
 
 class MyApp extends connect(store)(LitElement) {
-  _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline}) {
+  render() {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
@@ -183,81 +182,89 @@ class MyApp extends connect(store)(LitElement) {
     <!-- Header -->
     <app-header condenses reveals effects="waterfall">
       <app-toolbar class="toolbar-top">
-        <button class="menu-btn" title="Menu" on-click="${_ => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
-        <div main-title>${appTitle}</div>
+        <button class="menu-btn" title="Menu" @click="${this._menuButtonClicked}">${menuIcon}</button>
+        <div main-title>${this.appTitle}</div>
       </app-toolbar>
 
       <!-- This gets hidden on a small screen-->
       <nav class="toolbar-list">
-        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
+        <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
+        <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
+        <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-header>
 
     <!-- Drawer content -->
-    <app-drawer opened="${_drawerOpened}"
-        on-opened-changed="${e => store.dispatch(updateDrawerState(e.target.opened))}">
+    <app-drawer .opened="${this._drawerOpened}"
+        @opened-changed="${this._drawerOpenedChanged}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'view1'}" href="/view1">View One</a>
-        <a selected?="${_page === 'view2'}" href="/view2">View Two</a>
-        <a selected?="${_page === 'view3'}" href="/view3">View Three</a>
+        <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
+        <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
+        <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
       </nav>
     </app-drawer>
 
     <!-- Main content -->
     <main role="main" class="main-content">
-      <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
-      <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
-      <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
-      <my-view404 class="page" active?="${_page === 'view404'}"></my-view404>
+      <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
+      <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
+      <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
+      <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
     </main>
 
     <footer>
       <p>Made with &hearts; by the Polymer team.</p>
     </footer>
 
-    <snack-bar active?="${_snackbarOpened}">
-        You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
+    <snack-bar ?active="${this._snackbarOpened}">
+        You are now ${this._offline ? 'offline' : 'online'}.</snack-bar>
     `;
   }
 
   static get properties() {
     return {
-      appTitle: String,
-      _page: String,
-      _drawerOpened: Boolean,
-      _snackbarOpened: Boolean,
-      _offline: Boolean
+      appTitle: { type: String },
+      _page: { type: String },
+      _drawerOpened: { type: Boolean },
+      _snackbarOpened: { type: Boolean },
+      _offline: { type: Boolean }
     }
   }
 
   constructor() {
     super();
     // To force all event listeners for gestures to be passive.
-    // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
+    // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
   }
 
-  _firstRendered() {
-    installRouter((location) => store.dispatch(navigate(window.decodeURIComponent(location.pathname))));
+  firstUpdated() {
+    installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 460px)`,
-        (matches) => store.dispatch(updateLayout(matches)));
+        () => store.dispatch(updateDrawerState(false)));
   }
 
-  _didRender(properties, changeList) {
-    if ('_page' in changeList) {
-      const pageTitle = properties.appTitle + ' - ' + changeList._page;
+  updated(changedProps) {
+    if (changedProps.has('_page')) {
+      const pageTitle = this.appTitle + ' - ' + this._page;
       updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-          // This object also takes an image property, that points to an img src.
+        title: pageTitle,
+        description: pageTitle
+        // This object also takes an image property, that points to an img src.
       });
     }
   }
 
-  _stateChanged(state) {
+  _menuButtonClicked() {
+    store.dispatch(updateDrawerState(true));
+  }
+
+  _drawerOpenedChanged(e) {
+    store.dispatch(updateDrawerState(e.target.opened));
+  }
+
+  stateChanged(state) {
     this._page = state.app.page;
     this._offline = state.app.offline;
     this._snackbarOpened = state.app.snackbarOpened;

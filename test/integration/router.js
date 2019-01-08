@@ -75,7 +75,6 @@ async function testNavigation(page, href, linkText) {
   };
 
   const selector = `a[href="/${href}"]`;
-  const shadowSelector = `a[href="/${href}"]`;
 
   // Does the link say the right thing?
   const myApp = await page.$('my-app');
@@ -95,7 +94,7 @@ async function testNavigationInADifferentWay(page, href, linkText) {
   const text = await page.evaluate((el) => el.textContent, linkHandle);
   expect(text).equal(linkText);
 
-  await linkHandle.click();
+  await page.evaluate((el) => el.click(), linkHandle);
   let newUrl = await page.evaluate('window.location.href')
   expect(newUrl).equal(`${appUrl}/${href}`);
 }

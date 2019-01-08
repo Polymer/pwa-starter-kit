@@ -12,20 +12,20 @@ import { LitElement, html } from '@polymer/lit-element';
 
 // This element is *not* connected to the Redux store.
 class ShopItem extends LitElement {
-  _render(props) {
+  render() {
     return html`
-      ${props.name}:
-      <span hidden="${props.amount === 0}">${props.amount} * </span>
-      $${props.price}
+      ${this.name}:
+      <span ?hidden="${this.amount === 0}">${this.amount} * </span>
+      $${this.price}
       </span>
     `;
   }
 
   static get properties() {
     return {
-      name: String,
-      amount: String,
-      price: String
+      name: { type: String },
+      amount: { type: String },
+      price: { type: String }
     }
   }
 }
