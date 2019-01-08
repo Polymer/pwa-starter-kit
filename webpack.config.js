@@ -25,7 +25,10 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', {targets: {ie: '11'}}]
+              ['@babel/preset-env', {
+                targets: {ie: '11'},
+                useBuiltIns: 'entry'
+              }]
             ],
             plugins: ['@babel/plugin-syntax-dynamic-import']
           }
@@ -36,7 +39,6 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       'images/**',
-      'node_modules/@webcomponents/webcomponentsjs/**',
       'manifest.json'
     ]),
     new HtmlWebpackPlugin({
@@ -45,16 +47,11 @@ module.exports = {
     }),
     new WorkboxWebpackPlugin.GenerateSW({
       include: ['index.html', 'manifest.json', /\.js$/],
-      exclude: [/\/@webcomponents\/webcomponentsjs\//],
       navigateFallback: 'index.html',
       swDest: 'service-worker.js',
       clientsClaim: true,
       skipWaiting: true,
       runtimeCaching: [
-        {
-          urlPattern: /\/@webcomponents\/webcomponentsjs\//,
-          handler: 'staleWhileRevalidate'
-        },
         {
           urlPattern: /^https:\/\/fonts.gstatic.com\//,
           handler: 'staleWhileRevalidate'
