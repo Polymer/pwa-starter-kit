@@ -10,9 +10,10 @@
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",
     "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
+    "build:rollup": "rm -rf public && rollup -c && gulp rollup",
     "build:static": "polymer build",
-    "build:rollup": "rollup --config rollup.config.js",
     "serve:prpl-server": "prpl-server --root server/build",
+    "serve:rollup": "polymer serve --port 3000 public",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
@@ -44,8 +45,8 @@
     "polyserve": "^0.27.0",
     "prpl-server": "^1.4.0",
     "puppeteer": "^1.5.0",
-    "rollup": "^0.59.4",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup": "^1.0.2",
+    "rollup-plugin-node-resolve": "^4.0.0",
     "wct-mocha": "^1.0.0"
   }
 }

@@ -1,41 +1,28 @@
+/**
+@license
+Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
 import resolve from 'rollup-plugin-node-resolve';
-import path from 'path';
 
 export default {
-  input: [
-    './node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js',
-    './node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js',
-    './node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js',
-    './node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-ce.js',
-    './node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd.js',
-    './node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce.js',
-    './node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js',
-    './src/components/my-app.js'
-  ],
+  input: './src/components/my-app.js',
   output: {
-    dir: 'rollup_dist',
-    format: 'es'
+    dir: 'public/src/components',
+    format: 'esm'
   },
-  experimentalCodeSplitting: true,
-  experimentalDynamicImport: true,
   plugins: [
     resolve({
-      // use "module" field for ES6 module if possible
-      module: true, // Default: true
-
       // use "jsnext:main" if possible
-      // – see https://github.com/rollup/rollup/wiki/jsnext:main
+      // legacy field pointing to ES6 module in third-party libraries,
+      // deprecated in favor of "pkg.module":
+      // - see: https://github.com/rollup/rollup/wiki/pkg.module
       jsnext: true,  // Default: false
-
-      // If true, inspect resolved files to check that they are
-      // ES2015 modules
-      modulesOnly: true, // Default: false
-    }),
-    {
-      resolveDynamicImport(specifier, parent) {
-        if (specifier.charAt(0) !== '.')
-          return path.resolve(__dirname, 'node_modules', specifier);
-      }
-    }
+    })
   ]
 };

@@ -41,3 +41,16 @@ gulp.task('prpl-server', gulp.series(
   'prpl-server:clean',
   'prpl-server:build'
 ));
+
+/**
+ * Copies assets not handled by rollup into the public/ directory.
+ */
+gulp.task('rollup', () => {
+  return gulp.src([
+      'images/**',
+      'node_modules/@webcomponents/webcomponentsjs/**',
+      'index.html',
+      'manifest.json'
+    ], {base: '.'})
+    .pipe(gulp.dest('public'));
+});
