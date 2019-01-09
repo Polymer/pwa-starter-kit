@@ -32,7 +32,7 @@ This page will take you through the steps you need to do to build and deploy you
 To run the build:
 
 ```
-npm run build:prpl-server
+npm run build
 ```
 
 This will populate the `server/build/` directory:
@@ -53,7 +53,7 @@ server/
 To preview the build using prpl-server locally:
 
 ```
-npm run serve:prpl-server
+npm run serve
 ```
 
 ### Deploying `prpl-server`
@@ -229,7 +229,7 @@ Click `Deploy site`.
 ## Service Worker
 A Service Worker is loaded and registered in the [`index.html`](https://github.com/Polymer/pwa-starter-kit/blob/master/index.html#L68) file. However, during development (to make debugging easier), the Service Worker does not actually exist, and only a [stub](https://github.com/Polymer/pwa-starter-kit/blob/master/service-worker.js) file is used.
 
-The production time Service Worker is automatically created during build time, i.e. by running `npm run build:static` or `npm run build:prpl-server`. This file is generated based on the [`polymer.json`](https://github.com/Polymer/pwa-starter-kit/blob/master/polymer.json) configuration file, and you can find it under each of the build directories:
+The production time Service Worker is automatically created during build time, i.e. by running `npm run build` or `npm run build:static`. This file is generated based on the [`polymer.json`](https://github.com/Polymer/pwa-starter-kit/blob/master/polymer.json) configuration file, and you can find it under each of the build directories:
 
 ```
 build/
