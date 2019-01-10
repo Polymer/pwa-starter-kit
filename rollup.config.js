@@ -8,18 +8,15 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 
-export default {
+export default [{
   input: './src/components/my-app.js',
   output: [
     {
-      dir: 'public/src/components',
+      dir: 'public/dist',
       format: 'esm'
-    },
-    {
-      dir: 'public/src_nomodule/components',
-      format: 'system'
     }
   ],
   plugins: [
@@ -31,4 +28,28 @@ export default {
       jsnext: true,  // Default: false
     })
   ]
-};
+},
+{
+  input: './src/components/my-app.js',
+  output: [
+    {
+      dir: 'public/dist_nomodule',
+      format: 'system'
+    }
+  ],
+  plugins: [
+    resolve({
+      // use "jsnext:main" if possible
+      // legacy field pointing to ES6 module in third-party libraries,
+      // deprecated in favor of "pkg.module":
+      // - see: https://github.com/rollup/rollup/wiki/pkg.module
+      jsnext: true,  // Default: false
+    }),
+    babel({
+      "presets": [
+        ["@babel/preset-env", {"targets": {"ie": "11"}}]
+      ],
+      "plugins": ["@babel/plugin-syntax-dynamic-import"]
+    })
+  ]
+}];

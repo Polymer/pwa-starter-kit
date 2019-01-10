@@ -114,17 +114,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Use modules only when dynamic import is available. Pattern used by
     https://github.com/rollup/rollup-starter-code-splitting. -->
     <script>
-      import('./src/components/my-app.js');
+      import('./dist/my-app.js');
       window.supportsDynamicImport = true;
     </script>
     <script>
+      function appendScript(src, cb) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.addEventListener('load', cb);
+        document.head.appendChild(script);
+      }
+
       if (!window.supportsDynamicImport) {
-        const systemJsLoaderTag = document.createElement('script');
-        systemJsLoaderTag.src = 'node_modules/systemjs/dist/s.min.js';
-        systemJsLoaderTag.addEventListener('load', function () {
-          System.import('./src_nomodule/components/my-app.js');
+        appendScript('node_modules/systemjs/dist/s.min.js', function() {
+          appendScript('node_modules/regenerator-runtime/runtime.js', function() {
+            appendScript('node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js', function() {
+              System.import('./dist_nomodule/my-app.js');
+            });
+          });
         });
-        document.head.appendChild(systemJsLoaderTag);
       }
     </script>
   </body>
