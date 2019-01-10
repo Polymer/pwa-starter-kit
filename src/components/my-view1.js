@@ -15,9 +15,14 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView1 extends PageViewElement {
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
+
   render() {
     return html`
-      ${SharedStyles}
       <section>
         <h2>Static page</h2>
         <p>This is a text-only page.</p>
