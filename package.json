@@ -8,10 +8,9 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "polymer serve",
-    "build": "npm run build:prpl-server && npm run build:static",
-    "build:prpl-server": "polymer build --auto-base-path && gulp prpl-server",
+    "build": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
-    "serve:prpl-server": "prpl-server --root server/build",
+    "serve": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "mocha test/integration --timeout=10000",
@@ -20,8 +19,8 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-    "@polymer/lit-element": "^0.6.5",
     "@webcomponents/webcomponentsjs": "^2.0.0",
+    "lit-element": "^2.0.0-rc.2",
     "pwa-helpers": "^0.9.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
@@ -37,9 +36,9 @@
     "gulp-replace": "^1.0.0",
     "mocha": "^5.2.0",
     "pixelmatch": "^4.0.2",
-    "polymer-cli": "^1.9.2",
+    "polymer-cli": "^1.9.3",
     "polyserve": "^0.27.0",
-    "prpl-server": "^1.3.0",
+    "prpl-server": "^1.4.0",
     "puppeteer": "^1.5.0",
     "wct-mocha": "^1.0.0"
   }

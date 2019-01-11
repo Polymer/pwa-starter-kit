@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -34,25 +34,37 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
-  render() {
-    return html`
-      ${SharedStyles}
-      ${ButtonSharedStyles}
-      <style>
+  static get properties() {
+    return {
+      // This is the data from the store.
+      _quantity: { type: Number },
+      _error: { type: String }
+    };
+  }
+
+  static get styles() {
+    return [
+      SharedStyles,
+      ButtonSharedStyles,
+      css`
         button {
           border: 2px solid var(--app-dark-text-color);
           border-radius: 3px;
           padding: 8px 16px;
         }
+
         button:hover {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
-        .cart, .cart svg {
+
+        .cart,
+        .cart svg {
           fill: var(--app-primary-color);
           width: 64px;
           height: 64px;
         }
+
         .circle.small {
           margin-top: -72px;
           width: 28px;
@@ -61,8 +73,12 @@ class MyView3 extends connect(store)(PageViewElement) {
           font-weight: bold;
           line-height: 30px;
         }
-      </style>
+      `
+    ];
+  }
 
+  render() {
+    return html`
       <section>
         <h2>Redux example: shopping cart</h2>
         <div class="cart">${addToCartIcon}<div class="circle small">${this._quantity}</div></div>
@@ -91,12 +107,6 @@ class MyView3 extends connect(store)(PageViewElement) {
       </section>
     `;
   }
-
-  static get properties() { return {
-    // This is the data from the store.
-    _quantity: { type: Number },
-    _error: { type: String },
-  }}
 
   _checkoutButtonClicked() {
     store.dispatch(checkout());
