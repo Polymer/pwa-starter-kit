@@ -67,6 +67,7 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         mwc-top-app-bar {
+          display: flex;
           --mdc-theme-primary: var(--app-header-background-color);
         }
 
@@ -131,7 +132,7 @@ class MyApp extends connect(store)(LitElement) {
         }
 
         .main-content {
-          padding-top: 64px;
+          padding-top: 56px;
           min-height: 100vh;
         }
 
