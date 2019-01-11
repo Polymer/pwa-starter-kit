@@ -78,7 +78,7 @@ This section covers some background about the naming and coding conventions you 
 - The elements use a mix of Polymer 3 and `lit-html` via the [`LitElement`](https://github.com/Polymer/lit-element) base class. The structure of one of these elements is basically:
 
 ```js
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html } from 'lit-element';
 class SampleElement extends LitElement {
   // The properties that your element exposes.
   static get properties() { return {
@@ -138,7 +138,7 @@ First, let's create a new element, that will represent the new view for the page
 - In this new file, rename the class to `MyView404` to `MyView4` (in 2 places), and the element's name to `my-view4`. When you're done, it should look like this:
 
 ```js
-import { html } from '@polymer/lit-element/lit-element.js';
+import { html } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
