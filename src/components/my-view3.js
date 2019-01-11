@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { html, css } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -33,18 +33,30 @@ import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
-  render() {
-    return html`
-      ${SharedStyles}
-      ${ButtonSharedStyles}
-      <style>
+  static get properties() {
+    return {
+      // This is the data from the store.
+      _quantity: { type: Number },
+      _error: { type: String }
+    };
+  }
+
+  static get styles() {
+    return [
+      SharedStyles,
+      ButtonSharedStyles,
+      css`
         button {
           border: 2px solid black;
           border-radius: 3px;
           padding: 8px 16px;
         }
-      </style>
+      `
+    ];
+  }
 
+  render() {
+    return html`
       <section>
         <h2>Redux example: shopping cart</h2>
         <p>Number of items in the cart: <b>${this._quantity}</b></p>
@@ -72,12 +84,6 @@ class MyView3 extends connect(store)(PageViewElement) {
       </section>
     `;
   }
-
-  static get properties() { return {
-    // This is the data from the store.
-    _quantity: { type: Number },
-    _error: { type: String },
-  }}
 
   _checkoutButtonClicked() {
     store.dispatch(checkout());
