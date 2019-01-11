@@ -58,8 +58,9 @@ class MyApp extends connect(store)(LitElement) {
     return [
       css`
       :host {
-        --app-drawer-width: 256px;
         display: block;
+
+        --app-drawer-width: 256px;
 
         --app-primary-color: #E91E63;
         --app-secondary-color: #293237;
@@ -175,7 +176,7 @@ class MyApp extends connect(store)(LitElement) {
       }
 
       /* Wide layout: when the viewport width is bigger than 460px, layout
-      changes to a wide layout. */
+        changes to a wide layout */
       @media (min-width: 460px) {
         .toolbar-list {
             display: block;
