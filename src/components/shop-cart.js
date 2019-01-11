@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html, css } from 'lit-element';
 
 // These are the elements needed by this element.
 import { removeFromCartIcon } from './my-icons.js';
@@ -18,12 +18,26 @@ import './shop-item.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends LitElement {
+  static get properties() {
+    return {
+      cart: { type: Object },
+      products: { type: Object }
+    };
+  }
+
+  static get styles() {
+    return [
+      ButtonSharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+      `
+    ];
+  }
+
   render() {
     return html`
-      ${ButtonSharedStyles}
-      <style>
-        :host { display: block; }
-      </style>
       <p ?hidden="${this.cart.addedIds.length !== 0}">Please add some products to cart.</p>
       ${this._displayCart(this.cart).map((item) =>
         html`
@@ -40,11 +54,6 @@ class ShopCart extends LitElement {
       )}
     `;
   }
-
-  static get properties() { return {
-    cart: { type: Object },
-    products: { type: Object }
-  }}
 
   _displayCart(cart) {
     const items = [];

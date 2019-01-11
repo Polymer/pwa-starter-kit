@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { html } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 
 // These are the elements needed by this element.
@@ -18,9 +18,22 @@ import './counter-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView2 extends PageViewElement {
+  static get properties() {
+    return {
+      // This is the data from the store.
+      _clicks: { type: Number },
+      _value: { type: Number }
+    };
+  }
+
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
+
   render() {
     return html`
-      ${SharedStyles}
       <section>
         <h2>State container example: simple counter</h2>
         <div class="circle">${this._clicks}</div>
@@ -32,7 +45,9 @@ class MyView2 extends PageViewElement {
       </section>
       <section>
         <p>
-          <counter-element value="${this._value}" clicks="${this._clicks}"
+          <counter-element
+              value="${this._value}"
+              clicks="${this._clicks}"
               @counter-incremented="${this._increment}"
               @counter-decremented="${this._decrement}">
           </counter-element>
@@ -40,12 +55,6 @@ class MyView2 extends PageViewElement {
       </section>
     `;
   }
-
-  static get properties() { return {
-    // This is the data from the store.
-    _clicks: { type: Number },
-    _value: { type: Number },
-  }}
 
   constructor() {
     super();

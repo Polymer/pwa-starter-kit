@@ -8,9 +8,17 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html } from 'lit-element';
 
 class ShopItem extends LitElement {
+  static get properties() {
+    return {
+      name: { type: String },
+      amount: { type: String },
+      price: { type: String }
+    };
+  }
+
   render() {
     return html`
       ${this.name}:
@@ -18,14 +26,6 @@ class ShopItem extends LitElement {
       $${this.price}
       </span>
     `;
-  }
-
-  static get properties() {
-    return {
-      name: { type: String },
-      amount: { type: String },
-      price: { type: String }
-    }
   }
 }
 
