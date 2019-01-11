@@ -8,10 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { css } from 'lit-element';
 
-export const SharedStyles = html`
-<style>
+export const SharedStyles = css`
   :host {
     display: block;
     box-sizing: border-box;
@@ -56,5 +55,4 @@ export const SharedStyles = html`
     font-size: 30px;
     line-height: 64px;
   }
-</style>
 `;

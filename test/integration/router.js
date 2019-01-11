@@ -75,7 +75,6 @@ async function testNavigation(page, href, linkText) {
   };
 
   const selector = `a[href="/${href}"]`;
-  const shadowSelector = `a[href="/${href}"]`;
 
   // Does the link say the right thing?
   const myApp = await page.$('my-app');

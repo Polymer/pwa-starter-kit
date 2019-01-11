@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, property } from '@polymer/lit-element';
+import { html, property } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -31,9 +31,20 @@ import './counter-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView2 extends connect(store)(PageViewElement) {
+  @property({type: Number})
+  private _clicks = 0;
+
+  @property({type: Number})
+  private _value = 0;
+
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
+
   protected render() {
     return html`
-      ${SharedStyles}
       <section>
         <h2>Redux example: simple counter</h2>
         <div class="circle">${this._value}</div>
@@ -47,7 +58,9 @@ class MyView2 extends connect(store)(PageViewElement) {
       </section>
       <section>
         <p>
-          <counter-element value="${this._value}" clicks="${this._clicks}"
+          <counter-element
+              value="${this._value}"
+              clicks="${this._clicks}"
               @counter-incremented="${this._counterIncremented}"
               @counter-decremented="${this._counterDecremented}">
           </counter-element>
@@ -55,12 +68,6 @@ class MyView2 extends connect(store)(PageViewElement) {
       </section>
     `;
   }
-
-  @property({type: Number})
-  private _clicks = 0;
-
-  @property({type: Number})
-  private _value = 0;
 
   private _counterIncremented() {
     store.dispatch(increment());

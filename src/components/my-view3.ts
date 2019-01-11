@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, property } from '@polymer/lit-element';
+import { html, css, property } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -34,25 +34,35 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
 class MyView3 extends connect(store)(PageViewElement) {
-  protected render() {
-    return html`
-      ${SharedStyles}
-      ${ButtonSharedStyles}
-      <style>
+  @property({type: Number})
+  private _quantity = 0;
+
+  @property({type: String})
+  private _error = '';
+
+  static get styles() {
+    return [
+      SharedStyles,
+      ButtonSharedStyles,
+      css`
         button {
           border: 2px solid var(--app-dark-text-color);
           border-radius: 3px;
           padding: 8px 16px;
         }
+
         button:hover {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
-        .cart, .cart svg {
+
+        .cart,
+        .cart svg {
           fill: var(--app-primary-color);
           width: 64px;
           height: 64px;
         }
+
         .circle.small {
           margin-top: -72px;
           width: 28px;
@@ -61,8 +71,12 @@ class MyView3 extends connect(store)(PageViewElement) {
           font-weight: bold;
           line-height: 30px;
         }
-      </style>
+      `
+    ];
+  }
 
+  protected render() {
+    return html`
       <section>
         <h2>Redux example: shopping cart</h2>
         <div class="cart">${addToCartIcon}<div class="circle small">${this._quantity}</div></div>
@@ -91,12 +105,6 @@ class MyView3 extends connect(store)(PageViewElement) {
       </section>
     `;
   }
-
-  @property({type: Number})
-  private _quantity = 0;
-
-  @property({type: String})
-  private _error = '';
 
   private _checkoutButtonClicked() {
     store.dispatch(checkout());

@@ -8,10 +8,19 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, property } from '@polymer/lit-element';
+import { LitElement, html, property } from 'lit-element';
 
 // This element is *not* connected to the Redux store.
 class ShopItem extends LitElement {
+  @property({type: String})
+  name = '';
+
+  @property({type: Number})
+  amount = 0;
+
+  @property({type: Number})
+  price = 0;
+
   protected render() {
     return html`
       ${this.name}:
@@ -20,13 +29,6 @@ class ShopItem extends LitElement {
       </span>
     `;
   }
-
-  @property({type: String})
-  name = '';
-  @property({type: Number})
-  amount = 0;
-  @property({type: Number})
-  price = 0;
 }
 
 window.customElements.define('shop-item', ShopItem);

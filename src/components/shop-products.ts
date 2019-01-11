@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, property } from '@polymer/lit-element';
+import { LitElement, html, css, property } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
@@ -28,12 +28,22 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 import { ProductsState } from '../reducers/shop.js';
 
 class ShopProducts extends connect(store)(LitElement) {
+  @property({type: Object})
+  private _products: ProductsState = {};
+
+  static get styles() {
+    return [
+      ButtonSharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+      `
+    ];
+  }
+
   protected render() {
     return html`
-      ${ButtonSharedStyles}
-      <style>
-        :host { display: block; }
-      </style>
       ${Object.keys(this._products).map((key) => {
         const item = this._products[key];
         return html`
@@ -47,13 +57,10 @@ class ShopProducts extends connect(store)(LitElement) {
               ${item.inventory === 0 ? 'Sold out': addToCartIcon }
             </button>
           </div>
-        `
+        `;
       })}
     `;
   }
-
-  @property({type: Object})
-  private _products: ProductsState = {};
 
   protected firstUpdated() {
     store.dispatch(getAllProducts());
