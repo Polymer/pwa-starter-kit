@@ -236,7 +236,7 @@ class MyApp extends LitElement {
   }
 
   firstUpdated() {
-    installRouter((location) => this._locationChanged(location));
+    installRouter(() => this._locationChanged());
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
