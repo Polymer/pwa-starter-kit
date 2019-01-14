@@ -272,8 +272,8 @@ class MyApp extends LitElement {
     this.__snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
   }
 
-  _locationChanged() {
-    const path = window.decodeURIComponent(window.location.pathname);
+  _locationChanged(location) {
+    const path = window.decodeURIComponent(location.pathname);
     const page = path === '/' ? 'view1' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
