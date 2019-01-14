@@ -236,7 +236,7 @@ class MyApp extends LitElement {
   }
 
   firstUpdated() {
-    installRouter(() => this._locationChanged());
+    installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     installMediaQueryWatcher(`(min-width: 460px)`,
         (matches) => this._layoutChanged(matches));
@@ -272,8 +272,8 @@ class MyApp extends LitElement {
     this.__snackbarTimer = setTimeout(() => { this._snackbarOpened = false }, 3000);
   }
 
-  _locationChanged() {
-    const path = window.decodeURIComponent(window.location.pathname);
+  _locationChanged(location) {
+    const path = window.decodeURIComponent(location.pathname);
     const page = path === '/' ? 'view1' : path.slice(1);
     this._loadPage(page);
     // Any other info you might want to extract from the path (like page type),
