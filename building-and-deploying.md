@@ -61,14 +61,17 @@ After building, the contents of `server/` contains all the files and configurati
 
 #### App Engine
 
-##### Flexible Environment
-The contents of `server/app.yaml` is pre-configured to be deployed to [Google App Engine Node.js Flexible Environment](https://cloud.google.com/appengine/docs/flexible/nodejs/). Use the `gcloud` tool to deploy the contents of `server/` (e.g. `gcloud app deploy server/app.yaml`).
+##### Standard Environment
+The contents of `server/app.yaml` is pre-configured to be deployed to [Google App Engine Node.js Standard Environment](https://cloud.google.com/appengine/docs/standard/nodejs/). Use the `gcloud` tool to deploy the contents of `server/` (e.g. `gcloud app deploy server/app.yaml`).
 
-##### Standard Environment (Beta)
-To deploy to [Google App Engine Node.js Standard Environment (Beta)](https://cloud.google.com/appengine/docs/standard/nodejs/), replace the entire contents of `server/app.yaml` with:
+##### Flexible Environment
+To deploy to [Google App Engine Node.js Flexible Environment](https://cloud.google.com/appengine/docs/flexible/nodejs/), replace the entire contents of `server/app.yaml` with:
 
 ```yaml
-runtime: nodejs8
+runtime: nodejs
+env: flex
+automatic_scaling:
+  min_num_instances: 1
 ```
 
 Use the `gcloud` tool to deploy the contents of `server/` (e.g. `gcloud app deploy server/app.yaml`).
