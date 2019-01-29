@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html, css } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
@@ -28,20 +28,33 @@ import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 
 class ShopCart extends connect(store)(LitElement) {
+  static get properties() {
+    return {
+      _items: { type: Array },
+      _total: { type: Number }
+    };
+  }
+
+  static get styles() {
+    return [
+      ButtonSharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+      `
+    ];
+  }
+
   render() {
-    const {_items, _total} = this;
     return html`
-      ${ButtonSharedStyles}
-      <style>
-        :host { display: block; }
-      </style>
-      <p ?hidden="${_items.length !== 0}">Please add some products to cart.</p>
-      ${_items.map((item) =>
+      <p ?hidden="${this._items.length !== 0}">Please add some products to cart.</p>
+      ${this._items.map((item) =>
         html`
           <div>
-            <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
+            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
             <button
-                @click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
+                @click="${this._removeButtonClicked}"
                 data-index="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
@@ -49,17 +62,16 @@ class ShopCart extends connect(store)(LitElement) {
           </div>
         `
       )}
-      <p ?hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
+      <p ?hidden="${!this._items.length}"><b>Total:</b> ${this._total}</p>
     `;
   }
 
-  static get properties() { return {
-    _items: { type: Array },
-    _total: { type: Number }
-  }}
+  _removeButtonClicked(e) {
+    store.dispatch(removeFromCart(e.currentTarget.dataset['index']));
+  }
 
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  stateChanged(state) {
     this._items = cartItemsSelector(state);
     this._total = cartTotalSelector(state);
   }

@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="My App">
 
     <!-- Homescreen icons -->
@@ -87,7 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-style: normal;
         font-weight: 400;
         src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v12/Q_Z9mv4hySLTMoMjnk_rCXYhjbSpvc47ee6xR_80Hnw.woff2) format('woff2');
-        /* THe browser draws the text immediately in the fallback font if the font
+        /* The browser draws the text immediately in the fallback font if the font
            isn't loaded, then swaps it with the webfont when it eventually loads
            See: https://developers.google.com/web/updates/2016/02/font-display
         */
@@ -111,6 +111,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <!-- Built with love using PWA Starter Kit -->
-    <script type="module" src="src/components/my-app.js" crossorigin></script>
+    <script type="module" src="src/components/my-app.js"></script>
   </body>
 </html>

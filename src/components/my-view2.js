@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html } from '@polymer/lit-element';
+import { html } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -33,9 +33,23 @@ import { SharedStyles } from './shared-styles.js';
 import { firebase } from './firebase.js';
 
 class MyView2 extends connect(store)(PageViewElement) {
+  static get properties() {
+    return {
+      // This is the data from the store.
+      _clicks: { type: Number },
+      _value: { type: Number },
+      _user: { type: Object },
+    };
+  }
+
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
+
   render() {
     return html`
-      ${SharedStyles}
       <section>
         <h2>Redux example: simple counter</h2>
         <div class="circle">${this._value}</div>
@@ -49,9 +63,11 @@ class MyView2 extends connect(store)(PageViewElement) {
       </section>
       <section>
         <p>
-          <counter-element value="${this._value}" clicks="${this._clicks}"
-              @counter-incremented="${() => store.dispatch(increment())}"
-              @counter-decremented="${() => store.dispatch(decrement())}">
+          <counter-element
+              value="${this._value}"
+              clicks="${this._clicks}"
+              @counter-incremented="${this._counterIncremented}"
+              @counter-decremented="${this._counterDecremented}">
           </counter-element>
         </p>
       </section>
@@ -74,15 +90,16 @@ class MyView2 extends connect(store)(PageViewElement) {
     `;
   }
 
-  static get properties() { return {
-    // This is the data from the store.
-    _clicks: { type: Number },
-    _value: { type: Number },
-    _user: { type: Object },
-  }}
+  _counterIncremented() {
+    store.dispatch(increment());
+  }
+
+  _counterDecremented() {
+    store.dispatch(decrement());
+  }
 
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
+  stateChanged(state) {
     this._clicks = state.counter.clicks;
     this._value = state.counter.value;
     this._user = state.user.currentUser;

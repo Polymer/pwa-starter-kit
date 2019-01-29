@@ -10,17 +10,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { INCREMENT, DECREMENT } from '../actions/counter.js';
 
-const counter = (state = {clicks: 0, value: 0}, action) => {
+const INITIAL_STATE = {
+  clicks: 0,
+  value: 0
+};
+
+const counter = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INCREMENT:
       return {
-        'clicks': state.clicks + 1,
-        'value': state.value + 1
+        clicks: state.clicks + 1,
+        value: state.value + 1
       };
     case DECREMENT:
       return {
-        'clicks': state.clicks + 1,
-        'value': state.value - 1
+        clicks: state.clicks + 1,
+        value: state.value - 1
       };
     default:
       return state;
