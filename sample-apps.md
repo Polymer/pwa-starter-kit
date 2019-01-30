@@ -4,7 +4,7 @@ title: Sample apps
 ---
 Here are some applications that we [![built with pwa–starter–kit](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)](https://github.com/Polymer/pwa-starter-kit "Built with pwa–starter–kit"){:class="inline"}
 
-### Hacker News ([code](https://github.com/PolymerLabs/polymer-redux-hn), [demo](https://polymer-redux-hn.appspot.com/))
+### Hacker News ([code](https://github.com/Polymer/pwa-starter-kit-hn), [demo](https://pwa-starter-kit-hn.appspot.com/))
 - a small Hacker News client, inspired by the [HN PWA](https://hnpwa.com/) project that compares implementations for the same PWA app
 - pattern for fetching data from a generic API
 - pattern for using [`indexedDB`](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) for local storage
