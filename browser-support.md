@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Browser support
+permalink: /browser-support
 ---
 `pwa-starter-kit` uses fairly recent browsers APIs, from new JavaScript language features, to new DOM specs:
 - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements)

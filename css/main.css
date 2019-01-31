@@ -2,7 +2,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Google Sans', 'Roboto', 'Noto', sans-serif;
+  font-family: 'Roboto', 'Noto', sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #222222;
   font-size: 16px;
@@ -367,6 +367,10 @@ section p {
   line-height: 22px;
 }
 
+.side-nav li:not(.active) > a {
+  color: #222;
+}
+
 /* Article area */
 article {
   flex: 1;
@@ -388,12 +392,6 @@ article h2 {
 article h3,
 article h4 {
   margin: 32px 0 8px 0;
-}
-
-article table,
-article p,
-article li {
-  font-family: 'Roboto', 'Noto', sans-serif;
 }
 
 article p {

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Configuring and personalizing
+permalink: /configuring-and-personalizing
 ---
 This page will take you through the steps you need to do to modify the app and add your own content.
 

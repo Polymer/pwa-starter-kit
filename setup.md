@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Setup
+permalink: /setup
 ---
 This page will take you through the steps you need to do to build and run the sample app locally.
 

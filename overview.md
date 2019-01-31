@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Overview: What's in the box?"
+permalink: /overview
 ---
 The `pwa-starter-kit` is a set of templates you can use as a starting point for building PWAs. Out of the box, the default template gives you the following features:
 

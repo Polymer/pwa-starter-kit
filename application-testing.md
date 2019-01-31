@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Application testing
+permalink: /application-testing
 ---
 It is good to test your apps. This page will take you through the testing setup we have provided.
 

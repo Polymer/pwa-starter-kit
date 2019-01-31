@@ -10,42 +10,42 @@ layout: default
       <li>
         <span>Home</span>
         <ul>
-          <li>
-            <a href="{{site.baseurl}}/overview/">Overview</a>
+          <li class="{% if page.url == '/overview' %}active{% endif %}">
+            <a href="{{site.baseurl}}/overview">Overview</a>
           </li>
-          <li>
-            <a href="{{site.baseurl}}/browser-support/">Browser support</a>
+          <li class="{% if page.url == '/browser-support' %}active{% endif %}">
+            <a href="{{site.baseurl}}/browser-support">Browser support</a>
           </li>
-          <li>
-            <a href="{{site.baseurl}}/sample-apps/">Sample apps</a>
+          <li class="{% if page.url == '/sample-apps' %}active{% endif %}">
+            <a href="{{site.baseurl}}/sample-apps">Sample apps</a>
           </li>
         </ul>
       </li>
       <li>
         <span>Guides</span>
         <ul>
-          <li>
-            <a href="{{site.baseurl}}/setup/">Setup</a>
+          <li class="{% if page.url == '/setup' %}active{% endif %}">
+            <a href="{{site.baseurl}}/setup">Setup</a>
           </li>
-          <li>
-            <a href="{{site.baseurl}}/configuring-and-personalizing/">Configuring and personalizing</a>
+          <li class="{% if page.url == '/configuring-and-personalizing' %}active{% endif %}">
+            <a href="{{site.baseurl}}/configuring-and-personalizing">Configuring and personalizing</a>
           </li>
-          <li>
-            <a href="{{site.baseurl}}/redux-and-state-management/">Redux and state management</a>
+          <li class="{% if page.url == '/redux-and-state-management' %}active{% endif %}">
+            <a href="{{site.baseurl}}/redux-and-state-management">Redux and state management</a>
           </li>
         </ul>
       </li>
       <li>
         <span>Ready for production</span>
         <ul>
-          <li>
-            <a href="{{site.baseurl}}/building-and-deploying/">Building and deploying</a>
+          <li class="{% if page.url == '/building-and-deploying' %}active{% endif %}">
+            <a href="{{site.baseurl}}/building-and-deploying">Building and deploying</a>
           </li>
-          <li>
-            <a href="{{site.baseurl}}/performance-testing/">Performance testing</a>
+          <li class="{% if page.url == '/performance-testing' %}active{% endif %}">
+            <a href="{{site.baseurl}}/performance-testing">Performance testing</a>
           </li>
-          <li>
-            <a href="{{site.baseurl}}/application-testing/">Application testing</a>
+          <li class="{% if page.url == '/application-testing' %}active{% endif %}">
+            <a href="{{site.baseurl}}/application-testing">Application testing</a>
           </li>
         </ul>
       </li>
