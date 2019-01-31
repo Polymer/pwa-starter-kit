@@ -37,11 +37,7 @@ class MyView2 extends connect(store)(PageViewElement) {
   @property({type: Number})
   private _value = 0;
 
-  static get styles() {
-    return [
-      SharedStyles
-    ];
-  }
+  static styles = SharedStyles;
 
   protected render() {
     return html`
