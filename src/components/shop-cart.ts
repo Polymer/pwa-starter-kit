@@ -35,16 +35,14 @@ class ShopCart extends connect(store)(LitElement) {
   @property({type: Number})
   private _total = 0;
 
-  static get styles() {
-    return [
-      ButtonSharedStyles,
-      css`
-        :host {
-          display: block;
-        }
-      `
-    ];
-  }
+  static styles = [
+    ButtonSharedStyles,
+    css`
+      :host {
+        display: block;
+      }
+    `
+  ];
 
   protected render() {
     return html`

@@ -31,16 +31,14 @@ class ShopProducts extends connect(store)(LitElement) {
   @property({type: Object})
   private _products: ProductsState = {};
 
-  static get styles() {
-    return [
-      ButtonSharedStyles,
-      css`
-        :host {
-          display: block;
-        }
-      `
-    ];
-  }
+  static styles = [
+    ButtonSharedStyles,
+    css`
+      :host {
+        display: block;
+      }
+    `
+  ];
 
   protected render() {
     return html`

@@ -26,19 +26,17 @@ class CounterElement extends LitElement {
   @property({type: Number})
   value = 0;
 
-  static get styles() {
-    return [
-      ButtonSharedStyles,
-      css`
-        span {
-          width: 20px;
-          display: inline-block;
-          text-align: center;
-          font-weight: bold;
-        }
-      `
-    ];
-  }
+  static styles = [
+    ButtonSharedStyles,
+    css`
+      span {
+        width: 20px;
+        display: inline-block;
+        text-align: center;
+        font-weight: bold;
+      }
+    `
+  ];
 
   protected render() {
     return html`

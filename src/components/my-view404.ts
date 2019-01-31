@@ -15,11 +15,7 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView404 extends PageViewElement {
-  static get styles() {
-    return [
-      SharedStyles
-    ];
-  }
+  static styles = SharedStyles;
 
   protected render() {
     return html`
