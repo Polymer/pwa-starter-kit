@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Building and deploying
+permalink: /building-and-deploying
 ---
 This page will take you through the steps you need to do to build and deploy your application to production.
 

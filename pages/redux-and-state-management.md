@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Redux and state management
+permalink: /redux-and-state-management
 ---
 This page will take you through the steps you need to do to use Redux to manage your application's state.
 

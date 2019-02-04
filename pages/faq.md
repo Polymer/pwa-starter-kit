@@ -1,6 +1,7 @@
 ---
 layout: post
 title: FAQ
+permalink: /faq
 ---
 We often get very similar questions across issues and PRs, and we figured it would be useful to list them here, for a reference.
 

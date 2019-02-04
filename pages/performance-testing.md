@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Performance testing
+permalink: /performance-testing
 ---
 This page takes you through the tools you can use to measure your application's performance.
 
