@@ -111,7 +111,7 @@ To preview it locally, run:
 npm run serve:static
 ```
 
-Our provided configuration will serve the `es5-bundled` build. If you don't need to support legacy browsers, you can use a more modern build by modifying the `serve:static` script in package.json to use `es6-bundled` or `esm-bundled` instead. Be sure that all page navigation requests are served the contents of `index.html`.
+Our provided configuration will serve the `es5-bundled` build. If you don't need to support legacy browsers, you can use a more modern build by modifying the `serve:static` script in [package.json](https://github.com/Polymer/pwa-starter-kit/blob/master/package.json#L14) to use `es6-bundled` or `esm-bundled` instead. Be sure that all page navigation requests are served the contents of `index.html`.
 
 ### Deploying static hosting
 By default, static hosting servers aren't set up to work with single page apps (SPAs) -- in particular, the problem is that an SPA uses routes that do not correspond to full file path names. For example, in `pwa-starter-kit` the second view's URL is `http://localhost:8081/view2`, but that doesn't correspond to a file that the browser can use. Each static hosting server has a different approach to working around this:
@@ -233,7 +233,7 @@ Click `Deploy site`.
 ## Service Worker
 A Service Worker is loaded and registered in the [`index.html`](https://github.com/Polymer/pwa-starter-kit/blob/master/index.html#L68) file. However, during development (to make debugging easier), the Service Worker does not actually exist, and only a [stub](https://github.com/Polymer/pwa-starter-kit/blob/master/service-worker.js) file is used.
 
-The production time Service Worker is automatically created during build time, i.e. by running `npm run build` or `npm run build:static`. This file is generated based on the [`polymer.json`](https://github.com/Polymer/pwa-starter-kit/blob/master/polymer.json) configuration file, and you can find it under each of the build directories:
+The production time Service Worker is automatically created during build time, i.e. by running `npm run build` or `npm run build:static`. This file is generated based on the [`polymer.json`](https://github.com/Polymer/pwa-starter-kit/blob/master/polymer.json) and [`sw-precache-config.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/sw-precache-config.js) configuration files, and you can find it under each of the build directories:
 
 ```
 build/

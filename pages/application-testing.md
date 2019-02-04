@@ -41,7 +41,7 @@ npm run test:integration
 ## Unit testing
 
 ### Basic testing
-We use [WCT](https://github.com/Polymer/web-component-tester) to run unit tests. WCT comes pre-packaged with `<test-fixture>`, an element that defines a template of content and copies a clean, new instance of that content into each test suite (more information [here](https://www.polymer-project.org/3.0/docs/tools/tests#test-fixtures)). To add a new unit test to the suite:
+We use [WCT](https://github.com/Polymer/tools/tree/master/packages/web-component-tester) to run unit tests. WCT comes pre-packaged with `<test-fixture>`, an element that defines a template of content and copies a clean, new instance of that content into each test suite (more information [here](https://www.polymer-project.org/3.0/docs/tools/tests#test-fixtures)). To add a new unit test to the suite:
 - Create a new file under `test/unit/` (or just copy and rename `test/unit/counter-element` for a starting point.
 - Add the test to the WCT suite, in `test/unit/index.html`:
 
@@ -68,7 +68,7 @@ npm run test:unit -l chrome -l firefox
 For more information on writing unit tests with WCT, check out the [testing documentation](https://www.polymer-project.org/3.0/docs/tools/tests#overview) or the [WCT documentation](https://github.com/Polymer/tools/tree/master/packages/web-component-tester#test-fixture).
 
 ### A11y testing
-[Axe-core](https://github.com/dequelabs/axe-core) is a library that automatically audits your HTML for accessibility violations. In order to use this more easily inside of unit tests, we've created a small wrapper, [`axe-report.js`](https://github.com/Polymer/pwa-helpers#axe-reportjs), that returns an `Error` containing all the violations. You can use this to unit test a [specific element](https://github.com/Polymer/pwa-starter-kit/blob/master/test/unit/counter-element.html#L70) or a [whole page](https://github.com/Polymer/pwa-starter-kit/blob/master/test/unit/views-a11y.html) as well. If you already have a `WCT` unit test set up to test the functionality of an element `el`, then you can also add an a11y test for it via:
+[Axe-core](https://github.com/dequelabs/axe-core) is a library that automatically audits your HTML for accessibility violations. In order to use this more easily inside of unit tests, we've created a small wrapper, [`axe-report.js`](https://github.com/Polymer/pwa-helpers#axe-reportjs), that returns an `Error` containing all the violations. You can use this to unit test a [specific element](https://github.com/Polymer/pwa-starter-kit/blob/master/test/unit/counter-element.html#L72) or a [whole page](https://github.com/Polymer/pwa-starter-kit/blob/master/test/unit/views-a11y.html) as well. If you already have a `WCT` unit test set up to test the functionality of an element `el`, then you can also add an a11y test for it via:
 ```js
 import {axeReport} from '../axe-report.js';
 suite('my-element tests', function() {

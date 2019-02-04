@@ -27,7 +27,7 @@ There are a few [tools](https://developers.google.com/web/fundamentals/performan
 ### Lighthouse
 [Lighthouse](https://developers.google.com/web/tools/lighthouse/) is an open source tool that helps you measure and improve the performance of your page. It comes as a Chrome DevTools extension or a node module, so that you can run it in the command line (and integrated it with your other automated Node testing). Once it's ran, it gives you an overall score, and suggestions for each area of improvement:
 
-<img width="1552" alt="screenshot of lighthouse results" src="https://user-images.githubusercontent.com/1369170/43412131-1626a17c-93e1-11e8-9814-bc40c947cb8b.png">
+<img width="100%" alt="screenshot of lighthouse results" src="https://user-images.githubusercontent.com/1369170/43412131-1626a17c-93e1-11e8-9814-bc40c947cb8b.png">
 
 ### WebPageTest
 [WebPageTest](https://www.webpagetest.org/easy) is an application that loads your page on an actual Moto G4 device with a slow 3G connection, and then gives you a details report on the page's load performance in that scenario. It is very useful to see how your application performs in a real-world, non-testing environment.
@@ -37,8 +37,8 @@ For example [here](https://www.webpagetest.org/result/180502_2J_6637ba5cf9264c1e
 
 In particular, the [film strip view](https://www.webpagetest.org/video/compare.php?tests=180502_2J_6637ba5cf9264c1e8d048a9bc17b204b-r%3A1-c%3A0&thumbSize=200&ival=100&end=visual) is very useful, since it shows you a timeline of when your application actually first paints to the screen:
 
-<img width="897" alt="screen shot 2018-05-02 at 11 00 46 am" src="https://user-images.githubusercontent.com/1369170/39540684-3c8ff676-4df8-11e8-8239-23f89c76ffec.png">
+<img width="100%" alt="screen shot 2018-05-02 at 11 00 46 am" src="https://user-images.githubusercontent.com/1369170/39540684-3c8ff676-4df8-11e8-8239-23f89c76ffec.png">
 
 
 Interactive timeline of your resources loading, and who generated the requests:
-<img width="926" alt="screen shot 2018-05-02 at 11 01 02 am" src="https://user-images.githubusercontent.com/1369170/39540689-3dfebc04-4df8-11e8-9159-430aaed9ba1a.png">
+<img width="100%" alt="screen shot 2018-05-02 at 11 01 02 am" src="https://user-images.githubusercontent.com/1369170/39540689-3dfebc04-4df8-11e8-9159-430aaed9ba1a.png">
