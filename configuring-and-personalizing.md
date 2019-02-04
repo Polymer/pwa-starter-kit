@@ -67,7 +67,7 @@ my-app
 - `manifest.json` is the PWA [metadata file](https://developers.google.com/web/fundamentals/web-app-manifest/). It contains the name, theme color and logos for your app, that are used whenever a user adds your application to the homescreen.
 - `service-worker.js` is a placeholder file for your Service Worker. In each build directory, the `polymer cli` will populate this file with [actual contents](https://www.polymer-project.org/3.0/toolbox/service-worker), but during development it is disabled.
 - `sw-precache-config.js` is a [configuration file](https://www.polymer-project.org/3.0/toolbox/service-worker) that sets up the precaching behaviour of the Service Worker (such as which files to be precached, the navigation fallback, etc.).
-- `wct.conf.json` is the [web-component-tester](https://github.com/Polymer/web-component-tester) configuration file, that specifies the folder to run tests from, etc.
+- `wct.conf.json` is the [web-component-tester](https://github.com/Polymer/tools/tree/master/packages/web-component-tester) configuration file, that specifies the folder to run tests from, etc.
 - `.travis.yml` sets up the integration testing we run on every commit on [Travis](https://docs.travis-ci.com/user/customizing-the-build/).
 
 You can add more app-specific folders if you want, to keep your code organized -- for example, you might want to create a `src/views/` folder and move all the top-level views in there.
@@ -125,9 +125,9 @@ By default, your app is called `my-app`. If you want to change this (which you o
 
 ## Adding a new page
 There are 4 places where the active page is used at any time:
-- As a view in the [`<main>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L197) element.
-- As a navigation link in the [`drawer <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L189) element. This is the side nav that is shown in the small-screen (i.e. mobile) view.
-- As a navigation link in the [`toolbar <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L179) element. This is the toolbar that is shown in the wide-screen (i.e. desktop) view.
+- As a view in the [`<main>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L224) element.
+- As a navigation link in the [`drawer <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L216) element. This is the side nav that is shown in the small-screen (i.e. mobile) view.
+- As a navigation link in the [`toolbar <nav>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L205) element. This is the toolbar that is shown in the wide-screen (i.e. desktop) view.
 - In the code for [lazy loading](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29) pages. We explicitly list these pages, rather that doing something like `import('./my-'+page+'.js')`, so that the bundler knows these are separate routes, and bundles their dependencies accordingly. ⚠️Don't change this! :)
 
 To add a new page, you need to add a new entry in each of these places. Note that if you only want to add an external link or button in the toolbar, then you can skip adding anything to the `<main>` element.
@@ -143,13 +143,19 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView4 extends PageViewElement {
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
+
   render() {
     return html`
-      ${SharedStyles}
       <section>
         <h2>Oops! You hit a 404</h2>
-        <p>The page you're looking for doesn't seem to exist. Head back
-           <a href="/">home</a> and try again?
+        <p>
+          The page you're looking for doesn't seem to exist. Head back
+          <a href="/">home</a> and try again?
         </p>
       </section>
     `
@@ -167,7 +173,7 @@ First, add it to each of the list of nav links. In the toolbar (the wide-screen 
 ```html
 <nav class="toolbar-list">
   ...
-  <a ?selected="${_page === 'view4'}" href="/view4">New View!</a>
+  <a ?selected="${this._page === 'view4'}" href="/view4">New View!</a>
 </nav>
 ```
 
@@ -175,19 +181,19 @@ Similarly, we can add it to the list of nav links in the drawer:
 ```html
 <nav class="drawer-list">
   ...
-  <a ?selected="${_page === 'view4'}" href="$/view4">New View!</a>
+  <a ?selected="${this._page === 'view4'}" href="/view4">New View!</a>
 </nav>
 ```
 
 And in the main content itself:
 ```html
-<main class="main-content">
+<main role="main" class="main-content">
   ...
-  <my-view4 class="page" ?active="${_page === 'view4'}"></my-view4>
+  <my-view4 class="page" ?active="${this._page === 'view4'}"></my-view4>
 </main>
 ```
 
-Note that in all of these code snippets, the `selected` attribute is used to [highlight](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L99) the active page, and the `active` attribute is also used to ensure that only the active page is [actually rendered](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L16).
+Note that in all of these code snippets, the `selected` attribute is used to [highlight](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L109) the active page, and the `active` attribute is also used to ensure that only the active page is [actually rendered](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L16).
 
 Finally, we need to lazy load this page. Without this, the links will appear, but they won't be able to navigate to your new page, since `my-view4` will be undefined (we haven't imported its source code anywhere). In the [`loadPage ` action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L29), add a new `case` statement:
 ```js
@@ -249,15 +255,25 @@ render() {
 ```
 
 ## Sharing styles
-Similarly, shared styles are also just exported template literals. If you take a look at `shared-styles.js`, it
-exports a `<style>` node template, that is then inlined in an element's `render()` method:
+Shared styles are just exported `css` tagged template literals. If you take a look at [`shared-styles.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/shared-styles.js),
+it exports `SharedStyles` as a `css` tagged template literal:
+```js
+export const SharedStyles = css`
+  :host {
+    display: block;
+    box-sizing: border-box;
+  }
+  ...
+`;
+```
+Then, you can import it and add it to the element’s static `styles` property:
 ```js
 import { SharedStyles } from './shared-styles.js';
-render() {
-  return html`
-    ${SharedStyles}
-    <div>...</div>
-  `;
+static get styles() {
+  return [
+    SharedStyles,
+    css`...`
+  ];
 }
 ```
 
@@ -267,7 +283,7 @@ The app doesn't use any web fonts for the content copy, but does use a Google fo
 ## But I don't want to use Redux
 The `pwa-starter-kit` is supposed to be the well-lit path to building a fairly complex PWA, but it should in no way feel restrictive. If you know what you're doing, and don't want to use Redux to manage your application's state, that's totally fine! We've created a separate template, [`template-no-redux`](https://github.com/Polymer/pwa-starter-kit/tree/template-no-redux), that has the same UI and PWA elements as the main template, but does not have Redux.
 
-Instead, it uses a unidirectional data flow approach: some elements are in charge of [maintaining the state](https://github.com/Polymer/pwa-starter-kit/blob/template-no-redux/src/components/my-view2.js#L44) for their section of the application, and they [pass that data down](https://github.com/Polymer/pwa-starter-kit/blob/template-no-redux/src/components/my-view2.js#L35) to children elements. In response, when the children elements need to update the state, they [fire an event](https://github.com/Polymer/pwa-starter-kit/blob/template-no-redux/src/components/counter-element.js#L56).
+Instead, it uses a unidirectional data flow approach: some elements are in charge of [maintaining the state](https://github.com/Polymer/pwa-starter-kit/blob/template-no-redux/src/components/my-view2.js#L62) for their section of the application, and they [pass that data down](https://github.com/Polymer/pwa-starter-kit/blob/template-no-redux/src/components/my-view2.js#L49) to children elements. In response, when the children elements need to update the state, they [fire an event](https://github.com/Polymer/pwa-starter-kit/blob/template-no-redux/src/components/counter-element.js#L68).
 
 # Advanced topics
 
@@ -277,34 +293,34 @@ By default, the `pwa-starter-kit` comes with a responsive layout. At `460px`, th
 For a different kind of responsive layout, the [`template-responsive-drawer-layout`](https://github.com/Polymer/pwa-starter-kit/tree/template-responsive-drawer-layout) template displays a persistent app-drawer, inline with the content on wide screens (and uses the same small-screen drawer as the main template).
 
 #### Changing the wide screen styles
-The wide screen styles are controlled in CSS by a [media-query](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L161). In that block you can add any selectors that would only apply when the window viewport's width is at least `460px`; you can change this pixel value if you want to change the size at which these styles get applied (or, can add a separate style if you want to have several breakpoints).
+The wide screen styles are controlled in CSS by a [media-query](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L171). In that block you can add any selectors that would only apply when the window viewport's width is at least `460px`; you can change this pixel value if you want to change the size at which these styles get applied (or, can add a separate style if you want to have several breakpoints).
 
 #### Changing narrow screen styles
-The rest of the styles in [`my-app`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L35) are outside of the media-query, and thus are either general styles (if they're not overwritten by the media-query styles), or narrow-screen specific, like [this one](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L87) (in this example, the  `<nav class="toolbar-list">` is hidden in the narrow screen view, and visible in the wide screen view).
+The rest of the styles in [`my-app`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L51) are outside of the media-query, and thus are either general styles (if they're not overwritten by the media-query styles), or narrow-screen specific, like [this one](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L97) (in this example, the  `<nav class="toolbar-list">` is hidden in the narrow screen view, and visible in the wide screen view).
 
 #### Responsive styles in JavaScript
-If you want to run specific JavaScript code when the size changes from a wide to narrow screen (for example, to make the drawer persistent, etc), you can use the [`installMediaQueryWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/media-query.js) helper from `pwa-helpers`. When you [set it up](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L244), you can specify the callback that is ran whenever the media query matches.
+If you want to run specific JavaScript code when the size changes from a wide to narrow screen (for example, to make the drawer persistent, etc), you can use the [`installMediaQueryWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/src/media-query.ts) helper from `pwa-helpers`. When you [set it up](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L251), you can specify the callback that is ran whenever the media query matches.
 
 ## Conditionally rendering views
-Which view is visible at a given time is controlled through an `active` attribute, that is set if the name of the page matches the location, and is then used for [styling](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L148):
+Which view is visible at a given time is controlled through an `active` attribute, that is set if the name of the page matches the location, and is then used for [styling](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L158):
 
 ```html
 <style>
-  .main-content .page {
+  .page {
     display: none;
   }
-  .main-content .page[active] {
+  .page[active] {
     display: block;
   }
 </style>
-<main class="main-content">
-  <my-view1 class="page" ?active="${page === 'view1'}"></my-view1>
-  <my-view2 class="page" ?active="${page === 'view2'}"></my-view2>
+<main role="main" class="main-content">
+  <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
+  <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
   ...
 </main>
 ```
 
-However, just because a particular view isn't visible doesn't mean it's "inactive" -- its JavaScript can still run. In particular, if your application is using Redux, and the view is connected (like [`my-view2`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L17) for example), then it will get notified **any** time the Redux store changes, which could trigger `render()` to be called. Most of the time this is probably not what you want -- a hidden view shouldn't be updating itself until it's actually visible on screen. Apart from being inefficient (you're doing work that nobody is looking at), you could run into really weird side effects: if a view's `render()` function also updates the title of the application, for example, the title may end up being set incorrectly by one of these inactive views, just because it was the last view to set it.
+However, just because a particular view isn't visible doesn't mean it's "inactive" -- its JavaScript can still run. In particular, if your application is using Redux, and the view is connected (like [`my-view2`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L33) for example), then it will get notified **any** time the Redux store changes, which could trigger `render()` to be called. Most of the time this is probably not what you want -- a hidden view shouldn't be updating itself until it's actually visible on screen. Apart from being inefficient (you're doing work that nobody is looking at), you could run into really weird side effects: if a view's `render()` function also updates the title of the application, for example, the title may end up being set incorrectly by one of these inactive views, just because it was the last view to set it.
 
 To get around that, the views inherit from a [`PageViewElement`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js) base class, rather than `LitElement` directly. This base class checks whether the `active` attribute is set on the host (the same attribute we use for styling), and calls `render()` only if it [is set](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/page-view-element.js#L15).
 
@@ -336,23 +352,23 @@ We've added a starting point for adding rich social graph content to each pages,
 
 This is done in two places:
 - Statically, in the [`index.html`](https://github.com/Polymer/pwa-starter-kit/blob/master/index.html#L60). These are used by the homepage, and represent any of the common metadata across all pages (for example, if you don't have a page specific description or image, etc).
-- Automatically, after you change pages, in [`my-app.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L240), using the [`updateMetadata`](https://github.com/Polymer/pwa-helpers/blob/master/metadata.js) helper from `pwa-helpers`. By default, we update the URL and the title of each page, but there are multiple ways in which you can add page-specific content that depend on your apps.
+- Automatically, after you change pages, in [`my-app.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L258), using the [`updateMetadata`](https://github.com/Polymer/pwa-helpers/blob/master/src/metadata.ts) helper from `pwa-helpers`. By default, we update the URL and the title of each page, but there are multiple ways in which you can add page-specific content that depend on your apps.
 
-A different approach is to update this metadata differently, depending on what page you are. For example, the **Books** doesn't update the metadata in the main [top-level element](https://github.com/PolymerLabs/books/blob/master/src/components/book-app.js#L47), but on specific sub-pages. It uses the image thumbnail of a book only on the [detail pages](https://github.com/PolymerLabs/books/blob/master/src/components/book-detail.js#L61), and adds the search query on the [explore page](https://github.com/PolymerLabs/books/blob/master/src/components/book-explore.js#L35).
+A different approach is to update this metadata differently, depending on what page you are. For example, the **Books** doesn't update the metadata in the main [top-level element](https://github.com/PolymerLabs/books/blob/master/src/components/book-app.js#L212), but on specific sub-pages. It uses the image thumbnail of a book only on the [detail pages](https://github.com/PolymerLabs/books/blob/master/src/components/book-detail.js#L236), and adds the search query on the [explore page](https://github.com/PolymerLabs/books/blob/master/src/components/book-explore.js#L113).
 
 If you want to test how your site is viewed by Googlebot, Sam Li has a great [article](https://medium.com/dev-channel/polymer-2-and-googlebot-2ad50c5727dd) on gotchas to look out for -- in particular, the testing section covers a couple tools you can use, such as [Fetch as Google](https://support.google.com/webmasters/answer/6066468?hl=en) and [Mobile-Friendly Test](https://search.google.com/test/mobile-friendly).
 
 ## Fetching data
 If you want to fetch data from an API or a different server, we recommend dispatching an action creator from a component, and making that fetch asynchronously in a Redux action. For example, the **Flash Cards** sample app dispatches a [`loadAll`](https://github.com/notwaldorf/flash-cards/blob/master/src/components/my-app.js#L148) action creator when the main element boots up; it is that action creator that then does the [actual fetch](https://github.com/notwaldorf/flash-cards/blob/master/src/components/my-app.js#L148) of the file and sends it back to the main component by adding the data to the state [in a reducer](https://github.com/notwaldorf/flash-cards/blob/master/src/reducers/data.js#L7).
 
-A similar approach is taken in the **Hacker News** app where an element [dispatches an action creator](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.ts#L55), and it's that action creator that actually [fetches the data](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/actions/items.ts#L33) from the HN API.
+A similar approach is taken in the **Hacker News** app where an element [dispatches an action creator](https://github.com/Polymer/pwa-starter-kit-hn/blob/master/src/components/hn-item.ts#L59), and it's that action creator that actually [fetches the data](https://github.com/Polymer/pwa-starter-kit-hn/blob/master/src/actions/items.ts#L35) from the HN API.
 
 ## Responding to network state changes
 You might want to change your UI as a response to the network state changing (i.e. going from offline to online).
 
-Using the [`installOfflineWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/network.js) helper from `pwa-helpers`, we've added a [callback](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L243) that will be called any time we go online or offline. In particular, we've added a [snackbar](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L219) that gets shown; you can configure its contents and style in [`snack-bar.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/snack-bar.js). Note that the snackbar is shown as a result of a Redux [action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L69) being dispatched, and its duration can be configured there.
+Using the [`installOfflineWatcher`](https://github.com/Polymer/pwa-helpers/blob/master/src/network.ts) helper from `pwa-helpers`, we've added a [callback](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L250) that will be called any time we go online or offline. In particular, we've added a [snackbar](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L235) that gets shown; you can configure its contents and style in [`snack-bar.js`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/snack-bar.js). Note that the snackbar is shown as a result of a Redux [action creator](https://github.com/Polymer/pwa-starter-kit/blob/master/src/actions/app.js#L69) being dispatched, and its duration can be configured there.
 
-Rather than just using it as an FYI, you can use the offline status to display conditional UI in your application. For example, the **Books** sample app displays an [offline view](https://github.com/PolymerLabs/books/blob/master/src/components/book-offline.js) rather than the details view when the [application is offline](https://github.com/PolymerLabs/books/blob/master/src/components/book-detail.js#L293).
+Rather than just using it as an FYI, you can use the offline status to display conditional UI in your application. For example, the **Books** sample app displays an [offline view](https://github.com/PolymerLabs/books/blob/master/src/components/book-offline.js) rather than the details view when the [application is offline](https://github.com/PolymerLabs/books/blob/master/src/components/book-detail.js#L297).
 
 ## State management
 There are many different ways in which you can manage your application's state, and choosing the right one depends a lot on the size of your team and application. For simple applications, a uni-directional data flow pattern might be enough (the top level, `<my-app>` element could be in charge of being the source of state truth, and it could pass it down to each of the elements, as needed); if that's what you're looking for, check out the [`template-no-redux`](https://github.com/Polymer/pwa-starter-kit/tree/template-no-redux) branch.
@@ -364,7 +380,7 @@ Another popular approach is [Redux](https://redux.js.org/), which keeps the stat
 This section is useful both if you want to change the default colours of the app, or if you want to let your users be able to switch between different themes.
 
 #### Changing the default colours
-For ease of theming, we've defined all of the colours the application uses as [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*), in the [`<my-app>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L40) element. Custom properties are variables that can be reused throughout your CSS. For example, to change the application header to be white text on a lavender background, then you need to update the following properties:
+For ease of theming, we've defined all of the colours the application uses as [CSS custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*), in the [`<my-app>`](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L54) element. Custom properties are variables that can be reused throughout your CSS. For example, to change the application header to be white text on a lavender background, then you need to update the following properties:
 ```css
 --app-header-background-color: lavender;
 --app-header-text-color: black;
@@ -374,7 +390,7 @@ And similarly for the other UI elements in the application.
 
 #### Switching themes
 Re-theming the entire app basically involves updating the custom properties that are used throughout the app.
-If you just want to personalize the default template with your own theme, all you have to do is change the values of the app's [custom properties](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L46).
+If you just want to personalize the default template with your own theme, all you have to do is change the values of the app's [custom properties](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-app.js#L56).
 
 If you want to be able to switch between two different themes in the app (for example between a "light" and "dark" theme), you could just add a class (for example, `dark-theme`) to the `my-app` element for the new theme, and style that separately. This would end up looking similar to this:
 

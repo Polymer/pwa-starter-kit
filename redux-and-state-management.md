@@ -51,10 +51,10 @@ src
 ├── store.js
 ├── actions
 │   └── counter.js
-|   └── ...
+│   └── ...
 ├── reducers
 │   └── counter.js
-|   └── ...
+│   └── ...
 └── components
     └── simple-counter.js
     └── my-app.js
@@ -82,7 +82,7 @@ Generally, anything that needs to have direct access to the store data should be
 Since this is a very application specific decision, one way to start looking at it is to try connecting your lazy-loaded elements, and then go up or down one level from there. That might end up looking something like:
 <img width="785" alt="screen shot 2018-01-25 at 12 22 39 pm" src="https://user-images.githubusercontent.com/1369170/35410478-7373c98a-01ca-11e8-9f7f-4b95c8a4f47c.png">
 
-In this example, only `my-app` and `my-view1` are connected. Since `a-element` is more of a reusable component rather than an application level component, even if it needs to update the application's data, it will communicate this via a DOM event, like [this](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/counter-element.js#L56).
+In this example, only `my-app` and `my-view1` are connected. Since `a-element` is more of a reusable component rather than an application level component, even if it needs to update the application's data, it will communicate this via a DOM event, like [this](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/counter-element.js#L68).
 
 ## How to connect
 If you want to follow along with actual code, we've included a basic Redux [counter example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js) in `pwa-starter-kit`.
@@ -99,7 +99,7 @@ Note that this still isn't the most basic store you can have, since it adds the 
 
 ```js
 export const store = createStore(
-  (state, action) => state,
+  state => state,
   compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
 );
 ```
@@ -107,7 +107,7 @@ export const store = createStore(
 You can find more details on the `lazyReducerEnhancer` in the [Lazy Loading](#lazy-loading) section.
 
 ### Connecting an element to the store
-An element that is connected should call `store.subscribe` in the constructor, and only update its properties in the change listener passed as the first and only argument (if it needs to). We use a mixin ([`connect-mixin.js`](https://github.com/Polymer/pwa-helpers/blob/master/connect-mixin.js)) from `pwa-helpers` that does all the connection boilerplate for you, and expects you to implement the `stateChanged` method. Example use:
+An element that is connected should call `store.subscribe` in the constructor, and only update its properties in the change listener passed as the first and only argument (if it needs to). We use a mixin ([`connect-mixin.ts`](https://github.com/Polymer/pwa-helpers/blob/master/src/connect-mixin.ts)) from `pwa-helpers` that does all the connection boilerplate for you, and expects you to implement the `stateChanged` method. Example use:
 
 ```js
 import { LitElement, html } from 'lit-element';
@@ -115,8 +115,6 @@ import { connect } from  '@polymer/pwa-helpers/connect-mixin.js';
 import { store } from './store/store.js';
 
 class MyElement extends connect(store)(LitElement) {
-  static get is() { return 'my-element'; }
-
   static get properties() { return {
     clicks: { type: Number },
     value: { type: Number }
@@ -206,12 +204,12 @@ This element is an [app-level element](https://github.com/Polymer/pwa-starter-ki
 - Add `counter-element` to this view. Note that we pass the state **down** to the element, since the state lives in the Redux store, not in the element. We do this because even though the `counter-element` updates _its_ internal properties every time you click any of the buttons, that may not necessarily be the true state of the app -- imagine a more complex example, where a different view is also updating the value of this counter. The store is then the only source of truth for the data, and the `counter-element` must always reflect that.
 
 ```html
-<counter-element value="${props._value}" clicks="${props._clicks}"></counter-element>
+<counter-element value="${this._value}" clicks="${this._clicks}"></counter-element>
 ```
-- To demonstrate that it is the Redux store driving the state, and not `counter-element`'s internal, hidden state, we also added the `clicks` property to the circle in the header:
+- To demonstrate that it is the Redux store driving the state, and not `counter-element`'s internal, hidden state, we also added the `_value` property to the circle in the header:
 
 ```html
-<div class="circle">${props._clicks}</div>
+<div class="circle">${this._value}</div>
 ```
 - Connect the view to the store:
 
@@ -316,7 +314,7 @@ To make your app more modular, you can split the main state object into parts ("
 **`src/store.js:`**
 ```js
 export const store = createStore(
-  (state, action) => state,
+  state => state,
   compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
 );
 ```
@@ -353,14 +351,14 @@ const selectedItemSelector = createSelector(
 console.log(selectedItemSelector(state));
 ```
 
-To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#L107) or the [item selector](https://github.com/PolymerLabs/polymer-redux-hn/blob/master/src/components/hn-item.ts#L59) from the [Redux-HN](https://github.com/PolymerLabs/polymer-redux-hn) sample app. In both examples, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
+To see an example of this, check out the cart example's [cart quantity selector](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view3.js#L117) or the [item selector](https://github.com/Polymer/pwa-starter-kit-hn/blob/master/src/components/hn-item.ts#L63) from the [HN](https://github.com/Polymer/pwa-starter-kit-hn) sample app. In both examples, the selector is actually defined in a reducer, since it's being used both on the Redux side, as well as in the view layer.
 
 ### How to make sure third-party components don't mutate the state
 Most third-party components were not written to be used in an immutable way, and are not connected to the Redux store so you can't guarantee that they will not try to update the store. For example, `paper-input` has a `value` property, that it updates based on internal actions (i.e. you typing, validating, etc). To make sure that elements like this don't update the store:
 - Use one-way data bindings to pass primitives (Strings, Numbers, etc) down to the element.
   - `<paper-input value="${foo}"></paper-input>`
   - Because it's a primitive value, paper-input receives a copy of `foo`. When it updates `foo`, it only updates **its** copy, not the actual property in the store
-  - Listen to `foo-changed` events outside the element, and dispatch an action to update the store from there ([example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L51)).
+  - Listen to `foo-changed` events outside the element, and dispatch an action to update the store from there ([example](https://github.com/Polymer/pwa-starter-kit/blob/master/src/components/my-view2.js#L66)).
 - Since arrays/objects are mutable, pass down a **copy** of an array or object down to the element:
   - `<other-input data="${_copy(fooArray)}"></other-input>`
   - `<other-input data="${_deepCopy(fooObj)}"></other-input>`
@@ -408,7 +406,7 @@ import lazyReducerEnhancer from '@polymer/pwa-helpers/lazy-reducer-enhancer.js';
 import app from './reducers/app.js';
 
 export const store = createStore(
-  (state, action) => state,
+  state => state,
   compose(lazyReducerEnhancer, applyMiddleware(thunk))
 );
 
@@ -457,7 +455,7 @@ Now, in `store.js`, we basically want to use the result of `loadState()` as the 
 
 ```js
 export const store = createStore(
-  (state, action) => state,
+  state => state,
   loadState(),  // If there is local storage data, load it.
   compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
 );
