@@ -19,8 +19,8 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.0.0",
-    "lit-element": "^2.0.0-rc.2",
+    "@webcomponents/webcomponentsjs": "^2.2.4",
+    "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
