@@ -13,6 +13,13 @@ a {
   text-decoration: none;
 }
 
+:target::before {
+  content: "";
+  display: block;
+  height: 60px;
+  margin-top: -60px;
+}
+
 h1 {
   font-size: 40px;
   line-height: 48px;
@@ -562,6 +569,10 @@ th, td {
   }
 }
 @media screen and (max-width: 640px) {
+  :target::before {
+    height: 112px;
+    margin-top: -112px;
+  }
 
   h1 {
     font-size: 32px;
