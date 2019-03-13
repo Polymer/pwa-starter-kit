@@ -8,14 +8,15 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css, property } from 'lit-element';
+import { LitElement, html, css, property, customElement } from 'lit-element';
 
-class SnackBar extends LitElement {
+@customElement('snack-bar')
+export class SnackBar extends LitElement {
   @property({type: Boolean})
   active = false;
 
-  static styles = [
-    css`
+  static get styles() {
+    return css`
       :host {
         display: block;
         position: fixed;
@@ -45,8 +46,8 @@ class SnackBar extends LitElement {
           margin: auto;
         }
       }
-    `
-  ];
+    `;
+  }
 
   protected render() {
     return html`
@@ -54,5 +55,3 @@ class SnackBar extends LitElement {
     `;
   }
 }
-
-window.customElements.define('snack-bar', SnackBar);
