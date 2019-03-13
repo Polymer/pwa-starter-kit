@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, property } from 'lit-element';
+import { html, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -30,14 +30,19 @@ import './counter-element.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
-class MyView2 extends connect(store)(PageViewElement) {
+@customElement('my-view2')
+export class MyView2 extends connect(store)(PageViewElement) {
   @property({type: Number})
   private _clicks = 0;
 
   @property({type: Number})
   private _value = 0;
 
-  static styles = SharedStyles;
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
 
   protected render() {
     return html`
@@ -79,5 +84,3 @@ class MyView2 extends connect(store)(PageViewElement) {
     this._value = state.counter!.value;
   }
 }
-
-window.customElements.define('my-view2', MyView2);

@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css, property } from 'lit-element';
+import { html, css, property, customElement } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
@@ -33,45 +33,48 @@ import { SharedStyles } from './shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
-class MyView3 extends connect(store)(PageViewElement) {
+@customElement('my-view3')
+export class MyView3 extends connect(store)(PageViewElement) {
   @property({type: Number})
   private _quantity = 0;
 
   @property({type: String})
   private _error = '';
 
-  static styles = [
-    SharedStyles,
-    ButtonSharedStyles,
-    css`
-      button {
-        border: 2px solid var(--app-dark-text-color);
-        border-radius: 3px;
-        padding: 8px 16px;
-      }
+  static get styles() {
+    return [
+      SharedStyles,
+      ButtonSharedStyles,
+      css`
+        button {
+          border: 2px solid var(--app-dark-text-color);
+          border-radius: 3px;
+          padding: 8px 16px;
+        }
 
-      button:hover {
-        border-color: var(--app-primary-color);
-        color: var(--app-primary-color);
-      }
+        button:hover {
+          border-color: var(--app-primary-color);
+          color: var(--app-primary-color);
+        }
 
-      .cart,
-      .cart svg {
-        fill: var(--app-primary-color);
-        width: 64px;
-        height: 64px;
-      }
+        .cart,
+        .cart svg {
+          fill: var(--app-primary-color);
+          width: 64px;
+          height: 64px;
+        }
 
-      .circle.small {
-        margin-top: -72px;
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
-        font-weight: bold;
-        line-height: 30px;
-      }
-    `
-  ];
+        .circle.small {
+          margin-top: -72px;
+          width: 28px;
+          height: 28px;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 30px;
+        }
+      `
+    ];
+  }
 
   protected render() {
     return html`
@@ -114,5 +117,3 @@ class MyView3 extends connect(store)(PageViewElement) {
     this._error = state.shop!.error;
   }
 }
-
-window.customElements.define('my-view3', MyView3);
