@@ -20,7 +20,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(ts|js)x?$/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -30,8 +30,15 @@ module.exports = {
             plugins: ['@babel/plugin-syntax-dynamic-import']
           }
         }
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader'
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.ts']
   },
   plugins: [
     new CopyWebpackPlugin([

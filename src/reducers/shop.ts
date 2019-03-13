@@ -16,9 +16,9 @@ import {
   CHECKOUT_SUCCESS,
   CHECKOUT_FAILURE,
   ShopAction
-} from '../actions/shop.js';
+} from '../actions/shop';
 import { createSelector } from 'reselect';
-import { RootState, RootAction } from '../store.js';
+import { RootState, RootAction } from '../store';
 
 export interface ShopState {
   products: ProductsState;

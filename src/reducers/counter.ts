@@ -9,8 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { Reducer } from 'redux';
-import { INCREMENT, DECREMENT } from '../actions/counter.js';
-import { RootAction } from '../store.js';
+import { INCREMENT, DECREMENT } from '../actions/counter';
+import { RootAction } from '../store';
 
 export interface CounterState {
   clicks: number;

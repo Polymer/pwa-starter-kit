@@ -10,8 +10,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { RootState } from '../store.js';
-import { ProductsState } from '../reducers/shop.js';
+import { RootState } from '../store';
+import { ProductsState } from '../reducers/shop';
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';

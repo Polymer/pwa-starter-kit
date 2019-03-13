@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { RootState } from '../store.js';
+import { RootState } from '../store';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
@@ -41,20 +41,20 @@ export const navigate: ActionCreator<ThunkResult> = (path: string) => (dispatch)
 const loadPage: ActionCreator<ThunkResult> = (page: string) => (dispatch) => {
   switch(page) {
     case 'view1':
-      import('../components/my-view1.js').then((_module) => {
+      import('../components/my-view1').then((_module) => {
         // Put code in here that you want to run every time when
         // navigating to view1 after my-view1.js is loaded.
       });
       break;
     case 'view2':
-      import('../components/my-view2.js');
+      import('../components/my-view2');
       break;
     case 'view3':
-      import('../components/my-view3.js');
+      import('../components/my-view3');
       break;
     default:
       page = 'view404';
-      import('../components/my-view404.js');
+      import('../components/my-view404');
   }
 
   dispatch(updatePage(page));

@@ -12,21 +12,21 @@ import { LitElement, html, css, property, customElement } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
-import { store, RootState } from '../store.js';
+import { store, RootState } from '../store';
 
 // These are the elements needed by this element.
-import { removeFromCartIcon } from './my-icons.js';
-import './shop-item.js';
+import { removeFromCartIcon } from './my-icons';
+import './shop-item';
 
 // These are the actions needed by this element.
-import { removeFromCart } from '../actions/shop.js';
+import { removeFromCart } from '../actions/shop';
 
 // These are the reducers needed by this element.
-import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
+import { cartItemsSelector, cartTotalSelector } from '../reducers/shop';
 
 // These are the shared styles needed by this element.
-import { ButtonSharedStyles } from './button-shared-styles.js';
-import { CartItem } from '../reducers/shop.js';
+import { ButtonSharedStyles } from './button-shared-styles';
+import { CartItem } from '../reducers/shop';
 
 @customElement('shop-cart')
 export class ShopCart extends connect(store)(LitElement) {

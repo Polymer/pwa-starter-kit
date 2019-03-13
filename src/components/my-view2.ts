@@ -9,26 +9,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html, property, customElement } from 'lit-element';
-import { PageViewElement } from './page-view-element.js';
+import { PageViewElement } from './page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This element is connected to the Redux store.
-import { store, RootState } from '../store.js';
+import { store, RootState } from '../store';
 
 // These are the actions needed by this element.
-import { increment, decrement } from '../actions/counter.js';
+import { increment, decrement } from '../actions/counter';
 
 // We are lazy loading its reducer.
-import counter from '../reducers/counter.js';
+import counter from '../reducers/counter';
 store.addReducers({
   counter
 });
 
 // These are the elements needed by this element.
-import './counter-element.js';
+import './counter-element';
 
 // These are the shared styles needed by this element.
-import { SharedStyles } from './shared-styles.js';
+import { SharedStyles } from './shared-styles';
 
 @customElement('my-view2')
 export class MyView2 extends connect(store)(PageViewElement) {

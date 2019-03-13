@@ -26,12 +26,12 @@ import {
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
-import app, { AppState } from './reducers/app.js';
-import { CounterState } from './reducers/counter.js';
-import { ShopState } from './reducers/shop.js';
-import { AppAction } from './actions/app.js';
-import { CounterAction } from './actions/counter.js';
-import { ShopAction } from './actions/shop.js';
+import app, { AppState } from './reducers/app';
+import { CounterState } from './reducers/counter';
+import { ShopState } from './reducers/shop';
+import { AppAction } from './actions/app';
+import { CounterAction } from './actions/counter';
+import { ShopAction } from './actions/shop';
 
 // Overall state extends static states and partials lazy states.
 export interface RootState {

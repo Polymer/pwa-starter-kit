@@ -17,14 +17,14 @@ import { installRouter } from 'pwa-helpers/router.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 // This element is connected to the Redux store.
-import { store, RootState } from '../store.js';
+import { store, RootState } from '../store';
 
 // These are the actions needed by this element.
 import {
   navigate,
   updateOffline,
   updateDrawerState
-} from '../actions/app.js';
+} from '../actions/app';
 
 // The following line imports the type only - it will be removed by tsc so
 // another import for app-drawer.js is required below.
@@ -35,8 +35,8 @@ import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
-import { menuIcon } from './my-icons.js';
-import './snack-bar.js';
+import { menuIcon } from './my-icons';
+import './snack-bar';
 
 @customElement('my-app')
 export class MyApp extends connect(store)(LitElement) {
