@@ -87,12 +87,6 @@ class MyApp extends connect(store)(LitElement) {
           header {
             flex-direction: row;
           }
-
-          /* The drawer button isn't shown in the wide layout, so we don't
-          need to offset the title */
-          [main-title] {
-            padding-right: 0px;
-          }
         }
       `
     ];
