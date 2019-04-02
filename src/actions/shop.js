@@ -25,9 +25,9 @@ const PRODUCT_LIST = [
 export const getAllProducts = () => (dispatch) => {
   // Here you would normally get the data from the server. We're simulating
   // that by dispatching an async action (that you would dispatch when you
-  // succesfully got the data back)
+  // succesfully got the data back).
 
-  // You could reformat the data in the right format as well:
+  // You could reformat the data in the right format as well.
   const products = PRODUCT_LIST.reduce((obj, product) => {
     obj[product.id] = product
     return obj
@@ -58,7 +58,7 @@ export const checkout = () => (dispatch) => {
 export const addToCart = (productId) => (dispatch, getState) =>{
   const state = getState();
   // Just because the UI thinks you can add this to the cart
-  // doesn't mean it's in the inventory (user could've fixed it);
+  // doesn't mean it's in the inventory (user could've fixed it).
   if (state.shop.products[productId].inventory > 0) {
     dispatch(addToCartUnsafe(productId));
   }
