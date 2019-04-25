@@ -60,6 +60,41 @@ npm run serve
 ### Deploying `prpl-server`
 After building, the contents of `server/` contains all the files and configuration necessary to run the app in production. The provided `server/package.json` specifies server dependencies and the start command which can be used on almost any hosting service that supports Node.js.
 
+### Using `prpl-server` as an express module
+`prpl-server` also works as a node module; when used this way, it's possible to add routes to the server application.
+To use `prpl-server` as a module, simply create an `app.js` file in the `server` directory:
+
+````
+// server/app.js
+const express = require('express')
+prpl = require('prpl-server');
+const app = express();
+
+app.get('/api/launch', (req, res, next) => res.send('Launched));
+let polyConfigFile = require("./build/polymer.json");
+app.get('/*', prpl.makeHandler('server/build',polyConfigFile));
+app.listen(3000, () => console.log('Express + prpl-server app listening on port 3000!'));
+````
+Since `prpl.makeHandler()` receives `polymer.json` as configuration (also used by Polymer to build), it will serve the right build depending on the browser's capabilities.
+
+Finally, you can add a script to your main `package.json` file:
+
+````
+"scripts": {
+    ...
+    "serve:prpl-server-express": "node ./server/app.js",
+   ...
+````
+
+And the appropriate command in the `server/package.json` file:
+
+````
+"scripts": {
+    ...
+    "serve:prpl-server-express": "node ./app.js",
+   ...
+````
+
 #### App Engine
 
 ##### Standard Environment
